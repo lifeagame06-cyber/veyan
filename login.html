@@ -10,6 +10,24 @@
     <title>Sign in — VAYEN</title>
 
     <link rel="stylesheet" href="style.css">
+
+<style>
+/* Desktop app refinement: compact login card, richer surrounding atmosphere. */
+@media (min-width: 769px) {
+  .vayen-login {
+    min-height: calc(100vh - 80px);
+    min-height: calc(100dvh - 80px);
+    background: radial-gradient(ellipse 44% 55% at 17% 48%, rgba(146,87,112,.16), transparent 75%),
+                radial-gradient(ellipse 38% 50% at 85% 75%, rgba(113,88,139,.14), transparent 75%),
+                #191617;
+  }
+  .login-card {
+    width: min(940px, calc(100% - 72px));
+    max-width: 940px;
+    box-shadow: 0 30px 90px rgba(0,0,0,.25);
+  }
+}
+</style>
 </head>
 
 
