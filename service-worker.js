@@ -1,4 +1,4 @@
-const CACHE = 'vayen-shell-v1';
+const CACHE = 'vayen-shell-v2';
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(['./index.html', './style.css', './images/icon-192.png'])));
   self.skipWaiting();
