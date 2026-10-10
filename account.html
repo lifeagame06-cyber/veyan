@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Your Space — VAYEN</title>
-
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#21171e">
     <link rel="stylesheet" href="style.css">
 
 <style>
@@ -328,7 +329,8 @@ if (savedWelcomeName) {
     const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
       (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     if (ios) showHelp('On iPhone: open in Safari → Share → Add to Home Screen.');
-    else showHelp('Open this website over HTTPS. In Chrome, open ⋮ → Install app or Add to Home screen (if available).');
+    else if (location.protocol === 'file:') showHelp('Install testing ke liye live VAYEN website Chrome mein kholo.');
+    else showHelp('Chrome ke ⋮ menu mein Install app ya Add to Home screen check karo. Agar option nahi hai, browser ne abhi installation enable nahi ki hai.');
   });
 })();
 </script>
