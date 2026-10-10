@@ -292,45 +292,74 @@ if (savedWelcomeName) {
 
 
 <script>
-/* Install UI: standalone mode is reliable; browser installation status is not universally detectable. */
+/* VAYEN install state — remember successful installs on this browser. */
 (function () {
   const button = document.getElementById('vayenInstallBtn');
   const help = document.getElementById('vayenAppHelp');
   if (!button || !help) return;
+
+  const key = 'vayenAppInstalled';
   let installEvent = null;
   const standalone = () => window.matchMedia('(display-mode: standalone)').matches ||
     window.navigator.standalone === true;
-  function installed() {
-    button.textContent = '✓ Installed';
+
+  function markInstalled() {
+    try { localStorage.setItem(key, 'yes'); } catch (e) {}
+    button.textContent = '✓ Already Installed';
     button.disabled = true;
+    help.textContent = '';
     help.hidden = true;
   }
+
   function showHelp(message) {
     help.textContent = message;
     help.hidden = false;
   }
-  if (standalone()) installed();
+
+  let remembered = false;
+  try { remembered = localStorage.getItem(key) === 'yes'; } catch (e) {}
+  if (standalone() || remembered) markInstalled();
+
   window.addEventListener('beforeinstallprompt', function (event) {
     event.preventDefault();
     installEvent = event;
-    if (!standalone()) { button.disabled = false; button.textContent = 'Install VAYEN App ↗'; help.hidden = true; }
+    if (!standalone() && !remembered) {
+      button.disabled = false;
+      button.textContent = 'Install VAYEN App ↗';
+      help.hidden = true;
+    }
   });
-  window.addEventListener('appinstalled', function () { installEvent = null; installed(); });
+
+  window.addEventListener('appinstalled', function () {
+    installEvent = null;
+    markInstalled();
+  });
+
   button.addEventListener('click', async function () {
-    if (standalone()) { installed(); return; }
+    if (standalone()) { markInstalled(); return; }
+    let saved = false;
+    try { saved = localStorage.getItem(key) === 'yes'; } catch (e) {}
+    if (saved) { markInstalled(); return; }
+
     if (installEvent) {
       const event = installEvent;
       installEvent = null;
-      await event.prompt();
-      const result = await event.userChoice;
-      if (result.outcome !== 'accepted') showHelp('Installation was cancelled. You can also use your browser menu to install VAYEN.');
+      try {
+        await event.prompt();
+        const result = await event.userChoice;
+        if (result.outcome === 'accepted') markInstalled();
+        else showHelp('Installation cancel ho gaya. Chrome menu se bhi install kar sakte ho.');
+      } catch (e) {
+        showHelp('Chrome ke menu mein Install app check karo.');
+      }
       return;
     }
+
     const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
       (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    if (ios) showHelp('On iPhone: open in Safari → Share → Add to Home Screen.');
-    else if (location.protocol === 'file:') showHelp('Install testing ke liye live VAYEN website Chrome mein kholo.');
-    else showHelp('Chrome ke ⋮ menu mein Install app ya Add to Home screen check karo. Agar option nahi hai, browser ne abhi installation enable nahi ki hai.');
+    if (ios) showHelp('iPhone par Safari → Share → Add to Home Screen.');
+    else if (location.protocol === 'file:') showHelp('Install test ke liye live VAYEN website kholo.');
+    else showHelp('Chrome ke ⋮ menu mein Install app ya Add to Home screen check karo.');
   });
 })();
 </script>
