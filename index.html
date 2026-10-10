@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>VAYEN</title>
+
+    <link rel="stylesheet" href="style.css">
+
+<style>
+/* =========================================
+   VAYEN — EXCLUSIVE PLANS HEADER SHORTCUT
+========================================= */
+html {
+    scroll-behavior: smooth;
+}
+
+.vayen-plans-shortcut {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    border: 1px solid rgba(164, 112, 135, 0.28);
+    border-radius: 50%;
+    color: #9c617e;
+    background: rgba(255, 250, 250, 0.85);
+    text-decoration: none;
+    transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+}
+
+.vayen-plans-shortcut svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.65;
+    stroke-linejoin: round;
+}
+
+.vayen-plans-shortcut:hover {
+    transform: translateY(-2px);
+    background: #fff;
+    box-shadow: 0 5px 20px rgba(177, 120, 143, 0.22);
+}
+
+#exclusivePlans {
+    scroll-margin-top: 35px;
+}
+
+@media (max-width: 768px) {
+    .vayen-plans-shortcut {
+        width: 34px;
+        height: 34px;
+        flex-basis: 34px;
+    }
+
+    .vayen-plans-shortcut svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+
+/* Allow a little breathing room above the Worlds section. */
+#worldsSection {
+    scroll-margin-top: 24px;
+}
+
+
+</style>
+
+<style>
+/* VAYEN premium search — mobile only. Desktop styling is untouched. */
+@media (max-width: 768px) {
+  #vayenSearchOverlay.is-open {
+    position: fixed !important; inset: 0 !important; z-index: 99999 !important;
+    display: flex !important; align-items: flex-start !important; justify-content: center !important;
+    padding: max(24px, env(safe-area-inset-top)) 16px 24px !important;
+    background: rgba(24, 15, 21, .57) !important;
+    backdrop-filter: blur(9px) !important; -webkit-backdrop-filter: blur(9px) !important;
+  }
+  #vayenSearchOverlay .vayen-search-panel {
+    position: relative !important; width: 100% !important; max-width: 480px !important;
+    height: auto !important; min-height: 0 !important; max-height: min(78dvh, 620px) !important;
+    margin: 0 !important; padding: 24px 20px 18px !important;
+    border: 1px solid rgba(255,255,255,.8) !important;
+    border-radius: 23px !important; overflow: hidden !important;
+    background: linear-gradient(145deg,#faf6f3 0%,#f3ebec 100%) !important;
+    box-shadow: 0 24px 75px rgba(25,12,20,.32), inset 0 1px rgba(255,255,255,.8) !important;
+  }
+  #vayenSearchOverlay .vayen-search-top {
+    position: static !important; display: flex !important; width: 100% !important;
+    height: auto !important; align-items: flex-start !important; justify-content: space-between !important;
+    gap: 12px !important; margin: 0 !important; padding: 0 !important;
+    background: transparent !important;
+  }
+  #vayenSearchOverlay .vayen-search-top > div { display: block !important; min-width: 0 !important; }
+  #vayenSearchOverlay .vayen-search-kicker { display: block !important; font-size: 9px !important; letter-spacing: 2.4px !important; color: #a27486 !important; }
+  #vayenSearchOverlay .vayen-search-top h2 { display: block !important; margin-top: 9px !important; font-size: clamp(26px,7vw,35px) !important; line-height: 1.07 !important; letter-spacing: -1.5px !important; }
+  #vayenSearchOverlay .vayen-search-close {
+    display: grid !important; place-items: center !important; flex: 0 0 36px !important;
+    width: 36px !important; height: 36px !important; margin: 0 !important; padding: 0 !important;
+    border: 1px solid #e4d4dc !important; border-radius: 50% !important;
+    background: rgba(255,255,255,.75) !important; color: #402b36 !important;
+    font-size: 22px !important; font-weight: 400 !important; box-shadow: none !important;
+  }
+  #vayenSearchOverlay .vayen-search-close::before,
+  #vayenSearchOverlay .vayen-search-close::after { content: none !important; display: none !important; }
+  #vayenSearchOverlay .vayen-search-field {
+    display: flex !important; align-items: center !important; width: 100% !important;
+    height: 52px !important; min-height: 52px !important; margin: 22px 0 0 !important;
+    padding: 0 15px !important; gap: 11px !important;
+    border: 1px solid #e2d1d9 !important; border-radius: 15px !important;
+    background: #fff !important; box-shadow: 0 5px 16px rgba(68,36,52,.04) !important;
+  }
+  #vayenSearchOverlay .vayen-search-field svg { width: 19px !important; height: 19px !important; flex: 0 0 19px !important; }
+  #vayenSearchOverlay #vayenSearchInput { width: 100% !important; min-width: 0 !important; font-size: 16px !important; border: 0 !important; outline: 0 !important; background: transparent !important; }
+  #vayenSearchOverlay .vayen-search-meta { display: none !important; }
+  #vayenSearchOverlay .vayen-search-results {
+    flex: 0 1 auto !important; min-height: 0 !important; max-height: calc(78dvh - 180px) !important;
+    overflow-y: auto !important; margin-top: 10px !important; padding: 0 !important;
+  }
+  #vayenSearchOverlay .vayen-search-results[style*="display: none"] { margin-top: 0 !important; }
+  #vayenSearchOverlay .vayen-search-result { padding: 13px 4px !important; }
+  #vayenSearchOverlay .vayen-search-bottom { display: none !important; }
+}
+</style>
+</head>
+
+<body>
+
+    <!-- PREMIUM ENTRY GREETING -->
+    <div class="welcome-screen" id="welcomeScreen">
+
+        <div class="welcome-card">
+
+            <div class="welcome-brand">VAYEN</div>
+
+            <p class="welcome-small">WELCOME TO YOUR SPACE</p>
+<h1 id="homeWelcome">
+    <span class="welcome-line">Welcome back,</span>
+    <span class="welcome-person">Sir.</span>
+</h1>
+            <p class="welcome-text">
+                Better things, thoughtfully chosen for you.
+            </p>
+
+            <button id="enterVayen">
+                Enter VAYEN
+                <span>→</span>
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- MAIN WEBSITE -->
+    <div class="site" id="mainSite">
+
+        <header class="main-header">
+
+            <a href="index.html" class="brand">
+                VAYEN
+            </a>
+
+            <nav>
+                <a href="features.html">Featured</a>
+                <a href="collection.html">Collections</a>
+                <a href="new.html">New</a>
+            </nav>
+
+            <div class="header-actions">
+
+                <!-- Exclusive Plans: direct section shortcut -->
+                <a href="plans.html"
+                   class="vayen-plans-shortcut"
+                   aria-label="Exclusive Plans"
+                   title="Exclusive Plans">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M6 3h12l4 6-10 12L2 9z"></path>
+                        <path d="M2 9h20M9 3l-2 6 5 12 5-12-2-6"></path>
+                    </svg>
+                </a>
+
+                <button class="search-button" aria-label="Search">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="6"></circle>
+                        <path d="M16 16L21 21"></path>
+                    </svg>
+                </button>
+<a href="login.html" class="signin-button" id="headerSignIn">
+    <span class="signin-dot"></span>
+    Sign in
+</a>
+
+<a href="account.html" class="account-button">
+    Account
+</a>
+            </div>
+
+        </header>
+
+
+        <!-- HERO -->
+        <main>
+
+            <section class="hero">
+
+                <div class="hero-label">
+                    CURATED DIGITAL PRODUCTS
+                </div>
+
+                <h1>
+                    Better things.<br>
+                    <span>Chosen carefully.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Thoughtfully built digital products for the things
+                    you want to create, learn, build and improve.
+                </p>
+
+                <div class="hero-actions">
+
+                    <a href="collection.html" class="primary-button">
+                        Explore VAYEN
+                        <span>→</span>
+                    </a>
+
+                    <a href="new.html" class="secondary-button">
+                        Discover what's new
+                    </a>
+
+                </div>
+
+
+                <!-- VISUAL PRODUCT AREA -->
+                <div class="hero-showcase">
+
+                   <a href="product.html?id=vlogging-mastery"
+   class="showcase-card card-one hero-premium">
+
+    <div class="hero-card-photo vlog-photo"></div>
+
+    <div class="hero-card-info">
+        <small>VAYEN / VLOGGING</small>
+        <h3>Every story<br>starts somewhere.</h3>
+        <span class="hero-explore">Explore product ↗</span>
+    </div>
+
+</a>
+<div class="showcase-card card-main">
+
+    <div class="main-card-top">
+        <span>VAYEN / 001</span>
+        <span class="flagship-label">
+            ♛ <span>TOP-TIER COLLECTION</span>
+        </span>
+    </div>
+
+    <div class="main-card-content">
+    <small>OUR FLAGSHIP COLLECTION</small>
+
+    <h2>
+        Your ideas.<br>
+        Better executed.
+    </h2>
+
+    <p class="flagship-description">
+        Two signature products.<br>
+        Built for creators who want more.
+    </p>
+</div>
+
+</div>
+                   <a href="product.html?id=youtube-creator-system"
+   class="showcase-card card-three youtube-premium">
+
+    <div class="youtube-card-photo"></div>
+
+    <div class="youtube-card-info">
+        <small>VAYEN / YOUTUBE</small>
+
+        <h3>Turn your ideas<br>into a channel.</h3>
+
+        <span class="youtube-explore">Explore product ↗</span>
+    </div>
+
+</a>
+                </div>
+
+            </section>
+<section class="purpose-section">
+
+    <div class="purpose-heading">
+        <span>YOUR VAYEN</span>
+
+        <h2>
+            What are you<br>
+            here for?
+        </h2>
+
+        <p>
+            Start with what you want to do.
+            We'll help you find what belongs next.
+        </p>
+
+    </div>
+
+    <div class="purpose-options">
+
+    <a href="#worldsSection" class="purpose-item create">
+        <span>01</span>
+        <h3>Create</h3>
+        <small>Ideas → reality</small>
+    </a>
+
+    <a href="#worldsSection" class="purpose-item work">
+        <span>02</span>
+        <h3>Work</h3>
+        <small>Do more, better</small>
+    </a>
+
+    <a href="#worldsSection" class="purpose-item learn">
+        <span>03</span>
+        <h3>Learn</h3>
+        <small>Build real skills</small>
+    </a>
+
+    <a href="#worldsSection" class="purpose-item grow">
+        <span>04</span>
+        <h3>Grow</h3>
+        <small>Move forward</small>
+    </a>
+
+    <a href="#worldsSection" class="purpose-item build">
+        <span>05</span>
+        <h3>Build</h3>
+        <small>Start something</small>
+    </a>
+
+    <a href="#worldsSection" class="purpose-item organize">
+        <span>06</span>
+        <h3>Organize</h3>
+        <small>Bring clarity</small>
+    </a>
+
+</div>
+</section>
+<section class="featured-section" id="featuredProducts">
+
+    <div class="featured-top">
+
+        <div>
+            <span class="section-label">CHOSEN FOR VAYEN</span>
+
+            <h2>
+                Worth your<br>
+                attention.
+            </h2>
+        </div>
+
+        <p>
+            A small selection of products built to solve
+            something properly — not just add another file
+            to your device.
+        </p>
+
+    </div>
+
+
+    <div class="featured-products">
+
+        <article class="featured-product product-creator">
+
+            <div class="product-top">
+                <span>CREATOR STUDIO</span>
+                <span>01</span>
+            </div>
+
+            <div class="product-visual">
+                <span>CREATE</span>
+            </div>
+
+            <div class="product-info">
+                <div>
+                    <small>COMPLETE SYSTEM</small>
+                    <h3>Creator Launch Kit</h3>
+                </div>
+
+                <span class="product-arrow">↗</span>
+            </div>
+
+        </article>
+
+
+        <article class="featured-product product-ai">
+
+            <div class="product-top">
+                <span>AI WORKSPACE</span>
+                <span>02</span>
+            </div>
+
+            <div class="product-visual">
+                <span>AI</span>
+            </div>
+
+            <div class="product-info">
+                <div>
+                    <small>GUIDED WORKSPACE</small>
+                    <h3>AI Prompting</h3>
+                </div>
+
+                <span class="product-arrow">↗</span>
+            </div>
+
+        </article>
+
+
+        <article class="featured-product product-business">
+
+            <div class="product-top">
+                <span>BUSINESS LAUNCH</span>
+                <span>03</span>
+            </div>
+
+            <div class="product-visual">
+                <span>BUILD</span>
+            </div>
+
+            <div class="product-info">
+                <div>
+                    <small>BUSINESS KIT</small>
+                    <h3>Business Launch Kit</h3>
+                </div>
+
+                <span class="product-arrow">↗</span>
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+<button class="worlds-reveal" id="worldsReveal" aria-label="Explore VAYEN worlds">
+    <span>EXPLORE WORLDS</span>
+
+    <span class="worlds-reveal-arrow">
+           +
+    </span>
+</button>
+<section class="worlds-section worlds-hidden" id="worldsSection">
+    <div class="worlds-intro">
+        <span>EXPLORE VAYEN</span>
+
+        <h2>
+            12 worlds.<br>
+            One standard.
+        </h2>
+
+        <p>
+            Different needs. Different tools.
+            The same standard of usefulness.
+        </p>
+    </div>
+
+    <div class="worlds-list">
+
+        <a href="collection.html?world=01#collectionWorlds" class="world-item">
+            <span>01</span>
+            <h3>Reels Growth</h3>
+            <small>GROW</small>
+        </a>
+
+        <a href="collection.html?world=02#collectionWorlds" class="world-item">
+            <span>02</span>
+            <h3>Web Creator</h3>
+            <small>CREATE</small>
+        </a>
+
+        <a href="collection.html?world=03#collectionWorlds" class="world-item">
+            <span>03</span>
+            <h3>YouTube Algorithm</h3>
+            <small>LEARN</small>
+        </a>
+
+        <a href="collection.html?world=04#collectionWorlds" class="world-item">
+            <span>04</span>
+            <h3>How to Earn from Social Media</h3>
+            <small>REACH</small>
+        </a>
+
+        <a href="collection.html?world=05#collectionWorlds" class="world-item">
+            <span>05</span>
+            <h3>Creator Studio</h3>
+            <small>CREATE</small>
+        </a>
+
+        <a href="collection.html?world=06#collectionWorlds" class="world-item">
+            <span>06</span>
+            <h3>Business Launch</h3>
+            <small>BUILD</small>
+        </a>
+
+        <a href="collection.html?world=07#collectionWorlds" class="world-item">
+            <span>07</span>
+            <h3>Content Strategy</h3>
+            <small>PLAN</small>
+        </a>
+
+        <a href="collection.html?world=08#collectionWorlds" class="world-item">
+            <span>08</span>
+            <h3>How to Design Thumbnails</h3>
+            <small>DESIGN</small>
+        </a>
+
+        <a href="collection.html?world=09#collectionWorlds" class="world-item">
+            <span>09</span>
+            <h3>How to Edit Videos</h3>
+            <small>LAUNCH</small>
+        </a>
+
+        <a href="collection.html?world=10#collectionWorlds" class="world-item">
+            <span>10</span>
+            <h3>AI Automation</h3>
+            <small>FOCUS</small>
+        </a>
+
+        <a href="collection.html?world=11#collectionWorlds" class="world-item">
+            <span>11</span>
+            <h3>Seller & Commerce</h3>
+            <small>SELL</small>
+        </a>
+
+        <a href="collection.html?world=12#collectionWorlds" class="world-item">
+            <span>12</span>
+            <h3>Build Your Personal Brand</h3>
+            <small>LIVE</small>
+        </a>
+
+    </div>
+<a href="collection.html" class="all-products-link">
+    <div>
+        <span>EXPLORE EVERYTHING</span>
+        <h3>All Products</h3>
+    </div>
+
+   <span class="all-products-arrow">↗</span>
+</a>
+
+</section>
+
+
+
+
+<section class="vayen-standard">
+    <div class="standard-top">
+        <span>THE VAYEN STANDARD</span>
+
+        <h2>
+            Less noise.<br>
+            <span>More worth.</span>
+        </h2>
+    </div>
+
+    <div class="standard-content">
+
+        <p class="standard-statement">
+            We don't believe in filling shelves.
+            Everything at VAYEN should earn its place.
+        </p>
+
+        <div class="standard-points">
+
+            <div class="standard-point">
+                <span>01</span>
+                <div>
+                    <h3>Useful by design.</h3>
+                    <p>
+                        Built around a real need, not just
+                        something else to download.
+                    </p>
+                </div>
+            </div>
+
+            <div class="standard-point">
+                <span>02</span>
+                <div>
+                    <h3>Complete, not scattered.</h3>
+                    <p>
+                        Clear systems that help you move
+                        from the first step to the result.
+                    </p>
+                </div>
+            </div>
+
+            <div class="standard-point">
+                <span>03</span>
+                <div>
+                    <h3>Chosen carefully.</h3>
+                    <p>
+                        Fewer products. Higher standards.
+                        Nothing added just to make the shelf look full.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- NEW AT VAYEN -->
+<section class="new-vayen">
+
+    <div class="new-vayen-head">
+
+        <div>
+            <span>NEW AT VAYEN</span>
+
+            <h2>
+                Just<br>
+                <span>arrived.</span>
+            </h2>
+        </div>
+
+        <a href="new.html" class="view-new-link">
+            View all new
+            <span>↗</span>
+        </a>
+
+    </div>
+
+
+    <div class="new-products">
+
+        <a href="product.html?id=creator-launch-kit" class="new-product new-creator">
+
+            <div class="new-product-meta">
+                <span>CREATOR STUDIO</span>
+                <span>01</span>
+            </div>
+
+            <div class="new-product-art">
+                <span>CREATE</span>
+            </div>
+
+            <div class="new-product-bottom">
+                <div>
+                    <small>COMPLETE SYSTEM</small>
+                    <h3>Creator Launch Kit</h3>
+                </div>
+
+                <span>↗</span>
+            </div>
+
+        </a>
+
+
+        <a href="product.html?id=ai-prompting" class="new-product new-ai">
+
+            <div class="new-product-meta">
+                <span>AI WORKSPACE</span>
+                <span>02</span>
+            </div>
+
+            <div class="new-product-art">
+                <span>AI</span>
+            </div>
+
+            <div class="new-product-bottom">
+                <div>
+                    <small>SMART WORKSPACE</small>
+                    <h3>AI Prompting</h3>
+                </div>
+
+                <span>↗</span>
+            </div>
+
+        </a>
+
+
+        <a href="product.html?id=business-launch-kit" class="new-product new-business">
+
+            <div class="new-product-meta">
+                <span>BUSINESS LAUNCH</span>
+                <span>03</span>
+            </div>
+
+            <div class="new-product-art">
+                <span>BUILD</span>
+            </div>
+
+            <div class="new-product-bottom">
+                <div>
+                    <small>LAUNCH SYSTEM</small>
+                    <h3>Business Launch Kit</h3>
+                </div>
+
+                <span>↗</span>
+            </div>
+
+        </a>
+
+
+        <a href="product.html?id=productivity-planner" class="new-product new-focus">
+
+            <div class="new-product-meta">
+                <span>PRODUCTIVITY OS</span>
+                <span>04</span>
+            </div>
+
+            <div class="new-product-art">
+                <span>FOCUS</span>
+            </div>
+
+            <div class="new-product-bottom">
+                <div>
+                    <small>DAILY SYSTEM</small>
+                    <h3>Productivity Planner</h3>
+                </div>
+
+                <span>↗</span>
+            </div>
+
+        </a>
+
+    </div>
+
+</section>
+<!-- VAYEN CLOSING -->
+<section class="vayen-closing">
+
+    <span class="closing-label">THIS IS YOUR SPACE</span>
+
+    <h2>
+        Find what helps.<br>
+        <span>Keep moving.</span>
+    </h2>
+
+    <p>
+        Explore less. Choose better.
+        Come back whenever you're ready for what's next.
+    </p>
+
+    <a href="collection.html" class="closing-button">
+        Explore VAYEN
+        <span>→</span>
+    </a>
+
+    <div class="closing-mark">
+        VAYEN
+    </div>
+
+</section>
+
+        </main>
+<footer class="main-footer">
+
+    <a href="index.html" class="footer-brand">
+        VAYEN
+    </a>
+
+    <div class="footer-links">
+        <a href="features.html">Featured</a>
+        <a href="collection.html">Collections</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </div>
+
+    <p>
+        © 2026 VAYEN. All rights reserved.
+    </p>
+
+</footer>
+
+    </div>
+
+<script src="vayen-catalog.js"></script>
+<script>
+
+    const homeWelcome =
+        document.getElementById("homeWelcome");
+
+    const vayenSavedName =
+        localStorage.getItem("vayenWelcomeName");
+if (vayenSavedName) {
+    homeWelcome.innerHTML =
+        '<span class="welcome-line">Welcome back,</span>' +
+        '<span class="welcome-person"></span>';
+
+    homeWelcome.querySelector(".welcome-person").textContent =
+        vayenSavedName + ".";
+}
+
+   const welcomeScreen =
+    document.getElementById("welcomeScreen");
+
+const enterVayen =
+    document.getElementById("enterVayen");
+
+const vayenEntered =
+    sessionStorage.getItem("vayenEntered");
+
+
+/* ALREADY ENTERED THIS SESSION */
+
+if (vayenEntered === "yes") {
+
+    welcomeScreen.classList.add("welcome-exit");
+    welcomeScreen.style.display = "none";
+
+}
+
+
+/* FIRST ENTRY */
+
+enterVayen.addEventListener("click", function () {
+
+    sessionStorage.setItem(
+        "vayenEntered",
+        "yes"
+    );
+
+    welcomeScreen.classList.add("welcome-exit");
+
+    setTimeout(function () {
+        welcomeScreen.style.display = "none";
+    }, 850);
+
+});
+const showcase =
+    document.querySelector(".hero-showcase");
+
+const showcaseCards =
+    document.querySelectorAll(".showcase-card");
+
+function updateActiveCard() {
+
+    if (window.innerWidth > 768) return;
+
+    const showcaseCenter =
+        showcase.scrollLeft + showcase.clientWidth / 2;
+
+    let closestCard = null;
+    let closestDistance = Infinity;
+
+    showcaseCards.forEach(function(card) {
+
+        const cardCenter =
+            card.offsetLeft + card.offsetWidth / 2;
+
+        const distance =
+            Math.abs(showcaseCenter - cardCenter);
+
+        if (distance < closestDistance) {
+            closestDistance = distance;
+            closestCard = card;
+        }
+
+    });
+
+    showcaseCards.forEach(function(card) {
+        card.classList.remove("mobile-active");
+    });
+
+    if (closestCard) {
+        closestCard.classList.add("mobile-active");
+    }
+}
+
+showcase.addEventListener(
+    "scroll",
+    updateActiveCard,
+    { passive: true }
+);
+
+window.addEventListener(
+    "resize",
+    updateActiveCard
+);
+
+updateActiveCard();
+const worldsReveal =
+    document.getElementById("worldsReveal");
+
+const worldsSection =
+    document.getElementById("worldsSection");
+
+worldsReveal.addEventListener("click", function () {
+
+    const isOpen =
+        worldsSection.classList.contains("worlds-open");
+if (!isOpen) {
+
+    worldsSection.classList.remove("worlds-hidden");
+    worldsSection.classList.add("worlds-open");
+
+    worldsReveal.classList.add("reveal-open");
+
+    const worldsList =
+        worldsSection.querySelector(".worlds-list");
+
+    if (worldsList) {
+        worldsList.scrollLeft = 0;
+    }
+    } else {
+
+        worldsSection.classList.remove("worlds-open");
+        worldsSection.classList.add("worlds-hidden");
+
+        worldsReveal.classList.remove("reveal-open");
+    }
+
+});
+/* =========================================
+   BLACK OPTIONS → EXPLORE 12 WORLDS
+   Open hidden section before scrolling.
+========================================= */
+
+document.querySelectorAll(".purpose-item").forEach(function (item) {
+    item.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        worldsSection.classList.remove("worlds-hidden");
+        worldsSection.classList.add("worlds-open");
+        worldsReveal.classList.add("reveal-open");
+
+        // Wait for the expanded section to take its place in the layout.
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                worldsSection.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            });
+        });
+    });
+});
+
+
+/* Latest published products from Admin; no visit history mixed into New. */
+(function(){
+ const C=window.VayenCatalog, grid=document.querySelector('.new-products');
+ if(!C||!grid)return;
+ const rows=C.list().filter(p=>!p.builtin).slice(0,4);
+ const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const cards=rows.length?rows:C.list().filter(p=>C.PREMIUM.includes(p.slug)).slice(0,4);
+ if(!cards.length){grid.replaceChildren();return;}
+ grid.innerHTML=cards.map((p,i)=>`<a href="product.html?id=${encodeURIComponent(p.slug||p.id)}" class="new-product ${['new-creator','new-ai','new-business','new-focus'][i%4]}"><div class="new-product-meta"><span>${escape(p.category||p.group)}</span><span>${String(i+1).padStart(2,'0')}</span></div><div class="new-product-art"><span>${escape((p.name||'VAYEN').slice(0,6).toUpperCase())}</span></div><div class="new-product-bottom"><div><small>${escape(p.group)}</small><h3>${escape(p.name)}</h3></div><span>↗</span></div></a>`).join('');
+ const title=document.querySelector('.new-vayen-head h2');if(title)title.innerHTML=rows.length?'Just<br><span>arrived.</span>':'Worth<br><span>exploring.</span>';
+})();
+
+/* =========================================
+   VAYEN — MOBILE SCATTERED DECK SWIPE
+========================================= */
+
+let vayenDeckIndex = 0;
+
+const vayenCards =
+    Array.from(document.querySelectorAll(".new-product"));
+
+const vayenPilePositions = [
+    { x: -5, y: 0,  r: -2.5, s: 1 },
+    { x: 8,  y: 12, r: 4,    s: .975 },
+    { x: -8, y: 24, r: -4.5, s: .95 },
+    { x: 6,  y: 35, r: 2.5,  s: .925 }
+];
+
+function updateVayenPile() {
+
+    /* Desktop: all four cards must be clickable. */
+    if (window.innerWidth > 768) {
+        vayenCards.forEach(function(card) {
+            card.style.removeProperty("pointer-events");
+            card.style.removeProperty("transform");
+            card.style.removeProperty("opacity");
+            card.style.removeProperty("z-index");
+            card.style.removeProperty("transition");
+        });
+        return;
+    }
+
+    vayenCards.forEach(function(card, originalIndex) {
+
+        const relativeIndex =
+            originalIndex - vayenDeckIndex;
+
+        card.style.transition =
+            "transform .48s cubic-bezier(.2,.8,.2,1), opacity .35s ease";
+
+        /* ALREADY SWIPED CARDS */
+
+        if (relativeIndex < 0) {
+
+            card.style.zIndex = "0";
+            card.style.opacity = "0";
+            card.style.pointerEvents = "none";
+
+            card.style.transform =
+                "translateX(-120%) rotate(-9deg)";
+
+            return;
+        }
+
+        /* CURRENT + CARDS UNDER IT */
+
+        const position =
+            vayenPilePositions[
+                Math.min(relativeIndex, 3)
+            ];
+
+        card.style.zIndex =
+            String(20 - relativeIndex);
+
+        card.style.opacity = "1";
+
+        card.style.pointerEvents =
+            relativeIndex === 0 ? "auto" : "none";
+
+        card.style.transform =
+            `translate(${position.x}px, ${position.y}px)
+             rotate(${position.r}deg)
+             scale(${position.s})`;
+    });
+}
+
+
+let vayenStartX = 0;
+let vayenMoveX = 0;
+let vayenTouching = false;
+
+const vayenDeck =
+    document.querySelector(".new-products");
+
+
+vayenDeck.addEventListener("touchstart", function(e) {
+
+    if (window.innerWidth > 768) return;
+
+    vayenStartX =
+        e.touches[0].clientX;
+
+    vayenMoveX = 0;
+    vayenTouching = true;
+
+});
+
+
+vayenDeck.addEventListener("touchmove", function(e) {
+
+    if (!vayenTouching) return;
+
+    vayenMoveX =
+        e.touches[0].clientX - vayenStartX;
+
+    const currentCard =
+        vayenCards[vayenDeckIndex];
+
+    if (!currentCard) return;
+
+    currentCard.style.transition = "none";
+
+    currentCard.style.transform =
+        `translateX(${vayenMoveX}px)
+         rotate(${vayenMoveX * .025}deg)`;
+
+});
+
+
+vayenDeck.addEventListener("touchend", function() {
+
+    if (!vayenTouching) return;
+
+    vayenTouching = false;
+
+    /* LEFT → NEXT CARD */
+
+    if (
+        vayenMoveX < -65 &&
+        vayenDeckIndex < vayenCards.length - 1
+    ) {
+
+        const currentCard =
+            vayenCards[vayenDeckIndex];
+
+        currentCard.style.transition =
+            "transform .38s ease, opacity .3s ease";
+
+        currentCard.style.transform =
+            "translateX(-125%) rotate(-10deg)";
+
+        currentCard.style.opacity = "0";
+
+        setTimeout(function() {
+
+            vayenDeckIndex++;
+            updateVayenPile();
+
+        }, 300);
+
+        return;
+    }
+
+
+    /* RIGHT → PREVIOUS CARD BACK */
+
+    if (
+        vayenMoveX > 65 &&
+        vayenDeckIndex > 0
+    ) {
+
+        vayenDeckIndex--;
+
+        updateVayenPile();
+
+        return;
+    }
+
+
+    /* NOT ENOUGH SWIPE → RETURN */
+
+    updateVayenPile();
+
+});
+
+
+updateVayenPile();
+window.addEventListener("resize", updateVayenPile);
+
+    </script>
+<nav class="vayen-mobile-nav">
+
+    <a href="index.html" class="mobile-nav-item active">
+        <span class="mobile-nav-icon">
+            <svg viewBox="0 0 24 24">
+                <path d="M4 10.5L12 4l8 6.5V20h-6v-6h-4v6H4z"/>
+            </svg>
+        </span>
+        <span>Home</span>
+    </a>
+
+    <a href="collection.html" class="mobile-nav-item">
+        <span class="mobile-nav-icon">
+            <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="8"/>
+                <path d="M15.5 8.5l-2 5-5 2 2-5z"/>
+            </svg>
+        </span>
+        <span>Explore</span>
+    </a>
+
+    <a href="new.html" class="mobile-nav-item">
+        <span class="mobile-nav-icon">
+            <svg viewBox="0 0 24 24">
+                <path d="M5 7h14M5 12h14M5 17h9"/>
+            </svg>
+        </span>
+        <span>New</span>
+    </a>
+
+    <a href="account.html" class="mobile-nav-item">
+        <span class="mobile-nav-icon">
+            <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="3.5"/>
+                <path d="M5.5 20c.7-4 3-6 6.5-6s5.8 2 6.5 6"/>
+            </svg>
+        </span>
+        <span>Account</span>
+    </a>
+
+</nav>
+<script>
+(function(){
+ const C=window.VayenCatalog;if(!C)return;
+ const bySlug=new Map(C.records().map(p=>[p.slug||p.id,p]));
+ document.querySelectorAll('a[href*="product.html?id="]').forEach(a=>{
+  const id=new URL(a.href,location.href).searchParams.get('id'),p=bySlug.get(id);
+  if(!p)return;
+  if(p.status!=='published'){a.remove();return;}
+  const h=a.querySelector('h3');if(h&&C.BASE[id]&&h.textContent.trim()===C.BASE[id].name)h.textContent=p.name;
+ });
+ const ids=C.WORLDS;
+ document.querySelectorAll('.worlds-list .world-item').forEach((a,i)=>{
+  const p=bySlug.get(ids[i]);if(!p)return;
+  if(p.status!=='published'){a.remove();return;}
+  const h=a.querySelector('h3');if(h)h.textContent=p.name;
+ });
+ const list=document.querySelector('.worlds-list');if(list){
+  C.list('Worlds').filter(p=>!ids.includes(p.slug)).forEach(p=>{
+   const a=document.createElement('a');a.className='world-item';a.href='product.html?id='+encodeURIComponent(p.slug||p.id);
+   const n=document.createElement('span');n.textContent=String(p.worldNumber||'').padStart(2,'0');
+   const h=document.createElement('h3');h.textContent=p.name;
+   const small=document.createElement('small');small.textContent=p.category||'WORLD';a.append(n,h,small);list.appendChild(a);
+  });
+ }
+ const count=document.querySelector('.worlds-intro h2');if(count){const n=C.list('Worlds').length;count.innerHTML=n+' worlds.<br>One standard.';}
+})();
+</script>
+
+
+<!-- VAYEN Search Dialog -->
+<div class="vayen-search-overlay" id="vayenSearchOverlay" aria-hidden="true">
+  <section class="vayen-search-panel" role="dialog" aria-modal="true" aria-labelledby="vayenSearchTitle">
+    <div class="vayen-search-top">
+      <div><span class="vayen-search-kicker">DISCOVER VAYEN</span><h2 id="vayenSearchTitle">Find your <em>next thing.</em></h2></div>
+<button class="vayen-search-close" id="vayenSearchClose" type="button" aria-label="Close search">✕</button>
+    </div>
+    <label class="vayen-search-field" for="vayenSearchInput">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 5 5"></path></svg>
+      <input id="vayenSearchInput" type="search" autocomplete="off" placeholder="Search digital products..." aria-label="Search products">
+    </label>
+    <div class="vayen-search-meta"><span>EXPLORE PRODUCTS</span><span id="vayenSearchCount" aria-live="polite"></span></div>
+    <div class="vayen-search-results" id="vayenSearchResults"></div>
+    <div class="vayen-search-bottom"><a href="collection.html">Explore collections <span>↗</span></a><span>Press Esc to close</span></div>
+  </section>
+</div>
+
+<script>
+/* VAYEN catalog search — published products only */
+(function(){
+ const openBtn=document.querySelector('.search-button');
+ const overlay=document.getElementById('vayenSearchOverlay');
+ const closeBtn=document.getElementById('vayenSearchClose');
+ const input=document.getElementById('vayenSearchInput');
+ const results=document.getElementById('vayenSearchResults');
+ const count=document.getElementById('vayenSearchCount');
+ if(!openBtn||!overlay||!input||!results)return;
+ let lastFocus=null;
+ const normalize=s=>String(s||'').toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+ function render(){
+  const catalog=window.VayenCatalog;
+  const rows=catalog&&typeof catalog.list==='function'?catalog.list():[];
+  const term=normalize(input.value);
+  const found=rows.filter(p=>normalize([p.name,p.category,p.group,p.shortDescription,p.description,p.features].join(' ')).includes(term));
+  results.replaceChildren();
+  count.textContent=term?(found.length+' result'+(found.length===1?'':'s')+' found'):(rows.length+' products to explore');
+  if(!found.length){const empty=document.createElement('div');empty.className='vayen-search-empty';empty.textContent=term?'No matching products found. Try another keyword.':'No published products available yet.';results.appendChild(empty);return;}
+  found.slice(0,30).forEach(p=>{
+   const a=document.createElement('a');a.className='vayen-search-result';a.href='product.html?id='+encodeURIComponent(p.slug||p.id)+'&from=search';
+   const left=document.createElement('div');left.className='vayen-search-result-info';
+   const cat=document.createElement('small');cat.textContent=p.category||p.group||'DIGITAL PRODUCT';
+   const name=document.createElement('strong');name.textContent=p.name||'Untitled product';
+   const desc=document.createElement('span');desc.textContent=p.shortDescription||p.description||'Explore this product';
+   left.append(cat,name,desc);
+   const arrow=document.createElement('span');arrow.className='vayen-search-result-arrow';arrow.textContent='↗';
+   a.append(left,arrow);results.appendChild(a);
+  });
+ }
+ function open(){
+  lastFocus = document.activeElement;
+  overlay.classList.add('is-open');
+  overlay.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('vayen-search-open');
+  input.value = '';
+
+  if (window.innerWidth <= 768) {
+    results.replaceChildren();
+    count.textContent = '';
+    results.style.display = 'none';
+  } else {
+    results.style.display = '';
+    render();
+  }
+
+  input.focus();
+}
+ function close(){overlay.classList.remove('is-open');overlay.setAttribute('aria-hidden','true');document.body.classList.remove('vayen-search-open');if(lastFocus&&lastFocus.focus)lastFocus.focus();}
+ openBtn.addEventListener('click',open);
+ closeBtn.addEventListener('click',close);
+ overlay.addEventListener('click',e=>{if(e.target===overlay)close();});
+input.addEventListener('input', function() {
+  if (window.innerWidth <= 768) {
+    results.style.display = input.value.trim() ? '' : 'none';
+  }
+  render();
+});
+ document.addEventListener('keydown',e=>{
+  if(!overlay.classList.contains('is-open'))return;
+  if(e.key==='Escape')close();
+  if(e.key==='Tab'){
+   const focusable=Array.from(overlay.querySelectorAll('button,input,a')).filter(el=>el.getClientRects().length);
+   if(!focusable.length)return;
+   const first=focusable[0],last=focusable[focusable.length-1];
+   if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+   else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+  }
+ });
+})();
+</script>
+</body>
+</html>

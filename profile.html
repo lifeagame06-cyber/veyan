@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Your Profile — VAYEN</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="profile-body">
+
+
+<!-- HEADER -->
+
+<header class="profile-header">
+
+    <a href="index.html" class="profile-brand">
+        VAYEN
+    </a>
+
+    <a href="account.html" class="profile-back">
+        ← Account
+    </a>
+
+</header>
+
+
+
+<main class="customer-profile">
+
+
+    <!-- INTRO -->
+
+    <section class="profile-hero">
+
+        <span class="profile-label">
+            YOUR PROFILE · YOUR SPACE
+        </span>
+
+        <h1>
+            Make it<br>
+            <span>yours.</span>
+        </h1>
+
+        <p>
+            A few details that make your
+            VAYEN experience feel more personal.
+        </p>
+
+    </section>
+
+
+
+    <!-- PROFILE SETTINGS -->
+
+    <section class="profile-settings">
+
+
+        <!-- WELCOME NAME -->
+
+        <div class="profile-setting-card profile-name-card">
+
+            <div class="profile-setting-number">
+                01
+            </div>
+
+            <div class="profile-setting-content">
+
+                <span>PERSONAL GREETING</span>
+
+                <h2>
+                    How should we<br>
+                    welcome you?
+                </h2>
+
+                <p>
+                    This is the name VAYEN will use
+                    when welcoming you back.
+                </p>
+
+
+                <div class="profile-field">
+
+                    <label for="profileWelcomeName">
+                        WELCOME NAME
+                    </label>
+
+                    <input
+                        type="text"
+                        id="profileWelcomeName"
+                        placeholder="Your name"
+                        maxlength="24"
+                        autocomplete="name"
+                    >
+
+                </div>
+
+
+                <div class="profile-preview">
+
+                    <small>PREVIEW</small>
+
+                    <p>
+                        Welcome back,
+                        <strong id="profileNamePreview">
+                            Sir.
+                        </strong>
+                    </p>
+
+                </div>
+
+
+                <button type="button"
+                        id="saveProfileName">
+
+                    Save changes
+                    <span>→</span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+       <!-- ACCOUNT DETAILS -->
+
+<div class="profile-setting-card profile-details-card">
+
+    <div class="profile-setting-number">
+        02
+    </div>
+
+    <div class="profile-setting-content">
+
+        <span>ACCOUNT DETAILS</span>
+
+        <h2>
+            Your identity.
+        </h2>
+
+        <p>
+            The details connected to your
+            VAYEN account.
+        </p>
+
+        <div class="profile-detail-row">
+            <span>NAME</span>
+            <strong id="profileAccountName">
+                Not connected
+            </strong>
+        </div>
+
+        <div class="profile-detail-row">
+            <span>EMAIL</span>
+            <strong id="profileAccountEmail">
+                Not connected
+            </strong>
+        </div>
+
+        <div class="profile-detail-row">
+            <span>MEMBER SINCE</span>
+            <strong id="profileMemberSince">
+                —
+            </strong>
+        </div>
+
+    </div>
+
+</div>
+    </section>
+
+
+</main>
+
+
+
+<!-- MOBILE BOTTOM NAV -->
+
+<nav class="vayen-mobile-nav">
+
+    <a href="index.html"
+       class="mobile-nav-item">
+
+        <span class="mobile-nav-icon">
+            <svg viewBox="0 0 24 24">
+                <path d="M4 10.5L12 4l8 6.5V20h-6v-6h-4v6H4z"/>
+            </svg>
+        </span>
+
+        <span>Home</span>
+
+    </a>
+
+
+    <a href="#"
+       class="mobile-nav-item">
+
+        <span class="mobile-nav-icon">
+            <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="8"/>
+                <path d="M15.5 8.5l-2 5-5 2 2-5z"/>
+            </svg>
+        </span>
+
+        <span>Explore</span>
+
+    </a>
+
+
+    <a href="#"
+       class="mobile-nav-item">
+
+        <span class="mobile-nav-icon">
+            <svg viewBox="0 0 24 24">
+                <path d="M5 7h14M5 12h14M5 17h9"/>
+            </svg>
+        </span>
+
+        <span>New</span>
+
+    </a>
+
+
+    <a href="account.html"
+       class="mobile-nav-item active">
+
+        <span class="mobile-nav-icon">
+            <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="3.5"/>
+                <path d="M5.5 20c.7-4 3-6 6.5-6s5.8 2 6.5 6"/>
+            </svg>
+        </span>
+
+        <span>Account</span>
+
+    </a>
+
+</nav>
+
+
+<script>
+
+/* VAYEN PROFILE — WELCOME NAME */
+
+const profileWelcomeName =
+    document.getElementById("profileWelcomeName");
+
+const profileNamePreview =
+    document.getElementById("profileNamePreview");
+
+const saveProfileName =
+    document.getElementById("saveProfileName");
+
+
+const savedProfileName =
+    localStorage.getItem("vayenWelcomeName");
+
+
+if (savedProfileName) {
+
+    profileWelcomeName.value =
+        savedProfileName;
+
+    profileNamePreview.textContent =
+        savedProfileName + ".";
+}
+
+
+/* LIVE PREVIEW */
+
+profileWelcomeName.addEventListener(
+    "input",
+    function () {
+
+        const name =
+            profileWelcomeName.value.trim();
+
+        profileNamePreview.textContent =
+            name ? name + "." : "Sir.";
+    }
+);
+
+
+/* SAVE */
+
+saveProfileName.addEventListener(
+    "click",
+    function () {
+
+        const name =
+            profileWelcomeName.value.trim();
+
+        if (!name) {
+            return;
+        }
+
+        localStorage.setItem(
+            "vayenWelcomeName",
+            name
+        );
+
+        profileNamePreview.textContent =
+            name + ".";
+
+        saveProfileName.innerHTML =
+            "Saved <span>✓</span>";
+
+        setTimeout(function () {
+
+            saveProfileName.innerHTML =
+                "Save changes <span>→</span>";
+
+        }, 1600);
+    }
+);
+
+</script>
+
+
+</body>
+</html>

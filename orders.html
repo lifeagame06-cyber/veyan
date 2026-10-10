@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Orders — VAYEN</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="orders-body">
+
+
+<!-- HEADER -->
+
+<header class="orders-header">
+
+    <a href="index.html" class="orders-brand">
+        VAYEN
+    </a>
+
+    <a href="account.html" class="orders-back">
+        ← Account
+    </a>
+
+</header>
+
+
+
+<main class="customer-orders">
+
+
+    <!-- INTRO -->
+
+    <section class="orders-hero">
+
+        <span class="orders-label">
+            MY ORDERS · PURCHASE HISTORY
+        </span>
+
+        <h1>
+            Your<br>
+            <span>choices.</span>
+        </h1>
+
+        <p>
+            A clear record of everything
+            you've purchased from VAYEN.
+        </p>
+
+    </section>
+
+
+
+    <!-- ORDER SUMMARY -->
+
+    <section class="orders-toolbar">
+
+        <div class="orders-count">
+
+            <span id="ordersCount">0</span>
+
+            <small>ORDERS</small>
+
+        </div>
+
+        <div class="orders-tools">
+
+            <button type="button"
+                    class="orders-filter active">
+                All
+            </button>
+
+            <button type="button"
+                    class="orders-filter">
+                Recent
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ORDER LIST -->
+
+    <section class="orders-list"
+             id="ordersList">
+
+        <!-- Customer orders will appear here -->
+
+    </section>
+
+
+
+    <!-- EMPTY STATE -->
+
+    <section class="orders-empty"
+             id="ordersEmpty">
+
+        <div class="orders-empty-mark">
+            V
+        </div>
+
+        <span>NOTHING PURCHASED YET</span>
+
+        <h2>
+            Your first choice<br>
+            <em>starts here.</em>
+        </h2>
+
+        <p>
+            Once you purchase something from VAYEN,
+            your order details will stay here for
+            easy reference.
+        </p>
+
+        <a href="index.html"
+           class="orders-explore-button">
+
+            Explore VAYEN
+            <span>→</span>
+
+        </a>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- MOBILE BOTTOM NAV -->
+
+<nav class="vayen-mobile-nav">
+
+    <a href="index.html"
+       class="mobile-nav-item">
+
+        <span class="mobile-nav-icon">
+            <svg viewBox="0 0 24 24">
+                <path d="M4 10.5L12 4l8 6.5V20h-6v-6h-4v6H4z"/>
+            </svg>
+        </span>
+
+        <span>Home</span>
+
+    </a>
+
+
+    <a href="#"
+       class="mobile-nav-item">
+
+        <span class="mobile-nav-icon">
+            <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="8"/>
+                <path d="M15.5 8.5l-2 5-5 2 2-5z"/>
+            </svg>
+        </span>
+
+        <span>Explore</span>
+
+    </a>
+
+
+    <a href="#"
+       class="mobile-nav-item">
+
+        <span class="mobile-nav-icon">
+            <svg viewBox="0 0 24 24">
+                <path d="M5 7h14M5 12h14M5 17h9"/>
+            </svg>
+        </span>
+
+        <span>New</span>
+
+    </a>
+
+
+    <a href="account.html"
+       class="mobile-nav-item active">
+
+        <span class="mobile-nav-icon">
+            <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="3.5"/>
+                <path d="M5.5 20c.7-4 3-6 6.5-6s5.8 2 6.5 6"/>
+            </svg>
+        </span>
+
+        <span>Account</span>
+
+    </a>
+
+</nav>
+
+
+</body>
+</html>

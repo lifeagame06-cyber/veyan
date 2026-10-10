@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Collection | VAYEN
+  </title>
+  <link href="style.css" rel="stylesheet"/>
+  <style>
+   /* Collection page styles — edit each rule below */
+body:has(.vayen-collection-final) {
+    margin:0;
+    background:#f6f2ef
+}
+
+.vayen-collection-final {
+    background:#f6f2ef;
+    color:#241e20;
+    min-height:100vh;
+    font-family:Arial,Helvetica,sans-serif
+}
+
+.vayen-collection-final * {
+    box-sizing:border-box
+}
+
+.vayen-collection-final .vc-wrap {
+    width:min(1120px,calc(100% - 64px));
+    margin:auto
+}
+
+.vayen-collection-final .vc-hero {
+    padding:55px 0 35px;
+    border-bottom:1px solid #ded5d2
+}
+
+.vayen-collection-final .vc-eyebrow {
+    font-size:10px;
+    letter-spacing:2.5px;
+    font-weight:700;
+    color:#a66f7c
+}
+
+.vayen-collection-final .vc-hero h1 {
+    font-size:clamp(42px,5vw,66px);
+    font-weight:500;
+    line-height:1.05;
+    letter-spacing:-3px;
+    margin:17px 0 12px
+}
+
+.vayen-collection-final .vc-hero p {
+    color:#776d6c;
+    font-size:13px;
+    line-height:1.65;
+    max-width:460px;
+    margin:0
+}
+
+.vayen-collection-final .vc-section {
+    padding:36px 0 0
+}
+
+.vayen-collection-final .vc-section-title {
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
+    gap:15px;
+    margin-bottom:18px
+}
+
+.vayen-collection-final .vc-section-title h2 {
+    font-size:clamp(24px,3vw,33px);
+    font-weight:500;
+    letter-spacing:-1.3px;
+    margin:7px 0 0
+}
+
+.vayen-collection-final .vc-section-title .vc-note {
+    font-size:11px;
+    color:#8c7f7f
+}
+
+.vayen-collection-final .vc-grid {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:18px
+}
+
+.vayen-collection-final .vc-card {
+    position:relative;
+    isolation:isolate;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    min-height:245px;
+    padding:25px 27px;
+    border-radius:22px;
+    overflow:hidden;
+    text-decoration:none!important;
+    transition:transform .25s,box-shadow .25s;
+    border:1px solid rgba(255,255,255,.25)
+}
+
+.vayen-collection-final .vc-card:hover {
+    transform:translateY(-4px)
+}
+
+.vayen-collection-final .vc-card .vc-top,.vayen-collection-final .vc-card .vc-bottom {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px
+}
+
+.vayen-collection-final .vc-card .vc-top {
+    font-size:9px;
+    letter-spacing:1.35px;
+    font-weight:700;
+    opacity:.85
+}
+
+.vayen-collection-final .vc-card .vc-copy {
+    margin-top:40px
+}
+
+.vayen-collection-final .vc-card .vc-copy small {
+    font-size:9px;
+    letter-spacing:1.65px;
+    font-weight:700;
+    opacity:.7
+}
+
+.vayen-collection-final .vc-card h3 {
+    font-size:clamp(26px,3vw,36px);
+    line-height:1.12;
+    letter-spacing:-1.3px;
+    margin:10px 0 9px;
+    font-weight:650
+}
+
+.vayen-collection-final .vc-card p {
+    font-size:12px;
+    line-height:1.5;
+    opacity:.78;
+    margin:0
+}
+
+.vayen-collection-final .vc-card .vc-bottom {
+    margin-top:22px;
+    padding-top:14px;
+    border-top:1px solid currentColor;
+    font-size:11px
+}
+
+.vayen-collection-final .vc-card .vc-bottom strong {
+    font-size:20px
+}
+
+.vayen-collection-final .vc-flagship {
+    min-height:290px;
+    color:#fff;
+    box-shadow:0 12px 35px rgba(86,45,72,.12)
+}
+
+.vayen-collection-final .vc-youtube {
+    background:radial-gradient(ellipse at 95% 0%,rgba(110,157,255,.30),transparent 60%),linear-gradient(135deg,#263149,#151925)
+}
+
+.vayen-collection-final .vc-vlogging {
+    background:radial-gradient(ellipse at 95% 0%,rgba(241,157,190,.30),transparent 60%),linear-gradient(135deg,#4b2d3e,#261e2a)
+}
+
+.vayen-collection-final .vc-flagship:hover {
+    box-shadow:0 18px 45px rgba(118,73,111,.25)
+}
+
+.vayen-collection-final .vc-mid {
+    color:#332830;
+    border-color:#e4d5dc;
+    box-shadow:0 8px 25px rgba(121,82,104,.07)
+}
+
+.vayen-collection-final .vc-business {
+    background:radial-gradient(circle at 100% 0%,#e8cddd,transparent 58%),#f0e6ec
+}
+
+.vayen-collection-final .vc-creator {
+    background:radial-gradient(circle at 100% 0%,#dcd2f0,transparent 58%),#ece8f3
+}
+
+.vayen-collection-final .vc-essential {
+    color:#302b29;
+    background:linear-gradient(140deg,#fffdfb,#f0ebe7);
+    border-color:#e9e1dc
+}
+
+.vayen-collection-final .vc-mid,.vayen-collection-final .vc-essential {
+    min-height:220px
+}
+
+.vayen-collection-final .vc-worlds {
+    padding:52px 0 80px
+}
+
+.vayen-collection-final .vc-worlds-head {
+    border-top:1px solid #ddd3d0;
+    padding-top:25px;
+    margin-bottom:19px
+}
+
+.vayen-collection-final .vc-worlds-head h2 {
+    font-size:25px;
+    font-weight:500;
+    letter-spacing:-1px;
+    margin:8px 0 7px
+}
+
+.vayen-collection-final .vc-worlds-head p {
+    font-size:12px;
+    color:#817675;
+    margin:0
+}
+
+.vayen-collection-final .vc-world-list {
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:9px
+}
+
+.vayen-collection-final .vc-world-list button {
+    appearance:none;
+    text-align:left;
+    min-height:52px;
+    border:1px solid #e5dcd9;
+    background:#fffaf8;
+    border-radius:12px;
+    padding:11px 13px;
+    color:#43383b;
+    font:600 11px Arial,Helvetica,sans-serif;
+    cursor:pointer;
+    transition:background .2s,border-color .2s,box-shadow .2s
+}
+
+.vayen-collection-final .vc-world-list button:hover {
+    border-color:#b98a9b;
+    background:#fff
+}
+
+.vayen-collection-final .vc-world-list button.selected-world {
+    background:#3b2933;
+    color:#fff;
+    border-color:#bd91a1;
+    box-shadow:0 0 0 2px rgba(186,133,155,.12),0 0 20px rgba(181,118,146,.24)
+}
+
+.vayen-collection-final .vc-world-list button:focus-visible,.vayen-collection-final .vc-card:focus-visible {
+    outline:2px solid #b06f8e;
+    outline-offset:3px
+}
+
+@media(max-width:768px) {
+    .vayen-collection-final .vc-wrap {
+        width:calc(100% - 36px)
+    }
+
+    .vayen-collection-final .vc-hero {
+        padding:38px 0 25px
+    }
+
+    .vayen-collection-final .vc-hero h1 {
+        font-size:43px;
+        letter-spacing:-2px
+    }
+
+    .vayen-collection-final .vc-section {
+        padding-top:30px
+    }
+
+    .vayen-collection-final .vc-section-title {
+        align-items:start
+    }
+
+    .vayen-collection-final .vc-section-title h2 {
+        font-size:27px
+    }
+
+    .vayen-collection-final .vc-section-title .vc-note {
+        display:none
+    }
+
+    .vayen-collection-final .vc-grid {
+        grid-template-columns:1fr;
+        gap:13px
+    }
+
+    .vayen-collection-final .vc-card {
+        min-height:230px;
+        padding:22px
+    }
+
+    .vayen-collection-final .vc-flagship {
+        min-height:270px
+    }
+
+    .vayen-collection-final .vc-card h3 {
+        font-size:29px
+    }
+
+    .vayen-collection-final .vc-card .vc-copy {
+        margin-top:34px
+    }
+
+    .vayen-collection-final .vc-worlds {
+        padding:42px 0 65px
+    }
+
+    .vayen-collection-final .vc-world-list {
+        grid-template-columns:repeat(2,minmax(0,1fr))
+    }
+
+}
+
+.vayen-collection-final .vc-ai-box {
+    background:radial-gradient(circle at 100% 0%,#d5e5ed,transparent 58%),#e9f0f2
+}
+
+.vayen-collection-final .vc-build-ai {
+    background:radial-gradient(circle at 100% 0%,#e6d4ec,transparent 58%),#f1e9f3
+}
+
+/* VAYEN COLLECTION — MOBILE SHOPPING POLISH ONLY */
+@media (max-width: 768px) {
+    body:has(.vayen-collection-final) { padding-bottom: 82px; }
+    .vayen-collection-final .vc-wrap { width: calc(100% - 34px); max-width: 520px; }
+    .vayen-collection-final .vc-hero { padding: 34px 0 29px; background: radial-gradient(circle at 90% 0%, rgba(194,134,159,.14), transparent 55%); }
+    .vayen-collection-final .vc-eyebrow { font-size: 9px; letter-spacing: 2px; }
+    .vayen-collection-final .vc-hero h1 { font-size: clamp(39px, 11vw, 53px); line-height: 1.02; letter-spacing: -2.3px; max-width: 340px; }
+    .vayen-collection-final .vc-hero p { font-size: 13px; line-height: 1.75; }
+    .vayen-collection-final .vc-section { padding-top: 34px; }
+    .vayen-collection-final .vc-section-title { margin-bottom: 18px; }
+    .vayen-collection-final .vc-section-title h2 { font-size: 29px; line-height: 1.12; letter-spacing: -1.2px; }
+    .vayen-collection-final .vc-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+    .vayen-collection-final .vc-card { min-height: 242px; padding: 23px 22px; border-radius: 24px; box-shadow: 0 12px 30px rgba(63,38,51,.10); -webkit-tap-highlight-color: transparent; }
+    .vayen-collection-final .vc-flagship { min-height: 298px; }
+    .vayen-collection-final .vc-card .vc-copy { margin-top: 35px; }
+    .vayen-collection-final .vc-card h3 { font-size: clamp(28px, 8vw, 36px); line-height: 1.1; letter-spacing: -1.2px; }
+    .vayen-collection-final .vc-card p { font-size: 12px; line-height: 1.65; max-width: 290px; }
+    .vayen-collection-final .vc-card .vc-bottom { align-items: center; gap: 8px; padding-top: 16px; margin-top: 25px; }
+    .vayen-collection-final .vc-card .vc-bottom strong { font-size: 23px; white-space: nowrap; }
+    .vayen-collection-final .vc-card .vc-bottom span { display: inline-flex; align-items: center; justify-content: center; text-align: center; min-height: 39px; padding: 0 13px; border-radius: 50px; border: 1px solid currentColor; font-size: 10px; font-weight: 700; white-space: nowrap; }
+    .vayen-collection-final .vc-card:active { transform: scale(.99); }
+    .vayen-collection-final .vc-worlds { padding: 43px 0 45px; scroll-margin-top: 15px; }
+    .vayen-collection-final .vc-worlds-head h2 { font-size: 27px; }
+    .vayen-collection-final .vc-worlds-head p { line-height: 1.7; }
+    .vayen-collection-final .vc-world-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .vayen-collection-final .vc-world-list button { min-height: 62px; padding: 12px; border-radius: 15px; font-size: 11px; line-height: 1.4; }
+    .vc-mobile-footer { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 27px 16px 36px; border-top: 1px solid #e1d8d5; background: #f6f2ef; }
+    .vc-mobile-footer strong { font-size: 22px; letter-spacing: 5px; color: #332630; }
+    .vc-mobile-footer span { font-size: 10px; color: #817675; }
+}
+@media (max-width: 360px) {
+    .vayen-collection-final .vc-card { padding: 20px 18px; }
+    .vayen-collection-final .vc-card .vc-bottom span { padding: 0 9px; font-size: 9px; }
+}
+@media (min-width: 769px) { .vc-mobile-footer { display: none; } }
+
+  
+/* 12 WORLDS — CLEAR CLICKABLE CARDS (PC + MOBILE) */
+.vayen-collection-final .vc-world-list button {
+    position: relative;
+    padding-right: 37px;
+    box-shadow: 0 3px 10px rgba(65, 38, 51, .045);
+    transition: background .2s, border-color .2s, box-shadow .2s, transform .2s;
+}
+.vayen-collection-final .vc-world-list button::after {
+    content: "↗";
+    position: absolute;
+    right: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 17px;
+    font-weight: 500;
+    color: #a36c85;
+    transition: transform .2s, color .2s;
+}
+.vayen-collection-final .vc-world-list button:hover {
+    background: #fff;
+    border-color: #b98a9b;
+    box-shadow: 0 8px 20px rgba(95, 50, 74, .12);
+    transform: translateY(-2px);
+}
+.vayen-collection-final .vc-world-list button:hover::after {
+    transform: translate(2px, calc(-50% - 2px));
+}
+.vayen-collection-final .vc-world-list button.selected-world::after {
+    content: "✓";
+    color: #fff;
+}
+.vayen-collection-final .vc-world-list button:active {
+    transform: scale(.98);
+}
+
+/* Incoming world: gentle attention pulse every 2 seconds */
+.vayen-collection-final .vc-world-list button.incoming-world {
+    animation: vayenWorldAttention 2s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+}
+@keyframes vayenWorldAttention {
+    0%, 60%, 100% { transform: translateX(0); box-shadow: 0 0 0 0 rgba(166, 93, 128, .2); }
+    67% { transform: translateX(-3px); }
+    73% { transform: translateX(3px); box-shadow: 0 0 0 5px rgba(166, 93, 128, .12); }
+    79% { transform: translateX(-2px); }
+    85% { transform: translateX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .vayen-collection-final .vc-world-list button.incoming-world { animation: none; outline: 2px solid #a66f7c; }
+}
+.vayen-collection-final .vc-back-home {
+    display: inline-flex; align-items: center; gap: 7px;
+    margin-bottom: 20px; padding: 9px 14px;
+    border: 1px solid #e1d3d5; border-radius: 999px;
+    background: #fffaf8; color: #47353e;
+    font: 700 11px Arial, sans-serif; text-decoration: none;
+    transition: background .2s, transform .2s;
+}
+.vayen-collection-final .vc-back-home:hover { background: #f0e5e9; transform: translateX(-2px); }
+
+/* FIX: selected world remains readable with or without hover */
+.vayen-collection-final .vc-world-list button.selected-world,
+.vayen-collection-final .vc-world-list button.selected-world:hover,
+.vayen-collection-final .vc-world-list button.selected-world:focus,
+.vayen-collection-final .vc-world-list button.selected-world:active {
+    background: #3b2933 !important;
+    color: #ffffff !important;
+    border-color: #bd91a1 !important;
+    -webkit-text-fill-color: #ffffff;
+}
+.vayen-collection-final .vc-world-list button.selected-world::after,
+.vayen-collection-final .vc-world-list button.selected-world:hover::after {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff;
+}
+  </style>
+ </head>
+ <body>
+  <main class="vayen-collection-final">
+   <header class="vc-hero">
+    <div class="vc-wrap">
+     <a class="vc-back-home" href="index.html">← Back to Home</a>
+     <span class="vc-eyebrow">
+      VAYEN / DIGITAL COLLECTION
+     </span>
+     <h1>
+      Explore the collection.
+     </h1>
+     <p>
+      Thoughtfully built digital products for creators, ideas and everyday progress.
+     </p>
+    </div>
+   </header>
+   <section class="vc-section">
+    <div class="vc-wrap">
+     <div class="vc-section-title">
+      <div>
+       <span class="vc-eyebrow">
+        01 / SIGNATURE SERIES
+       </span>
+       <h2>
+        Our flagship products.
+       </h2>
+      </div>
+      <span class="vc-note">
+       THE COMPLETE CREATOR SYSTEMS
+      </span>
+     </div>
+     <div class="vc-grid">
+      <a class="vc-card vc-flagship vc-youtube" href="product.html?id=youtube-creator-system">
+       <div class="vc-top">
+        <span>
+         VAYEN / 01
+        </span>
+        <span>
+         ✦ SIGNATURE
+        </span>
+       </div>
+       <div class="vc-copy">
+        <small>
+         FOR YOUTUBE CREATORS
+        </small>
+        <h3>
+         YouTube Creator System
+        </h3>
+        <p>
+         Plan, create and grow with a clearer system.
+        </p>
+       </div>
+       <div class="vc-bottom">
+        <strong>
+         ₹2,499
+        </strong>
+        <span>
+         Explore product ↗
+        </span>
+       </div>
+      </a>
+      <a class="vc-card vc-flagship vc-vlogging" href="product.html?id=vlogging-mastery">
+       <div class="vc-top">
+        <span>
+         VAYEN / 02
+        </span>
+        <span>
+         ✦ SIGNATURE
+        </span>
+       </div>
+       <div class="vc-copy">
+        <small>
+         FOR STORYTELLERS
+        </small>
+        <h3>
+         Vlogging Mastery
+        </h3>
+        <p>
+         Capture better stories and create with confidence.
+        </p>
+       </div>
+       <div class="vc-bottom">
+        <strong>
+         ₹1,999
+        </strong>
+        <span>
+         Explore product ↗
+        </span>
+       </div>
+      </a>
+     </div>
+    </div>
+   </section>
+   <section class="vc-section">
+    <div class="vc-wrap">
+     <div class="vc-section-title">
+      <div>
+       <span class="vc-eyebrow">
+        02 / PREMIUM COLLECTION
+       </span>
+       <h2>
+        Built for what comes next.
+       </h2>
+      </div>
+      <span class="vc-note">
+       FOUR PRACTICAL LEARNING SYSTEMS
+      </span>
+     </div>
+     <div class="vc-grid">
+      <a class="vc-card vc-mid vc-business" href="product.html?id=animation-mastery">
+       <div class="vc-top">
+        <span>
+         VAYEN / 03
+        </span>
+        <span>
+         PREMIUM
+        </span>
+       </div>
+       <div class="vc-copy">
+        <small>
+         LEARN ANIMATION
+        </small>
+        <h3>
+         Animation Mastery
+        </h3>
+        <p>
+         Create animations from scratch with practical techniques and projects.
+        </p>
+       </div>
+       <div class="vc-bottom">
+        <strong>
+         ₹999
+        </strong>
+        <span>
+         Explore product ↗
+        </span>
+       </div>
+      </a>
+      <a class="vc-card vc-mid vc-creator" href="product.html?id=social-media-tips">
+       <div class="vc-top">
+        <span>
+         VAYEN / 04
+        </span>
+        <span>
+         PREMIUM
+        </span>
+       </div>
+       <div class="vc-copy">
+        <small>
+         GROW YOUR PRESENCE
+        </small>
+        <h3>
+         Social Media Tips
+        </h3>
+        <p>
+         Practical content ideas, growth strategies and audience-building tips.
+        </p>
+       </div>
+       <div class="vc-bottom">
+        <strong>
+         ₹799
+        </strong>
+        <span>
+         Explore product ↗
+        </span>
+       </div>
+      </a>
+      <a class="vc-card vc-mid vc-ai-box" href="product.html?id=ai-prompt-box">
+       <div class="vc-top">
+        <span>
+         VAYEN / 05
+        </span>
+        <span>
+         PREMIUM
+        </span>
+       </div>
+       <div class="vc-copy">
+        <small>
+         3,000+ READY-TO-USE PROMPTS
+        </small>
+        <h3>
+         AI Prompt Box
+        </h3>
+        <p>
+         Explore 3,000+ prompts for content, work, business and creativity.
+        </p>
+       </div>
+       <div class="vc-bottom">
+        <strong>
+         ₹699
+        </strong>
+        <span>
+         Explore product ↗
+        </span>
+       </div>
+      </a>
+      <a class="vc-card vc-mid vc-build-ai" href="product.html?id=build-your-own-ai">
+       <div class="vc-top">
+        <span>
+         VAYEN / 06
+        </span>
+        <span>
+         PREMIUM
+        </span>
+       </div>
+       <div class="vc-copy">
+        <small>
+         CREATE YOUR AI ASSISTANT
+        </small>
+        <h3>
+         Build Your Own AI
+        </h3>
+        <p>
+         Learn how to build and customize your own AI assistant step by step.
+        </p>
+       </div>
+       <div class="vc-bottom">
+        <strong>
+         ₹1,299
+        </strong>
+        <span>
+         Explore product ↗
+        </span>
+       </div>
+      </a>
+     </div>
+    </div>
+   </section>
+   <section class="vc-worlds" id="worlds">
+    <div class="vc-wrap">
+     <div class="vc-worlds-head">
+      <span class="vc-eyebrow">
+       EXPLORE BY INTEREST
+      </span>
+      <h2>
+       12 worlds. One collection.
+      </h2>
+      <p>
+       Choose a world to explore its product. All six featured products remain above.
+      </p>
+     </div>
+    <div class="vc-world-list" id="collectionWorlds">
+
+    <button type="button" data-world="01">
+        Reels Growth
+    </button>
+
+    <button type="button" data-world="02">
+        Web Creator
+    </button>
+
+    <button type="button" data-world="03">
+        YouTube Algorithm
+    </button>
+
+    <button type="button" data-world="04">
+        How to Earn from Social Media
+    </button>
+
+    <button type="button" data-world="05">
+        Creator Studio
+    </button>
+
+    <button type="button" data-world="06">
+        Business Launch
+    </button>
+
+    <button type="button" data-world="07">
+        Content Strategy
+    </button>
+
+    <button type="button" data-world="08">
+        How to Design Thumbnails
+    </button>
+
+    <button type="button" data-world="09">
+        How to Edit Videos
+    </button>
+
+    <button type="button" data-world="10">
+        AI Automation
+    </button>
+
+    <button type="button" data-world="11">
+        Seller & Commerce
+    </button>
+
+    <button type="button" data-world="12">
+        Build Your Personal Brand
+    </button>
+
+</div>
+     </div>
+    </div>
+   </section>
+  </main>
+  <script src="vayen-catalog.js"></script>
+  <script>
+   (function () {
+    const buttons = [...document.querySelectorAll('#collectionWorlds button')];
+    const params = new URLSearchParams(window.location.search);
+    const incomingWorld = params.get('world');
+    const valid = buttons.some(button => button.dataset.world === incomingWorld);
+
+    // Scroll only on the first arrival from the homepage.
+    // History state belongs to this particular visit, not the whole browser session.
+    if (valid) {
+        const target = buttons.find(button => button.dataset.world === incomingWorld);
+        target.classList.add('selected-world', 'incoming-world');
+        target.setAttribute('aria-pressed', 'true');
+
+        const alreadyVisited = window.history.state?.vayenInitialWorldShown === incomingWorld;
+        const navEntry = performance.getEntriesByType('navigation')[0];
+        const isBackNavigation = navEntry?.type === 'back_forward';
+
+        if (!alreadyVisited && !isBackNavigation) {
+            const oldState = window.history.state || {};
+            window.history.replaceState(
+                { ...oldState, vayenInitialWorldShown: incomingWorld },
+                '', window.location.href
+            );
+            window.addEventListener('load', function () {
+                setTimeout(function () {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 150);
+            });
+        }
+    }
+
+    buttons.forEach(function (button) {
+        if (!button.hasAttribute('aria-pressed')) button.setAttribute('aria-pressed', 'false');
+        button.addEventListener('click', function () {
+            buttons.forEach(b => {
+                b.classList.remove('incoming-world', 'selected-world');
+                b.setAttribute('aria-pressed', 'false');
+            });
+            button.classList.add('selected-world');
+            button.setAttribute('aria-pressed', 'true');
+            const productIds = ["reels-growth", "web-creator", "youtube-algorithm", "earn-from-social-media", "creator-studio", "business-launch", "content-strategy", "design-thumbnails", "edit-videos", "ai-automation", "seller-commerce", "personal-brand"];
+            const index = Number(button.dataset.world) - 1;
+            if (productIds[index]) {
+                window.location.href = 'product.html?id=' + encodeURIComponent(productIds[index]);
+            }
+        });
+    });
+})();;
+  </script>
+ <script>
+/* Non-destructive catalog visibility and additional product cards. */
+(function(){
+const C=window.VayenCatalog;if(!C)return;
+for(const a of document.querySelectorAll('a[href*="product.html?id="]')){
+  const id=new URL(a.href,location.href).searchParams.get('id');
+  const row=C.records().find(p=>(p.slug||p.id)===id);
+  if(row){if(row.status!=='published'){a.remove();continue;}
+    // Keep existing custom card art and text; show edited price/title where safely identifiable.
+    a.dataset.vayenProduct=id;
+    if(row.name!==C.BASE[id]?.name){const heading=a.querySelector('.vc-copy h3')||a.querySelector('h2,h3');if(heading)heading.textContent=row.name;}
+    if(row.price!==C.BASE[id]?.price){const priceEls=[...a.querySelectorAll('strong,span,p')].filter(el=>el.children.length===0&&/₹[\d,]+/.test(el.textContent));if(priceEls.length)priceEls[priceEls.length-1].textContent='₹'+Number(row.price).toLocaleString('en-IN');}
+  }
+}
+const worldIds=C.WORLDS;
+for(const button of document.querySelectorAll('#collectionWorlds button')){
+  const i=Number(button.dataset.world)-1;const row=C.records().find(p=>(p.slug||p.id)===worldIds[i]);
+  if(row){if(row.status!=='published')button.remove();else button.textContent=row.name;}
+}
+const worldList=document.getElementById('collectionWorlds');
+if(worldList){for(const row of C.list('Worlds')){
+  const id=row.slug||row.id;if(worldIds.includes(id))continue;
+  const b=document.createElement('button');b.type='button';b.textContent=row.name;
+  b.dataset.world=String(row.worldNumber||C.nextWorldNumber()).padStart(2,'0');
+  b.addEventListener('click',()=>location.href='product.html?id='+encodeURIComponent(id));worldList.appendChild(b);
+}}
+const extraRows=C.list().filter(p=>!C.FLAG.includes(p.slug)&&!C.PREMIUM.includes(p.slug)&&!C.WORLDS.includes(p.slug)&&p.group!=='Worlds');
+for(const p of extraRows){const target=p.group==='Expensive / Flagship'?document.querySelector('.vc-flagship')?.parentElement:document.querySelector('.vc-mid')?.parentElement;if(!target)continue;
+  const a=document.createElement('a');a.href='product.html?id='+encodeURIComponent(p.slug||p.id);a.className=p.group==='Expensive / Flagship'?'vc-card vc-flagship':'vc-card vc-mid';
+  const title=document.createElement('h3');title.textContent=p.name;const desc=document.createElement('p');desc.textContent=p.shortDescription||p.description||'Explore this digital product';
+  const price=document.createElement('strong');price.textContent='₹'+Number(p.price).toLocaleString('en-IN');
+  a.style.cssText='display:flex;flex-direction:column;justify-content:center;gap:14px;padding:28px;min-height:270px;text-decoration:none;color:inherit;background:linear-gradient(135deg,#fff9f8,#eadfe3);border-radius:22px';a.append(title,desc,price);target.appendChild(a);
+}
+})();
+</script>
+</body>
+</html>
+

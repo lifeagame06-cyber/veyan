@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Features | VAYEN</title><link rel="stylesheet" href="style.css"><style>
+*{box-sizing:border-box}body{margin:0;background:#f8f3f3;font-family:Arial,Helvetica,sans-serif}.vf-header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:25px max(24px,calc((100vw - 1120px)/2));background:#f8f3f3;border-bottom:1px solid #e6dce0}.vf-brand{font-size:20px;font-weight:800;letter-spacing:5px;text-decoration:none;color:#211b20}.vf-back{font-size:12px;font-weight:700;color:#754a61;text-decoration:none;border:1px solid #e3cfd8;border-radius:99px;padding:12px 17px;background:#fff}.vf-footer{text-align:center;padding:35px;color:#86747e;font-size:12px;border-top:1px solid #e6dce0}
+/* VAYEN — FEATURES / TRUST SECTION */
+.vayen-features {
+    padding: 85px max(24px, calc((100vw - 1120px) / 2));
+    background: #f8f3f3;
+    color: #30242d;
+}
+.vayen-features .vf-eyebrow {
+    font: 700 11px Arial, sans-serif;
+    letter-spacing: 2.5px;
+    color: #a26d84;
+}
+.vayen-features h2 {
+    font: 500 clamp(35px, 5vw, 56px)/1.08 Arial, sans-serif;
+    letter-spacing: -2px;
+    margin: 15px 0;
+}
+.vayen-features .vf-intro {
+    font: 14px/1.75 Arial, sans-serif;
+    color: #776a72;
+    max-width: 570px;
+    margin: 0 0 34px;
+}
+.vayen-features .vf-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 17px;
+}
+.vayen-features .vf-card {
+    background: #fff;
+    border: 1px solid #e9dfe3;
+    border-radius: 20px;
+    padding: 28px 25px;
+    min-height: 195px;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.vayen-features .vf-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 32px rgba(75, 44, 61, .10);
+    border-color: #d3b2c1;
+}
+.vayen-features .vf-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+    background: #f5e9ee;
+    color: #925b77;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+.vayen-features .vf-card h3 {
+    font: 700 17px/1.3 Arial, sans-serif;
+    margin: 0 0 10px;
+}
+.vayen-features .vf-card p {
+    font: 13px/1.7 Arial, sans-serif;
+    color: #776c72;
+    margin: 0;
+}
+@media (max-width: 768px) {
+    .vayen-features { padding: 60px 19px 70px; }
+    .vayen-features .vf-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
+    .vayen-features .vf-card { padding: 20px 16px; min-height: 190px; }
+    .vayen-features .vf-card h3 { font-size: 15px; }
+    .vayen-features .vf-card p { font-size: 12px; }
+}
+@media (max-width: 390px) {
+    .vayen-features .vf-grid { grid-template-columns: 1fr; }
+    .vayen-features .vf-card { min-height: 0; }
+}
+
+
+/* Mobile-first polish: isolated to the Features page; desktop unchanged */
+@media (max-width: 768px) {
+  html { overflow-x: hidden; }
+  body { overflow-x: hidden; -webkit-text-size-adjust: 100%; }
+  .vf-header { padding: 17px 20px; gap: 10px; min-height: 70px; }
+  .vf-brand { font-size: 19px; letter-spacing: 3.5px; white-space: nowrap; }
+  .vf-back { padding: 11px 14px; font-size: 11px; white-space: nowrap; }
+  .vayen-features { padding: 53px 20px 68px; }
+  .vayen-features .vf-eyebrow { font-size: 10px; letter-spacing: 2.2px; }
+  .vayen-features h2 { font-size: clamp(35px, 8.5vw, 47px); line-height: 1.09; letter-spacing: -1.6px; margin: 15px 0 18px; }
+  .vayen-features .vf-intro { font-size: 13px; line-height: 1.8; margin-bottom: 28px; }
+  .vayen-features .vf-grid { grid-template-columns: 1fr; gap: 13px; }
+  .vayen-features .vf-card { min-height: 0; padding: 23px 22px; border-radius: 19px; box-shadow: 0 6px 20px rgba(75,44,61,.045); }
+  .vayen-features .vf-icon { width: 43px; height: 43px; margin-bottom: 16px; }
+  .vayen-features .vf-card h3 { font-size: 17px; margin-bottom: 8px; }
+  .vayen-features .vf-card p { font-size: 13px; line-height: 1.7; }
+  .vayen-features .vf-card:hover { transform: none; }
+  .vayen-features .vf-card:active { transform: scale(.99); }
+  .vf-footer { padding: 27px 20px 34px; line-height: 1.6; }
+}
+@media (max-width: 360px) {
+  .vf-header { padding-inline: 14px; }
+  .vf-brand { font-size: 17px; letter-spacing: 2.5px; }
+  .vf-back { padding: 10px 11px; font-size: 10px; }
+  .vayen-features { padding-inline: 16px; }
+  .vayen-features h2 { font-size: 34px; }
+}
+</style></head><body><header class="vf-header"><a class="vf-brand" href="index.html">VAYEN</a><a class="vf-back" href="index.html">← Back to Home</a></header>
+<section class="vayen-features" id="features">
+    <span class="vf-eyebrow">WHY VAYEN</span>
+    <h2>Made for confidence.<br>Built for progress.</h2>
+    <p class="vf-intro">A thoughtful place to discover digital tools and resources, with clear information before you choose.</p>
+    <div class="vf-grid">
+        <article class="vf-card">
+            <div class="vf-icon" aria-hidden="true">◇</div>
+            <h3>Clear Product Details</h3>
+            <p>Understand what each digital product includes before making a decision.</p>
+        </article>
+        <article class="vf-card">
+            <div class="vf-icon" aria-hidden="true">✦</div>
+            <h3>Practical Resources</h3>
+            <p>Explore tools and learning materials designed around real creative goals.</p>
+        </article>
+        <article class="vf-card">
+            <div class="vf-icon" aria-hidden="true">✓</div>
+            <h3>Thoughtfully Selected</h3>
+            <p>A curated collection focused on usefulness, not unnecessary clutter.</p>
+        </article>
+        <article class="vf-card">
+            <div class="vf-icon" aria-hidden="true">↗</div>
+            <h3>Simple Exploration</h3>
+            <p>Browse collections and discover products by the interests that matter to you.</p>
+        </article>
+        <article class="vf-card">
+            <div class="vf-icon" aria-hidden="true">◎</div>
+            <h3>Your Own Account</h3>
+            <p>A dedicated space for your VAYEN experience and account features.</p>
+        </article>
+        <article class="vf-card">
+            <div class="vf-icon" aria-hidden="true">＋</div>
+            <h3>Growing Collection</h3>
+            <p>Discover new digital resources as the VAYEN collection expands.</p>
+        </article>
+    </div>
+</section><footer class="vf-footer">© 2026 VAYEN. All rights reserved.</footer></body></html>

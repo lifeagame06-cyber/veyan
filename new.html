@@ -1,0 +1,31 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>New Arrivals | VAYEN</title><link rel="stylesheet" href="style.css"><style>
+.vn{min-height:100vh;background:#f4f2ed;color:#211b20;padding:40px max(20px,6vw) 100px;font-family:Arial,sans-serif}.vn-nav{display:flex;justify-content:space-between;align-items:center}.vn-nav a{text-decoration:none;color:inherit}.vn-logo{font-weight:900;letter-spacing:5px}.vn-back{font-size:13px}.vn-head{margin:95px 0 50px}.vn-eyebrow{font-size:10px;letter-spacing:3px;color:#9c6b70;font-weight:800}.vn-head h1{font-weight:500;letter-spacing:-4px;font-size:clamp(54px,9vw,108px);line-height:.95;margin:18px 0}.vn-head h1 em{color:#a76d85;font-style:normal}.vn-head p{color:#746d6e;font-size:14px;line-height:1.7}.vn-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}.vn-card{min-height:270px;border-radius:25px;padding:27px;text-decoration:none;color:#30212c;background:linear-gradient(140deg,#fffaf7,#e8d9df);display:flex;flex-direction:column;justify-content:space-between;transition:transform .3s}.vn-card:hover{transform:translateY(-6px)}.vn-tag{font-size:10px;letter-spacing:2px;font-weight:700;color:#9a6c81}.vn-card h2{font-size:clamp(24px,3vw,36px);letter-spacing:-1px}.vn-card p{font-size:12px;color:#746d6e;line-height:1.6}.vn-foot{display:flex;justify-content:space-between;align-items:center;font-weight:700}.vn-empty{padding:35px;border:1px solid #e1d4d8;border-radius:20px;color:#746d6e}@media(max-width:850px){.vn-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.vn{padding:24px 18px 90px}.vn-head{margin:65px 0 35px}.vn-grid{grid-template-columns:1fr}.vn-card{min-height:245px}}
+
+/* VAYEN New Arrivals — mobile-only polish */
+@media (max-width: 600px) {
+  .vn { min-height: 100svh; padding: 24px 18px 65px; overflow-x: clip; }
+  .vn-nav { gap: 14px; }
+  .vn-logo { font-size: 19px; letter-spacing: 4px; white-space: nowrap; }
+  .vn-back { display: inline-flex; align-items: center; justify-content: center; text-align: center; padding: 11px 14px; border: 1px solid #e5d7dc; border-radius: 100px; background: #fffaf9; font-size: 11px; font-weight: 700; white-space: nowrap; }
+  .vn-head { margin: 65px 0 30px; }
+  .vn-eyebrow { font-size: 10px; letter-spacing: 2.4px; }
+  .vn-head h1 { font-size: clamp(46px, 12vw, 67px); line-height: 1.03; letter-spacing: -2.8px; overflow-wrap: anywhere; margin: 17px 0 16px; }
+  .vn-head p { max-width: 310px; font-size: 13px; line-height: 1.75; }
+  .vn-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 15px; }
+  .vn-card { min-width: 0; min-height: 235px; padding: 24px 22px; border-radius: 22px; box-shadow: 0 9px 24px rgba(66,39,52,.07); }
+  .vn-card h2 { font-size: clamp(24px, 7vw, 31px); overflow-wrap: anywhere; }
+  .vn-card p { font-size: 12px; line-height: 1.7; }
+  .vn-foot { gap: 12px; flex-wrap: wrap; font-size: 13px; }
+  .vn-empty { grid-column: 1 / -1; padding: 28px 22px; background: #fffaf9; border: 1px solid #e7d9df; border-radius: 23px; box-shadow: 0 10px 30px rgba(66,39,52,.055); color: #746d6e; }
+  .vn-empty h2 { margin: 0 0 11px; color: #30212c; font-size: 22px; line-height: 1.25; letter-spacing: -.5px; }
+  .vn-empty p { margin: 0; font-size: 13px; line-height: 1.75; }
+  .vn-empty a { display: inline-flex; align-items: center; justify-content: center; gap: 12px; margin-top: 22px; padding: 13px 18px; border-radius: 999px; background: #332630; color: white; font-size: 12px; font-weight: 700; text-decoration: none; }
+}
+@media (max-width: 360px) {
+  .vn { padding-left: 15px; padding-right: 15px; }
+  .vn-logo { letter-spacing: 3px; }
+  .vn-back { padding: 10px 11px; font-size: 10px; }
+}
+</style></head><body><main class="vn"><nav class="vn-nav"><a class="vn-logo" href="index.html">VAYEN</a><a class="vn-back" href="index.html">← Back Home</a></nav><section class="vn-head"><span class="vn-eyebrow">LATEST AT VAYEN</span><h1>Just <em>arrived.</em></h1><p>Newly added digital products, ready to explore.</p></section><section class="vn-grid" id="newGrid"></section></main><script src="vayen-catalog.js"></script><script>
+(function(){const C=window.VayenCatalog,grid=document.getElementById('newGrid');if(!C)return;const rows=C.list().filter(p=>!p.builtin);if(!rows.length){const box=document.createElement('div');box.className='vn-empty';const title=document.createElement('h2');title.textContent='Something new is on the way.';const p=document.createElement('p');p.textContent='No new products have been added yet. Explore our collection in the meantime.';const link=document.createElement('a');link.href='collection.html';link.textContent='Explore Collection ↗';box.append(title,p,link);grid.appendChild(box);return;}rows.forEach(p=>{const a=document.createElement('a');a.className='vn-card';a.href='product.html?id='+encodeURIComponent(p.slug||p.id);const tag=document.createElement('span');tag.className='vn-tag';tag.textContent=p.group||'NEW';const info=document.createElement('div');const h=document.createElement('h2');h.textContent=p.name;const desc=document.createElement('p');desc.textContent=p.shortDescription||p.description||'Explore this digital product';info.append(h,desc);const foot=document.createElement('div');foot.className='vn-foot';const price=document.createElement('span');price.textContent=p.price==null?'Coming soon':'₹'+Number(p.price).toLocaleString('en-IN');const arrow=document.createElement('span');arrow.textContent='Explore ↗';foot.append(price,arrow);a.append(tag,info,foot);grid.appendChild(a)})})();
+</script></body></html>

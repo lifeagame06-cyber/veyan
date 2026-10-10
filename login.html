@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Sign in — VAYEN</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body class="login-body">
+
+
+<!-- HEADER -->
+
+<header class="login-header">
+
+    <a href="index.html" class="login-brand">
+        VAYEN
+    </a>
+
+    <a href="index.html" class="login-close">
+        <span>←</span>
+        Continue exploring
+    </a>
+
+</header>
+
+
+
+<!-- LOGIN -->
+
+<main class="vayen-login">
+
+
+    <!-- ATMOSPHERE -->
+
+    <div class="login-orb login-orb-one"></div>
+    <div class="login-orb login-orb-two"></div>
+
+
+    <section class="login-card">
+
+
+        <!-- LEFT -->
+
+        <div class="login-story">
+
+            <span class="login-eyebrow">
+                YOUR SPACE AWAITS
+            </span>
+
+            <h1>
+                Good to have<br>
+                <em>you here.</em>
+            </h1>
+
+            <p>
+                Sign in to keep everything you make
+                yours connected to one private space.
+            </p>
+
+
+            <div class="login-benefits">
+
+                <div>
+                    <span>01</span>
+
+                    <p>
+                        Your purchases stay
+                        connected to you.
+                    </p>
+                </div>
+
+
+                <div>
+                    <span>02</span>
+
+                    <p>
+                        Everything you own,
+                        always in your Library.
+                    </p>
+                </div>
+
+
+                <div>
+                    <span>03</span>
+
+                    <p>
+                        Orders and saved products
+                        stay easy to find.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+<!-- RIGHT -->
+
+<div class="login-panel">
+
+    <div class="login-panel-top">
+    <span id="loginPanelLabel">
+        WELCOME TO VAYEN
+    </span>
+
+    <h2 id="loginPanelTitle">
+        Enter your space.
+    </h2>
+
+    <p id="loginPanelText">
+        Continue in the way that
+        works best for you.
+    </p>
+
+</div>
+
+            <!-- GOOGLE -->
+
+            <button type="button"
+                    class="google-login"
+                    id="googleLogin">
+
+                <span class="google-mark">
+                    G
+                </span>
+
+                <span>
+                    Continue with Google
+                </span>
+
+                <span class="login-arrow">
+                    →
+                </span>
+
+            </button>
+
+
+
+            <!-- DIVIDER -->
+
+            <div class="login-divider">
+
+                <span></span>
+
+                <small>
+                    OR
+                </small>
+
+                <span></span>
+
+            </div>
+
+
+
+            <!-- EMAIL -->
+
+            <form class="email-login"
+                  id="emailLoginForm">
+
+                <label for="loginEmail">
+                    EMAIL ADDRESS
+                </label>
+
+
+                <div class="login-email-field">
+
+                    <input
+                        type="email"
+                        id="loginEmail"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+
+                    <button type="submit"
+                            aria-label="Continue">
+
+                        →
+
+                    </button>
+
+                </div>
+
+            </form>
+
+
+
+            <!-- SECURITY -->
+
+            <div class="login-security">
+
+                <span class="security-mark">
+                    ✓
+                </span>
+
+                <p>
+                    Your account keeps your
+                    VAYEN purchases and personal
+                    space connected in one place.
+                </p>
+
+            </div>
+
+
+            <p class="login-legal">
+                By continuing, you agree to VAYEN's
+                <a href="#">Terms</a>
+                and
+                <a href="#">Privacy Policy</a>.
+            </p>
+<div class="login-explore">
+
+    <span>STILL EXPLORING?</span>
+
+    <h3>
+        VAYEN is yours<br>
+        to explore.
+    </h3>
+
+    <p>
+        No account needed to look around.
+        Discover freely, sign in when you're ready.
+    </p>
+
+    <a href="index.html?explore=1">
+    Continue exploring
+    <span>→</span>
+</a>
+</div>
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<script>
+/* PURCHASE LOGIN CONTEXT */
+
+const loginParams =
+    new URLSearchParams(window.location.search);
+/* REMEMBER PRODUCT FOR AFTER LOGIN */
+
+const requestedProduct =
+    loginParams.get("product");
+
+if (
+    loginParams.get("from") === "get" &&
+    requestedProduct
+) {
+    sessionStorage.setItem(
+        "vayenPendingProduct",
+        requestedProduct
+    );
+}
+
+if (loginParams.get("from") === "get") {
+
+    document.getElementById("loginPanelLabel")
+        .textContent = "ONE STEP AWAY";
+
+    document.getElementById("loginPanelTitle")
+        .textContent = "Almost yours.";
+
+    document.getElementById("loginPanelText")
+        .textContent =
+        "Sign in to continue with your product.";
+}
+
+/*
+    DEMO ONLY
+    Real authentication will be connected later.
+*/
+
+
+const googleLogin =
+    document.getElementById("googleLogin");
+
+const emailLoginForm =
+    document.getElementById("emailLoginForm");
+
+
+googleLogin.addEventListener(
+    "click",
+    function () {
+
+        googleLogin.classList.add(
+            "login-demo-click"
+        );
+
+        setTimeout(function () {
+
+            googleLogin.classList.remove(
+                "login-demo-click"
+            );
+
+        }, 500);
+
+    }
+);
+
+
+emailLoginForm.addEventListener(
+    "submit",
+    function (event) {
+
+        event.preventDefault();
+
+        const email =
+            document
+                .getElementById("loginEmail")
+                .value
+                .trim();
+
+        if (!email) {
+            return;
+        }
+
+        const button =
+            emailLoginForm.querySelector("button");
+
+        button.textContent = "✓";
+
+        setTimeout(function () {
+            button.textContent = "→";
+        }, 1300);
+
+    }
+);
+
+</script>
+
+
+</body>
+</html>

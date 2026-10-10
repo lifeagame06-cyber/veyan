@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Your Space — VAYEN</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="account-body">
+
+
+<!-- HEADER -->
+
+<header class="account-header">
+
+    <a href="index.html" class="account-brand">
+        VAYEN
+    </a>
+
+    <a href="index.html" class="account-home">
+        Home
+    </a>
+
+</header>
+
+
+
+<main class="customer-account">
+
+
+    <!-- WELCOME -->
+
+    <section class="account-welcome">
+
+        <span class="account-label">
+            YOUR VAYEN
+        </span>
+
+        <h1>
+            Welcome back,<br>
+            <span id="customerName">Sir.</span>
+        </h1>
+
+        <p>
+            Everything you've chosen,
+            saved and made yours — in one place.
+        </p>
+
+    </section>
+
+
+
+    <!-- QUICK ACCESS -->
+
+    <section class="account-actions">
+
+        <a href="library.html" class="account-action library-action">
+
+            <div class="account-action-top">
+                <span>01</span>
+                <span class="action-symbol">↗</span>
+            </div>
+
+            <div>
+                <small>YOUR COLLECTION</small>
+                <h2>My Library</h2>
+
+                <p>
+                    Your digital products,
+                    ready whenever you are.
+                </p>
+            </div>
+
+        </a>
+
+
+        <a href="orders.html" class="account-action orders-action">
+
+            <div class="account-action-top">
+                <span>02</span>
+                <span class="action-symbol">↗</span>
+            </div>
+
+            <div>
+                <small>PURCHASES</small>
+                <h2>Orders</h2>
+
+                <p>
+                    View your purchases
+                    and order history.
+                </p>
+            </div>
+
+        </a>
+
+
+        <a href="saved.html" class="account-action saved-action">
+
+            <div class="account-action-top">
+                <span>03</span>
+                <span class="action-symbol">↗</span>
+            </div>
+
+            <div>
+                <small>FOR LATER</small>
+                <h2>Saved</h2>
+
+                <p>
+                    Things you liked
+                    and want to return to.
+                </p>
+            </div>
+
+        </a>
+
+
+        <a href="profile.html" class="account-action profile-action">
+
+            <div class="account-action-top">
+                <span>04</span>
+                <span class="action-symbol">↗</span>
+            </div>
+
+            <div>
+                <small>YOUR DETAILS</small>
+                <h2>Profile</h2>
+
+                <p>
+                    Personalize how
+                    VAYEN welcomes you.
+                </p>
+            </div>
+
+        </a>
+
+    </section>
+
+    <!-- PERSONAL LIBRARY PREVIEW -->
+
+    <section class="account-library">
+
+        <div class="account-section-head">
+
+            <div>
+                <span>YOUR LIBRARY</span>
+
+                <h2>
+                    Made yours.
+                </h2>
+            </div>
+
+            <a href="library.html">
+    View all
+</a>
+        </div>
+
+
+        <div class="account-empty">
+
+            <span class="empty-mark">
+                V
+            </span>
+<h3>
+    Your space,<br>
+    made personal.
+</h3>
+
+<p>
+    Everything you make yours
+    will live here.
+</p>
+            <a href="index.html" class="account-explore">
+                Explore VAYEN
+                <span>→</span>
+            </a>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- MOBILE BOTTOM NAV -->
+
+<nav class="vayen-mobile-nav">
+
+    <a href="index.html" class="mobile-nav-item">
+
+        <span class="mobile-nav-icon">
+            <svg viewBox="0 0 24 24">
+                <path d="M4 10.5L12 4l8 6.5V20h-6v-6h-4v6H4z"/>
+            </svg>
+        </span>
+
+        <span>Home</span>
+
+    </a>
+
+
+    <a href="#" class="mobile-nav-item">
+
+        <span class="mobile-nav-icon">
+            <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="8"/>
+                <path d="M15.5 8.5l-2 5-5 2 2-5z"/>
+            </svg>
+        </span>
+
+        <span>Explore</span>
+
+    </a>
+
+
+    <a href="#" class="mobile-nav-item">
+
+        <span class="mobile-nav-icon">
+            <svg viewBox="0 0 24 24">
+                <path d="M5 7h14M5 12h14M5 17h9"/>
+            </svg>
+        </span>
+
+        <span>New</span>
+
+    </a>
+
+
+    <a href="account.html"
+       class="mobile-nav-item active">
+
+        <span class="mobile-nav-icon">
+            <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="3.5"/>
+                <path d="M5.5 20c.7-4 3-6 6.5-6s5.8 2 6.5 6"/>
+            </svg>
+        </span>
+
+        <span>Account</span>
+
+    </a>
+
+</nav>
+<script>
+const customerName =
+    document.getElementById("customerName");
+
+const savedWelcomeName =
+    localStorage.getItem("vayenWelcomeName");
+
+if (savedWelcomeName) {
+    customerName.textContent =
+        savedWelcomeName + ".";
+}
+
+</script>
+
+</body>
+</html>

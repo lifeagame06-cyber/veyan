@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Checkout &mdash; VAYEN
+  </title>
+  <style>
+   :root {
+    --ink:#292323;
+    --muted:#756b69;
+    --rose:#a87076;
+    --paper:#f3efea;
+    --line:rgba(41,35,35,.12);
+}
+* {
+    box-sizing:border-box;
+}
+body {
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:Arial,Helvetica,sans-serif;
+    -webkit-font-smoothing:antialiased;
+}
+a {
+    color:inherit;
+    text-decoration:none;
+}
+button {
+    font:inherit;
+}
+header {
+    height:80px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 max(5vw,24px);
+    border-bottom:1px solid var(--line);
+}
+.brand {
+    font-size:20px;
+    font-weight:800;
+    letter-spacing:4px;
+}
+.back {
+    font-size:12px;
+    font-weight:700;
+    color:#6c6260;
+}
+.back:hover {
+    color:var(--ink);
+}
+main {
+    max-width:1160px;
+    margin:0 auto;
+    padding:78px 30px 110px;
+}
+.eyebrow {
+    color:var(--rose);
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:2.5px;
+}
+.intro h1 {
+    margin:17px 0 13px;
+    font-size:clamp(46px,5vw,72px);
+    font-weight:500;
+    letter-spacing:-3.5px;
+    line-height:1;
+}
+.intro p {
+    margin:0;
+    max-width:510px;
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.7;
+}
+.checkout-grid {
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:24px;
+    margin-top:50px;
+    align-items:start;
+}
+.panel {
+    background:#fbf8f4;
+    border:1px solid var(--line);
+    border-radius:24px;
+    padding:34px;
+    box-shadow:0 15px 45px rgba(41,35,35,.035);
+}
+.panel-tag {
+    font-size:10px;
+    letter-spacing:1.8px;
+    font-weight:800;
+    color:var(--rose);
+}
+.panel h2 {
+    margin:13px 0 12px;
+    font-size:29px;
+    font-weight:550;
+    letter-spacing:-1.1px;
+}
+.panel-description {
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.7;
+    margin:0 0 28px;
+}
+.purchase-status {
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    background:#f0e9e3;
+    border:1px solid #e6d9d1;
+    padding:19px;
+    border-radius:15px;
+}
+.status-icon {
+    display:grid;
+    place-items:center;
+    flex:0 0 30px;
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    background:#e5d6ce;
+    font-weight:800;
+}
+.purchase-status strong {
+    display:block;
+    font-size:13px;
+    margin-bottom:6px;
+}
+.purchase-status p {
+    font-size:12px;
+    line-height:1.6;
+    color:#706461;
+    margin:0;
+}
+.payment-title {
+    font-size:11px;
+    font-weight:800;
+    margin:31px 0 14px;
+    letter-spacing:.4px;
+}
+.method {
+    display:flex;
+    align-items:center;
+    gap:13px;
+    padding:17px 18px;
+    border:1px solid var(--line);
+    border-radius:13px;
+    margin-top:10px;
+    color:#8c817e;
+    background:#f6f1ec;
+}
+.method .symbol {
+    font-size:17px;
+    width:28px;
+    text-align:center;
+}
+.method span:nth-child(2) {
+    font-size:13px;
+    font-weight:700;
+}
+.method small {
+    margin-left:auto;
+    font-size:9px;
+    letter-spacing:1px;
+    font-weight:800;
+}
+.checkout-button {
+    width:100%;
+    margin-top:23px;
+    border:0;
+    border-radius:14px;
+    padding:19px;
+    background:#292323;
+    color:white;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.3px;
+    opacity:.55;
+    cursor:not-allowed;
+}
+.demo-note {
+    font-size:11px;
+    line-height:1.65;
+    color:#807471;
+    margin:14px 0 0;
+    text-align:center;
+}
+.product-row {
+    display:flex;
+    gap:17px;
+    padding-bottom:25px;
+    border-bottom:1px solid var(--line);
+}
+.cover {
+    width:91px;
+    min-width:91px;
+    aspect-ratio:.77;
+    border-radius:12px;
+    background:radial-gradient(circle at 75% 80%,#c99197,transparent 48%),linear-gradient(135deg,#f0dcd7,#d7b4b5);
+    padding:13px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+.cover small {
+    font-size:7px;
+    letter-spacing:1px;
+    font-weight:800;
+}
+.cover strong {
+    font-size:15px;
+    line-height:1.02;
+    letter-spacing:-.7px;
+}
+.product-meta small {
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:1.5px;
+    color:var(--rose);
+}
+.product-meta h3 {
+    font-size:23px;
+    letter-spacing:-.8px;
+    font-weight:550;
+    margin:10px 0;
+}
+.product-meta p {
+    font-size:12px;
+    line-height:1.6;
+    color:var(--muted);
+    margin:0;
+}
+.summary-lines {
+    margin-top:25px;
+}
+.summary-line {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:17px 0;
+    font-size:13px;
+    color:#716764;
+}
+.summary-line strong {
+    color:var(--ink);
+}
+.total {
+    border-top:1px solid var(--line);
+    padding-top:23px;
+    margin-top:24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+}
+.total span {
+    font-size:13px;
+    font-weight:800;
+}
+.total strong {
+    font-size:33px;
+    font-weight:600;
+    letter-spacing:-1px;
+}
+.summary-foot {
+    margin-top:22px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+    color:var(--muted);
+    font-size:11px;
+    line-height:1.7;
+}
+.summary-foot strong {
+    color:var(--ink);
+}
+footer {
+    padding:25px 30px;
+    text-align:center;
+    border-top:1px solid var(--line);
+    color:#958a86;
+    font-size:10px;
+    letter-spacing:1px;
+}
+@media(max-width:768px) {
+    header {
+        height:68px;
+        padding:0 21px;
+    }
+    .brand {
+        font-size:16px;
+        letter-spacing:3px;
+    }
+    .back {
+        font-size:10px;
+    }
+    main {
+        padding:47px 19px 65px;
+    }
+    .eyebrow {
+        font-size:9px;
+    }
+    .intro h1 {
+        font-size:49px;
+        letter-spacing:-2.8px;
+    }
+    .intro p {
+        font-size:12px;
+        max-width:340px;
+    }
+    .checkout-grid {
+        grid-template-columns:1fr;
+        gap:16px;
+        margin-top:35px;
+    }
+    .panel {
+        padding:24px 21px;
+        border-radius:19px;
+    }
+    .panel h2 {
+        font-size:26px;
+    }
+    .panel-description {
+        font-size:12px;
+    }
+    .purchase-status {
+        padding:15px;
+    }
+    .product-row {
+        gap:14px;
+    }
+    .cover {
+        width:82px;
+        min-width:82px;
+    }
+    .product-meta h3 {
+        font-size:21px;
+    }
+    .total strong {
+        font-size:29px;
+    }
+    footer {
+        font-size:9px;
+    }
+}
+
+/* PRODUCT COVER — BETTER TEXT SPACING */
+.cover strong {
+    font-size: 13px;
+    line-height: 1.15;
+    letter-spacing: -0.4px;
+}
+
+@media (max-width: 768px) {
+    .cover {
+        width: 86px;
+        min-width: 86px;
+        padding: 10px;
+    }
+
+    .cover strong {
+        font-size: 11px;
+        line-height: 1.2;
+        letter-spacing: -0.25px;
+    }
+}
+   /* PRODUCT IDENTITY — QUIET PREMIUM ACCENTS */
+body { --product-accent:#a87076; --product-light:#f0dcd7; --product-deep:#d7b4b5; }
+.eyebrow, .panel-tag, .product-meta small { color:var(--product-accent); }
+.cover {
+    background:radial-gradient(circle at 75% 80%,var(--product-accent),transparent 48%),
+               linear-gradient(135deg,var(--product-light),var(--product-deep));
+    overflow:hidden;
+}
+.product-includes { margin-top:20px; padding:18px 0 0; border-top:1px solid var(--line); }
+.product-includes-label { display:block; margin-bottom:12px; font-size:10px; font-weight:800; letter-spacing:1px; color:#6d605e; }
+.product-includes ul { list-style:none; margin:0; padding:0; display:grid; gap:10px; }
+.product-includes li { display:flex; align-items:flex-start; gap:9px; font-size:12px; line-height:1.5; color:#665b59; }
+.product-includes li::before { content:'✓'; font-weight:800; color:var(--product-accent); }
+.checkout-error { margin-top:30px; padding:20px; background:#fbf8f4; border:1px solid var(--line); border-radius:14px; font-size:13px; line-height:1.6; }
+@media(max-width:768px) { .product-includes li { font-size:11px; } }
+   .featured-checkout-details[hidden]{display:none}
+   .featured-checkout-details{margin-top:23px;border-top:1px solid var(--line);padding-top:19px}
+   .featured-detail{margin-bottom:16px}
+   .featured-detail strong{font-size:10px;letter-spacing:1.5px;color:var(--product-accent,var(--rose))}
+   .featured-detail p{margin:7px 0 0;font-size:12px;line-height:1.7;color:var(--muted)}
+   .featured-honesty{font-size:11px;line-height:1.65;color:var(--muted);background:#f3eee9;padding:13px 15px;border-radius:11px}
+   body.hero-checkout .cover{background:linear-gradient(135deg,var(--product-light),var(--product-deep))}
+   body.hero-checkout .panel-tag,body.hero-checkout .product-meta small{color:var(--product-accent)}
+  </style>
+ </head>
+ <body>
+  <header>
+   <a class="brand" href="index.html">
+    VAYEN
+   </a>
+   <a class="back" href="product.html?id=ai-prompting" id="checkoutBack">
+    &larr; Back to product
+   </a>
+  </header>
+  <main>
+   <section class="intro">
+    <span class="eyebrow">
+     YOUR CHECKOUT
+    </span>
+    <h1>
+     Make it yours.
+    </h1>
+    <p>
+     One clear step before this product becomes part of your VAYEN Library.
+    </p>
+   </section>
+   <div class="checkout-grid">
+    <section class="panel">
+     <span class="panel-tag">
+      PAYMENT
+     </span>
+     <h2>
+      Complete your order.
+     </h2>
+     <p class="panel-description">
+      Review your order before proceeding. Payment is not available in this preview.
+     </p>
+     <div class="purchase-status">
+      <span class="status-icon">
+       i
+      </span>
+      <div>
+       <strong>
+        Checkout preview
+       </strong>
+       <p>
+        Payments and account verification will be connected before launch. No money can be charged on this page.
+       </p>
+      </div>
+     </div>
+     <div class="payment-title">
+      PAYMENT METHODS
+     </div>
+     <div class="method">
+      <span class="symbol">
+       ▣
+      </span>
+      <span>
+       UPI
+      </span>
+      <small>
+       COMING SOON
+      </small>
+     </div>
+     <div class="method">
+      <span class="symbol">
+       ▤
+      </span>
+      <span>
+       Cards / Net Banking
+      </span>
+      <small>
+       COMING SOON
+      </small>
+     </div>
+     <button class="checkout-button" disabled="" type="button">
+      Payment unavailable in preview
+     </button>
+     <p class="demo-note">
+      No payment is taken. Your order is not placed.
+     </p>
+    </section>
+    <aside class="panel">
+     <span class="panel-tag">
+      ORDER SUMMARY
+     </span>
+     <h2>
+      Your product.
+     </h2>
+     <div class="product-row">
+      <div class="cover">
+       <small id="checkoutCoverTag">
+        VAYEN / AI
+       </small>
+       <strong id="checkoutCoverTitle">
+        AI Prompting
+       </strong>
+       <small>
+        DIGITAL
+       </small>
+      </div>
+      <div class="product-meta">
+       <small id="checkoutCategory">
+        AI WORKSPACE
+       </small>
+       <h3 id="checkoutProductName">
+        AI Prompting
+       </h3>
+       <p id="checkoutDescription">
+        Learn to write better prompts, with real examples and ready-to-use prompts.
+       </p>
+      </div>
+     </div>
+     <div class="product-includes">
+      <span class="product-includes-label">
+       WHAT IS INCLUDED
+      </span>
+      <ul id="checkoutIncludes">
+      </ul>
+     </div>
+     <div class="featured-checkout-details" id="featuredCheckoutDetails" hidden>
+      <div class="featured-detail"><strong>WHO IT'S FOR</strong><p id="featuredAudience"></p></div>
+      <div class="featured-detail"><strong>WHAT YOU'LL LEARN</strong><p id="featuredOutcome"></p></div>
+      <p class="featured-honesty" id="featuredNote"></p>
+    </div>
+    <div class="summary-lines">
+      <div class="summary-line">
+       <span>
+        Product price
+       </span>
+       <strong id="checkoutPrice">
+        ₹499
+       </strong>
+      </div>
+      <div class="summary-line">
+       <span>
+        Additional charges
+       </span>
+       <strong>
+        ₹0
+       </strong>
+      </div>
+     </div>
+     <div class="total">
+      <span>
+       Total
+      </span>
+      <strong id="checkoutTotal">
+       ₹499
+      </strong>
+     </div>
+     <p class="summary-foot">
+      <strong>
+       Digital product.
+      </strong>
+      After verified payment and sign-in are enabled, eligible purchases will appear in your Library.
+     </p>
+    </aside>
+   </div>
+  </main>
+  <footer>
+   &copy; 2026 VAYEN &middot; DIGITAL PRODUCTS
+  </footer>
+  <script>
+   /* DEMO CATALOG — NO PAYMENT OR LOGIN IS PERFORMED HERE */
+const checkoutProducts = {
+    "ai-prompting": {
+        title: "AI Prompting", category: "AI WORKSPACE", cover: "AI Prompting",
+        tag: "VAYEN / AI", price: 499,
+        description: "Learn to write clearer AI prompts with examples and ready-to-use prompts.",
+        includes: ["Prompt basics and simple methods", "Real before-and-after examples", "300 ready-to-use prompts"],
+        accent: "#a87076", light: "#f0dcd7", deep: "#d7b4b5"
+    },
+    "creator-launch-kit": {
+        title: "Creator Launch Kit", category: "CREATOR STUDIO", cover: "Creator Launch Kit",
+        tag: "VAYEN / CREATE", price: 699,
+        description: "Plan your content, build a repeatable creation routine and prepare to publish.",
+        includes: ["Content planning guide", "Ideas and publishing checklist", "Ready-to-use creator templates"],
+        accent: "#a66c75", light: "#efdad7", deep: "#d9aeb5"
+    },
+    "business-launch-kit": {
+        title: "Business Launch Kit", category: "BUSINESS LAUNCH", cover: "Business Launch Kit",
+        tag: "VAYEN / BUILD", price: 899,
+        description: "Turn a business idea into a clear launch plan with practical steps and tools.",
+        includes: ["Business idea and offer planner", "Launch checklist", "Simple planning templates"],
+        accent: "#a17d4f", light: "#eee3ce", deep: "#d5bc94"
+    },
+    "vlogging-mastery": {
+        title: "Vlogging Mastery", category: "CREATOR STUDIO", cover: "Vlogging Mastery",
+        tag: "VAYEN / VLOG", price: 1999, featured: true,
+        description: "A practical learning path for planning, filming and editing more engaging vlogs.",
+        includes: ["Planning a vlog and choosing a story", "Framing, lighting and recording clear audio", "Shooting sequences and editing workflow"],
+        audience: "Beginners and creators who want to improve their vlogging process.",
+        outcome: "Understand a step-by-step approach from vlog idea to finished video.",
+        note: "Product contents are a planned preview. Payment is unavailable; no order can be placed.",
+        accent: "#b65c69", light: "#f2d9dc", deep: "#d9a5ad"
+    },
+    "youtube-creator-system": {
+        title: "YouTube Creator System", category: "YOUTUBE STUDIO", cover: "YouTube Creator System",
+        tag: "VAYEN / YOUTUBE", price: 2499, featured: true,
+        description: "A structured guide to planning YouTube videos and building a consistent publishing workflow.",
+        includes: ["Video ideas, research and scripting", "Titles, thumbnails and viewer retention basics", "Publishing routine and understanding analytics"],
+        audience: "New and growing YouTube creators looking for a clearer process.",
+        outcome: "Learn how to organize each video from idea to review, without promises of guaranteed growth.",
+        note: "Product contents are a planned preview. Payment is unavailable; no order can be placed.",
+        accent: "#327fae", light: "#dbeaf4", deep: "#a4cce6"
+    },
+    "productivity-planner": {
+        title: "Productivity Planner", category: "PRODUCTIVITY OS", cover: "Productivity Planner",
+        tag: "VAYEN / FOCUS", price: 299,
+        description: "Organize daily tasks, plan priorities and keep track of your progress.",
+        includes: ["Daily and weekly planning pages", "Priority and focus tracker", "Simple progress review"],
+        accent: "#8572a5", light: "#e7e0ef", deep: "#c6b6d9"
+    }
+};
+
+const checkoutParams = new URLSearchParams(window.location.search);
+const checkoutId = checkoutParams.get("product") || checkoutParams.get("id") || "ai-prompting";
+const selected = checkoutProducts[checkoutId];
+
+if (selected) {
+    document.getElementById("checkoutBack").href = "product.html?id=" + encodeURIComponent(checkoutId);
+    document.getElementById("checkoutCategory").textContent = selected.category;
+    document.getElementById("checkoutProductName").textContent = selected.title;
+    document.getElementById("checkoutDescription").textContent = selected.description;
+    document.getElementById("checkoutCoverTag").textContent = selected.tag;
+    document.getElementById("checkoutCoverTitle").textContent = selected.cover;
+    document.getElementById("checkoutPrice").textContent = selected.price === null ? "To be confirmed" : "₹" + selected.price.toLocaleString("en-IN");
+    document.getElementById("checkoutTotal").textContent = selected.price === null ? "To be confirmed" : "₹" + selected.price.toLocaleString("en-IN");
+    document.body.style.setProperty("--product-accent", selected.accent);
+    document.body.style.setProperty("--product-light", selected.light);
+    document.body.style.setProperty("--product-deep", selected.deep);
+    if (selected.featured) {
+        document.body.classList.add("hero-checkout");
+        document.getElementById("featuredCheckoutDetails").hidden = false;
+        document.getElementById("featuredAudience").textContent = selected.audience;
+        document.getElementById("featuredOutcome").textContent = selected.outcome;
+        document.getElementById("featuredNote").textContent = selected.note;
+    }
+    const list = document.getElementById("checkoutIncludes");
+    selected.includes.forEach(function (item) {
+        const li = document.createElement("li");
+        li.textContent = item;
+        list.appendChild(li);
+    });
+} else {
+    document.querySelector(".checkout-grid").style.display = "none";
+    const warning = document.createElement("p");
+    warning.className = "checkout-error";
+    warning.textContent = "This product could not be found. Please return to the product page and try again.";
+    document.querySelector(".intro").appendChild(warning);
+    document.getElementById("checkoutBack").href = "index.html";
+    document.getElementById("checkoutBack").textContent = "← Back to VAYEN";
+}
+  </script>
+ </body>
+</html>
