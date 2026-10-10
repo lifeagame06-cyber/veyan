@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>VAYEN</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#21171e">
+    <link rel="apple-touch-icon" href="images/icon-192.png">
 
     <link rel="stylesheet" href="style.css">
 
@@ -1294,6 +1297,13 @@ input.addEventListener('input', function() {
   }
  });
 })();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("service-worker.js").catch(console.warn);
+  });
+}
 </script>
 </body>
 </html>

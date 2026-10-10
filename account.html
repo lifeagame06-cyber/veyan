@@ -8,6 +8,20 @@
     <title>Your Space — VAYEN</title>
 
     <link rel="stylesheet" href="style.css">
+
+<style>
+/* VAYEN app installation card — scoped to Account page */
+.vayen-app-card{margin:38px 0 52px;padding:28px;border:1px solid #e9dce1;border-radius:22px;background:linear-gradient(135deg,#fffaf9,#f4e9ed);box-shadow:0 12px 34px rgba(50,27,39,.055);display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.vayen-app-intro{display:flex;align-items:center;gap:18px;flex:1 1 260px;min-width:0}
+.vayen-app-logo{width:68px;height:68px;flex:0 0 68px;object-fit:cover;border-radius:16px;background:#20171d}
+.vayen-app-eyebrow{font-size:10px;letter-spacing:2px;color:#986a7d;font-weight:700}
+.vayen-app-card h2{margin:6px 0;font-size:clamp(20px,3vw,27px);color:#241a21}
+.vayen-app-card p{margin:0;color:#786a71;font-size:13px;line-height:1.6}
+.vayen-app-install{border:0;border-radius:12px;padding:14px 22px;background:#2a1b25;color:#fff;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
+.vayen-app-install:disabled{cursor:default;background:#e8dce2;color:#684a59}
+.vayen-app-help{flex-basis:100%;font-size:12px!important;color:#67535e!important}
+@media(max-width:768px){.vayen-app-card{margin:26px 0 40px;padding:20px 16px;gap:16px}.vayen-app-logo{width:58px;height:58px;flex-basis:58px;border-radius:14px}.vayen-app-install{width:100%}}
+</style>
 </head>
 
 <body class="account-body">
@@ -139,6 +153,21 @@
 
     </section>
 
+
+    <!-- INSTALL VAYEN APP -->
+    <section class="vayen-app-card" aria-labelledby="vayenAppTitle">
+      <div class="vayen-app-intro">
+        <img class="vayen-app-logo" src="images/veyan.png" alt="VAYEN app icon">
+        <div>
+          <span class="vayen-app-eyebrow">VAYEN ON YOUR DEVICE</span>
+          <h2 id="vayenAppTitle">VAYEN App</h2>
+          <p>Your space, just one tap away.</p>
+        </div>
+      </div>
+      <button class="vayen-app-install" id="vayenInstallBtn" type="button">Get VAYEN App ↗</button>
+      <p class="vayen-app-help" id="vayenAppHelp" role="status" aria-live="polite" hidden></p>
+    </section>
+
     <!-- PERSONAL LIBRARY PREVIEW -->
 
     <section class="account-library">
@@ -260,5 +289,48 @@ if (savedWelcomeName) {
 
 </script>
 
+
+<script>
+/* Install UI: standalone mode is reliable; browser installation status is not universally detectable. */
+(function () {
+  const button = document.getElementById('vayenInstallBtn');
+  const help = document.getElementById('vayenAppHelp');
+  if (!button || !help) return;
+  let installEvent = null;
+  const standalone = () => window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
+  function installed() {
+    button.textContent = '✓ Installed';
+    button.disabled = true;
+    help.hidden = true;
+  }
+  function showHelp(message) {
+    help.textContent = message;
+    help.hidden = false;
+  }
+  if (standalone()) installed();
+  window.addEventListener('beforeinstallprompt', function (event) {
+    event.preventDefault();
+    installEvent = event;
+    if (!standalone()) { button.disabled = false; button.textContent = 'Install VAYEN App ↗'; help.hidden = true; }
+  });
+  window.addEventListener('appinstalled', function () { installEvent = null; installed(); });
+  button.addEventListener('click', async function () {
+    if (standalone()) { installed(); return; }
+    if (installEvent) {
+      const event = installEvent;
+      installEvent = null;
+      await event.prompt();
+      const result = await event.userChoice;
+      if (result.outcome !== 'accepted') showHelp('Installation was cancelled. You can also use your browser menu to install VAYEN.');
+      return;
+    }
+    const ios = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    if (ios) showHelp('On iPhone: open in Safari → Share → Add to Home Screen.');
+    else showHelp('Open this website over HTTPS. In Chrome, open ⋮ → Install app or Add to Home screen (if available).');
+  });
+})();
+</script>
 </body>
 </html>
