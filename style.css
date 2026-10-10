@@ -12137,3 +12137,41 @@ body.vayen-search-open{overflow:hidden}
   .vayen-search-results { flex: 1; }
   .vayen-search-bottom { display: none; }
 }
+/* MOBILE HEADER + ANIMATION TEXT FIX */
+@media (max-width: 768px) {
+  .main-header {
+    padding-left: 14px;
+    padding-right: 14px;
+    gap: 10px;
+  }
+
+  .header-actions {
+    gap: 9px;
+  }
+
+  .brand {
+    font-size: 13px;
+    letter-spacing: 3px;
+  }
+}
+@media (max-width: 768px) {
+  .main-header {
+    height: 62px;
+    padding: 0 12px;
+    gap: 8px;
+  }
+
+  .brand {
+    font-size: 12px;
+    letter-spacing: 2.5px;
+  }
+
+  .header-actions {
+    gap: 7px;
+  }
+
+  .search-button {
+    width: 34px;
+    height: 34px;
+  }
+}
