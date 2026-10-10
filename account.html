@@ -297,23 +297,29 @@ if (savedWelcomeName) {
 
 
 <script>
-/* VAYEN install state — remember successful installs on this browser. */
+/* VAYEN app install status: do not persist installed state after uninstall. */
 (function () {
   const button = document.getElementById('vayenInstallBtn');
   const help = document.getElementById('vayenAppHelp');
   if (!button || !help) return;
 
-  const key = 'vayenAppInstalled';
   let installEvent = null;
   const standalone = () => window.matchMedia('(display-mode: standalone)').matches ||
     window.navigator.standalone === true;
 
-  function markInstalled() {
-    try { localStorage.setItem(key, 'yes'); } catch (e) {}
-    button.textContent = '✓ Already Installed';
-    button.disabled = true;
-    help.textContent = '';
-    help.hidden = true;
+  /* Clear the old flag: browsers do not clear localStorage on PWA uninstall. */
+  try { localStorage.removeItem('vayenAppInstalled'); } catch (e) {}
+
+  function updateStatus() {
+    if (standalone()) {
+      button.textContent = '✓ Already Installed';
+      button.disabled = true;
+      help.textContent = '';
+      help.hidden = true;
+    } else {
+      button.disabled = false;
+      button.textContent = installEvent ? 'Install VAYEN App ↗' : 'Get VAYEN App ↗';
+    }
   }
 
   function showHelp(message) {
@@ -321,30 +327,23 @@ if (savedWelcomeName) {
     help.hidden = false;
   }
 
-  let remembered = false;
-  try { remembered = localStorage.getItem(key) === 'yes'; } catch (e) {}
-  if (standalone() || remembered) markInstalled();
+  updateStatus();
+  window.addEventListener('pageshow', updateStatus);
 
   window.addEventListener('beforeinstallprompt', function (event) {
     event.preventDefault();
     installEvent = event;
-    if (!standalone() && !remembered) {
-      button.disabled = false;
-      button.textContent = 'Install VAYEN App ↗';
-      help.hidden = true;
-    }
+    updateStatus();
+    help.hidden = true;
   });
 
   window.addEventListener('appinstalled', function () {
     installEvent = null;
-    markInstalled();
+    updateStatus();
   });
 
   button.addEventListener('click', async function () {
-    if (standalone()) { markInstalled(); return; }
-    let saved = false;
-    try { saved = localStorage.getItem(key) === 'yes'; } catch (e) {}
-    if (saved) { markInstalled(); return; }
+    if (standalone()) { updateStatus(); return; }
 
     if (installEvent) {
       const event = installEvent;
@@ -352,11 +351,12 @@ if (savedWelcomeName) {
       try {
         await event.prompt();
         const result = await event.userChoice;
-        if (result.outcome === 'accepted') markInstalled();
-        else showHelp('Installation cancel ho gaya. Chrome menu se bhi install kar sakte ho.');
+        if (result.outcome !== 'accepted')
+          showHelp('Installation cancel ho gaya. Chrome menu se bhi install kar sakte ho.');
       } catch (e) {
         showHelp('Chrome ke menu mein Install app check karo.');
       }
+      updateStatus();
       return;
     }
 
