@@ -314,7 +314,7 @@ body.profile-body{margin:0!important;min-height:100vh!important;overflow-x:hidde
 <div class="vy-info-row"><span>Member Since</span><strong id="profileMemberSince">—</strong></div>
 <div class="vy-info-row"><span>Account Name</span><strong id="profileAccountName">Not connected</strong></div>
 <div class="vy-info-row"><span>Account Type</span><strong>Customer</strong></div>
-<div class="vy-info-row"><span>Account Status</span><strong class="vy-pill">● Demo Active</strong></div>
+<div class="vy-info-row"><span>Account Status</span><strong class="vy-pill">● Active</strong></div>
 </section>
 </div>
 <aside class="vy-aside"><section class="vy-panel vy-quick-panel"><h2 class="vy-section-title">QUICK LINKS</h2>
@@ -336,120 +336,6 @@ body.profile-body{margin:0!important;min-height:100vh!important;overflow-x:hidde
 </div>
 </main>
 <script>
-
-/* VAYEN PROFILE — WELCOME NAME */
-
-const profileWelcomeName =
-    document.getElementById("profileWelcomeName");
-
-const profileNamePreview =
-    document.getElementById("profileNamePreview");
-
-const saveProfileName =
-    document.getElementById("saveProfileName");
-
-
-const savedProfileName =
-    localStorage.getItem("vayenCardName") || localStorage.getItem("vayenWelcomeName");
-
-
-if (savedProfileName) {
-
-    profileWelcomeName.value =
-        savedProfileName;
-
-    profileNamePreview.textContent =
-        savedProfileName + ".";
-}
-
-
-/* LIVE PREVIEW */
-
-profileWelcomeName.addEventListener(
-    "input",
-    function () {
-
-        const name =
-            profileWelcomeName.value.trim();
-
-        profileNamePreview.textContent =
-            name ? name + "." : "Sir.";
-    }
-);
-
-
-/* SAVE */
-
-saveProfileName.addEventListener(
-    "click",
-    function () {
-
-        const name =
-            profileWelcomeName.value.trim();
-
-        if (!name) {
-            return;
-        }
-
-        localStorage.setItem(
-            "vayenCardName",
-            name
-        );
-
-        profileNamePreview.textContent =
-            name + ".";
-
-        saveProfileName.innerHTML =
-            "Saved <span>✓</span>";
-
-        setTimeout(function () {
-
-            saveProfileName.innerHTML =
-                "Save changes <span>→</span>";
-
-        }, 1600);
-    }
-);
-
-</script><script>
-(function(){
- let s=null;try{s=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null')}catch(e){}
- const current=document.getElementById('profileAccountName'),email=document.getElementById('profileAccountEmail'),since=document.getElementById('profileMemberSince');
- if(s&&s.id){const name=s.name||'Member';current.textContent=name;email.textContent=s.email||'—';const records=JSON.parse(localStorage.getItem('vayenDemoLoginAccountsV1')||'[]');const record=records.find(x=>x.id===s.id);if(record?.joinedAt)since.textContent=new Date(record.joinedAt).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}
-})();
-</script><script>
-(function(){
-const sessionKey='vayenDemoLoginSessionV1',accountKey='vayenDemoLoginAccountsV1';
-let session=null;try{session=JSON.parse(sessionStorage.getItem(sessionKey)||'null')}catch(e){}
-const identity=document.getElementById('vayenIdentityInput'),header=document.getElementById('vayenHeaderInput'),status=document.getElementById('vayenProfileEditStatus');
-identity.value=session?.name||'';
-header.value=localStorage.getItem('vayenHeaderName')||session?.name?.trim().split(/\s+/)[0]||'';
-function show(t){status.textContent=t;}
-document.getElementById('vayenSaveHeader').addEventListener('click',()=>{
- if(!session?.id){show('Please sign in first.');return}
- const n=header.value.trim().replace(/\s+/g,' ');if(n.length<2){show('Enter a name of at least 2 characters.');return}
- localStorage.setItem('vayenHeaderName',n);show('Homepage Dear name saved.');
-});
-document.getElementById('vayenSaveIdentity').addEventListener('click',()=>{
- if(!session?.id){show('Please sign in first.');return}
- const n=identity.value.trim().replace(/\s+/g,' ');if(n.length<2){show('Enter your full name.');return}
- session.name=n;sessionStorage.setItem(sessionKey,JSON.stringify(session));
- try{const list=JSON.parse(localStorage.getItem(accountKey)||'[]');const record=list.find(x=>x.id===session.id);if(record){record.name=n;localStorage.setItem(accountKey,JSON.stringify(list))}}catch(e){}
- try{const c=JSON.parse(localStorage.getItem('vayenDemoCurrentCustomerV1')||'null');if(c?.id===session.id){c.name=n;localStorage.setItem('vayenDemoCurrentCustomerV1',JSON.stringify(c))}}catch(e){}
- document.getElementById('profileAccountName').textContent=n;show('Full identity name updated. Dear name and welcome card stay unchanged.');
-});
-})();
-</script><script>(function(){const sync=()=>{let s=null;try{s=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null')}catch(e){};const name=document.getElementById('vayenSummaryName'),email=document.getElementById('vayenSummaryEmail'),avatar=document.querySelector('.vayen-avatar');if(name)name.textContent=s?.name||'Member';if(email)email.textContent=s?.email||'Your VAYEN account';if(avatar)avatar.textContent=(s?.name||'V').trim().charAt(0).toUpperCase()};sync();document.getElementById('vayenSaveIdentity')?.addEventListener('click',sync);})();</script><script id="vayen-dear-name-persistence-final">(function(){
- const field=document.getElementById('vayenHeaderInput');const button=document.getElementById('vayenSaveHeader');
- if(!field||!button)return;
- let s=null;try{s=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null')}catch(e){}
- if(s&&s.id){field.value=localStorage.getItem('vayenHeaderName:'+s.id)||localStorage.getItem('vayenHeaderName')||s.name?.trim().split(/\s+/)[0]||''}
- button.addEventListener('click',()=>{
-   let session=null;try{session=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null')}catch(e){}
-   const value=field.value.trim().replace(/\s+/g,' ');
-   if(session?.id&&value.length>=2){localStorage.setItem('vayenHeaderName:'+session.id,value);localStorage.setItem('vayenHeaderName',value)}
- });
-})();</script><script>
 /* VAYEN app install status: do not persist installed state after uninstall. */
 (function () {
   const button = document.getElementById('vayenInstallBtn');
@@ -520,33 +406,6 @@ document.getElementById('vayenSaveIdentity').addEventListener('click',()=>{
     else showHelp('Chrome ke ⋮ menu mein Install app ya Add to Home screen check karo.');
   });
 })();
-</script><script>
-(function(){
- function getSession(){try{return JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null')}catch(e){return null}}
- function syncHeader(){
-   const s=getSession(),n=s?.name||'My Account';
-   const name=document.getElementById('vyHeaderName'),avatar=document.getElementById('vyHeaderAvatar');
-   if(name)name.textContent=n;
-   if(avatar)avatar.textContent=n.trim().charAt(0).toUpperCase();
-   const date=document.getElementById('profileMemberSince')?.textContent;
-   if(date)document.getElementById('vyJoinedDate').textContent=date;
- }
- syncHeader();
- document.getElementById('vayenSaveIdentity')?.addEventListener('click',syncHeader);
- document.querySelectorAll('[data-vy-logout]').forEach(btn=>btn.addEventListener('click',function(e){
-   e.preventDefault();
-   if(!confirm('Log out of VAYEN?'))return;
-   sessionStorage.removeItem('vayenDemoLoginSessionV1');
-   localStorage.removeItem('vayenDemoCurrentCustomerV1');
-   location.href='index.html';
- }));
- document.getElementById('vyAvatarButton')?.addEventListener('click',function(){
-   const avatar=document.querySelector('.vayen-avatar');
-   const name=getSession()?.name||'Member';
-   if(avatar)avatar.textContent=name.charAt(0).toUpperCase();
-   alert('Avatar upload will be available when account storage is connected. Your current initial is kept.');
- });
-})();
 </script><div class="vy-credit-modal" hidden="" id="vyCreditsModal">
 <div class="vy-credit-backdrop" data-close-credits=""></div>
 <section aria-labelledby="vyCreditsTitle" aria-modal="true" class="vy-credit-dialog" role="dialog" tabindex="-1">
@@ -589,5 +448,5 @@ document.getElementById('vayenSaveIdentity').addEventListener('click',()=>{
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close()});
  render();
 })();
-</script></body>
+</script><script type="module" src="vayen-auth-sync.js"></script></body>
 </html>

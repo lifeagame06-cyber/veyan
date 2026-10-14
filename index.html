@@ -736,7 +736,7 @@ html {
         document.getElementById("homeWelcome");
 
     const vayenSavedName =
-        localStorage.getItem("vayenCardName") || localStorage.getItem("vayenWelcomeName");
+        null /* Account-specific welcome is populated after Firebase auth resolves. */;
 if (vayenSavedName) {
     homeWelcome.innerHTML =
         '<span class="welcome-line">Welcome back,</span>' +
@@ -1206,72 +1206,8 @@ if ("serviceWorker" in navigator) {
 <style>
 #vayenLoginToast{position:fixed;z-index:99999;top:105px;right:22px;max-width:min(360px,calc(100vw - 40px));padding:18px 23px;border-radius:17px;background:#251a20;color:white;box-shadow:0 16px 45px #24161f40;font:700 14px Arial;animation:vayenToastIn .35s ease}@keyframes vayenToastIn{from{opacity:0;transform:translateY(-15px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:768px){#vayenLoginToast{top:80px;right:12px;left:12px;text-align:center}}
-</style><script>
-(function(){
- let session=null;try{session=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null')}catch(e){}
- const link=document.getElementById('headerSignIn');
- if(session&&session.id&&link){const n=(localStorage.getItem('vayenHeaderName')||session.name||'Member').trim().split(/\s+/)[0];link.href='account.html';link.textContent='Dear '+(n||'Member');link.style.whiteSpace='nowrap';link.classList.add('vayen-signed-in-name')}
- const flash=sessionStorage.getItem('vayenAuthFlash');
- if(flash){sessionStorage.removeItem('vayenAuthFlash');sessionStorage.setItem('vayenEntered','yes');const welcome=document.getElementById('welcomeScreen');if(welcome)welcome.style.display='none';const t=document.createElement('div');t.id='vayenLoginToast';t.textContent='✓ '+flash;document.body.appendChild(t);setTimeout(()=>t.remove(),4800)}
-})();
-</script>
-<script id="vayen-account-visibility-only">
-(function () {
-  const account = document.getElementById('vayenHeaderAccount');
-  if (!account) return;
-  function updateAccountVisibility() {
-    let loggedIn = false;
-    try {
-      const session = JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1') || 'null');
-      loggedIn = !!(session && session.id && session.email);
-    } catch (e) {}
-    account.hidden = !loggedIn;
-    account.style.setProperty('display', loggedIn ? '' : 'none', loggedIn ? '' : 'important');
-    if (loggedIn) account.style.removeProperty('display');
-  }
-  updateAccountVisibility();
-  window.addEventListener('pageshow', updateAccountVisibility);
-  window.addEventListener('focus', updateAccountVisibility);
-})();
-</script>
-<script id="vayen-demo-checkout-gate">
-(function(){
-  'use strict';
-  const validId=id=>typeof id==='string' && /^[a-zA-Z0-9_-]{1,120}$/.test(id);
-  const session=()=>{try{const s=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null');return s&&s.id&&s.email?s:null}catch(e){return null}};
-  function redirect(product){
-    if(!validId(product))return;
-    const target=session()?'payment.html?product='+encodeURIComponent(product):'login.html?from=get&product='+encodeURIComponent(product);
-    window.location.assign(target);
-  }
-  document.addEventListener('click',function(event){
-    const a=event.target.closest('a[href]');
-    if(!a)return;
-    const url=new URL(a.href,location.href);
-    if(url.origin!==location.origin)return;
-    const product=url.searchParams.get('product');
-    const path=url.pathname.split('/').pop().toLowerCase();
-    if(path==='login.html'&&url.searchParams.get('from')==='get'&&validId(product)&&session()){
-      event.preventDefault();event.stopImmediatePropagation();redirect(product);
-    } else if(path==='payment.html'&&validId(product)&&!session()){
-      event.preventDefault();event.stopImmediatePropagation();redirect(product);
-    }
-  },true);
-})();
-</script>
-<script id="vayen-dear-name-sync-final">(function(){
- function syncDear(){
-  let session=null;try{session=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null')}catch(e){}
-  const header=document.getElementById('headerSignIn');if(!header)return;
-  if(session&&session.id&&session.email){
-    const key='vayenHeaderName:'+session.id;
-    const custom=(localStorage.getItem(key)||localStorage.getItem('vayenHeaderName')||'').trim();
-    const fallback=(session.name||'Member').trim().split(/\s+/)[0];
-    header.textContent='Dear '+(custom||fallback||'Member');
-    header.href='profile.html';header.style.whiteSpace='nowrap';header.classList.add('vayen-signed-in-name');
-  }
- }
- syncDear();window.addEventListener('pageshow',syncDear);window.addEventListener('focus',syncDear);
- window.addEventListener('storage',e=>{if(e.key&&e.key.startsWith('vayenHeaderName'))syncDear()});
-})();</script><nav aria-label="Mobile main navigation" class="vayen-mobile-nav"><a aria-current="page" class="mobile-nav-item active" href="index.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-7H9v7H3z"></path></svg></span><span>Home</span></a><a class="mobile-nav-item" href="collection.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM9 4v16M5 10h14"></path></svg></span><span>Collection</span></a><a class="mobile-nav-item" href="library.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg></span><span>Library</span></a><a class="mobile-nav-item" href="orders.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 3h14v18l-3-2-4 2-4-2-3 2zM8 8h8M8 12h8"></path></svg></span><span>Orders</span></a><a class="mobile-nav-item" href="profile.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 21c.8-4.5 3.1-6.5 7-6.5s6.2 2 7 6.5"></path></svg></span><span>Account</span></a></nav></body>
+</style><script>(function(){const flash=sessionStorage.getItem('vayenAuthFlash');if(flash){sessionStorage.removeItem('vayenAuthFlash');const t=document.createElement('div');t.id='vayenLoginToast';t.textContent='✓ '+flash;document.body.appendChild(t);setTimeout(()=>t.remove(),4800)}})();</script>
+
+
+<nav aria-label="Mobile main navigation" class="vayen-mobile-nav"><a aria-current="page" class="mobile-nav-item active" href="index.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-7H9v7H3z"></path></svg></span><span>Home</span></a><a class="mobile-nav-item" href="collection.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM9 4v16M5 10h14"></path></svg></span><span>Collection</span></a><a class="mobile-nav-item" href="library.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg></span><span>Library</span></a><a class="mobile-nav-item" href="orders.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 3h14v18l-3-2-4 2-4-2-3 2zM8 8h8M8 12h8"></path></svg></span><span>Orders</span></a><a class="mobile-nav-item" href="profile.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 21c.8-4.5 3.1-6.5 7-6.5s6.2 2 7 6.5"></path></svg></span><span>Account</span></a></nav><script type="module" src="vayen-auth-sync.js"></script></body>
 </html>

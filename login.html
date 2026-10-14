@@ -1008,8 +1008,7 @@ function finish(user, created=false) {
   sessionStorage.setItem('vayenDemoLoginSessionV1',JSON.stringify(account));
   localStorage.setItem('vayenDemoCurrentCustomerV1',JSON.stringify(account));
   sessionStorage.setItem('vayenAuthFlash',created?'Account created successfully!':'Welcome back!');
-  localStorage.setItem('vayenHeaderName',name.split(/\s+/)[0]);
-  localStorage.setItem('vayenCardName',name.split(/\s+/)[0]);
+  // Account-specific names are managed by vayen-auth-sync.js on Home/Profile.
   $('vayenAuthLoader').hidden=false;
   const next=isProductLogin?product:null;
   const plan=isPlanLogin?params.get('plan'):null;
