@@ -1,4 +1,4 @@
- // VAYEN shared Firebase authentication for Home and Profile.
+// VAYEN shared Firebase authentication for Home and Profile.
 // Fill apiKey here AND in login.html locally before uploading.
 import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
 import { getAuth, onAuthStateChanged, signOut, updateProfile } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
@@ -60,7 +60,7 @@ function nameFor(user){return user?.displayName||user?.email?.split('@')[0]||'Me
 function syncHome(user){
  const link=$('headerSignIn'),account=$('vayenHeaderAccount');
  if(link){
-  if(user){const dear=namesFor(user).dearName;link.textContent='Dear '+dear;link.href='profile.html';link.classList.add('vayen-signed-in-name')}
+  if(user){const dear=namesFor(user).dearName;link.textContent='Dear '+dear;link.removeAttribute('href');link.classList.add('vayen-signed-in-name')}
   else{link.innerHTML='<span class="signin-dot"></span> Sign in';link.href='login.html';link.classList.remove('vayen-signed-in-name')}
  }
  if(account)account.hidden=!user;
@@ -124,7 +124,7 @@ document.addEventListener('click',async e=>{
 bindProfile();
 if(!firebaseConfig.apiKey){
  console.warn('VAYEN Firebase API key missing in vayen-auth-sync.js');
- ready=true;clearLegacy();syncHome(null);if(onProfile)showStatus('Add Firebase API key in vayen-auth-sync.js.');
+ ready=true;clearLegacy();syncHome(null);if(onProfile)location.replace('login.html');
 }else{
  try{
   const app=getApps().length?getApp():initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);
@@ -133,7 +133,7 @@ if(!firebaseConfig.apiKey){
   if(!user){ready=true;syncHome(null);syncProfile(null);return}
   try{await loadProfile(user)}catch(e){console.error('Firestore profile load failed:',e);showStatus('Could not sync profile with Firebase. Check connection and refresh.');remoteNames=localNames(user)}
   if(currentUser?.uid!==user.uid)return;
-  profileLoading=false;syncHome(user);syncProfile(user);ready=true;
-},err=>{console.error(err);currentUser=null;ready=true;syncHome(null);showStatus('Could not verify account. Refresh and try again.')});
- }catch(e){console.error(e);ready=true;syncHome(null);showStatus('Firebase initialization failed. Check your API key.')}
+  profileLoading=false;syncHome(user);syncProfile(user);ready=true;if(onProfile)document.documentElement.classList.add('vayen-profile-auth-verified');
+},err=>{console.error(err);currentUser=null;ready=true;syncHome(null);showStatus('Could not verify account. Refresh and try again.');if(onProfile)location.replace('login.html')});
+ }catch(e){console.error(e);ready=true;syncHome(null);showStatus('Firebase initialization failed. Check your API key.');if(onProfile)location.replace('login.html')}
 }

@@ -282,8 +282,24 @@ body.profile-body{margin:0!important;min-height:100vh!important;overflow-x:hidde
 @media(prefers-reduced-motion:reduce){}
 @media(max-width:390px){.vy-credits-card{gap:8px!important}.vy-credit-details-btn{padding:9px 8px!important;font-size:9px!important}}
 </style><style id="vayen-profile-auth-visibility-guard">
-/* Keep account details private until Firebase verifies the signed-in user. */
-html:not(.vayen-profile-auth-verified) body.profile-body > main.customer-profile { visibility: hidden !important; }
+/* Account content stays private until Firebase + Firestore have both settled. */
+html:not(.vayen-profile-auth-verified) body.profile-body > main.customer-profile { display: none !important; }
+html.vayen-profile-auth-verified #vayenProfileSkeleton { display: none !important; }
+#vayenProfileSkeleton { width:min(1350px,calc(100% - 42px)); margin:31px auto 70px; font-family:'DM Sans',Arial,sans-serif; }
+.vy-sk-title {height:40px;width:min(240px,60%);margin:0 0 24px;border-radius:10px}
+.vy-sk-grid {display:grid;grid-template-columns:minmax(0,1.66fr) minmax(310px,.86fr);gap:21px}
+.vy-sk-panel {background:#fcfbf9;border:1px solid #eae5e0;border-radius:22px;padding:22px;min-height:320px;box-shadow:0 15px 48px rgba(44,30,36,.045)}
+.vy-sk-user {display:flex;gap:15px;align-items:center;padding:16px;border-radius:15px;background:white;margin-bottom:20px}
+.vy-sk-circle {width:56px;height:56px;flex:0 0 56px;border-radius:50%}
+.vy-sk-lines {flex:1;min-width:0}
+.vy-sk-line {height:13px;border-radius:7px;margin:10px 0;max-width:100%}
+.vy-sk-shimmer {background:linear-gradient(100deg,#eee8e5 15%,#f9f5f2 45%,#eee8e5 75%);background-size:220% 100%;animation:vySkShimmer 1.25s ease-in-out infinite}
+@keyframes vySkShimmer {to{background-position-x:-220%}}
+.vy-sk-spinner {width:23px;height:23px;border:2px solid #e8d7df;border-top-color:#9e5779;border-radius:50%;animation:vySkSpin .8s linear infinite;margin:20px auto 10px}
+@keyframes vySkSpin {to{transform:rotate(360deg)}}
+.vy-sk-note {font-size:11px;color:#827c79;text-align:center;margin:0}
+@media(max-width:768px){#vayenProfileSkeleton{width:calc(100% - 20px);margin:19px auto 95px}.vy-sk-grid{grid-template-columns:1fr;gap:12px}.vy-sk-panel{padding:14px;min-height:230px}.vy-sk-title{height:32px;margin-bottom:18px}}
+@media(prefers-reduced-motion:reduce){.vy-sk-shimmer,.vy-sk-spinner{animation:none}}
 </style>
 </head>
 <body class="profile-body"><header class="profile-header">
@@ -295,6 +311,18 @@ html:not(.vayen-profile-auth-verified) body.profile-body > main.customer-profile
 <div class="vy-header-user"><span id="vyHeaderAvatar">V</span><b id="vyHeaderName">My Account</b></div>
 <button aria-label="Logout" class="vy-desktop-logout" data-vy-logout="" type="button">↪  Logout</button></header>
 <nav aria-label="Mobile main navigation" class="vayen-mobile-nav"><a class="mobile-nav-item" href="index.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-7H9v7H3z"></path></svg></span><span>Home</span></a><a class="mobile-nav-item" href="collection.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM9 4v16M5 10h14"></path></svg></span><span>Collection</span></a><a class="mobile-nav-item" href="library.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg></span><span>Library</span></a><a class="mobile-nav-item" href="orders.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 3h14v18l-3-2-4 2-4-2-3 2zM8 8h8M8 12h8"></path></svg></span><span>Orders</span></a><a aria-current="page" class="mobile-nav-item active" href="profile.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 21c.8-4.5 3.1-6.5 7-6.5s6.2 2 7 6.5"></path></svg></span><span>Account</span></a></nav>
+<section id="vayenProfileSkeleton" aria-label="Loading account details" aria-live="polite">
+<div class="vy-sk-title vy-sk-shimmer"></div>
+<div class="vy-sk-grid">
+<div class="vy-sk-panel">
+<div class="vy-sk-user"><div class="vy-sk-circle vy-sk-shimmer"></div><div class="vy-sk-lines"><div class="vy-sk-line vy-sk-shimmer" style="width:55%"></div><div class="vy-sk-line vy-sk-shimmer" style="width:78%"></div></div></div>
+<div class="vy-sk-line vy-sk-shimmer" style="width:38%;height:18px;margin:24px 0"></div>
+<div class="vy-sk-line vy-sk-shimmer" style="width:85%;height:40px"></div>
+<div class="vy-sk-line vy-sk-shimmer" style="width:65%;height:40px;margin-top:19px"></div>
+<div class="vy-sk-line vy-sk-shimmer" style="width:75%;height:40px;margin-top:19px"></div>
+</div>
+<div class="vy-sk-panel"><div class="vy-sk-line vy-sk-shimmer" style="width:65%;height:24px"></div><div class="vy-sk-line vy-sk-shimmer" style="width:90%;height:55px;margin-top:25px"></div><div class="vy-sk-line vy-sk-shimmer" style="width:75%;height:50px;margin-top:22px"></div><div class="vy-sk-spinner" aria-hidden="true"></div><p class="vy-sk-note">Loading your account…</p></div>
+</div></section>
 <main class="customer-profile">
 <div class="vy-title-row"><div><span class="vy-eyebrow">ACCOUNT</span><h1>Your identity.</h1><p>Manage your profile and account details.</p></div></div>
 <div class="vy-layout">
@@ -452,22 +480,5 @@ html:not(.vayen-profile-auth-verified) body.profile-body > main.customer-profile
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close()});
  render();
 })();
-</script><script type="module" src="vayen-auth-sync.js"></script><script type="module" id="vayen-profile-auth-visibility-check">
-import { getApps } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
-import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
-try {
-  const app = getApps()[0];
-  if (!app) throw new Error('Firebase app unavailable');
-  onAuthStateChanged(getAuth(app), user => {
-    if (user) document.documentElement.classList.add('vayen-profile-auth-verified');
-    else location.replace('login.html');
-  }, error => {
-    console.error('VAYEN profile verification failed:', error);
-    location.replace('login.html');
-  });
-} catch (error) {
-  console.error('VAYEN profile auth guard:', error);
-  location.replace('login.html');
-}
-</script></body>
+</script><script type="module" src="vayen-auth-sync.js"></script></body>
 </html>

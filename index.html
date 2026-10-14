@@ -302,6 +302,22 @@ html {
     Account
 </a>
 </div>
+<script>
+/* Display the current tab's cached Firebase account name immediately on refresh.
+   Firebase remains authoritative and replaces this provisional label on resolution. */
+(function(){
+ try {
+  const user=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null');
+  if(!user||!user.id||user.demo!==false)return;
+  const label=document.getElementById('headerSignIn');
+  const cached=localStorage.getItem('vayenHeaderName:'+user.id);
+  const dear=(cached||String(user.name||'').trim().split(/\s+/)[0]||'Member').trim();
+  label.textContent='Dear '+dear;
+  label.removeAttribute('href');
+  label.classList.add('vayen-signed-in-name');
+ }catch(e){}
+})();
+</script>
 </header>
 <!-- HERO -->
 <main>
