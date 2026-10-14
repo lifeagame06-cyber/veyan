@@ -249,8 +249,43 @@ html {
   background: #9e5779;
   box-shadow: 0 0 0 3px rgba(158,87,121,.11);
 }
-</style></head>
+</style><style id="vayen-home-entry-loader-style">
+/* Independent visual loader; homepage remains publicly accessible. */
+#vayenEntryLoader{position:fixed;inset:0;z-index:2147483647;display:grid;place-items:center;background:#faf7f4;opacity:1;visibility:visible;transition:opacity .32s ease,visibility .32s ease;pointer-events:auto}
+#vayenEntryLoader.vy-loader-done{opacity:0;visibility:hidden;pointer-events:none}
+.vy-entry-center{text-align:center;font-family:Arial,sans-serif;color:#2d2229}
+.vy-entry-wordmark{font-size:clamp(29px,7vw,40px);font-weight:800;letter-spacing:.25em;padding-left:.25em}
+.vy-entry-subtitle{margin-top:13px;font-size:10px;font-weight:700;letter-spacing:.22em;color:#a18d94}
+.vy-entry-track{height:2px;width:150px;margin:25px auto 0;border-radius:3px;overflow:hidden;background:#e9dfe3}
+.vy-entry-progress{display:block;width:42%;height:100%;border-radius:3px;background:#a36d83;animation:vy-entry-sweep 1.15s ease-in-out infinite}
+@keyframes vy-entry-sweep{0%{transform:translateX(-110%)}100%{transform:translateX(360%)}}
+@media(prefers-reduced-motion:reduce){.vy-entry-progress{animation:none;width:100%}#vayenEntryLoader{transition:none}}
+</style>
+</head>
 <body>
+<div id="vayenEntryLoader" role="status" aria-label="Loading VAYEN">
+  <div class="vy-entry-center"><div class="vy-entry-wordmark">VAYEN</div><div class="vy-entry-subtitle">YOUR SPACE, THOUGHTFULLY CURATED</div><div class="vy-entry-track"><span class="vy-entry-progress"></span></div></div>
+</div>
+<script id="vayen-home-entry-loader-script">
+(function(){
+  var loader=document.getElementById('vayenEntryLoader');
+  if(!loader)return;
+  var dismissed=false;
+  function finish(){
+    if(dismissed)return;
+    dismissed=true;
+    loader.classList.add('vy-loader-done');
+    window.setTimeout(function(){if(loader.parentNode)loader.parentNode.removeChild(loader);},400);
+  }
+  /* Never block the homepage on Firebase, remote fonts or a slow image. */
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',function(){window.setTimeout(finish,260);},{once:true});
+  }else{window.setTimeout(finish,260);}
+  window.addEventListener('pageshow',function(e){if(e.persisted)finish();});
+  window.setTimeout(finish,1800);
+})();
+</script>
+
 <!-- PREMIUM ENTRY GREETING -->
 <div class="welcome-screen" id="welcomeScreen" style="display:none;">
 <div class="welcome-card">
