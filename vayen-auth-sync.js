@@ -93,7 +93,7 @@ function bindProfile(){
   if(!currentUser||profileLoading)return showStatus('Wait for Firebase profile to load.');
   const name=$('vayenHeaderInput').value.trim().replace(/\s+/g,' ');
   if(name.length<2)return showStatus('Enter a name of at least 2 characters.');
-  try{await saveFields({dearName:name});showStatus('Homepage Dear name saved to Firebase.')}catch(e){showStatus('Could not save Dear name. Check connection and try again.');console.error(e)}
+  try{await saveFields({dearName:name});showStatus('✓ Changes saved successfully.')}catch(e){showStatus('Could not save Dear name. Check connection and try again.');console.error(e)}
  });
  $('profileWelcomeName')?.addEventListener('input',()=>{const n=$('profileWelcomeName').value.trim();$('profileNamePreview').textContent=(n||'Sir')+'.'});
  $('saveProfileName')?.addEventListener('click',async()=>{
