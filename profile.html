@@ -282,22 +282,11 @@ body.profile-body{margin:0!important;min-height:100vh!important;overflow-x:hidde
 @media(prefers-reduced-motion:reduce){}
 @media(max-width:390px){.vy-credits-card{gap:8px!important}.vy-credit-details-btn{padding:9px 8px!important;font-size:9px!important}}
 </style><style id="vayen-profile-auth-visibility-guard">
-/* Prevent private profile content from flashing before Firebase confirms the session. */
-/* Keep private content invisible until Firebase confirms the signed-in user. */
-html:not(.vayen-profile-auth-verified) body.profile-body > :not(#vayenAuthLoader) { visibility: hidden !important; }
-#vayenAuthLoader { position:fixed; inset:0; z-index:2147483647; display:flex; align-items:center; justify-content:center; background:#faf8f6; color:#292027; font-family:'DM Sans',Arial,sans-serif; }
-#vayenAuthLoader .vy-loading-inner { display:flex; flex-direction:column; align-items:center; gap:20px; }
-#vayenAuthLoader .vy-loading-brand { font-size:clamp(27px,5vw,38px); font-weight:800; letter-spacing:9px; padding-left:9px; animation:vyLoadingAppear .8s ease both; }
-#vayenAuthLoader .vy-loading-track { width:116px; height:2px; overflow:hidden; border-radius:8px; background:#e6dfdf; }
-#vayenAuthLoader .vy-loading-track::before { content:''; display:block; height:100%; width:42%; background:#8d6072; border-radius:8px; animation:vyLoadingLine 1.35s ease-in-out infinite; }
-#vayenAuthLoader .vy-loading-caption { font-size:10px; letter-spacing:2.2px; font-weight:700; color:#97878d; }
-html.vayen-profile-auth-verified #vayenAuthLoader { opacity:0; visibility:hidden; pointer-events:none; transition:opacity .28s ease,visibility .28s ease; }
-@keyframes vyLoadingLine { 0%{transform:translateX(-120%)} 100%{transform:translateX(360%)} }
-@keyframes vyLoadingAppear { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
-@media(prefers-reduced-motion:reduce){#vayenAuthLoader .vy-loading-track::before,#vayenAuthLoader .vy-loading-brand{animation:none}}
+/* Keep account details private until Firebase verifies the signed-in user. */
+html:not(.vayen-profile-auth-verified) body.profile-body > main.customer-profile { visibility: hidden !important; }
 </style>
 </head>
-<body class="profile-body"><div id="vayenAuthLoader" role="status" aria-live="polite" aria-label="Verifying your VAYEN account"><div class="vy-loading-inner"><div class="vy-loading-brand">VAYEN</div><div class="vy-loading-track" aria-hidden="true"></div><div class="vy-loading-caption">SECURING YOUR SPACE</div></div></div><header class="profile-header">
+<body class="profile-body"><header class="profile-header">
 <a class="profile-brand" href="index.html">VAYEN</a>
 <nav aria-label="Main navigation" class="vy-desktop-nav">
 <a href="index.html">Home</a><a href="collection.html">Collection</a>
@@ -464,8 +453,8 @@ html.vayen-profile-auth-verified #vayenAuthLoader { opacity:0; visibility:hidden
  render();
 })();
 </script><script type="module" src="vayen-auth-sync.js"></script><script type="module" id="vayen-profile-auth-visibility-check">
-import { getApps, getAuth } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
-import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
+import { getApps } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
+import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
 try {
   const app = getApps()[0];
   if (!app) throw new Error('Firebase app unavailable');
