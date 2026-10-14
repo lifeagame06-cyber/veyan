@@ -281,7 +281,11 @@ body.profile-body{margin:0!important;min-height:100vh!important;overflow-x:hidde
 }
 @media(prefers-reduced-motion:reduce){}
 @media(max-width:390px){.vy-credits-card{gap:8px!important}.vy-credit-details-btn{padding:9px 8px!important;font-size:9px!important}}
-</style></head>
+</style><style id="vayen-profile-auth-visibility-guard">
+/* Prevent private profile content from flashing before Firebase confirms the session. */
+html:not(.vayen-profile-auth-verified) body.profile-body { visibility: hidden !important; }
+</style>
+</head>
 <body class="profile-body"><header class="profile-header">
 <a class="profile-brand" href="index.html">VAYEN</a>
 <nav aria-label="Main navigation" class="vy-desktop-nav">
@@ -448,5 +452,22 @@ body.profile-body{margin:0!important;min-height:100vh!important;overflow-x:hidde
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close()});
  render();
 })();
-</script><script type="module" src="vayen-auth-sync.js"></script></body>
+</script><script type="module" src="vayen-auth-sync.js"></script><script type="module" id="vayen-profile-auth-visibility-check">
+import { getApps, getAuth } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
+import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
+try {
+  const app = getApps()[0];
+  if (!app) throw new Error('Firebase app unavailable');
+  onAuthStateChanged(getAuth(app), user => {
+    if (user) document.documentElement.classList.add('vayen-profile-auth-verified');
+    else location.replace('login.html');
+  }, error => {
+    console.error('VAYEN profile verification failed:', error);
+    location.replace('login.html');
+  });
+} catch (error) {
+  console.error('VAYEN profile auth guard:', error);
+  location.replace('login.html');
+}
+</script></body>
 </html>
