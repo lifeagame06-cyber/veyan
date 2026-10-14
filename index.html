@@ -299,6 +299,18 @@ html {
     Sign in
 </a>
 <a class="account-button" href="profile.html" id="vayenHeaderAccount" hidden>
+<script>
+(function () {
+  try {
+    const user = JSON.parse(
+      sessionStorage.getItem("vayenDemoLoginSessionV1") || "null"
+    );
+    if (user && user.id) {
+      document.getElementById("vayenHeaderAccount").hidden = false;
+    }
+  } catch (e) {}
+})();
+</script>
     Account
 </a>
 </div>
