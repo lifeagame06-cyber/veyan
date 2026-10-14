@@ -1,4 +1,4 @@
-// VAYEN shared Firebase authentication for Home and Profile.
+ // VAYEN shared Firebase authentication for Home and Profile.
 // Fill apiKey here AND in login.html locally before uploading.
 import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
 import { getAuth, onAuthStateChanged, signOut, updateProfile } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
