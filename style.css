@@ -12175,3 +12175,37 @@ body.vayen-search-open{overflow:hidden}
     height: 34px;
   }
 }
+/* VAYEN demo purchase orders: scoped additions only */
+.vy-demo-order{display:grid;grid-template-columns:82px minmax(0,1fr) auto;gap:16px;align-items:center;background:#fffaf8;border:1px solid #eadadd;border-radius:20px;padding:22px;box-shadow:0 12px 30px #4a27300b;scroll-margin:110px;transition:box-shadow .3s,border-color .3s}.vy-order-art{width:76px;height:94px;border-radius:13px;background:linear-gradient(145deg,#a66a7a,#271e26);display:grid;place-items:center;color:#fff;font-size:37px;font-weight:900}.vy-order-info{min-width:0}.vy-order-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.vy-order-pill,.vy-order-ready{padding:6px 9px;border-radius:100px;font-size:9px;font-weight:800;letter-spacing:.5px;background:#f7e7ec;color:#91506a}.vy-order-ready{background:#e8f2e9;color:#36724a}.vy-order-info h2{font-size:20px;letter-spacing:-.6px;margin:11px 0 6px}.vy-order-info p,.vy-order-info small{color:#87777b;font-size:12px;line-height:1.6}.vy-order-price{font-size:17px}.vy-order-actions{grid-column:2 / 4;display:flex;gap:10px;flex-wrap:wrap}.vy-order-actions button{border:1px solid #e7cfd6;border-radius:11px;padding:12px 18px;font-size:12px;font-weight:800;cursor:pointer;background:#f9edef;color:#733d53}.vy-order-actions button:first-child{background:#98566e;color:white;border-color:#98566e}.vy-order-highlight{border-color:#e88aa8!important;box-shadow:0 0 0 3px #ffc4d4,0 0 28px #e68ba87a!important;animation:vyOrderPulse 1.5s ease-in-out infinite alternate}@keyframes vyOrderPulse{to{box-shadow:0 0 0 4px #ffc4d4,0 0 36px #e68ba8a1}}.vy-order-modal[hidden]{display:none!important}.vy-order-modal{position:fixed;inset:0;z-index:10010;background:#21171cb8;display:grid;place-items:center;padding:20px}.vy-order-dialog{position:relative;width:min(450px,100%);background:#fffaf8;border-radius:24px;padding:34px;text-align:center;box-shadow:0 30px 90px #160d1570}.vy-modal-close{position:absolute;right:16px;top:12px;background:none;border:0;font-size:28px;cursor:pointer;color:#785d6a}.vy-modal-icon{display:grid;place-items:center;margin:8px auto 20px;width:72px;height:72px;border-radius:50%;background:#f7e5ea;color:#94526b;font-size:32px}.vy-order-dialog h2{font-size:25px;margin:0 0 12px}.vy-order-dialog p{color:#7d6b72;line-height:1.65;font-size:13px}.vy-modal-detail{background:#f7f0ef;padding:14px;border-radius:12px;margin:18px 0;overflow-wrap:anywhere;font-size:13px;font-weight:700}.vy-modal-primary{background:#2b2229;color:#fff;border:0;border-radius:12px;padding:15px 24px;width:100%;cursor:pointer;font-weight:800}@media(max-width:768px){.vy-demo-order{grid-template-columns:64px minmax(0,1fr);gap:12px;padding:15px;border-radius:18px}.vy-order-art{width:62px;height:79px}.vy-order-price{grid-column:2;grid-row:2}.vy-order-info h2{font-size:16px}.vy-order-actions{grid-column:1 / -1;display:grid;grid-template-columns:1fr 1fr;gap:8px}.vy-order-actions button{font-size:11px;padding:12px 6px}.vy-order-dialog{padding:28px 21px}}
+
+/* VAYEN PRODUCT PAGE — MOBILE ONLY LAYOUT SAFETY */
+@media (max-width: 768px) {
+  html:has(body.product-body) { overflow-x: clip; }
+  body.product-body { width: 100%; max-width: 100%; overflow-x: clip; }
+  body.product-body .product-hero,
+  body.product-body .product-included,
+  body.product-body .product-result,
+  body.product-body .product-final {
+    width: 100%; max-width: 100%; min-width: 0;
+    margin-left: 0; margin-right: 0;
+    transform: none;
+    box-sizing: border-box;
+  }
+  body.product-body .product-hero { display: grid; grid-template-columns: minmax(0,1fr); padding: 24px 20px 56px; gap: 32px; }
+  body.product-body .product-visual { width: 100%; min-width: 0; max-width: 100%; margin: 0; }
+  body.product-body .product-intro { width: 100%; min-width: 0; }
+  body.product-body .product-included { padding: 64px 20px 70px !important; }
+  body.product-body .product-section-intro { width: 100%; max-width: 100%; min-width: 0; margin: 0; }
+  body.product-body .product-section-intro h2 { font-size: clamp(32px,9vw,43px); line-height: 1.08; letter-spacing: -1.7px; overflow-wrap: break-word; }
+  body.product-body .product-section-intro p { max-width: 100%; margin: 18px 0 30px; }
+  body.product-body .product-steps { display: flex; flex-direction: column; width: 100%; min-width: 0; gap: 12px; margin: 0; }
+  body.product-body .product-step { width: 100%; min-width: 0; margin: 0; box-sizing: border-box; padding: 21px 18px !important; }
+  body.product-body .product-step h3, body.product-body .product-step p { max-width: 100%; overflow-wrap: break-word; }
+  body.product-body .product-result { padding: 65px 20px; }
+  body.product-body .product-result h2 { font-size: clamp(32px,9vw,43px); line-height: 1.1; overflow-wrap: break-word; }
+  body.product-body .product-result > p { max-width: 100%; }
+  body.product-body .product-final { padding: 45px 20px; flex-direction: column; align-items: stretch; gap: 24px; }
+  body.product-body .product-final h2 { font-size: clamp(32px,9vw,43px); overflow-wrap: break-word; }
+  body.product-body .product-mobile-get { left: 0; right: 0; width: 100%; max-width: 100%; box-sizing: border-box; transform: none; padding-left: max(16px,env(safe-area-inset-left)); padding-right: max(16px,env(safe-area-inset-right)); }
+  body.product-body .product-mobile-get > * { min-width: 0; }
+}

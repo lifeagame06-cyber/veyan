@@ -1,191 +1,132 @@
 <!DOCTYPE html>
+
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Saved — VAYEN</title>
-
-    <link rel="stylesheet" href="style.css">
-</head>
-
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Saved — VAYEN</title>
+<link href="style.css" rel="stylesheet"/>
+<style id="vayen-unified-five-mobile-navigation">
+@media (min-width:769px){nav.vayen-mobile-nav{display:none!important}}
+@media (max-width:768px){
+ html{scroll-padding-bottom:85px}
+ body{padding-bottom:calc(84px + env(safe-area-inset-bottom))!important}
+ nav.vayen-mobile-nav{
+  position:fixed!important;bottom:0!important;left:0!important;right:0!important;
+  z-index:9998!important;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  align-items:center!important;gap:0!important;
+  padding:8px 4px calc(9px + env(safe-area-inset-bottom))!important;
+  background:rgba(251,248,246,.97)!important;border-top:1px solid #e6deda!important;
+  box-shadow:0 -5px 24px rgba(48,27,39,.06)!important;
+  backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);
+ }
+ nav.vayen-mobile-nav .mobile-nav-item{
+  min-width:0!important;display:flex!important;flex-direction:column!important;
+  align-items:center!important;justify-content:center!important;gap:4px!important;
+  padding:5px 1px!important;border:0!important;background:transparent!important;
+  color:#81757b!important;text-decoration:none!important;font:600 10px Arial,sans-serif!important;
+  border-radius:12px!important;box-shadow:none!important;
+ }
+ nav.vayen-mobile-nav .mobile-nav-item .mobile-nav-icon{display:grid!important;place-items:center!important;width:24px!important;height:24px!important}
+ nav.vayen-mobile-nav .mobile-nav-item svg{width:21px!important;height:21px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.7!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+ nav.vayen-mobile-nav .mobile-nav-item.active{color:#963d61!important;font-weight:800!important;background:#f8e8ed!important}
+ nav.vayen-mobile-nav .mobile-nav-item.active .mobile-nav-icon{color:#963d61!important}
+ nav.vayen-mobile-nav .mobile-nav-item:focus-visible{outline:2px solid #963d61;outline-offset:1px}
+}
+</style><style id="vayen-saved-heart-styles">
+.vayen-save-heart{position:absolute;right:15px;top:15px;z-index:5;display:grid;place-items:center;width:39px;height:39px;padding:0;border:1px solid rgba(190,155,166,.42);border-radius:50%;background:rgba(255,250,250,.96);color:#765763;cursor:pointer;box-shadow:0 4px 15px rgba(34,18,26,.12);transition:background .2s,color .2s,transform .2s; -webkit-tap-highlight-color:transparent}
+.vayen-save-heart:hover{transform:scale(1.08)}.vayen-save-heart.is-saved{background:#fff0f5;color:#bf4777;border-color:#dca6ba}.vayen-save-heart.is-saved svg{fill:currentColor}.vayen-save-heart:focus-visible{outline:2px solid #9d3e65;outline-offset:3px}
+@media(max-width:768px){.vayen-save-heart{width:38px;height:38px;right:12px;top:12px}}
+</style><style id="vayen-saved-products-list-styles">
+#savedProducts.vayen-has-saved{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:22px}
+.vayen-saved-item{position:relative;background:#fffaf8;border:1px solid #eadbe0;border-radius:20px;padding:23px;box-shadow:0 10px 28px rgba(70,38,53,.07);min-width:0}
+.vayen-saved-item .vayen-saved-type{font-size:10px;letter-spacing:1.7px;color:#a36980;font-weight:800}.vayen-saved-item h3{font-size:23px;line-height:1.2;margin:13px 40px 9px 0;color:#332630}.vayen-saved-item p{font-size:12px;line-height:1.6;color:#7a6a70;margin:0 0 15px}.vayen-saved-item strong{font-size:20px;color:#332630}.vayen-saved-item .vayen-saved-view{display:inline-flex;margin-top:17px;background:#34252e;color:white;border-radius:12px;padding:13px 18px;text-decoration:none;font-size:12px;font-weight:700}.vayen-saved-item .vayen-save-heart{right:15px;top:15px}
+@media(max-width:768px){#savedProducts.vayen-has-saved{grid-template-columns:1fr;gap:12px}.vayen-saved-item{padding:21px}}
+</style></head>
 <body class="saved-body">
-
-
 <!-- HEADER -->
-
 <header class="saved-header">
-
-    <a href="index.html" class="saved-brand">
+<a class="saved-brand" href="index.html">
         VAYEN
     </a>
-
-    <a href="account.html" class="saved-back">
+<a class="saved-back" href="account.html">
         ← Account
     </a>
-
 </header>
-
-
-
 <main class="customer-saved">
-
-
-    <!-- INTRO -->
-
-    <section class="saved-hero">
-
-        <span class="saved-label">
+<!-- INTRO -->
+<section class="saved-hero">
+<span class="saved-label">
             SAVED · FOR LATER
         </span>
-
-        <h1>
-            Worth<br>
-            <span>keeping.</span>
-        </h1>
-
-        <p>
+<h1>
+            Worth<br/>
+<span>keeping.</span>
+</h1>
+<p>
             A quiet place for the things
             you want to come back to.
         </p>
-
-    </section>
-
-
-
-    <!-- SAVED TOOLBAR -->
-
-    <section class="saved-toolbar">
-
-        <div class="saved-count">
-
-            <span id="savedCount">0</span>
-
-            <small>SAVED</small>
-
-        </div>
-
-        <button type="button"
-                class="saved-sort">
+</section>
+<!-- SAVED TOOLBAR -->
+<section class="saved-toolbar">
+<div class="saved-count">
+<span id="savedCount">0</span>
+<small>SAVED</small>
+</div>
+<button class="saved-sort" type="button">
             Recently saved
         </button>
-
-    </section>
-
-
-
-    <!-- SAVED PRODUCTS -->
-
-    <section class="saved-products"
-             id="savedProducts">
-
-        <!-- Saved products will appear here later -->
-
-    </section>
-
-
-
-    <!-- EMPTY STATE -->
-
-    <section class="saved-empty"
-             id="savedEmpty">
-
-        <div class="saved-empty-mark">
+</section>
+<!-- SAVED PRODUCTS -->
+<section class="saved-products" id="savedProducts">
+<!-- Saved products will appear here later -->
+</section>
+<!-- EMPTY STATE -->
+<section class="saved-empty" id="savedEmpty">
+<div class="saved-empty-mark">
             ♡
         </div>
-
-        <span>YOUR SAVED SPACE</span>
-
-        <h2>
-            Keep the good<br>
-            <em>ones close.</em>
-        </h2>
-
-        <p>
+<span>YOUR SAVED SPACE</span>
+<h2>
+            Keep the good<br/>
+<em>ones close.</em>
+</h2>
+<p>
             Save anything that catches your eye.
             It'll stay here until you're ready
             to come back to it.
         </p>
-
-        <a href="index.html"
-           class="saved-explore-button">
+<a class="saved-explore-button" href="index.html">
 
             Explore VAYEN
             <span>→</span>
-
-        </a>
-
-    </section>
-
-
+</a>
+</section>
 </main>
-
-
-
 <!-- MOBILE BOTTOM NAV -->
-
-<nav class="vayen-mobile-nav">
-
-    <a href="index.html"
-       class="mobile-nav-item">
-
-        <span class="mobile-nav-icon">
-            <svg viewBox="0 0 24 24">
-                <path d="M4 10.5L12 4l8 6.5V20h-6v-6h-4v6H4z"/>
-            </svg>
-        </span>
-
-        <span>Home</span>
-
-    </a>
-
-
-    <a href="#"
-       class="mobile-nav-item">
-
-        <span class="mobile-nav-icon">
-            <svg viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="8"/>
-                <path d="M15.5 8.5l-2 5-5 2 2-5z"/>
-            </svg>
-        </span>
-
-        <span>Explore</span>
-
-    </a>
-
-
-    <a href="#"
-       class="mobile-nav-item">
-
-        <span class="mobile-nav-icon">
-            <svg viewBox="0 0 24 24">
-                <path d="M5 7h14M5 12h14M5 17h9"/>
-            </svg>
-        </span>
-
-        <span>New</span>
-
-    </a>
-
-
-    <a href="account.html"
-       class="mobile-nav-item active">
-
-        <span class="mobile-nav-icon">
-            <svg viewBox="0 0 24 24">
-                <circle cx="12" cy="8" r="3.5"/>
-                <path d="M5.5 20c.7-4 3-6 6.5-6s5.8 2 6.5 6"/>
-            </svg>
-        </span>
-
-        <span>Account</span>
-
-    </a>
-
-</nav>
-
-
-</body>
+<nav aria-label="Mobile main navigation" class="vayen-mobile-nav"><a class="mobile-nav-item" href="index.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-7H9v7H3z"></path></svg></span><span>Home</span></a><a class="mobile-nav-item" href="collection.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM9 4v16M5 10h14"></path></svg></span><span>Collection</span></a><a class="mobile-nav-item" href="library.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg></span><span>Library</span></a><a class="mobile-nav-item" href="orders.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 3h14v18l-3-2-4 2-4-2-3 2zM8 8h8M8 12h8"></path></svg></span><span>Orders</span></a><a aria-current="page" class="mobile-nav-item active" href="profile.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 21c.8-4.5 3.1-6.5 7-6.5s6.2 2 7 6.5"></path></svg></span><span>Account</span></a></nav><script id="vayen-saved-heart-engine">
+(function(){
+'use strict';
+const PREFIX='vayenSavedProductsDemoV1_';
+function user(){try{const s=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null');return s&& (s.id||s.email)?String(s.id||s.email).toLowerCase():'guest'}catch(e){return 'guest'}}
+const key=()=>PREFIX+user();
+function get(){try{const x=JSON.parse(localStorage.getItem(key())||'[]');return Array.isArray(x)?x.filter(x=>typeof x==='string'):[]}catch(e){return []}}
+function set(a){try{localStorage.setItem(key(),JSON.stringify(a))}catch(e){}}
+function toggle(id){let a=get();a=a.includes(id)?a.filter(x=>x!==id):[id,...a];set(a);window.dispatchEvent(new Event('vayen-saved-changed'));return a.includes(id)}
+function svg(){return '<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg>'}
+function heart(id){const b=document.createElement('button');b.type='button';b.className='vayen-save-heart';b.dataset.saveId=id;b.innerHTML=svg();b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();toggle(id)});return b}
+function sync(){document.querySelectorAll('.vayen-save-heart').forEach(b=>{const active=get().includes(b.dataset.saveId);b.classList.toggle('is-saved',active);b.setAttribute('aria-pressed',String(active));b.setAttribute('aria-label',active?'Remove from Saved':'Save product');b.title=active?'Remove from Saved':'Save product'})}
+window.VayenSaved={get,toggle,heart,sync,user};window.addEventListener('vayen-saved-changed',sync);
+})();
+</script><script src="vayen-catalog.js"></script>
+<script id="vayen-saved-page-init">
+(function(){
+const list=document.getElementById('savedProducts'),empty=document.getElementById('savedEmpty'),count=document.getElementById('savedCount');
+function render(){const ids=VayenSaved.get();list.replaceChildren();const C=window.VayenCatalog;let shown=0;
+ids.forEach(id=>{const p=C&&typeof C.get==='function'?C.get(id):null;if(!p)return;shown++;const card=document.createElement('article');card.className='vayen-saved-item';const label=document.createElement('div');label.className='vayen-saved-type';label.textContent=p.category||'DIGITAL PRODUCT';const title=document.createElement('h3');title.textContent=p.name||'Digital product';const desc=document.createElement('p');desc.textContent=p.shortDescription||p.description||'Your saved VAYEN product';const price=document.createElement('strong');price.textContent=Number.isFinite(Number(p.price))&&p.price!=null?'₹'+Number(p.price).toLocaleString('en-IN'):'Explore product';const link=document.createElement('a');link.className='vayen-saved-view';link.href='product.html?id='+encodeURIComponent(id);link.textContent='View Product →';card.append(label,title,desc,price,document.createElement('div'),link,VayenSaved.heart(id));list.appendChild(card)});
+count.textContent=shown;empty.style.display=shown?'none':'';list.classList.toggle('vayen-has-saved',shown>0);VayenSaved.sync()}
+window.addEventListener('vayen-saved-changed',render);render();
+})();
+</script></body>
 </html>

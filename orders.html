@@ -1,200 +1,132 @@
 <!DOCTYPE html>
+
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Orders — VAYEN</title>
-
-    <link rel="stylesheet" href="style.css">
-</head>
-
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Orders — VAYEN</title>
+<link href="style.css" rel="stylesheet"/>
+<style id="vayen-unified-five-mobile-navigation">
+@media (min-width:769px){nav.vayen-mobile-nav{display:none!important}}
+@media (max-width:768px){
+ html{scroll-padding-bottom:85px}
+ body{padding-bottom:calc(84px + env(safe-area-inset-bottom))!important}
+ nav.vayen-mobile-nav{
+  position:fixed!important;bottom:0!important;left:0!important;right:0!important;
+  z-index:9998!important;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  align-items:center!important;gap:0!important;
+  padding:8px 4px calc(9px + env(safe-area-inset-bottom))!important;
+  background:rgba(251,248,246,.97)!important;border-top:1px solid #e6deda!important;
+  box-shadow:0 -5px 24px rgba(48,27,39,.06)!important;
+  backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);
+ }
+ nav.vayen-mobile-nav .mobile-nav-item{
+  min-width:0!important;display:flex!important;flex-direction:column!important;
+  align-items:center!important;justify-content:center!important;gap:4px!important;
+  padding:5px 1px!important;border:0!important;background:transparent!important;
+  color:#81757b!important;text-decoration:none!important;font:600 10px Arial,sans-serif!important;
+  border-radius:12px!important;box-shadow:none!important;
+ }
+ nav.vayen-mobile-nav .mobile-nav-item .mobile-nav-icon{display:grid!important;place-items:center!important;width:24px!important;height:24px!important}
+ nav.vayen-mobile-nav .mobile-nav-item svg{width:21px!important;height:21px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.7!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+ nav.vayen-mobile-nav .mobile-nav-item.active{color:#963d61!important;font-weight:800!important;background:#f8e8ed!important}
+ nav.vayen-mobile-nav .mobile-nav-item.active .mobile-nav-icon{color:#963d61!important}
+ nav.vayen-mobile-nav .mobile-nav-item:focus-visible{outline:2px solid #963d61;outline-offset:1px}
+}
+</style></head>
 <body class="orders-body">
-
-
 <!-- HEADER -->
-
 <header class="orders-header">
-
-    <a href="index.html" class="orders-brand">
+<a class="orders-brand" href="index.html">
         VAYEN
     </a>
-
-    <a href="account.html" class="orders-back">
+<a class="orders-back" href="account.html">
         ← Account
     </a>
-
 </header>
-
-
-
 <main class="customer-orders">
-
-
-    <!-- INTRO -->
-
-    <section class="orders-hero">
-
-        <span class="orders-label">
+<!-- INTRO -->
+<section class="orders-hero">
+<span class="orders-label">
             MY ORDERS · PURCHASE HISTORY
         </span>
-
-        <h1>
-            Your<br>
-            <span>choices.</span>
-        </h1>
-
-        <p>
+<h1>
+            Your<br/>
+<span>choices.</span>
+</h1>
+<p>
             A clear record of everything
             you've purchased from VAYEN.
         </p>
-
-    </section>
-
-
-
-    <!-- ORDER SUMMARY -->
-
-    <section class="orders-toolbar">
-
-        <div class="orders-count">
-
-            <span id="ordersCount">0</span>
-
-            <small>ORDERS</small>
-
-        </div>
-
-        <div class="orders-tools">
-
-            <button type="button"
-                    class="orders-filter active">
+</section>
+<!-- ORDER SUMMARY -->
+<section class="orders-toolbar">
+<div class="orders-count">
+<span id="ordersCount">0</span>
+<small>ORDERS</small>
+</div>
+<div class="orders-tools">
+<button class="orders-filter active" type="button">
                 All
             </button>
-
-            <button type="button"
-                    class="orders-filter">
+<button class="orders-filter" type="button">
                 Recent
             </button>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ORDER LIST -->
-
-    <section class="orders-list"
-             id="ordersList">
-
-        <!-- Customer orders will appear here -->
-
-    </section>
-
-
-
-    <!-- EMPTY STATE -->
-
-    <section class="orders-empty"
-             id="ordersEmpty">
-
-        <div class="orders-empty-mark">
+</div>
+</section>
+<!-- ORDER LIST -->
+<section class="orders-list" id="ordersList">
+<!-- Customer orders will appear here -->
+</section>
+<!-- EMPTY STATE -->
+<section class="orders-empty" id="ordersEmpty">
+<div class="orders-empty-mark">
             V
         </div>
-
-        <span>NOTHING PURCHASED YET</span>
-
-        <h2>
-            Your first choice<br>
-            <em>starts here.</em>
-        </h2>
-
-        <p>
+<span>NOTHING PURCHASED YET</span>
+<h2>
+            Your first choice<br/>
+<em>starts here.</em>
+</h2>
+<p>
             Once you purchase something from VAYEN,
             your order details will stay here for
             easy reference.
         </p>
-
-        <a href="index.html"
-           class="orders-explore-button">
+<a class="orders-explore-button" href="index.html">
 
             Explore VAYEN
             <span>→</span>
-
-        </a>
-
-    </section>
-
-
+</a>
+</section>
 </main>
-
-
-
 <!-- MOBILE BOTTOM NAV -->
 
-<nav class="vayen-mobile-nav">
-
-    <a href="index.html"
-       class="mobile-nav-item">
-
-        <span class="mobile-nav-icon">
-            <svg viewBox="0 0 24 24">
-                <path d="M4 10.5L12 4l8 6.5V20h-6v-6h-4v6H4z"/>
-            </svg>
-        </span>
-
-        <span>Home</span>
-
-    </a>
-
-
-    <a href="#"
-       class="mobile-nav-item">
-
-        <span class="mobile-nav-icon">
-            <svg viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="8"/>
-                <path d="M15.5 8.5l-2 5-5 2 2-5z"/>
-            </svg>
-        </span>
-
-        <span>Explore</span>
-
-    </a>
-
-
-    <a href="#"
-       class="mobile-nav-item">
-
-        <span class="mobile-nav-icon">
-            <svg viewBox="0 0 24 24">
-                <path d="M5 7h14M5 12h14M5 17h9"/>
-            </svg>
-        </span>
-
-        <span>New</span>
-
-    </a>
-
-
-    <a href="account.html"
-       class="mobile-nav-item active">
-
-        <span class="mobile-nav-icon">
-            <svg viewBox="0 0 24 24">
-                <circle cx="12" cy="8" r="3.5"/>
-                <path d="M5.5 20c.7-4 3-6 6.5-6s5.8 2 6.5 6"/>
-            </svg>
-        </span>
-
-        <span>Account</span>
-
-    </a>
-
-</nav>
-
-
-</body>
+<nav aria-label="Mobile main navigation" class="vayen-mobile-nav"><a class="mobile-nav-item" href="index.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-7H9v7H3z"></path></svg></span><span>Home</span></a><a class="mobile-nav-item" href="collection.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM9 4v16M5 10h14"></path></svg></span><span>Collection</span></a><a class="mobile-nav-item" href="library.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg></span><span>Library</span></a><a aria-current="page" class="mobile-nav-item active" href="orders.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 3h14v18l-3-2-4 2-4-2-3 2zM8 8h8M8 12h8"></path></svg></span><span>Orders</span></a><a class="mobile-nav-item" href="profile.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 21c.8-4.5 3.1-6.5 7-6.5s6.2 2 7 6.5"></path></svg></span><span>Account</span></a></nav><div id="vyOrderModal" class="vy-order-modal" hidden><div class="vy-order-dialog" role="dialog" aria-modal="true" aria-labelledby="vyModalTitle"><button class="vy-modal-close" type="button" id="vyModalClose" aria-label="Close">×</button><div class="vy-modal-icon" id="vyModalIcon">↓</div><h2 id="vyModalTitle">Your product</h2><p id="vyModalDescription"></p><div id="vyModalDetail" class="vy-modal-detail"></div><button type="button" class="vy-modal-primary" id="vyModalAction">Close</button></div></div><script id="vy-demo-order-flow">
+(function(){
+const list=document.getElementById('ordersList'),empty=document.getElementById('ordersEmpty'),count=document.getElementById('ordersCount');
+let session=null;try{session=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null')}catch(e){}
+let records=[];if(session&&session.id){try{const value=JSON.parse(localStorage.getItem('vayenDemoOrdersV1_'+String(session.id))||'[]');if(Array.isArray(value))records=value.filter(o=>o&&o.status==='demo')}catch(e){}}
+const money=n=>'₹'+Number(n).toLocaleString('en-IN');
+const safe=(s)=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const params=new URLSearchParams(location.search),highlight=params.get('highlight');
+const modal=document.getElementById('vyOrderModal'),modalTitle=document.getElementById('vyModalTitle'),modalDesc=document.getElementById('vyModalDescription'),modalDetail=document.getElementById('vyModalDetail'),modalAction=document.getElementById('vyModalAction'),modalIcon=document.getElementById('vyModalIcon');
+function close(){modal.hidden=true;document.body.style.overflow=''}
+function open(type,o){
+ modal.hidden=false;document.body.style.overflow='hidden';modalIcon.textContent=type==='download'?'↓':'✉';
+ modalTitle.textContent=type==='download'?'Download product':'Send to Email';
+ modalDesc.textContent=type==='download'?'Your demo order is ready. Real file downloads will be enabled after secure product delivery is connected.':'Your account email is shown below. Real email sending will be enabled after the email service is connected.';
+ modalDetail.textContent=type==='download'?o.name+' · Demo order #'+o.id:(session&&session.email||o.email||'Account email unavailable');
+ modalAction.textContent='Close';modalAction.onclick=close;
+}
+document.getElementById('vyModalClose').onclick=close;modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close()});
+function render(recent){const shown=recent?records.filter(o=>Date.now()-new Date(o.createdAt).getTime()<30*86400000):records;
+ list.innerHTML=shown.map(o=>`<article class="vy-demo-order" data-order="${safe(o.id)}"><div class="vy-order-art">V</div><div class="vy-order-info"><div class="vy-order-meta"><span class="vy-order-pill">DEMO ORDER</span><span class="vy-order-ready">Ready to preview</span></div><h2>${safe(o.name)}</h2><p>${safe(o.category)} · #${safe(o.id)}</p><small>${safe(new Date(o.createdAt).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'}))}</small></div><strong class="vy-order-price">${money(o.price)}</strong><div class="vy-order-actions"><button type="button" data-action="download" data-id="${safe(o.id)}">↓ Download</button><button type="button" data-action="email" data-id="${safe(o.id)}">✉ Send to Email</button></div></article>`).join('');
+ count.textContent=String(shown.length);empty.style.display=shown.length?'none':'';
+ if(highlight&&!recent){const item=Array.from(list.querySelectorAll('[data-order]')).find(el=>el.dataset.order===highlight);if(item){item.classList.add('vy-order-highlight');requestAnimationFrame(()=>item.scrollIntoView({behavior:'smooth',block:'center'}));setTimeout(()=>item.classList.remove('vy-order-highlight'),10000)}}
+}
+list.addEventListener('click',e=>{const btn=e.target.closest('button[data-action]');if(!btn)return;const o=records.find(x=>x.id===btn.dataset.id);if(o)open(btn.dataset.action,o)});
+const filters=document.querySelectorAll('.orders-filter');filters.forEach((btn,i)=>btn.addEventListener('click',()=>{filters.forEach(x=>x.classList.remove('active'));btn.classList.add('active');render(i===1)}));render(false);
+})();
+</script></body>
 </html>

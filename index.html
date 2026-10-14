@@ -1,16 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>VAYEN</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#21171e">
-    <link rel="apple-touch-icon" href="images/icon-192.png">
-
-    <link rel="stylesheet" href="style.css">
-
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VAYEN</title>
+<link href="manifest.json" rel="manifest"/>
+<meta content="#21171e" name="theme-color"/>
+<link href="images/icon-192.png" rel="apple-touch-icon"/>
+<link href="style.css" rel="stylesheet"/>
 <style>
 /* =========================================
    VAYEN — EXCLUSIVE PLANS HEADER SHORTCUT
@@ -74,7 +72,6 @@ html {
 
 
 </style>
-
 <style>
 /* VAYEN premium search — mobile only. Desktop styling is untouched. */
 @media (max-width: 768px) {
@@ -131,661 +128,607 @@ html {
   #vayenSearchOverlay .vayen-search-bottom { display: none !important; }
 }
 </style>
-</head>
-
+<style>
+/* VAYEN footer — stable layout independent of external style.css */
+.main-footer {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 20px !important;
+    padding: 32px 24px 26px !important;
+}
+.main-footer .footer-brand {
+    display: block;
+    margin: 0 auto !important;
+}
+.main-footer .footer-links {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    gap: 14px 28px !important;
+    width: 100%;
+    margin: 0 !important;
+}
+.main-footer .vayen-footer-bottom {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 18px 32px !important;
+    width: min(100%, 1100px) !important;
+    margin: 12px auto 0 !important;
+    padding: 0 !important;
+}
+.main-footer .vayen-footer-bottom > p,
+.main-footer .vayen-policy-links,
+.main-footer .vayen-policy-links a,
+.main-footer .vayen-policy-links span {
+    color: #c7c0c4 !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0 !important;
+}
+.main-footer .vayen-footer-bottom > p {
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: left !important;
+    white-space: nowrap;
+}
+.main-footer .vayen-policy-links {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    flex-wrap: wrap !important;
+    gap: 9px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.main-footer .vayen-policy-links a { text-decoration: none !important; }
+.main-footer .vayen-policy-links a:hover { color: #fff !important; }
+@media (max-width: 760px) {
+    .main-footer { padding: 28px 18px 24px !important; }
+    .main-footer .vayen-footer-bottom {
+        flex-direction: column !important;
+        justify-content: center !important;
+        gap: 10px !important;
+    }
+    .main-footer .vayen-policy-links { justify-content: center !important; }
+    .main-footer .vayen-footer-bottom > p { text-align: center !important; white-space: normal; }
+}
+</style>
+<style id="vayen-unified-five-mobile-navigation">
+@media (min-width:769px){nav.vayen-mobile-nav{display:none!important}}
+@media (max-width:768px){
+ html{scroll-padding-bottom:85px}
+ body{padding-bottom:calc(84px + env(safe-area-inset-bottom))!important}
+ nav.vayen-mobile-nav{
+  position:fixed!important;bottom:0!important;left:0!important;right:0!important;
+  z-index:9998!important;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  align-items:center!important;gap:0!important;
+  padding:8px 4px calc(9px + env(safe-area-inset-bottom))!important;
+  background:rgba(251,248,246,.97)!important;border-top:1px solid #e6deda!important;
+  box-shadow:0 -5px 24px rgba(48,27,39,.06)!important;
+  backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);
+ }
+ nav.vayen-mobile-nav .mobile-nav-item{
+  min-width:0!important;display:flex!important;flex-direction:column!important;
+  align-items:center!important;justify-content:center!important;gap:4px!important;
+  padding:5px 1px!important;border:0!important;background:transparent!important;
+  color:#81757b!important;text-decoration:none!important;font:600 10px Arial,sans-serif!important;
+  border-radius:12px!important;box-shadow:none!important;
+ }
+ nav.vayen-mobile-nav .mobile-nav-item .mobile-nav-icon{display:grid!important;place-items:center!important;width:24px!important;height:24px!important}
+ nav.vayen-mobile-nav .mobile-nav-item svg{width:21px!important;height:21px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.7!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+ nav.vayen-mobile-nav .mobile-nav-item.active{color:#963d61!important;font-weight:800!important;background:#f8e8ed!important}
+ nav.vayen-mobile-nav .mobile-nav-item.active .mobile-nav-icon{color:#963d61!important}
+ nav.vayen-mobile-nav .mobile-nav-item:focus-visible{outline:2px solid #963d61;outline-offset:1px}
+}
+.header-actions #vayenHeaderAccount[hidden] { display: none !important; }
+/* vayen-premium-dear-name-only */
+/* Signed-in name only; the guest Sign in animation stays unchanged. */
+#headerSignIn.vayen-signed-in-name {
+  animation: none !important;
+  transform: none !important;
+  background: linear-gradient(135deg, #fffdfb 0%, #f7edf1 100%);
+  border: 1px solid rgba(152, 91, 117, .28);
+  color: #68394e;
+  font-weight: 750;
+  letter-spacing: .25px;
+  box-shadow: 0 5px 16px rgba(87, 43, 65, .07), inset 0 1px 0 rgba(255,255,255,.9);
+  white-space: nowrap;
+}
+#headerSignIn.vayen-signed-in-name:hover,
+#headerSignIn.vayen-signed-in-name:focus-visible {
+  animation: none !important;
+  transform: none !important;
+  background: linear-gradient(135deg, #fffdfb 0%, #f7edf1 100%);
+  box-shadow: 0 5px 16px rgba(87, 43, 65, .07), inset 0 1px 0 rgba(255,255,255,.9);
+}
+#headerSignIn.vayen-signed-in-name .signin-dot {
+  background: #9e5779;
+  box-shadow: 0 0 0 3px rgba(158,87,121,.11);
+}
+</style></head>
 <body>
-
-    <!-- PREMIUM ENTRY GREETING -->
-    <div class="welcome-screen" id="welcomeScreen">
-
-        <div class="welcome-card">
-
-            <div class="welcome-brand">VAYEN</div>
-
-            <p class="welcome-small">WELCOME TO YOUR SPACE</p>
+<!-- PREMIUM ENTRY GREETING -->
+<div class="welcome-screen" id="welcomeScreen" style="display:none;">
+<div class="welcome-card">
+<div class="welcome-brand">VAYEN</div>
+<p class="welcome-small">WELCOME TO YOUR SPACE</p>
 <h1 id="homeWelcome">
-    <span class="welcome-line">Welcome back,</span>
-    <span class="welcome-person">Sir.</span>
+<span class="welcome-line">Welcome back,</span>
+<span class="welcome-person">Sir.</span>
 </h1>
-            <p class="welcome-text">
+<p class="welcome-text">
                 Better things, thoughtfully chosen for you.
             </p>
-
-            <button id="enterVayen">
+<button id="enterVayen">
                 Enter VAYEN
                 <span>→</span>
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- MAIN WEBSITE -->
-    <div class="site" id="mainSite">
-
-        <header class="main-header">
-
-            <a href="index.html" class="brand">
+</button>
+</div>
+</div>
+<!-- MAIN WEBSITE -->
+<div class="site" id="mainSite">
+<header class="main-header">
+<a class="brand" href="index.html">
                 VAYEN
             </a>
-
-            <nav>
-                <a href="features.html">Featured</a>
-                <a href="collection.html">Collections</a>
-                <a href="new.html">New</a>
-            </nav>
-
-            <div class="header-actions">
-
-                <!-- Exclusive Plans: direct section shortcut -->
-                <a href="plans.html"
-                   class="vayen-plans-shortcut"
-                   aria-label="Exclusive Plans"
-                   title="Exclusive Plans">
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M6 3h12l4 6-10 12L2 9z"></path>
-                        <path d="M2 9h20M9 3l-2 6 5 12 5-12-2-6"></path>
-                    </svg>
-                </a>
-
-                <button class="search-button" aria-label="Search">
-                    <svg viewBox="0 0 24 24">
-                        <circle cx="11" cy="11" r="6"></circle>
-                        <path d="M16 16L21 21"></path>
-                    </svg>
-                </button>
-<a href="login.html" class="signin-button" id="headerSignIn">
-    <span class="signin-dot"></span>
+<nav>
+<a href="features.html">Featured</a>
+<a href="collection.html">Collections</a>
+<a href="new.html">New</a>
+</nav>
+<div class="header-actions">
+<!-- Exclusive Plans: direct section shortcut -->
+<a aria-label="Exclusive Plans" class="vayen-plans-shortcut" href="plans.html" title="Exclusive Plans">
+<svg aria-hidden="true" viewbox="0 0 24 24">
+<path d="M6 3h12l4 6-10 12L2 9z"></path>
+<path d="M2 9h20M9 3l-2 6 5 12 5-12-2-6"></path>
+</svg>
+</a>
+<button aria-label="Search" class="search-button">
+<svg viewbox="0 0 24 24">
+<circle cx="11" cy="11" r="6"></circle>
+<path d="M16 16L21 21"></path>
+</svg>
+</button>
+<a class="signin-button" href="login.html" id="headerSignIn">
+<span class="signin-dot"></span>
     Sign in
 </a>
-
-<a href="account.html" class="account-button">
+<a class="account-button" href="profile.html" id="vayenHeaderAccount" hidden>
     Account
 </a>
-            </div>
-
-        </header>
-
-
-        <!-- HERO -->
-        <main>
-
-            <section class="hero">
-
-                <div class="hero-label">
+</div>
+</header>
+<!-- HERO -->
+<main>
+<section class="hero">
+<div class="hero-label">
                     CURATED DIGITAL PRODUCTS
                 </div>
-
-                <h1>
-                    Better things.<br>
-                    <span>Chosen carefully.</span>
-                </h1>
-
-                <p class="hero-description">
+<h1>
+                    Better things.<br/>
+<span>Chosen carefully.</span>
+</h1>
+<p class="hero-description">
                     Thoughtfully built digital products for the things
                     you want to create, learn, build and improve.
                 </p>
-
-                <div class="hero-actions">
-
-                    <a href="collection.html" class="primary-button">
+<div class="hero-actions">
+<a class="primary-button" href="collection.html">
                         Explore VAYEN
                         <span>→</span>
-                    </a>
-
-                    <a href="new.html" class="secondary-button">
+</a>
+<a class="secondary-button" href="new.html">
                         Discover what's new
                     </a>
-
-                </div>
-
-
-                <!-- VISUAL PRODUCT AREA -->
-                <div class="hero-showcase">
-
-                   <a href="product.html?id=vlogging-mastery"
-   class="showcase-card card-one hero-premium">
-
-    <div class="hero-card-photo vlog-photo"></div>
-
-    <div class="hero-card-info">
-        <small>VAYEN / VLOGGING</small>
-        <h3>Every story<br>starts somewhere.</h3>
-        <span class="hero-explore">Explore product ↗</span>
-    </div>
-
+</div>
+<!-- VISUAL PRODUCT AREA -->
+<div class="hero-showcase">
+<a class="showcase-card card-one hero-premium" href="product.html?id=vlogging-mastery">
+<div class="hero-card-photo vlog-photo"></div>
+<div class="hero-card-info">
+<small>VAYEN / VLOGGING</small>
+<h3>Every story<br/>starts somewhere.</h3>
+<span class="hero-explore">Explore product ↗</span>
+</div>
 </a>
 <div class="showcase-card card-main">
-
-    <div class="main-card-top">
-        <span>VAYEN / 001</span>
-        <span class="flagship-label">
+<div class="main-card-top">
+<span>VAYEN / 001</span>
+<span class="flagship-label">
             ♛ <span>TOP-TIER COLLECTION</span>
-        </span>
-    </div>
-
-    <div class="main-card-content">
-    <small>OUR FLAGSHIP COLLECTION</small>
-
-    <h2>
-        Your ideas.<br>
+</span>
+</div>
+<div class="main-card-content">
+<small>OUR FLAGSHIP COLLECTION</small>
+<h2>
+        Your ideas.<br/>
         Better executed.
     </h2>
-
-    <p class="flagship-description">
-        Two signature products.<br>
+<p class="flagship-description">
+        Two signature products.<br/>
         Built for creators who want more.
     </p>
 </div>
-
 </div>
-                   <a href="product.html?id=youtube-creator-system"
-   class="showcase-card card-three youtube-premium">
-
-    <div class="youtube-card-photo"></div>
-
-    <div class="youtube-card-info">
-        <small>VAYEN / YOUTUBE</small>
-
-        <h3>Turn your ideas<br>into a channel.</h3>
-
-        <span class="youtube-explore">Explore product ↗</span>
-    </div>
-
+<a class="showcase-card card-three youtube-premium" href="product.html?id=youtube-creator-system">
+<div class="youtube-card-photo"></div>
+<div class="youtube-card-info">
+<small>VAYEN / YOUTUBE</small>
+<h3>Turn your ideas<br/>into a channel.</h3>
+<span class="youtube-explore">Explore product ↗</span>
+</div>
 </a>
-                </div>
-
-            </section>
+</div>
+</section>
 <section class="purpose-section">
-
-    <div class="purpose-heading">
-        <span>YOUR VAYEN</span>
-
-        <h2>
-            What are you<br>
+<div class="purpose-heading">
+<span>YOUR VAYEN</span>
+<h2>
+            What are you<br/>
             here for?
         </h2>
-
-        <p>
+<p>
             Start with what you want to do.
             We'll help you find what belongs next.
         </p>
-
-    </div>
-
-    <div class="purpose-options">
-
-    <a href="#worldsSection" class="purpose-item create">
-        <span>01</span>
-        <h3>Create</h3>
-        <small>Ideas → reality</small>
-    </a>
-
-    <a href="#worldsSection" class="purpose-item work">
-        <span>02</span>
-        <h3>Work</h3>
-        <small>Do more, better</small>
-    </a>
-
-    <a href="#worldsSection" class="purpose-item learn">
-        <span>03</span>
-        <h3>Learn</h3>
-        <small>Build real skills</small>
-    </a>
-
-    <a href="#worldsSection" class="purpose-item grow">
-        <span>04</span>
-        <h3>Grow</h3>
-        <small>Move forward</small>
-    </a>
-
-    <a href="#worldsSection" class="purpose-item build">
-        <span>05</span>
-        <h3>Build</h3>
-        <small>Start something</small>
-    </a>
-
-    <a href="#worldsSection" class="purpose-item organize">
-        <span>06</span>
-        <h3>Organize</h3>
-        <small>Bring clarity</small>
-    </a>
-
+</div>
+<div class="purpose-options">
+<a class="purpose-item create" href="#worldsSection">
+<span>01</span>
+<h3>Create</h3>
+<small>Ideas → reality</small>
+</a>
+<a class="purpose-item work" href="#worldsSection">
+<span>02</span>
+<h3>Work</h3>
+<small>Do more, better</small>
+</a>
+<a class="purpose-item learn" href="#worldsSection">
+<span>03</span>
+<h3>Learn</h3>
+<small>Build real skills</small>
+</a>
+<a class="purpose-item grow" href="#worldsSection">
+<span>04</span>
+<h3>Grow</h3>
+<small>Move forward</small>
+</a>
+<a class="purpose-item build" href="#worldsSection">
+<span>05</span>
+<h3>Build</h3>
+<small>Start something</small>
+</a>
+<a class="purpose-item organize" href="#worldsSection">
+<span>06</span>
+<h3>Organize</h3>
+<small>Bring clarity</small>
+</a>
 </div>
 </section>
 <section class="featured-section" id="featuredProducts">
-
-    <div class="featured-top">
-
-        <div>
-            <span class="section-label">CHOSEN FOR VAYEN</span>
-
-            <h2>
-                Worth your<br>
+<div class="featured-top">
+<div>
+<span class="section-label">CHOSEN FOR VAYEN</span>
+<h2>
+                Worth your<br/>
                 attention.
             </h2>
-        </div>
-
-        <p>
+</div>
+<p>
             A small selection of products built to solve
             something properly — not just add another file
             to your device.
         </p>
-
-    </div>
-
-
-    <div class="featured-products">
-
-        <article class="featured-product product-creator">
-
-            <div class="product-top">
-                <span>CREATOR STUDIO</span>
-                <span>01</span>
-            </div>
-
-            <div class="product-visual">
-                <span>CREATE</span>
-            </div>
-
-            <div class="product-info">
-                <div>
-                    <small>COMPLETE SYSTEM</small>
-                    <h3>Creator Launch Kit</h3>
-                </div>
-
-                <span class="product-arrow">↗</span>
-            </div>
-
-        </article>
-
-
-        <article class="featured-product product-ai">
-
-            <div class="product-top">
-                <span>AI WORKSPACE</span>
-                <span>02</span>
-            </div>
-
-            <div class="product-visual">
-                <span>AI</span>
-            </div>
-
-            <div class="product-info">
-                <div>
-                    <small>GUIDED WORKSPACE</small>
-                    <h3>AI Prompting</h3>
-                </div>
-
-                <span class="product-arrow">↗</span>
-            </div>
-
-        </article>
-
-
-        <article class="featured-product product-business">
-
-            <div class="product-top">
-                <span>BUSINESS LAUNCH</span>
-                <span>03</span>
-            </div>
-
-            <div class="product-visual">
-                <span>BUILD</span>
-            </div>
-
-            <div class="product-info">
-                <div>
-                    <small>BUSINESS KIT</small>
-                    <h3>Business Launch Kit</h3>
-                </div>
-
-                <span class="product-arrow">↗</span>
-            </div>
-
-        </article>
-
-    </div>
-
+</div>
+<div class="featured-products">
+<article class="featured-product product-creator">
+<div class="product-top">
+<span>CREATOR STUDIO</span>
+<span>01</span>
+</div>
+<div class="product-visual">
+<span>CREATE</span>
+</div>
+<div class="product-info">
+<div>
+<small>COMPLETE SYSTEM</small>
+<h3>Creator Launch Kit</h3>
+</div>
+<span class="product-arrow">↗</span>
+</div>
+</article>
+<article class="featured-product product-ai">
+<div class="product-top">
+<span>AI WORKSPACE</span>
+<span>02</span>
+</div>
+<div class="product-visual">
+<span>AI</span>
+</div>
+<div class="product-info">
+<div>
+<small>GUIDED WORKSPACE</small>
+<h3>AI Prompting</h3>
+</div>
+<span class="product-arrow">↗</span>
+</div>
+</article>
+<article class="featured-product product-business">
+<div class="product-top">
+<span>BUSINESS LAUNCH</span>
+<span>03</span>
+</div>
+<div class="product-visual">
+<span>BUILD</span>
+</div>
+<div class="product-info">
+<div>
+<small>BUSINESS KIT</small>
+<h3>Business Launch Kit</h3>
+</div>
+<span class="product-arrow">↗</span>
+</div>
+</article>
+</div>
 </section>
-<button class="worlds-reveal" id="worldsReveal" aria-label="Explore VAYEN worlds">
-    <span>EXPLORE WORLDS</span>
-
-    <span class="worlds-reveal-arrow">
+<button aria-label="Explore VAYEN worlds" class="worlds-reveal" id="worldsReveal">
+<span>EXPLORE WORLDS</span>
+<span class="worlds-reveal-arrow">
            +
     </span>
 </button>
 <section class="worlds-section worlds-hidden" id="worldsSection">
-    <div class="worlds-intro">
-        <span>EXPLORE VAYEN</span>
-
-        <h2>
-            12 worlds.<br>
+<div class="worlds-intro">
+<span>EXPLORE VAYEN</span>
+<h2>
+            12 worlds.<br/>
             One standard.
         </h2>
-
-        <p>
+<p>
             Different needs. Different tools.
             The same standard of usefulness.
         </p>
-    </div>
-
-    <div class="worlds-list">
-
-        <a href="collection.html?world=01#collectionWorlds" class="world-item">
-            <span>01</span>
-            <h3>Reels Growth</h3>
-            <small>GROW</small>
-        </a>
-
-        <a href="collection.html?world=02#collectionWorlds" class="world-item">
-            <span>02</span>
-            <h3>Web Creator</h3>
-            <small>CREATE</small>
-        </a>
-
-        <a href="collection.html?world=03#collectionWorlds" class="world-item">
-            <span>03</span>
-            <h3>YouTube Algorithm</h3>
-            <small>LEARN</small>
-        </a>
-
-        <a href="collection.html?world=04#collectionWorlds" class="world-item">
-            <span>04</span>
-            <h3>How to Earn from Social Media</h3>
-            <small>REACH</small>
-        </a>
-
-        <a href="collection.html?world=05#collectionWorlds" class="world-item">
-            <span>05</span>
-            <h3>Creator Studio</h3>
-            <small>CREATE</small>
-        </a>
-
-        <a href="collection.html?world=06#collectionWorlds" class="world-item">
-            <span>06</span>
-            <h3>Business Launch</h3>
-            <small>BUILD</small>
-        </a>
-
-        <a href="collection.html?world=07#collectionWorlds" class="world-item">
-            <span>07</span>
-            <h3>Content Strategy</h3>
-            <small>PLAN</small>
-        </a>
-
-        <a href="collection.html?world=08#collectionWorlds" class="world-item">
-            <span>08</span>
-            <h3>How to Design Thumbnails</h3>
-            <small>DESIGN</small>
-        </a>
-
-        <a href="collection.html?world=09#collectionWorlds" class="world-item">
-            <span>09</span>
-            <h3>How to Edit Videos</h3>
-            <small>LAUNCH</small>
-        </a>
-
-        <a href="collection.html?world=10#collectionWorlds" class="world-item">
-            <span>10</span>
-            <h3>AI Automation</h3>
-            <small>FOCUS</small>
-        </a>
-
-        <a href="collection.html?world=11#collectionWorlds" class="world-item">
-            <span>11</span>
-            <h3>Seller & Commerce</h3>
-            <small>SELL</small>
-        </a>
-
-        <a href="collection.html?world=12#collectionWorlds" class="world-item">
-            <span>12</span>
-            <h3>Build Your Personal Brand</h3>
-            <small>LIVE</small>
-        </a>
-
-    </div>
-<a href="collection.html" class="all-products-link">
-    <div>
-        <span>EXPLORE EVERYTHING</span>
-        <h3>All Products</h3>
-    </div>
-
-   <span class="all-products-arrow">↗</span>
+</div>
+<div class="worlds-list">
+<a class="world-item" href="collection.html?world=01#collectionWorlds">
+<span>01</span>
+<h3>Reels Growth</h3>
+<small>GROW</small>
 </a>
-
+<a class="world-item" href="collection.html?world=02#collectionWorlds">
+<span>02</span>
+<h3>Web Creator</h3>
+<small>CREATE</small>
+</a>
+<a class="world-item" href="collection.html?world=03#collectionWorlds">
+<span>03</span>
+<h3>YouTube Algorithm</h3>
+<small>LEARN</small>
+</a>
+<a class="world-item" href="collection.html?world=04#collectionWorlds">
+<span>04</span>
+<h3>How to Earn from Social Media</h3>
+<small>REACH</small>
+</a>
+<a class="world-item" href="collection.html?world=05#collectionWorlds">
+<span>05</span>
+<h3>Creator Studio</h3>
+<small>CREATE</small>
+</a>
+<a class="world-item" href="collection.html?world=06#collectionWorlds">
+<span>06</span>
+<h3>Business Launch</h3>
+<small>BUILD</small>
+</a>
+<a class="world-item" href="collection.html?world=07#collectionWorlds">
+<span>07</span>
+<h3>Content Strategy</h3>
+<small>PLAN</small>
+</a>
+<a class="world-item" href="collection.html?world=08#collectionWorlds">
+<span>08</span>
+<h3>How to Design Thumbnails</h3>
+<small>DESIGN</small>
+</a>
+<a class="world-item" href="collection.html?world=09#collectionWorlds">
+<span>09</span>
+<h3>How to Edit Videos</h3>
+<small>LAUNCH</small>
+</a>
+<a class="world-item" href="collection.html?world=10#collectionWorlds">
+<span>10</span>
+<h3>AI Automation</h3>
+<small>FOCUS</small>
+</a>
+<a class="world-item" href="collection.html?world=11#collectionWorlds">
+<span>11</span>
+<h3>Seller &amp; Commerce</h3>
+<small>SELL</small>
+</a>
+<a class="world-item" href="collection.html?world=12#collectionWorlds">
+<span>12</span>
+<h3>Build Your Personal Brand</h3>
+<small>LIVE</small>
+</a>
+</div>
+<a class="all-products-link" href="collection.html">
+<div>
+<span>EXPLORE EVERYTHING</span>
+<h3>All Products</h3>
+</div>
+<span class="all-products-arrow">↗</span>
+</a>
 </section>
-
-
-
-
 <section class="vayen-standard">
-    <div class="standard-top">
-        <span>THE VAYEN STANDARD</span>
-
-        <h2>
-            Less noise.<br>
-            <span>More worth.</span>
-        </h2>
-    </div>
-
-    <div class="standard-content">
-
-        <p class="standard-statement">
+<div class="standard-top">
+<span>THE VAYEN STANDARD</span>
+<h2>
+            Less noise.<br/>
+<span>More worth.</span>
+</h2>
+</div>
+<div class="standard-content">
+<p class="standard-statement">
             We don't believe in filling shelves.
             Everything at VAYEN should earn its place.
         </p>
-
-        <div class="standard-points">
-
-            <div class="standard-point">
-                <span>01</span>
-                <div>
-                    <h3>Useful by design.</h3>
-                    <p>
+<div class="standard-points">
+<div class="standard-point">
+<span>01</span>
+<div>
+<h3>Useful by design.</h3>
+<p>
                         Built around a real need, not just
                         something else to download.
                     </p>
-                </div>
-            </div>
-
-            <div class="standard-point">
-                <span>02</span>
-                <div>
-                    <h3>Complete, not scattered.</h3>
-                    <p>
+</div>
+</div>
+<div class="standard-point">
+<span>02</span>
+<div>
+<h3>Complete, not scattered.</h3>
+<p>
                         Clear systems that help you move
                         from the first step to the result.
                     </p>
-                </div>
-            </div>
-
-            <div class="standard-point">
-                <span>03</span>
-                <div>
-                    <h3>Chosen carefully.</h3>
-                    <p>
+</div>
+</div>
+<div class="standard-point">
+<span>03</span>
+<div>
+<h3>Chosen carefully.</h3>
+<p>
                         Fewer products. Higher standards.
                         Nothing added just to make the shelf look full.
                     </p>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-
+</div>
+</div>
+</div>
+</div>
 </section>
-
-
-
 <!-- NEW AT VAYEN -->
 <section class="new-vayen">
-
-    <div class="new-vayen-head">
-
-        <div>
-            <span>NEW AT VAYEN</span>
-
-            <h2>
-                Just<br>
-                <span>arrived.</span>
-            </h2>
-        </div>
-
-        <a href="new.html" class="view-new-link">
+<div class="new-vayen-head">
+<div>
+<span>NEW AT VAYEN</span>
+<h2>
+                Just<br/>
+<span>arrived.</span>
+</h2>
+</div>
+<a class="view-new-link" href="new.html">
             View all new
             <span>↗</span>
-        </a>
-
-    </div>
-
-
-    <div class="new-products">
-
-        <a href="product.html?id=creator-launch-kit" class="new-product new-creator">
-
-            <div class="new-product-meta">
-                <span>CREATOR STUDIO</span>
-                <span>01</span>
-            </div>
-
-            <div class="new-product-art">
-                <span>CREATE</span>
-            </div>
-
-            <div class="new-product-bottom">
-                <div>
-                    <small>COMPLETE SYSTEM</small>
-                    <h3>Creator Launch Kit</h3>
-                </div>
-
-                <span>↗</span>
-            </div>
-
-        </a>
-
-
-        <a href="product.html?id=ai-prompting" class="new-product new-ai">
-
-            <div class="new-product-meta">
-                <span>AI WORKSPACE</span>
-                <span>02</span>
-            </div>
-
-            <div class="new-product-art">
-                <span>AI</span>
-            </div>
-
-            <div class="new-product-bottom">
-                <div>
-                    <small>SMART WORKSPACE</small>
-                    <h3>AI Prompting</h3>
-                </div>
-
-                <span>↗</span>
-            </div>
-
-        </a>
-
-
-        <a href="product.html?id=business-launch-kit" class="new-product new-business">
-
-            <div class="new-product-meta">
-                <span>BUSINESS LAUNCH</span>
-                <span>03</span>
-            </div>
-
-            <div class="new-product-art">
-                <span>BUILD</span>
-            </div>
-
-            <div class="new-product-bottom">
-                <div>
-                    <small>LAUNCH SYSTEM</small>
-                    <h3>Business Launch Kit</h3>
-                </div>
-
-                <span>↗</span>
-            </div>
-
-        </a>
-
-
-        <a href="product.html?id=productivity-planner" class="new-product new-focus">
-
-            <div class="new-product-meta">
-                <span>PRODUCTIVITY OS</span>
-                <span>04</span>
-            </div>
-
-            <div class="new-product-art">
-                <span>FOCUS</span>
-            </div>
-
-            <div class="new-product-bottom">
-                <div>
-                    <small>DAILY SYSTEM</small>
-                    <h3>Productivity Planner</h3>
-                </div>
-
-                <span>↗</span>
-            </div>
-
-        </a>
-
-    </div>
-
+</a>
+</div>
+<div class="new-products">
+<a class="new-product new-creator" href="product.html?id=creator-launch-kit">
+<div class="new-product-meta">
+<span>CREATOR STUDIO</span>
+<span>01</span>
+</div>
+<div class="new-product-art">
+<span>CREATE</span>
+</div>
+<div class="new-product-bottom">
+<div>
+<small>COMPLETE SYSTEM</small>
+<h3>Creator Launch Kit</h3>
+</div>
+<span>↗</span>
+</div>
+</a>
+<a class="new-product new-ai" href="product.html?id=ai-prompting">
+<div class="new-product-meta">
+<span>AI WORKSPACE</span>
+<span>02</span>
+</div>
+<div class="new-product-art">
+<span>AI</span>
+</div>
+<div class="new-product-bottom">
+<div>
+<small>SMART WORKSPACE</small>
+<h3>AI Prompting</h3>
+</div>
+<span>↗</span>
+</div>
+</a>
+<a class="new-product new-business" href="product.html?id=business-launch-kit">
+<div class="new-product-meta">
+<span>BUSINESS LAUNCH</span>
+<span>03</span>
+</div>
+<div class="new-product-art">
+<span>BUILD</span>
+</div>
+<div class="new-product-bottom">
+<div>
+<small>LAUNCH SYSTEM</small>
+<h3>Business Launch Kit</h3>
+</div>
+<span>↗</span>
+</div>
+</a>
+<a class="new-product new-focus" href="product.html?id=productivity-planner">
+<div class="new-product-meta">
+<span>PRODUCTIVITY OS</span>
+<span>04</span>
+</div>
+<div class="new-product-art">
+<span>FOCUS</span>
+</div>
+<div class="new-product-bottom">
+<div>
+<small>DAILY SYSTEM</small>
+<h3>Productivity Planner</h3>
+</div>
+<span>↗</span>
+</div>
+</a>
+</div>
 </section>
 <!-- VAYEN CLOSING -->
 <section class="vayen-closing">
-
-    <span class="closing-label">THIS IS YOUR SPACE</span>
-
-    <h2>
-        Find what helps.<br>
-        <span>Keep moving.</span>
-    </h2>
-
-    <p>
+<span class="closing-label">THIS IS YOUR SPACE</span>
+<h2>
+        Find what helps.<br/>
+<span>Keep moving.</span>
+</h2>
+<p>
         Explore less. Choose better.
         Come back whenever you're ready for what's next.
     </p>
-
-    <a href="collection.html" class="closing-button">
+<a class="closing-button" href="collection.html">
         Explore VAYEN
         <span>→</span>
-    </a>
-
-    <div class="closing-mark">
+</a>
+<div class="closing-mark">
         VAYEN
     </div>
-
 </section>
-
-        </main>
+</main>
 <footer class="main-footer">
-
-    <a href="index.html" class="footer-brand">
+<a class="footer-brand" href="index.html">
         VAYEN
     </a>
-
-    <div class="footer-links">
-        <a href="features.html">Featured</a>
-        <a href="collection.html">Collections</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
-    </div>
-
-    <p>
-        © 2026 VAYEN. All rights reserved.
-    </p>
-
+<div class="vayen-footer-bottom">
+<p>© 2026 VAYEN. All rights reserved.</p>
+<nav aria-label="Legal and support links" class="vayen-policy-links">
+<a href="refund.html">Refund Policy</a>
+<span aria-hidden="true">|</span>
+<a href="contact.html">Contact Us</a>
+<span aria-hidden="true">|</span>
+<a href="privacy.html">Privacy Policy</a>
+</nav>
+</div>
 </footer>
-
-    </div>
-
+</div>
 <script src="vayen-catalog.js"></script>
 <script>
 
@@ -793,7 +736,7 @@ html {
         document.getElementById("homeWelcome");
 
     const vayenSavedName =
-        localStorage.getItem("vayenWelcomeName");
+        localStorage.getItem("vayenCardName") || localStorage.getItem("vayenWelcomeName");
 if (vayenSavedName) {
     homeWelcome.innerHTML =
         '<span class="welcome-line">Welcome back,</span>' +
@@ -809,9 +752,7 @@ if (vayenSavedName) {
 const enterVayen =
     document.getElementById("enterVayen");
 
-const vayenEntered =
-    sessionStorage.getItem("vayenEntered");
-
+const vayenEntered = "yes";
 
 /* ALREADY ENTERED THIS SESSION */
 
@@ -1139,47 +1080,7 @@ updateVayenPile();
 window.addEventListener("resize", updateVayenPile);
 
     </script>
-<nav class="vayen-mobile-nav">
 
-    <a href="index.html" class="mobile-nav-item active">
-        <span class="mobile-nav-icon">
-            <svg viewBox="0 0 24 24">
-                <path d="M4 10.5L12 4l8 6.5V20h-6v-6h-4v6H4z"/>
-            </svg>
-        </span>
-        <span>Home</span>
-    </a>
-
-    <a href="collection.html" class="mobile-nav-item">
-        <span class="mobile-nav-icon">
-            <svg viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="8"/>
-                <path d="M15.5 8.5l-2 5-5 2 2-5z"/>
-            </svg>
-        </span>
-        <span>Explore</span>
-    </a>
-
-    <a href="new.html" class="mobile-nav-item">
-        <span class="mobile-nav-icon">
-            <svg viewBox="0 0 24 24">
-                <path d="M5 7h14M5 12h14M5 17h9"/>
-            </svg>
-        </span>
-        <span>New</span>
-    </a>
-
-    <a href="account.html" class="mobile-nav-item">
-        <span class="mobile-nav-icon">
-            <svg viewBox="0 0 24 24">
-                <circle cx="12" cy="8" r="3.5"/>
-                <path d="M5.5 20c.7-4 3-6 6.5-6s5.8 2 6.5 6"/>
-            </svg>
-        </span>
-        <span>Account</span>
-    </a>
-
-</nav>
 <script>
 (function(){
  const C=window.VayenCatalog;if(!C)return;
@@ -1207,25 +1108,22 @@ window.addEventListener("resize", updateVayenPile);
  const count=document.querySelector('.worlds-intro h2');if(count){const n=C.list('Worlds').length;count.innerHTML=n+' worlds.<br>One standard.';}
 })();
 </script>
-
-
 <!-- VAYEN Search Dialog -->
-<div class="vayen-search-overlay" id="vayenSearchOverlay" aria-hidden="true">
-  <section class="vayen-search-panel" role="dialog" aria-modal="true" aria-labelledby="vayenSearchTitle">
-    <div class="vayen-search-top">
-      <div><span class="vayen-search-kicker">DISCOVER VAYEN</span><h2 id="vayenSearchTitle">Find your <em>next thing.</em></h2></div>
-<button class="vayen-search-close" id="vayenSearchClose" type="button" aria-label="Close search">✕</button>
-    </div>
-    <label class="vayen-search-field" for="vayenSearchInput">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 5 5"></path></svg>
-      <input id="vayenSearchInput" type="search" autocomplete="off" placeholder="Search digital products..." aria-label="Search products">
-    </label>
-    <div class="vayen-search-meta"><span>EXPLORE PRODUCTS</span><span id="vayenSearchCount" aria-live="polite"></span></div>
-    <div class="vayen-search-results" id="vayenSearchResults"></div>
-    <div class="vayen-search-bottom"><a href="collection.html">Explore collections <span>↗</span></a><span>Press Esc to close</span></div>
-  </section>
+<div aria-hidden="true" class="vayen-search-overlay" id="vayenSearchOverlay">
+<section aria-labelledby="vayenSearchTitle" aria-modal="true" class="vayen-search-panel" role="dialog">
+<div class="vayen-search-top">
+<div><span class="vayen-search-kicker">DISCOVER VAYEN</span><h2 id="vayenSearchTitle">Find your <em>next thing.</em></h2></div>
+<button aria-label="Close search" class="vayen-search-close" id="vayenSearchClose" type="button">✕</button>
 </div>
-
+<label class="vayen-search-field" for="vayenSearchInput">
+<svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 5 5"></path></svg>
+<input aria-label="Search products" autocomplete="off" id="vayenSearchInput" placeholder="Search digital products..." type="search"/>
+</label>
+<div class="vayen-search-meta"><span>EXPLORE PRODUCTS</span><span aria-live="polite" id="vayenSearchCount"></span></div>
+<div class="vayen-search-results" id="vayenSearchResults"></div>
+<div class="vayen-search-bottom"><a href="collection.html">Explore collections <span>↗</span></a><span>Press Esc to close</span></div>
+</section>
+</div>
 <script>
 /* VAYEN catalog search — published products only */
 (function(){
@@ -1305,5 +1203,75 @@ if ("serviceWorker" in navigator) {
   });
 }
 </script>
-</body>
+<style>
+#vayenLoginToast{position:fixed;z-index:99999;top:105px;right:22px;max-width:min(360px,calc(100vw - 40px));padding:18px 23px;border-radius:17px;background:#251a20;color:white;box-shadow:0 16px 45px #24161f40;font:700 14px Arial;animation:vayenToastIn .35s ease}@keyframes vayenToastIn{from{opacity:0;transform:translateY(-15px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:768px){#vayenLoginToast{top:80px;right:12px;left:12px;text-align:center}}
+</style><script>
+(function(){
+ let session=null;try{session=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null')}catch(e){}
+ const link=document.getElementById('headerSignIn');
+ if(session&&session.id&&link){const n=(localStorage.getItem('vayenHeaderName')||session.name||'Member').trim().split(/\s+/)[0];link.href='account.html';link.textContent='Dear '+(n||'Member');link.style.whiteSpace='nowrap';link.classList.add('vayen-signed-in-name')}
+ const flash=sessionStorage.getItem('vayenAuthFlash');
+ if(flash){sessionStorage.removeItem('vayenAuthFlash');sessionStorage.setItem('vayenEntered','yes');const welcome=document.getElementById('welcomeScreen');if(welcome)welcome.style.display='none';const t=document.createElement('div');t.id='vayenLoginToast';t.textContent='✓ '+flash;document.body.appendChild(t);setTimeout(()=>t.remove(),4800)}
+})();
+</script>
+<script id="vayen-account-visibility-only">
+(function () {
+  const account = document.getElementById('vayenHeaderAccount');
+  if (!account) return;
+  function updateAccountVisibility() {
+    let loggedIn = false;
+    try {
+      const session = JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1') || 'null');
+      loggedIn = !!(session && session.id && session.email);
+    } catch (e) {}
+    account.hidden = !loggedIn;
+    account.style.setProperty('display', loggedIn ? '' : 'none', loggedIn ? '' : 'important');
+    if (loggedIn) account.style.removeProperty('display');
+  }
+  updateAccountVisibility();
+  window.addEventListener('pageshow', updateAccountVisibility);
+  window.addEventListener('focus', updateAccountVisibility);
+})();
+</script>
+<script id="vayen-demo-checkout-gate">
+(function(){
+  'use strict';
+  const validId=id=>typeof id==='string' && /^[a-zA-Z0-9_-]{1,120}$/.test(id);
+  const session=()=>{try{const s=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null');return s&&s.id&&s.email?s:null}catch(e){return null}};
+  function redirect(product){
+    if(!validId(product))return;
+    const target=session()?'payment.html?product='+encodeURIComponent(product):'login.html?from=get&product='+encodeURIComponent(product);
+    window.location.assign(target);
+  }
+  document.addEventListener('click',function(event){
+    const a=event.target.closest('a[href]');
+    if(!a)return;
+    const url=new URL(a.href,location.href);
+    if(url.origin!==location.origin)return;
+    const product=url.searchParams.get('product');
+    const path=url.pathname.split('/').pop().toLowerCase();
+    if(path==='login.html'&&url.searchParams.get('from')==='get'&&validId(product)&&session()){
+      event.preventDefault();event.stopImmediatePropagation();redirect(product);
+    } else if(path==='payment.html'&&validId(product)&&!session()){
+      event.preventDefault();event.stopImmediatePropagation();redirect(product);
+    }
+  },true);
+})();
+</script>
+<script id="vayen-dear-name-sync-final">(function(){
+ function syncDear(){
+  let session=null;try{session=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null')}catch(e){}
+  const header=document.getElementById('headerSignIn');if(!header)return;
+  if(session&&session.id&&session.email){
+    const key='vayenHeaderName:'+session.id;
+    const custom=(localStorage.getItem(key)||localStorage.getItem('vayenHeaderName')||'').trim();
+    const fallback=(session.name||'Member').trim().split(/\s+/)[0];
+    header.textContent='Dear '+(custom||fallback||'Member');
+    header.href='profile.html';header.style.whiteSpace='nowrap';header.classList.add('vayen-signed-in-name');
+  }
+ }
+ syncDear();window.addEventListener('pageshow',syncDear);window.addEventListener('focus',syncDear);
+ window.addEventListener('storage',e=>{if(e.key&&e.key.startsWith('vayenHeaderName'))syncDear()});
+})();</script><nav aria-label="Mobile main navigation" class="vayen-mobile-nav"><a aria-current="page" class="mobile-nav-item active" href="index.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-7H9v7H3z"></path></svg></span><span>Home</span></a><a class="mobile-nav-item" href="collection.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM9 4v16M5 10h14"></path></svg></span><span>Collection</span></a><a class="mobile-nav-item" href="library.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg></span><span>Library</span></a><a class="mobile-nav-item" href="orders.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 3h14v18l-3-2-4 2-4-2-3 2zM8 8h8M8 12h8"></path></svg></span><span>Orders</span></a><a class="mobile-nav-item" href="profile.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 21c.8-4.5 3.1-6.5 7-6.5s6.2 2 7 6.5"></path></svg></span><span>Account</span></a></nav></body>
 </html>

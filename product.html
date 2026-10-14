@@ -44,9 +44,9 @@
 }
 
 .product-visual.flagship-photo-cover .product-visual-top {
-    justify-content: center;
+    justify-content: flex-start;
+    padding-right: 250px;
 }
-
 .product-visual.flagship-photo-cover .product-visual-top span {
     display: none;
 }
@@ -85,7 +85,11 @@ body.page-leaving {
     opacity: 0;
 }
 </style>
-</head>
+<style id="vayen-saved-heart-styles">
+.vayen-save-heart{position:absolute;right:15px;top:15px;z-index:5;display:grid;place-items:center;width:39px;height:39px;padding:0;border:1px solid rgba(190,155,166,.42);border-radius:50%;background:rgba(255,250,250,.96);color:#765763;cursor:pointer;box-shadow:0 4px 15px rgba(34,18,26,.12);transition:background .2s,color .2s,transform .2s; -webkit-tap-highlight-color:transparent}
+.vayen-save-heart:hover{transform:scale(1.08)}.vayen-save-heart.is-saved{background:#fff0f5;color:#bf4777;border-color:#dca6ba}.vayen-save-heart.is-saved svg{fill:currentColor}.vayen-save-heart:focus-visible{outline:2px solid #9d3e65;outline-offset:3px}
+@media(max-width:768px){.vayen-save-heart{width:38px;height:38px;right:12px;top:12px}}
+</style></head>
 
 
 <body class="product-body">
@@ -869,7 +873,8 @@ document.querySelectorAll(".product-preview-card").forEach((item, i) => {
 });
 
 document.querySelectorAll("a.product-get").forEach(link => {
-    link.href = "login.html?from=get&product=" + encodeURIComponent(productId);
+    let active=null;try{active=JSON.parse(sessionStorage.getItem("vayenDemoLoginSessionV1")||"null")}catch(e){}
+    link.href = (active&&active.id&&active.email ? "payment.html?product=" : "login.html?from=get&product=") + encodeURIComponent(productId);
 });
 if (product.price == null) {
     document.querySelectorAll("a.product-get").forEach(link => {
@@ -920,7 +925,7 @@ if (productId === "youtube-creator-system") {
 
 <script>
 document.querySelectorAll(
-    'a.product-get[href*="login.html"]'
+    'a.product-get[href*="login.html"], a.product-get[href*="payment.html"]'
 ).forEach(function (getButton) {
 
     getButton.addEventListener(
@@ -981,5 +986,22 @@ document.querySelectorAll("a.product-back, a.vc-back").forEach(function(link) {
     });
 });
 </script>
-</body>
+<script id="vayen-saved-heart-engine">
+(function(){
+'use strict';
+const PREFIX='vayenSavedProductsDemoV1_';
+function user(){try{const s=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null');return s&&s.id?String(s.id):'guest'}catch(e){return 'guest'}}
+const libraryKey=()=> 'vayenLibraryV1:'+user();
+function readLibrary(){try{const d=JSON.parse(localStorage.getItem(libraryKey())||'null');return d&&Array.isArray(d.saved)&&Array.isArray(d.folders)?d:{saved:[],folders:[]}}catch(e){return {saved:[],folders:[]}}}
+function get(){return readLibrary().saved.filter(x=>typeof x==='string')}
+function set(a){try{const d=readLibrary();d.saved=a;localStorage.setItem(libraryKey(),JSON.stringify(d))}catch(e){console.warn('Unable to save Library item',e)}}
+function toggle(id){let a=get();a=a.includes(id)?a.filter(x=>x!==id):[id,...a];set(a);window.dispatchEvent(new Event('vayen-saved-changed'));return a.includes(id)}
+function svg(){return '<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg>'}
+function heart(id){const b=document.createElement('button');b.type='button';b.className='vayen-save-heart';b.dataset.saveId=id;b.innerHTML=svg();b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();toggle(id)});return b}
+function sync(){document.querySelectorAll('.vayen-save-heart').forEach(b=>{const active=get().includes(b.dataset.saveId);b.classList.toggle('is-saved',active);b.setAttribute('aria-pressed',String(active));b.setAttribute('aria-label',active?'Remove from Saved':'Save product');b.title=active?'Remove from Saved':'Save product'})}
+window.VayenSaved={get,toggle,heart,sync,user};window.addEventListener('vayen-saved-changed',sync);
+})();
+</script><script id="vayen-product-saved-init">
+(function(){const visual=document.querySelector('.product-visual');if(!visual||!window.VayenSaved)return;visual.style.position='relative';const id=new URLSearchParams(location.search).get('id')||'ai-prompting';visual.appendChild(VayenSaved.heart(id));VayenSaved.sync()})();
+</script></body>
 </html>

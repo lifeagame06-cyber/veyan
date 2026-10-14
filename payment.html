@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head><script id="vayen-payment-login-check">
+(function(){
+ const id=new URLSearchParams(location.search).get('product');
+ if(!id||!/^[a-zA-Z0-9_-]{1,120}$/.test(id))return;
+ let s=null;try{s=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null')}catch(e){}
+ if(!s?.id||!s?.email)location.replace('login.html?from=get&product='+encodeURIComponent(id));
+})();
+</script>
+
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   Checkout — VAYEN
+  </title>
+  <style>
+   :root{font-family:Arial,Helvetica,sans-serif;color:#2c2227;background:#f7f1ee}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 85% 10%,#f4e0e4 0,transparent 46%),#f7f1ee}a{text-decoration:none;color:inherit}.header{height:76px;border-bottom:1px solid #e9dadd;background:#fffaf8e8;display:flex;align-items:center;justify-content:space-between;padding:0 max(22px,calc((100vw - 1080px)/2));gap:15px}.brand{font-weight:900;letter-spacing:5px;font-size:22px}.back{font-size:13px;font-weight:700;color:#735b66}.wrap{width:min(1050px,calc(100% - 40px));margin:55px auto 70px}.eyebrow{font-size:11px;letter-spacing:2.5px;font-weight:800;color:#a36b7f}.headline{font-size:clamp(34px,5vw,55px);line-height:1.08;letter-spacing:-2px;margin:14px 0}.muted{color:#776b71;line-height:1.65}.layout{display:grid;grid-template-columns:1.25fr .85fr;gap:25px;margin-top:30px}.card{background:#fffaf8;border:1px solid #ecdde0;border-radius:25px;padding:35px;box-shadow:0 20px 55px #50313b12}.card h2{font-size:24px;letter-spacing:-.7px;margin:0 0 15px}.label{font-size:11px;font-weight:800;letter-spacing:1.8px;color:#a16b7b}.product{font-size:24px;font-weight:750;margin:12px 0 7px}.price{font-size:30px;font-weight:800}.line{border-top:1px solid #eadde0;margin:22px 0}.between{display:flex;justify-content:space-between;gap:12px;align-items:center}.note{font-size:12px;color:#756970;line-height:1.7}.primary{display:flex;align-items:center;justify-content:space-between;gap:15px;background:#30232a;color:#fff;border:0;border-radius:15px;padding:19px 22px;font-weight:750;font-size:14px;width:100%;cursor:pointer;transition:.2s}.primary:hover{background:#583b49;transform:translateY(-2px)}.secondary{display:inline-flex;padding:14px 21px;border:1px solid #d9c6cc;border-radius:14px;font-size:13px;font-weight:700}.badge{display:inline-block;border-radius:999px;background:#f5e7e9;padding:9px 13px;color:#945e71;font-size:11px;font-weight:800;letter-spacing:1px}.icon{display:grid;place-items:center;width:76px;height:76px;border-radius:23px;background:#f2e1e5;color:#9c6477;font-size:34px;margin:0 auto 23px}.center{text-align:center}.center .muted{max-width:460px;margin:0 auto 28px}.result{max-width:650px;margin:0 auto}.result .primary{max-width:330px;margin:24px auto 12px;justify-content:center}.foot{padding:25px;text-align:center;border-top:1px solid #e8dadd;color:#927c83;font-size:11px}.small-row{display:flex;gap:10px;align-items:flex-start;margin:17px 0;font-size:13px;color:#65545e;line-height:1.5}.small-row b{color:#ae7385}.demo{margin-top:18px;padding:13px 15px;border:1px dashed #d8b6c2;border-radius:12px;color:#7d5666;background:#fcf3f4;font-size:12px;line-height:1.6}.error{color:#a13c54}.disabled{opacity:.5;pointer-events:none}@media(max-width:700px){.header{height:66px;padding:0 20px}.brand{font-size:19px}.back{font-size:11px}.wrap{margin:30px auto 48px;width:calc(100% - 28px)}.layout{grid-template-columns:1fr;gap:17px;margin-top:22px}.card{padding:26px 22px;border-radius:23px}.headline{letter-spacing:-1.5px}.result{margin-top:15px}}
+
+.checkout-policy-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-bottom: 13px;
+    font-size: 12px;
+}
+.checkout-policy-links a:hover { text-decoration: underline; }
+.checkout-policy-links span { opacity: .5; }
+  </style>
+ </head>
+ <body>
+  <header class="header">
+   <a class="brand" href="index.html">
+    VAYEN
+   </a>
+   <a class="back" href="collection.html">
+    ← Continue exploring
+   </a>
+  </header>
+  <main class="wrap">
+   <span class="eyebrow">
+    VAYEN / SECURE CHECKOUT DESIGN
+   </span>
+   <h1 class="headline">
+    Make it yours
+    <span style="color:#b67b90">
+     .
+    </span>
+   </h1>
+   <p class="muted">
+    Review your digital product before continuing.
+   </p>
+   <div class="layout">
+    <section class="card">
+     <span class="label">
+      YOUR DIGITAL PRODUCT
+     </span>
+     <div class="product" data-name="">
+     </div>
+     <p class="muted" data-category="">
+     </p>
+     <div class="line">
+     </div>
+     <div class="small-row">
+      <b>
+       ✓
+      </b>
+      <span>
+       One-time purchase, no subscription.
+      </span>
+     </div>
+     <div class="small-row">
+      <b>
+       ✓
+      </b>
+      <span>
+       Digital access after verified payment and order fulfilment are connected.
+      </span>
+     </div>
+     <div class="small-row">
+      <b>
+       ✓
+      </b>
+      <span>
+       Review the product details before proceeding.
+      </span>
+     </div>
+     <div class="line">
+     </div>
+     <a class="secondary" data-back="" href="product.html">
+      ← View product
+     </a>
+    </section>
+    <aside class="card">
+     <span class="label">
+      ORDER SUMMARY
+     </span>
+     <div class="between" style="margin-top:24px">
+      <span class="muted">
+       Product
+      </span>
+      <strong data-price="">
+      </strong>
+     </div>
+     <div class="between" style="margin-top:16px">
+      <span class="muted">
+       Additional charges
+      </span>
+      <strong>
+       ₹0
+      </strong>
+     </div>
+     <div class="line">
+     </div>
+     <div class="between">
+      <strong>
+       Total
+      </strong>
+      <span class="price" data-price="">
+      </span>
+     </div>
+     <p class="note">
+      Prices shown in INR. Payment integration is not yet connected.
+     </p>
+     <button class="primary" id="demoContinue" type="button">
+      Preview payment outcomes
+      <span>
+       →
+      </span>
+     </button>
+     <div class="demo" hidden="" id="demoActions">
+      <strong>
+       DEMO ONLY — no payment is collected.
+      </strong>
+      <p>
+       Choose a preview to test the page flow. Neither option records a purchase.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:9px">
+       <a class="secondary" href="#" id="testSuccess">
+        Preview success
+       </a>
+       <a class="secondary" href="#" id="testFailed">
+        Preview failed
+       </a>
+      </div>
+     </div>
+    </aside>
+   </div>
+  </main>
+  <footer class="foot">
+   <nav aria-label="Support and policies" class="checkout-policy-links">
+    <a href="refund.html">
+     Refund Policy
+    </a>
+    <span aria-hidden="true">
+     |
+    </span>
+    <a href="contact.html">
+     Contact Us
+    </a>
+    <span aria-hidden="true">
+     |
+    </span>
+    <a href="privacy.html">
+     Privacy Policy
+    </a>
+   </nav>
+   © 2026 VAYEN · Digital products, thoughtfully made.
+  </footer>
+  <script src="vayen-catalog.js">
+  </script>
+  <script>
+   const params=new URLSearchParams(location.search);
+const productId=params.get('product')||'';
+const product=window.VayenCatalog?.get(productId);
+const money=n=>'₹'+Number(n).toLocaleString('en-IN');
+const valid=product&&Number.isFinite(Number(product.price))&&Number(product.price)>0;
+const qs=new URLSearchParams({product:productId}).toString();
+function fill(){document.querySelectorAll('[data-name]').forEach(e=>e.textContent=valid?product.name:'Product unavailable');document.querySelectorAll('[data-price]').forEach(e=>e.textContent=valid?money(product.price):'—');document.querySelectorAll('[data-category]').forEach(e=>e.textContent=valid?(product.category||'DIGITAL PRODUCT'):'DIGITAL PRODUCT');document.querySelectorAll('[data-back]').forEach(e=>e.href='product.html?product='+encodeURIComponent(productId));document.querySelectorAll('[data-payment]').forEach(e=>e.href='payment.html?'+qs)}
+fill();
+  </script>
+  <script>
+   document.getElementById('demoContinue').disabled=!valid;document.getElementById('demoContinue').onclick=()=>document.getElementById('demoActions').hidden=false;document.getElementById('testSuccess').href='success.html?'+qs+'&demo=1';document.getElementById('testFailed').href='failed.html?'+qs+'&demo=1';
+ document.getElementById('testSuccess').addEventListener('click',function(){if(!valid)return;try{sessionStorage.setItem('vayenDemoPurchaseIntentV1',JSON.stringify({productId:productId,at:Date.now()}))}catch(e){}});
+  </script>
+ </body>
+</html>

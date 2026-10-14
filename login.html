@@ -1,16 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Sign in — VAYEN</title>
-
-    <link rel="stylesheet" href="style.css">
-
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sign in — VAYEN</title>
+<link href="style.css" rel="stylesheet"/>
 <style>
 /* VAYEN desktop login — consolidated; mobile stays unchanged */
 @media (min-width: 769px) {
@@ -66,338 +61,997 @@
   .login-panel { padding: 44px 46px !important; }
 }
 </style>
-</head>
+<style>
+/* VAYEN — Mobile Login Only */
+@media (max-width: 768px) {
 
+    body.login-body {
+        background: #f5f2ef !important;
+        overflow-x: hidden;
+    }
 
+    .login-header {
+        background: #faf8f6 !important;
+        border-bottom: 1px solid #e9e2df;
+        padding: 0 22px !important;
+        min-height: 68px !important;
+        height: 68px !important;
+    }
+
+    .login-brand,
+    .login-close {
+        color: #2b2227 !important;
+    }
+
+    .login-story,
+    .login-orb {
+        display: none !important;
+    }
+
+    .vayen-login {
+        display: block !important;
+        min-height: calc(100dvh - 68px) !important;
+        height: auto !important;
+        padding: 30px 18px 45px !important;
+        background: #f5f2ef !important;
+        overflow: visible !important;
+    }
+
+    .login-card {
+        display: block !important;
+        width: 100% !important;
+        max-width: 460px !important;
+        margin: 0 auto !important;
+        border-radius: 24px !important;
+        overflow: hidden !important;
+        background: #f0eae5 !important;
+        box-shadow: 0 16px 45px rgba(45,30,35,.09) !important;
+    }
+
+    .login-panel {
+        width: 100% !important;
+        padding: 35px 25px 30px !important;
+        background: #f0eae5 !important;
+    }
+
+    .login-panel-top {
+        margin-bottom: 30px !important;
+    }
+
+    .login-panel-top h2 {
+        font-size: clamp(30px, 8vw, 38px) !important;
+        letter-spacing: -1.5px !important;
+        line-height: 1.12 !important;
+    }
+
+    .google-login {
+        width: 100% !important;
+        min-height: 56px !important;
+        border-radius: 14px !important;
+    }
+
+    .login-email-field {
+        width: 100% !important;
+    }
+
+    .login-security {
+        margin-top: 30px !important;
+    }
+
+    .login-explore {
+    display: block !important;
+}
+}
+
+/* VAYEN — Mobile Luxury Login Polish */
+@media (max-width: 768px) {
+
+    .login-card {
+        background: #f0eae5 !important;
+        border: 1px solid rgba(150, 108, 119, .14);
+        box-shadow: 0 22px 65px rgba(49, 30, 39, .13) !important;
+    }
+
+    .login-panel {
+        padding-bottom: 20px !important;
+    }
+
+    .login-explore {
+        display: block !important;
+        position: relative;
+        overflow: hidden;
+        margin: 20px 12px 12px !important;
+        padding: 34px 28px !important;
+        border-radius: 22px !important;
+        background:
+            radial-gradient(
+                circle at 95% 0%,
+                rgba(186, 119, 145, .25),
+                transparent 48%
+            ),
+            linear-gradient(
+                145deg,
+                #35272e,
+                #1d191c
+            ) !important;
+        border: 1px solid rgba(255, 210, 222, .13);
+        box-shadow: 0 16px 35px rgba(43, 27, 34, .15);
+    }
+
+    .login-explore > span {
+        color: #d9a0b2 !important;
+        letter-spacing: 2.5px;
+    }
+
+    .login-explore h3 {
+        font-size: clamp(29px, 8vw, 37px) !important;
+        line-height: 1.1 !important;
+        letter-spacing: -1.4px !important;
+        color: #fff8f5 !important;
+    }
+
+    .login-explore p {
+        margin-top: 16px !important;
+        color: #c9b9bf !important;
+        line-height: 1.7 !important;
+    }
+
+    .login-explore a {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: space-between;
+        gap: 22px;
+        margin-top: 24px !important;
+        padding: 14px 19px !important;
+        border-radius: 100px !important;
+        background: #f4e6e8 !important;
+        color: #302129 !important;
+        border: none !important;
+        font-weight: 700;
+        text-decoration: none !important;
+        box-shadow: 0 8px 22px rgba(0, 0, 0, .12);
+    }
+
+    .login-explore a span {
+        color: #302129 !important;
+    }
+}
+
+</style>
+<style>
+/* VAYEN PREMIUM MOBILE LOGIN — ONLY MOBILE */
+
+.mobile-login-explore,
+.mobile-login-footer {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    body.login-body {
+        background: #f7f0ed !important;
+        background-image: radial-gradient(
+            ellipse at 85% 45%,
+            rgba(196, 130, 148, .13),
+            transparent 65%
+        ) !important;
+    }
+
+    .vayen-login {
+        padding: 28px 18px 12px !important;
+        min-height: 0 !important;
+        background: transparent !important;
+    }
+
+    .login-card {
+        background: #fff8f5 !important;
+        border: 1px solid #eadbdc !important;
+        border-radius: 25px !important;
+        box-shadow: 0 15px 45px rgba(90, 48, 61, .08) !important;
+    }
+
+    .login-panel {
+        background: #fff8f5 !important;
+        padding: 34px 25px 32px !important;
+    }
+
+    .login-panel-top h2 {
+        color: #261b20 !important;
+    }
+
+    .login-panel-top p,
+    .login-security p {
+        color: #66585e !important;
+    }
+
+    .login-security {
+        background: #f6e8e7 !important;
+        border-radius: 16px !important;
+    }
+
+    .login-panel .login-explore {
+        display: none !important;
+    }
+
+    .mobile-login-explore {
+        display: block !important;
+        position: relative;
+        overflow: hidden;
+        margin: 20px 18px 0;
+        padding: 35px 27px;
+        border-radius: 25px;
+        color: #fff8f6;
+        background:
+            radial-gradient(
+                circle at 105% 0%,
+                rgba(205, 116, 145, .46),
+                transparent 53%
+            ),
+            linear-gradient(
+                145deg,
+                #35242d,
+                #1c171b
+            );
+        box-shadow: 0 18px 45px rgba(59, 30, 43, .15);
+    }
+
+    .mobile-login-explore > span {
+        font-size: 10px;
+        letter-spacing: 2.6px;
+        font-weight: 800;
+        color: #e5abbc;
+    }
+
+    .mobile-login-explore h2 {
+        margin-top: 22px;
+        font-size: clamp(31px, 8.5vw, 43px);
+        line-height: 1.07;
+        letter-spacing: -1.6px;
+        font-weight: 500;
+    }
+
+    .mobile-login-explore h2 em {
+        color: #dba0b1;
+        font-style: normal;
+    }
+
+    .mobile-login-explore p {
+        margin-top: 20px;
+        color: #e0d0d4;
+        font-size: 13px;
+        line-height: 1.75;
+    }
+
+    .mobile-login-explore a {
+        display: inline-flex;
+        align-items: center;
+        gap: 25px;
+        margin-top: 28px;
+        padding: 15px 21px;
+        border-radius: 100px;
+        background: #f8e9ec;
+        color: #302029;
+        font-size: 12px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .mobile-login-explore a span {
+        font-size: 18px;
+    }
+
+    .mobile-login-footer {
+        display: block !important;
+        margin: 30px 18px 0;
+        padding: 23px 10px 32px;
+        border-top: 1px solid #e2d0d3;
+        text-align: center;
+        color: #92757f;
+        font-size: 11px;
+    }
+
+    .mobile-login-footer div {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 12px;
+    }
+
+    .mobile-login-footer a {
+        color: #80616d;
+        text-decoration: none;
+    }
+}
+</style>
+<style>
+/* VAYEN — Mobile Login Final Text Polish */
+@media (max-width: 768px) {
+
+    .login-panel {
+        background: linear-gradient(
+            145deg,
+            #fffaf8 0%,
+            #fff4f2 100%
+        ) !important;
+    }
+
+    .login-panel-top > span,
+    .email-login label {
+        color: #986575 !important;
+        font-weight: 800 !important;
+        letter-spacing: 2px !important;
+    }
+
+    .login-panel-top h2 {
+        color: #241b20 !important;
+        font-weight: 700 !important;
+    }
+
+    .login-panel-top p {
+        color: #70646b !important;
+    }
+
+    .google-mark {
+        color: transparent !important;
+        background: conic-gradient(
+            #4285f4 0deg 90deg,
+            #34a853 90deg 180deg,
+            #fbbc05 180deg 245deg,
+            #ea4335 245deg 315deg,
+            #4285f4 315deg 360deg
+        ) !important;
+        -webkit-background-clip: text !important;
+        background-clip: text !important;
+        font-weight: 900 !important;
+        font-size: 19px !important;
+    }
+
+    .google-login {
+        color: #292127 !important;
+        font-weight: 700 !important;
+    }
+
+    .login-divider small {
+        color: #85757e !important;
+    }
+
+    .login-email-field input {
+        color: #30272d !important;
+    }
+
+    .login-email-field input::placeholder {
+        color: #9c9297 !important;
+        opacity: 1 !important;
+    }
+
+    .login-security {
+        background: #f5e7e8 !important;
+    }
+
+    .login-security p {
+        color: #66545e !important;
+    }
+
+    .login-legal {
+        color: #756770 !important;
+    }
+
+    .login-legal a {
+        color: #9a6076 !important;
+        font-weight: 700 !important;
+        text-underline-offset: 3px;
+    }
+}
+</style>
+<style>
+/* Colourful Google G on desktop; mobile styling remains unchanged. */
+@media (min-width: 769px) {
+    .google-mark {
+        color: transparent !important;
+        background: conic-gradient(
+            #4285f4 0deg 90deg,
+            #34a853 90deg 180deg,
+            #fbbc05 180deg 245deg,
+            #ea4335 245deg 315deg,
+            #4285f4 315deg 360deg
+        ) !important;
+        -webkit-background-clip: text !important;
+        background-clip: text !important;
+        font-weight: 900 !important;
+        font-size: 19px !important;
+    }
+}
+</style>
+<style>
+/* Readability polish: subtle contrast boost, no layout changes */
+.login-divider small { color: #67575f !important; font-weight: 800 !important; }
+.email-login label { color: #77505f !important; font-weight: 800 !important; }
+.login-email-field input { color: #30242b !important; }
+.login-email-field input::placeholder { color: #82747c !important; opacity: 1 !important; }
+.login-security p { color: #51434b !important; font-weight: 500 !important; }
+.login-security .security-mark { color: #96546b !important; }
+.login-legal { color: #62535b !important; }
+.login-legal a { color: #49313e !important; font-weight: 800 !important; }
+</style>
+<style>
+/* VAYEN email account flow: desktop + phone */
+.auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;background:#f1e7e6;padding:5px;border-radius:13px;margin:0 0 23px}
+.auth-tab{border:0;background:transparent;color:#79656c;border-radius:10px;padding:12px 8px;font-size:12px;font-weight:800;transition:background .2s}
+.auth-tab.active{background:#fffaf8;color:#34232c;box-shadow:0 2px 9px #51323a15}
+.auth-form{display:flex;flex-direction:column;gap:9px}
+.auth-form label{font-size:10px;letter-spacing:1.6px;color:#77505f;font-weight:800;margin-top:6px}
+.auth-form .auth-input,.auth-password-field{width:100%;min-height:52px;border:1px solid #dfd2d2;background:#fffdfc;border-radius:12px;color:#30242b;outline:none;box-sizing:border-box}
+.auth-form .auth-input{padding:0 15px;font-size:14px}
+.auth-form .auth-input:focus,.auth-password-field:focus-within{border-color:#a66d76;box-shadow:0 0 0 3px #b67b891a}
+.auth-name,.auth-password-wrap{display:flex;flex-direction:column;gap:9px}
+.auth-name[hidden],.auth-password-wrap[hidden]{display:none!important}
+.auth-password-field{display:flex;align-items:center;overflow:hidden}
+.auth-password-field input{flex:1;min-width:0;padding:0 15px;border:0;background:transparent;outline:none;color:#30242b;font-size:14px;height:50px}
+.auth-eye{border:0;background:transparent;color:#765b66;display:grid;place-items:center;width:48px;height:48px;flex:none;cursor:pointer}
+.auth-eye svg{width:20px;height:20px}.auth-eye svg[hidden]{display:none}
+.auth-help{display:flex;justify-content:flex-end;margin:0 0 3px}.auth-help button,.auth-switch button{border:0;background:transparent;color:#8d4d64;font-size:12px;font-weight:800;padding:4px 0;cursor:pointer}
+.auth-submit{display:flex;justify-content:center;align-items:center;gap:15px;min-height:52px;width:100%;border:0;border-radius:12px;background:#2d2028;color:#fff9f7;font-weight:800;font-size:13px;cursor:pointer;margin-top:6px}
+.auth-submit:hover{background:#4a303d}.auth-submit:disabled{opacity:.6;cursor:wait}
+.auth-message{margin:2px 0!important;padding:11px 13px;border-radius:10px;background:#fff0ed;color:#8d343d;font-size:12px;line-height:1.55}
+.auth-message.ok{background:#e9f3ec;color:#2c6844}
+.auth-demo-label{text-align:center;color:#8c777e;font-size:9px;font-weight:800;letter-spacing:1.3px;margin:7px 0 0!important}
+.auth-switch{text-align:center;font-size:12px;color:#6d5d65;margin:18px 0 0}
+@media(max-width:768px){.login-panel{padding:30px 22px 28px!important}.login-panel-top{margin-bottom:23px!important}.auth-tabs{margin-bottom:18px}.auth-form .auth-input,.auth-password-field{min-height:54px}.auth-submit{min-height:54px}.login-security{margin-top:24px!important}.auth-switch{margin-top:17px}}
+@media(max-width:360px){.login-panel{padding-left:18px!important;padding-right:18px!important}}
+</style>
+<style>
+/* Desktop fit: keep the entire login visible at normal browser zoom. */
+@media (min-width:769px) {
+  body.login-body { min-height:100dvh !important; overflow-x:hidden !important; }
+  .login-header { flex:0 0 62px !important; height:62px !important; min-height:62px !important; }
+  .vayen-login { min-height:calc(100dvh - 62px) !important; padding:14px 24px 18px !important; }
+  .login-card { width:min(900px,100%) !important; max-width:900px !important; grid-template-columns:1fr .92fr !important; }
+  .login-story { padding:30px 38px !important; }
+  .login-story h1 { font-size:clamp(44px,4.1vw,66px) !important; line-height:1.03 !important; letter-spacing:-2.5px !important; margin:25px 0 20px !important; }
+  .login-story > p { font-size:13px !important; line-height:1.6 !important; margin-bottom:26px !important; }
+  .login-benefits { margin-top:26px !important; }
+  .login-benefits > div { padding:11px 0 !important; }
+  .login-benefits p { font-size:12px !important; line-height:1.5 !important; }
+  .login-panel { padding:26px 34px !important; }
+  .login-panel-top { margin-bottom:17px !important; }
+  .login-panel-top h2 { font-size:clamp(27px,2.5vw,35px) !important; line-height:1.13 !important; margin:12px 0 8px !important; }
+  .login-panel-top p { font-size:12px !important; line-height:1.5 !important; margin:0 !important; }
+  .google-login { min-height:45px !important; padding-top:8px !important; padding-bottom:8px !important; }
+  .login-divider { margin:13px 0 !important; }
+  .auth-tabs { margin-bottom:13px !important; padding:4px !important; }
+  .auth-tab { padding:9px 8px !important; }
+  .auth-form { gap:6px !important; }
+  .auth-form label { margin-top:3px !important; }
+  .auth-form .auth-input,.auth-password-field { min-height:43px !important; }
+  .auth-password-field input { height:42px !important; }
+  .auth-eye { height:42px !important; width:43px !important; }
+  .auth-help { margin:0 !important; }
+  .auth-submit { min-height:43px !important; margin-top:3px !important; }
+  .auth-demo-label { margin-top:3px !important; }
+  .auth-switch { margin-top:10px !important; }
+  .login-security { margin-top:15px !important; padding:10px 12px !important; }
+  .login-security p { font-size:11px !important; line-height:1.45 !important; }
+  .login-legal { margin-top:10px !important; font-size:10px !important; line-height:1.4 !important; }
+}
+/* Extra-tight layout for shorter laptop windows; never clip essential controls. */
+@media (min-width:769px) and (max-height:760px) {
+  .login-header { flex-basis:54px !important; height:54px !important; min-height:54px !important; }
+  .vayen-login { min-height:calc(100dvh - 54px) !important; padding:8px 18px !important; }
+  .login-story { padding:20px 32px !important; }
+  .login-story h1 { font-size:48px !important; margin:17px 0 14px !important; }
+  .login-panel { padding:18px 28px !important; }
+  .login-panel-top { margin-bottom:10px !important; }
+  .login-panel-top h2 { margin:7px 0 !important; }
+  .login-divider { margin:8px 0 !important; }
+  .auth-tabs { margin-bottom:9px !important; }
+  .login-security { margin-top:9px !important; }
+}
+/* On small phones keep natural vertical scrolling: never cut off forms. */
+@media (max-width:768px) {
+  .login-card { max-width:460px !important; }
+  .login-panel { padding:26px 22px 25px !important; }
+  .login-panel-top { margin-bottom:18px !important; }
+  .auth-tabs { margin-bottom:14px !important; }
+  .auth-form { gap:7px !important; }
+  .login-security { margin-top:17px !important; }
+}
+</style>
+<style id="vayen-approved-editorial-design">
+/* Desktop editorial login design, scoped to login page only */
+body.login-body{background:radial-gradient(ellipse at 13% 25%,#f4dfe2 0,transparent 32%),radial-gradient(ellipse at 87% 70%,#e9d7de 0,transparent 30%),#f6f1ed!important}
+.vayen-login{position:relative!important;isolation:isolate}
+.vayen-login:before,.vayen-login:after{content:"";position:absolute;pointer-events:none;border-radius:50%;z-index:-1}
+.vayen-login:before{width:340px;height:340px;left:-140px;top:5%;background:radial-gradient(circle,#e4b7c4aa,transparent 72%);filter:blur(15px)}
+.vayen-login:after{width:300px;height:300px;right:-110px;bottom:0;background:radial-gradient(circle,#d7bdc9a0,transparent 72%);filter:blur(14px)}
+.vayen-book-row{display:flex;align-items:flex-end;justify-content:center;gap:10px;margin:21px 0 0;min-height:135px}
+.vayen-mini-book{width:30%;max-width:112px;min-height:125px;padding:12px 10px;display:flex;flex-direction:column;justify-content:space-between;text-decoration:none!important;border-radius:5px 9px 9px 5px;border-left:5px solid #ffffff33;box-shadow:7px 12px 19px #0005,inset -3px 0 #fff2;transform:rotate(-5deg);transition:transform .25s ease}
+.vayen-mini-book:hover{transform:translateY(-6px) rotate(0)}.vayen-mini-book:nth-child(2){min-height:143px;transform:rotate(2deg)}.vayen-mini-book:nth-child(2):hover{transform:translateY(-6px) rotate(0)}.vayen-mini-book:nth-child(3){transform:rotate(6deg)}.vayen-mini-book:nth-child(3):hover{transform:translateY(-6px) rotate(0)}
+.vayen-mini-book small{font-size:6px!important;letter-spacing:1px;color:#ffffffb8}.vayen-mini-book strong{font-size:13px;line-height:1.12;letter-spacing:-.25px;color:white}.vayen-mini-book span{font-size:7px;letter-spacing:1px;color:#ffffffad}
+.vayen-mini-book.vlog{background:linear-gradient(150deg,#955f6a,#39242d)}.vayen-mini-book.youtube{background:linear-gradient(155deg,#a55d62,#511f2a)}.vayen-mini-book.ai{background:linear-gradient(150deg,#6079a5,#293753)}
+.vayen-side-label{position:absolute;top:50%;width:clamp(125px,13vw,195px);transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;color:#59434c;pointer-events:none}.vayen-side-label.left-side{left:max(15px,calc((100% - 1240px)/2))}.vayen-side-label.right-side{right:max(15px,calc((100% - 1240px)/2))}.vayen-side-label span{font-size:9px;font-weight:800;letter-spacing:1.6px;color:#9b687d}.vayen-side-label strong{font-size:clamp(16px,1.5vw,22px);line-height:1.15}.vayen-side-label small{font-size:11px;line-height:1.5;color:#7b6971}
+@media(min-width:769px){.login-card{width:min(890px,calc(100% - 340px))!important;max-width:890px!important;grid-template-columns:1fr 1fr!important}.login-story{padding:25px 32px!important}.login-story h1{font-size:clamp(38px,3.5vw,54px)!important;margin:12px 0!important}.login-story>p{font-size:12px!important;margin-bottom:13px!important}.login-benefits{gap:7px!important}.login-benefits>div{padding:3px 0!important}.login-benefits p{font-size:11px!important}.login-panel{padding:25px 30px!important}.login-panel-top{margin-bottom:15px!important}.login-divider{margin:13px 0!important}.login-security{margin-top:13px!important}.login-legal{margin-top:10px!important}}
+@media(min-width:769px) and (max-width:1220px){.vayen-side-label{display:none!important}.login-card{width:min(900px,96%)!important}}
+@media(max-width:768px){.vayen-side-label{display:none!important}.vayen-book-row{min-height:0;margin:22px 0 0}.vayen-mini-book{width:30%;min-height:108px}.vayen-mini-book:nth-child(2){min-height:120px}.vayen-mini-book strong{font-size:11px}.login-card{box-shadow:0 22px 55px #5d344026!important}.login-panel:after{content:"DIGITAL PRODUCTS  ·  YOUR SPACE  ·  SUPPORT";display:block;text-align:center;font-size:9px;letter-spacing:1.2px;font-weight:800;color:#936f7c;margin-top:15px}}
+@media(max-width:768px){.login-story{display:flex!important;flex-direction:column!important;padding:25px!important;background:#292123!important}.login-story h1{font-size:32px!important;margin:10px 0!important}.login-story>p{font-size:12px!important;margin:0!important}.login-benefits{display:none!important}.vayen-book-row{margin:20px 0 3px}.login-panel{padding:25px 22px!important}}
+@media(max-height:760px) and (min-width:769px){.vayen-book-row{margin-top:10px;min-height:105px}.vayen-mini-book{min-height:96px;padding:8px}.vayen-mini-book:nth-child(2){min-height:107px}.vayen-mini-book strong{font-size:10px}.login-story{padding:16px 26px!important}.login-panel{padding:18px 25px!important}}
+</style>
+<style id="vayen-approved-design-correction">
+/* VAYEN APPROVED LOGIN — FINAL VISUAL LAYER (scoped, no auth changes) */
+body.login-body {background:#f8f1ee!important;overflow-x:hidden!important}
+.login-header {position:relative;z-index:4;background:#fffaf8!important}
+.vayen-login {position:relative!important;isolation:isolate;display:grid!important;grid-template-columns:minmax(175px,205px) minmax(0,940px) minmax(175px,205px)!important;align-items:center!important;justify-content:center!important;gap:28px!important;width:100%!important;min-height:calc(100dvh - 62px)!important;padding:44px 4.2vw 52px!important;background:radial-gradient(ellipse at 10% 55%,#f3d8d5 0%,transparent 35%),radial-gradient(ellipse at 92% 55%,#f0d6d9 0%,transparent 36%),linear-gradient(130deg,#fff9f5,#f8eae6 55%,#f9e9e5)!important;overflow:hidden!important}
+.vayen-login:before{content:"";position:absolute;left:-15%;bottom:-32%;width:78%;height:65%;border-radius:50%;border:2px solid #ffffffa3;transform:rotate(-14deg);pointer-events:none;z-index:-1}
+.vayen-login:after{content:"";position:absolute;right:-20%;top:34%;width:75%;height:55%;border-radius:50%;border:2px solid #ffffff91;transform:rotate(-18deg);pointer-events:none;z-index:-1}
+.vayen-scene-decor{position:absolute;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(ellipse at 0% 85%,#bb987a55,transparent 15%),radial-gradient(ellipse at 100% 100%,#8c65503b,transparent 17%);filter:blur(10px)}
+.login-orb{display:none!important}
+.vayen-side-label{position:static!important;top:auto!important;left:auto!important;right:auto!important;transform:none!important;width:auto!important;display:flex!important;flex-direction:column!important;gap:18px!important;align-self:center!important;pointer-events:auto!important;z-index:1}
+.vayen-feature-tile{display:flex;align-items:flex-start;gap:13px;padding:16px 12px;border-radius:20px;background:#fffaf6b3;border:1px solid #ffffff9c;box-shadow:0 12px 30px #6743500a;backdrop-filter:blur(8px)}
+.vayen-feature-icon{display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;border-radius:50%;background:#f8e9e7;color:#853c55;font-size:24px;font-weight:500;letter-spacing:0}
+.vayen-feature-tile strong{display:block;font-size:13px!important;line-height:1.35!important;color:#34232c}
+.vayen-feature-tile small{display:block;margin-top:5px;font-size:11px!important;line-height:1.5!important;color:#806e76!important}
+.login-card{width:100%!important;max-width:none!important;min-width:0!important;display:grid!important;grid-template-columns:1.08fr 1fr!important;overflow:hidden!important;border-radius:32px!important;box-shadow:0 24px 70px #39212b2b!important;border:1px solid #ffffff69;position:relative;z-index:2}
+.login-story{min-width:0;display:flex!important;flex-direction:column!important;justify-content:space-between!important;padding:38px 36px 24px!important;background:radial-gradient(ellipse at 50% 100%,#583331 0%,transparent 52%),linear-gradient(145deg,#282022,#181416)!important;color:#fff8f7!important}
+.login-story h1{font-size:clamp(41px,3.4vw,57px)!important;line-height:1.07!important;letter-spacing:-2.6px!important;margin:22px 0 14px!important;font-weight:500!important}
+.login-story h1 em{color:#d98ca4!important}
+.login-story>p{font-size:13px!important;line-height:1.6!important;color:#e4d5d8!important;margin:0 0 20px!important}
+.login-benefits{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:0!important;margin:0!important;padding:17px 0 8px!important;border-top:1px solid #ffffff25}
+.login-benefits>div{min-width:0;display:flex!important;flex-direction:column!important;align-items:center!important;text-align:center!important;gap:8px!important;padding:0 9px!important;border-right:1px solid #ffffff18!important}
+.login-benefits>div:last-child{border-right:0!important}
+.login-benefits span{color:#e8b7bf!important;font-size:26px!important;font-weight:400!important;letter-spacing:0!important}
+.login-benefits p{font-size:10.5px!important;line-height:1.5!important;color:#f0e3e4!important;margin:0!important}
+.vayen-book-row{display:flex!important;align-items:flex-end!important;justify-content:center!important;gap:7px!important;min-height:0!important;margin:22px -9px 0!important}
+.vayen-mini-book,.vayen-mini-book:nth-child(2),.vayen-mini-book:nth-child(3){display:block!important;flex:0 1 33%!important;width:33%!important;max-width:135px!important;min-height:0!important;height:auto!important;padding:0!important;overflow:hidden!important;background:none!important;border:0!important;border-radius:8px!important;box-shadow:0 13px 18px #0007!important;transform:rotate(-6deg)!important}
+.vayen-mini-book:nth-child(2){transform:translateY(-5px) rotate(0deg)!important}
+.vayen-mini-book:nth-child(3){transform:rotate(6deg)!important}
+.vayen-mini-book img{display:block;width:100%;height:auto;aspect-ratio:2/3;object-fit:cover}
+.vayen-mini-book:hover{transform:translateY(-10px) rotate(0)!important}
+.login-panel{min-width:0;padding:35px 35px 26px!important;background:linear-gradient(150deg,#fff9f6,#f8efec)!important}
+.login-panel-top{margin-bottom:19px!important}
+.login-panel-top h2{font-size:clamp(28px,2.4vw,37px)!important}
+.login-panel .login-explore{display:none!important}
+@media(min-width:769px) and (max-width:1450px){
+.vayen-login{grid-template-columns:minmax(145px,175px) minmax(0,900px) minmax(145px,175px)!important;gap:15px!important;padding:30px 22px!important}
+.vayen-feature-tile{padding:13px 9px;gap:8px}
+.vayen-feature-icon{flex-basis:35px;width:35px;height:35px;font-size:20px}
+.login-story{padding:27px 25px 19px!important}
+.login-panel{padding:25px 26px!important}
+}
+@media(min-width:769px) and (max-width:1120px){
+.vayen-login{grid-template-columns:minmax(0,920px)!important;padding:26px 22px!important}
+.vayen-side-label{display:none!important}
+.login-card{max-width:920px!important;margin:auto!important}
+}
+@media(min-width:769px) and (max-height:800px){
+.vayen-login{padding-top:16px!important;padding-bottom:16px!important}
+.login-story{padding-top:22px!important;padding-bottom:15px!important}
+.login-story h1{font-size:43px!important;margin:10px 0!important}
+.login-story>p{margin-bottom:10px!important}
+.login-benefits{padding-top:9px!important}
+.vayen-book-row{margin-top:10px!important}
+.vayen-mini-book{max-width:103px!important}
+.login-panel{padding-top:20px!important;padding-bottom:18px!important}
+.vayen-feature-tile{padding-top:10px;padding-bottom:10px}
+}
+@media(max-width:768px){
+body.login-body{background:#f8eeec!important}
+.vayen-login{display:block!important;min-height:0!important;padding:23px 16px 16px!important;background:radial-gradient(ellipse at 90% 0%,#f2d4dc,transparent 50%),linear-gradient(145deg,#fff7f3,#f7e9e6)!important}
+.vayen-side-label{display:none!important}
+.login-card{display:flex!important;flex-direction:column!important;width:100%!important;max-width:460px!important;margin:0 auto!important;border-radius:24px!important}
+.login-story{order:2;display:flex!important;padding:22px 23px!important;min-height:0!important}
+.login-story h1{font-size:31px!important;margin:8px 0!important}
+.login-story>p{font-size:12px!important;margin:0!important}
+.login-benefits{display:none!important}
+.vayen-book-row{margin:17px auto 0!important;max-width:320px!important}
+.vayen-mini-book{max-width:100px!important}
+.login-panel{order:1;padding:28px 22px!important}
+.login-panel:after{display:none!important}
+.mobile-login-explore{margin-top:14px!important}
+}
+</style><style id="vayen-final-polish">
+/* FINISHING LAYER — visual only; sign-in JavaScript remains intact */
+.vayen-login{grid-template-columns:minmax(170px,208px) minmax(0,900px) minmax(170px,208px)!important;column-gap:28px!important}
+.vayen-side-label{gap:15px!important}
+.vayen-feature-tile{position:relative;display:flex!important;align-items:center!important;gap:14px!important;padding:18px 14px!important;border:1px solid rgba(255,255,255,.72)!important;border-radius:21px!important;background:linear-gradient(135deg,rgba(255,252,250,.86),rgba(255,246,245,.64))!important;box-shadow:0 10px 24px rgba(87,52,64,.06),inset 0 1px rgba(255,255,255,.8)!important;transition:transform .25s ease,box-shadow .25s ease}
+.vayen-feature-tile:hover{transform:translateY(-3px);box-shadow:0 15px 28px rgba(87,52,64,.12)!important}
+.vayen-feature-icon{display:grid!important;place-items:center!important;flex:0 0 46px!important;width:46px!important;height:46px!important;border-radius:50%!important;background:#f7e8e6!important;color:#a34f6a!important}
+.vayen-feature-icon svg{width:24px;height:24px;stroke:#9b5069}
+.vayen-feature-tile strong{font-size:13px!important;line-height:1.35!important;letter-spacing:-.1px!important}
+.vayen-feature-tile small{font-size:11px!important;line-height:1.55!important;margin-top:5px!important}
+.login-benefits svg{height:25px;width:25px;stroke:#e5b5c2}
+.login-benefits span{display:grid;place-items:center;height:30px}
+.vayen-scene-decor{position:absolute!important;inset:0;z-index:-1!important;overflow:hidden;filter:none!important;pointer-events:none!important;background:radial-gradient(ellipse at 6% 50%,#f2d1d5aa,transparent 36%),radial-gradient(ellipse at 96% 70%,#f4d8d1a6,transparent 33%)!important}
+.vayen-decor-arc{position:absolute;left:-15%;bottom:-42%;width:96%;height:90%;border:2px solid #fff9;border-radius:50%;transform:rotate(-16deg);box-shadow:0 0 0 65px #ffffff15,0 0 0 125px #f8cfd021}
+.vayen-decor-book-stack{position:absolute;left:-35px;bottom:-15px;width:220px;height:100px;transform:rotate(-12deg);border-radius:8px;background:linear-gradient(#ffffffa8 0 20%,#bfa18b 21% 27%,#fff4e9 28% 49%,#b79280 50% 55%,#f5e5d8 56% 79%,#ac8574 80% 86%,#e9d0c1 87%);box-shadow:10px 12px 30px #6d4d4d33;filter:blur(2px);opacity:.58}
+.vayen-decor-leaf{position:absolute;left:-25px;bottom:65px;width:145px;height:200px;transform:rotate(-22deg);opacity:.3;filter:blur(3px);background:radial-gradient(ellipse at 35% 20%,#5e6745 0 17%,transparent 19%),radial-gradient(ellipse at 72% 40%,#52653e 0 16%,transparent 18%),radial-gradient(ellipse at 35% 67%,#57684a 0 19%,transparent 21%)}
+.vayen-decor-glow{position:absolute;right:-8%;bottom:-13%;width:350px;height:230px;border-radius:50%;background:#f4c9bc66;filter:blur(50px)}
+.login-card{box-shadow:0 30px 75px rgba(51,27,35,.22)!important}
+.login-story{background:radial-gradient(ellipse at 50% 98%,#49302f,transparent 48%),linear-gradient(145deg,#2b2224,#171316)!important}
+.login-story .login-eyebrow{letter-spacing:2.8px!important}
+.vayen-book-row{position:relative}
+.vayen-book-row:before{content:"";position:absolute;left:4%;right:4%;bottom:-8px;height:22px;background:#b46b5e7d;filter:blur(14px);border-radius:50%}
+.vayen-mini-book{box-shadow:4px 15px 20px #0008, inset 3px 0 #fff5!important}
+.vayen-mini-book img{border-radius:5px}
+.login-panel{background:linear-gradient(140deg,#fffaf8,#f8eeeb)!important}
+@media(min-width:769px) and (max-width:1450px){
+.vayen-login{grid-template-columns:minmax(145px,175px) minmax(0,900px) minmax(145px,175px)!important;gap:14px!important}
+.vayen-feature-tile{gap:9px!important;padding:13px 9px!important}
+.vayen-feature-icon{flex-basis:37px!important;width:37px!important;height:37px!important}
+.vayen-feature-icon svg{width:20px;height:20px}
+}
+@media(min-width:769px) and (max-width:1120px){
+.vayen-login{grid-template-columns:minmax(0,920px)!important}
+.vayen-side-label{display:none!important}
+}
+@media(max-width:768px){
+.vayen-login{display:block!important}
+.vayen-side-label{display:none!important}
+.vayen-decor-book-stack,.vayen-decor-leaf{display:none}
+.login-card{max-width:460px!important}
+.login-story{padding:22px!important}
+.login-story h1{font-size:32px!important}
+.vayen-mini-book{max-width:104px!important}
+}
+@media(prefers-reduced-motion:reduce){.vayen-feature-tile,.vayen-mini-book{transition:none!important}}
+</style><style id="vayen-reference-accurate-layout">
+/* Approved reference-inspired visual composition; form logic unchanged. */
+@media(min-width:1121px){
+body.login-body{background:#f7e8df!important}
+.vayen-login{display:grid!important;grid-template-columns:minmax(215px,255px) minmax(0,930px) minmax(215px,255px)!important;gap:28px!important;min-height:calc(100dvh - 62px)!important;padding:28px 3.5vw 42px!important;background:linear-gradient(110deg,#f4d9cc 0%,#f9e9e0 45%,#f0d5cc 100%)!important;overflow:hidden!important}
+.vayen-login:before{content:"";position:absolute!important;inset:0 auto 0 0!important;width:27%!important;height:100%!important;border:0!important;border-radius:0!important;transform:none!important;background:url("data:image/jpeg;base64,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") center bottom / cover no-repeat!important;opacity:.65!important;filter:none!important;z-index:-1!important}
+.vayen-login:after{content:"";position:absolute!important;inset:0 0 0 auto!important;width:27%!important;height:100%!important;border:0!important;border-radius:0!important;transform:none!important;background:url("data:image/jpeg;base64,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") center bottom / cover no-repeat!important;opacity:.65!important;filter:none!important;z-index:-1!important}
+.vayen-side-label{display:flex!important;position:static!important;transform:none!important;width:100%!important;gap:16px!important;align-self:center!important;pointer-events:auto!important}
+.vayen-side-label.left-side{padding-bottom:22px!important}
+.vayen-side-label.right-side{padding-bottom:0!important}
+.login-card{width:100%!important;max-width:930px!important;grid-template-columns:1.03fr .97fr!important;border-radius:30px!important;box-shadow:0 25px 65px #42242d25!important}
+.login-story{padding:38px 35px 25px!important;justify-content:space-between!important}
+.login-story h1{font-size:clamp(42px,3.3vw,64px)!important;margin:18px 0!important}
+.login-story>p{font-size:14px!important;margin-bottom:18px!important}
+.login-panel{padding:32px 34px!important}
+.login-benefits{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:0!important;margin-top:12px!important;padding-top:18px!important}
+.login-benefits>div{border-right:1px solid #ffffff20!important;text-align:center!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:8px!important;padding:0 9px!important}
+.login-benefits>div:last-child{border-right:0!important}
+.login-benefits span{font-size:26px!important;line-height:1!important}
+.login-benefits p{font-size:11px!important;line-height:1.55!important}
+.vayen-book-row{margin:23px -10px 0!important}
+.vayen-mini-book{max-width:135px!important}
+}
+.vayen-ref-tile{display:flex!important;align-items:flex-start!important;gap:13px!important;border:1px solid rgba(255,255,255,.8)!important;border-radius:25px!important;background:rgba(255,249,245,.54)!important;box-shadow:0 10px 30px #7d51501a!important;backdrop-filter:blur(12px)!important;padding:19px 16px!important;color:#251d22!important}
+.vayen-ref-tile.featured{min-height:170px!important}
+.vayen-ref-icon{flex:0 0 64px!important;width:64px!important;height:64px!important;display:grid!important;place-items:center!important;border-radius:18px!important;background:linear-gradient(140deg,#3a2429,#130f13)!important;color:#ffc080!important;text-shadow:0 0 10px #f9a557!important;font-size:34px!important;box-shadow:inset 0 1px #ffffff33,0 8px 14px #36212b27!important}
+.vayen-ref-copy{min-width:0!important;flex:1!important}
+.vayen-ref-badge{display:inline-block!important;border-radius:100px!important;background:linear-gradient(110deg,#dd989e,#b65a73)!important;color:white!important;padding:4px 11px!important;font-size:14px!important;letter-spacing:0!important;font-weight:800!important;margin:2px 0 10px!important}
+.vayen-ref-copy strong{display:block!important;font-size:17px!important;line-height:1.25!important;letter-spacing:-.5px!important;color:#231a20!important}
+.vayen-ref-copy p{font-size:12px!important;line-height:1.65!important;color:#67535d!important;margin:9px 0 0!important}
+.vayen-ref-tile.trust{min-height:0!important;align-items:center!important;padding:13px 12px!important;border-radius:25px!important;gap:13px!important}
+.vayen-ref-tile.trust .vayen-ref-icon{flex-basis:48px!important;width:48px!important;height:48px!important;border-radius:50%!important;background:#fff9f7!important;color:#8d3247!important;text-shadow:none!important;box-shadow:none!important;font-size:26px!important}
+.vayen-ref-tile.trust strong{font-size:14px!important;letter-spacing:-.2px!important}
+.vayen-ref-tile.trust p{font-size:11px!important;line-height:1.4!important;margin:3px 0 0!important}
+.vayen-side-label .vayen-ref-tile span:not(.vayen-ref-badge){font-size:inherit!important;letter-spacing:inherit!important}
+@media(min-width:1121px) and (max-width:1480px){
+.vayen-login{grid-template-columns:200px minmax(0,860px) 200px!important;gap:14px!important;padding-left:14px!important;padding-right:14px!important}
+.vayen-ref-tile{padding:13px 10px!important;gap:9px!important}
+.vayen-ref-icon{flex-basis:44px!important;width:44px!important;height:44px!important;font-size:24px!important}
+.vayen-ref-copy strong{font-size:14px!important}
+.vayen-ref-tile.featured{min-height:155px!important}
+.login-story{padding:26px 25px!important}
+.login-panel{padding:24px 26px!important}
+}
+@media(min-width:769px) and (max-width:1120px){
+.vayen-side-label{display:none!important}
+.vayen-login{display:flex!important;justify-content:center!important;padding:28px 18px!important}
+.login-card{width:min(900px,100%)!important}
+}
+@media(max-width:768px){
+.vayen-side-label{display:none!important}
+.vayen-login{display:block!important}
+.login-card{display:flex!important;flex-direction:column!important}
+.login-story{order:2!important}
+.login-panel{order:1!important}
+}
+</style><style id="vayen-unified-five-mobile-navigation">
+@media (min-width:769px){nav.vayen-mobile-nav{display:none!important}}
+@media (max-width:768px){
+ html{scroll-padding-bottom:85px}
+ body{padding-bottom:calc(84px + env(safe-area-inset-bottom))!important}
+ nav.vayen-mobile-nav{
+  position:fixed!important;bottom:0!important;left:0!important;right:0!important;
+  z-index:9998!important;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  align-items:center!important;gap:0!important;
+  padding:8px 4px calc(9px + env(safe-area-inset-bottom))!important;
+  background:rgba(251,248,246,.97)!important;border-top:1px solid #e6deda!important;
+  box-shadow:0 -5px 24px rgba(48,27,39,.06)!important;
+  backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);
+ }
+ nav.vayen-mobile-nav .mobile-nav-item{
+  min-width:0!important;display:flex!important;flex-direction:column!important;
+  align-items:center!important;justify-content:center!important;gap:4px!important;
+  padding:5px 1px!important;border:0!important;background:transparent!important;
+  color:#81757b!important;text-decoration:none!important;font:600 10px Arial,sans-serif!important;
+  border-radius:12px!important;box-shadow:none!important;
+ }
+ nav.vayen-mobile-nav .mobile-nav-item .mobile-nav-icon{display:grid!important;place-items:center!important;width:24px!important;height:24px!important}
+ nav.vayen-mobile-nav .mobile-nav-item svg{width:21px!important;height:21px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.7!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+ nav.vayen-mobile-nav .mobile-nav-item.active{color:#963d61!important;font-weight:800!important;background:#f8e8ed!important}
+ nav.vayen-mobile-nav .mobile-nav-item.active .mobile-nav-icon{color:#963d61!important}
+ nav.vayen-mobile-nav .mobile-nav-item:focus-visible{outline:2px solid #963d61;outline-offset:1px}
+}
+</style></head>
 <body class="login-body">
-
-
 <!-- HEADER -->
-
 <header class="login-header">
-
-    <a href="index.html" class="login-brand">
+<a class="login-brand" href="index.html">
         VAYEN
     </a>
-
-    <a href="index.html" class="login-close">
-        <span>←</span>
+<a class="login-close" href="index.html">
+<span>←</span>
         Continue exploring
     </a>
-
 </header>
-
-
-
 <!-- LOGIN -->
-
-<main class="vayen-login">
-
-
-    <!-- ATMOSPHERE -->
-
-    <div class="login-orb login-orb-one"></div>
-    <div class="login-orb login-orb-two"></div>
-
-
-    <section class="login-card">
-
-
-        <!-- LEFT -->
-
-        <div class="login-story">
-
-            <span class="login-eyebrow">
+<main class="vayen-login"><div aria-hidden="true" class="vayen-scene-decor"><div class="vayen-decor-arc"></div><div class="vayen-decor-book-stack"></div><div class="vayen-decor-leaf"></div><div class="vayen-decor-glow"></div></div>
+<!-- ATMOSPHERE -->
+<div class="login-orb login-orb-one"></div>
+<div class="login-orb login-orb-two"></div>
+<div aria-label="VAYEN digital products" class="vayen-side-label left-side"><div class="vayen-ref-tile featured"><div class="vayen-ref-icon">▤</div><div class="vayen-ref-copy"><span class="vayen-ref-badge">#1</span><strong>2 High-Quality Ebooks</strong><p>Practical, easy-to-follow guides created to help you learn and grow.</p></div></div><div class="vayen-ref-tile featured"><div class="vayen-ref-icon">ϟ</div><div class="vayen-ref-copy"><span class="vayen-ref-badge">#2</span><strong>2 Highlighted Ready-to-Use Tools</strong><p>Save time with useful templates, checklists and resources.</p></div></div></div>
+<section class="login-card">
+<!-- LEFT -->
+<div class="login-story">
+<span class="login-eyebrow">
                 YOUR SPACE AWAITS
             </span>
-
-            <h1>
-                Good to have<br>
-                <em>you here.</em>
-            </h1>
-
-            <p>
+<h1>
+                Good to have<br/>
+<em>you here.</em>
+</h1>
+<p>
                 Sign in to keep everything you make
                 yours connected to one private space.
             </p>
-
-
-            <div class="login-benefits">
-
-                <div>
-                    <span>01</span>
-
-                    <p>
-                        Your purchases stay
-                        connected to you.
-                    </p>
-                </div>
-
-
-                <div>
-                    <span>02</span>
-
-                    <p>
-                        Everything you own,
-                        always in your Library.
-                    </p>
-                </div>
-
-
-                <div>
-                    <span>03</span>
-
-                    <p>
-                        Orders and saved products
-                        stay easy to find.
-                    </p>
-                </div>
-
-            </div>
-
-        </div>
-
-
+<div class="login-benefits"><div><span><svg aria-hidden="true" fill="none" height="23" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" width="23"><path d="M4 8h16l-1 13H5zM9 9V6a3 3 0 0 1 6 0v3"></path></svg></span><p>Your purchases stay connected to you.</p></div><div><span><svg aria-hidden="true" fill="none" height="23" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" width="23"><path d="m12 3 9 5-9 5-9-5 9-5zm-9 9 9 5 9-5m-18 5 9 5 9-5"></path></svg></span><p>Everything you own, in your Library.</p></div><div><span><svg aria-hidden="true" fill="none" height="23" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 24 24" width="23"><path d="m13 2-9 12h7l-1 8 10-12h-7z"></path></svg></span><p>Orders and saved products stay easy to find.</p></div></div>
+<!-- VAYEN editorial product visuals: CSS-only, no misleading social proof -->
+<div aria-label="Featured digital products" class="vayen-book-row">
+<a aria-label="Vlogging Mastery" class="vayen-mini-book vlog" href="product.html?id=vlogging-mastery"><img alt="Vlogging Mastery" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22420%22%20height%3D%22630%22%20viewBox%3D%220%200%20420%20630%22%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%22b%22%20x2%3D%220.8%22%20y2%3D%221%22%3E%3Cstop%20stop-color%3D%22%23172d3b%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23c36d4e%22%2F%3E%3C%2FlinearGradient%3E%0A%3CradialGradient%20id%3D%22sun%22%3E%3Cstop%20stop-color%3D%22%23ffd2a0%22%20stop-opacity%3D%22.92%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23ffd2a0%22%20stop-opacity%3D%220%22%2F%3E%3C%2FradialGradient%3E%0A%3ClinearGradient%20id%3D%22glow%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20stop-color%3D%22%23fff%22%20stop-opacity%3D%22.18%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%220%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%0A%3Crect%20width%3D%22420%22%20height%3D%22630%22%20rx%3D%2216%22%20fill%3D%22url%28%23b%29%22%2F%3E%3Ccircle%20cx%3D%22310%22%20cy%3D%22425%22%20r%3D%22225%22%20fill%3D%22url%28%23sun%29%22%2F%3E%0A%3Cpath%20d%3D%22M0%20520%20Q110%20390%20220%20490%20T420%20435%20V630%20H0Z%22%20fill%3D%22%23120e17%22%20opacity%3D%22.43%22%2F%3E%0A%3Cpath%20d%3D%22M0%20555%20Q120%20490%20210%20535%20T420%20495%20V630%20H0Z%22%20fill%3D%22%230e0c13%22%20opacity%3D%22.63%22%2F%3E%0A%3Ccircle%20cx%3D%22290%22%20cy%3D%22390%22%20r%3D%2274%22%20fill%3D%22%23ffd7a0%22%20opacity%3D%22.35%22%2F%3E%3Cpath%20d%3D%22M194%20510l-25%2062h85l-18-64z%22%20fill%3D%22%2317151a%22%2F%3E%3Ccircle%20cx%3D%22218%22%20cy%3D%22398%22%20r%3D%2226%22%20fill%3D%22%2317151a%22%2F%3E%3Cpath%20d%3D%22M202%20425h39l25%2091h-82z%22%20fill%3D%22%2317151a%22%2F%3E%3Cpath%20d%3D%22M240%20442l45-27%2011%2015-43%2039z%22%20fill%3D%22%2317151a%22%2F%3E%3Crect%20x%3D%22280%22%20y%3D%22391%22%20width%3D%2267%22%20height%3D%2243%22%20rx%3D%227%22%20fill%3D%22%2316171c%22%2F%3E%3Ccircle%20cx%3D%22309%22%20cy%3D%22412%22%20r%3D%2213%22%20fill%3D%22%234e6d82%22%2F%3E%3Cpath%20d%3D%22M203%20511l-31%2085m58-85l40%2085%22%20stroke%3D%22%2316151a%22%20stroke-width%3D%2220%22%2F%3E%0A%3Crect%20width%3D%22420%22%20height%3D%22630%22%20fill%3D%22url%28%23glow%29%22%2F%3E%0A%3Ctext%20x%3D%2234%22%20y%3D%2247%22%20fill%3D%22%23fff%22%20font-family%3D%22Arial%2Csans-serif%22%20font-size%3D%2214%22%20letter-spacing%3D%225%22%20opacity%3D%22.83%22%3EVAYEN%20%2F%20DIGITAL%3C%2Ftext%3E%0A%3Ctext%20x%3D%22210%22%20y%3D%22128%22%20fill%3D%22%23fff%22%20font-family%3D%22Arial%2Csans-serif%22%20font-weight%3D%22700%22%20font-size%3D%2236%22%20text-anchor%3D%22middle%22%3EVLOGGING%3C%2Ftext%3E%0A%3Ctext%20x%3D%22210%22%20y%3D%22169%22%20fill%3D%22%23fff%22%20font-family%3D%22Arial%2Csans-serif%22%20font-weight%3D%22700%22%20font-size%3D%2236%22%20text-anchor%3D%22middle%22%3EMASTERY%3C%2Ftext%3E%0A%3Ctext%20x%3D%22210%22%20y%3D%22205%22%20fill%3D%22%23fff%22%20font-family%3D%22Arial%2Csans-serif%22%20font-size%3D%2215%22%20text-anchor%3D%22middle%22%20opacity%3D%22.78%22%20letter-spacing%3D%222%22%3ECREATOR%20EDITION%3C%2Ftext%3E%0A%3Cpath%20d%3D%22M32%20584H388%22%20stroke%3D%22%23fff%22%20opacity%3D%22.3%22%2F%3E%3Ctext%20x%3D%22210%22%20y%3D%22612%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2217%22%20letter-spacing%3D%226%22%20fill%3D%22%23fff%22%3EVAYEN%3C%2Ftext%3E%0A%3C%2Fsvg%3E"/></a>
+<a aria-label="Youtube Creator System" class="vayen-mini-book youtube" href="product.html?id=youtube-creator-system"><img alt="Youtube Creator System" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22420%22%20height%3D%22630%22%20viewBox%3D%220%200%20420%20630%22%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%22b%22%20x2%3D%220.8%22%20y2%3D%221%22%3E%3Cstop%20stop-color%3D%22%23301820%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23b34134%22%2F%3E%3C%2FlinearGradient%3E%0A%3CradialGradient%20id%3D%22sun%22%3E%3Cstop%20stop-color%3D%22%23f59a50%22%20stop-opacity%3D%22.92%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23f59a50%22%20stop-opacity%3D%220%22%2F%3E%3C%2FradialGradient%3E%0A%3ClinearGradient%20id%3D%22glow%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20stop-color%3D%22%23fff%22%20stop-opacity%3D%22.18%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%220%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%0A%3Crect%20width%3D%22420%22%20height%3D%22630%22%20rx%3D%2216%22%20fill%3D%22url%28%23b%29%22%2F%3E%3Ccircle%20cx%3D%22310%22%20cy%3D%22425%22%20r%3D%22225%22%20fill%3D%22url%28%23sun%29%22%2F%3E%0A%3Cpath%20d%3D%22M0%20520%20Q110%20390%20220%20490%20T420%20435%20V630%20H0Z%22%20fill%3D%22%23120e17%22%20opacity%3D%22.43%22%2F%3E%0A%3Cpath%20d%3D%22M0%20555%20Q120%20490%20210%20535%20T420%20495%20V630%20H0Z%22%20fill%3D%22%230e0c13%22%20opacity%3D%22.63%22%2F%3E%0A%3Crect%20x%3D%2258%22%20y%3D%22325%22%20width%3D%22304%22%20height%3D%22190%22%20rx%3D%2216%22%20fill%3D%22%231b1820%22%20stroke%3D%22%23e4a685%22%20stroke-width%3D%224%22%2F%3E%3Crect%20x%3D%2275%22%20y%3D%22343%22%20width%3D%22270%22%20height%3D%22148%22%20rx%3D%227%22%20fill%3D%22%232c1c27%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22377%22%20width%3D%22122%22%20height%3D%2284%22%20rx%3D%2222%22%20fill%3D%22%23ec2e38%22%2F%3E%3Cpath%20d%3D%22M199%20393l45%2027-45%2027z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22M30%20533h360l-26%2022H57z%22%20fill%3D%22%2326212a%22%2F%3E%3Ccircle%20cx%3D%2280%22%20cy%3D%22480%22%20r%3D%2256%22%20fill%3D%22%23d78551%22%20opacity%3D%22.2%22%2F%3E%0A%3Crect%20width%3D%22420%22%20height%3D%22630%22%20fill%3D%22url%28%23glow%29%22%2F%3E%0A%3Ctext%20x%3D%2234%22%20y%3D%2247%22%20fill%3D%22%23fff%22%20font-family%3D%22Arial%2Csans-serif%22%20font-size%3D%2214%22%20letter-spacing%3D%225%22%20opacity%3D%22.83%22%3EVAYEN%20%2F%20DIGITAL%3C%2Ftext%3E%0A%3Ctext%20x%3D%22210%22%20y%3D%22128%22%20fill%3D%22%23fff%22%20font-family%3D%22Arial%2Csans-serif%22%20font-weight%3D%22700%22%20font-size%3D%2236%22%20text-anchor%3D%22middle%22%3EYOUTUBE%3C%2Ftext%3E%0A%3Ctext%20x%3D%22210%22%20y%3D%22169%22%20fill%3D%22%23fff%22%20font-family%3D%22Arial%2Csans-serif%22%20font-weight%3D%22700%22%20font-size%3D%2236%22%20text-anchor%3D%22middle%22%3ECREATOR%20SYSTEM%3C%2Ftext%3E%0A%3Ctext%20x%3D%22210%22%20y%3D%22205%22%20fill%3D%22%23fff%22%20font-family%3D%22Arial%2Csans-serif%22%20font-size%3D%2215%22%20text-anchor%3D%22middle%22%20opacity%3D%22.78%22%20letter-spacing%3D%222%22%3EGROW%20YOUR%20CHANNEL%3C%2Ftext%3E%0A%3Cpath%20d%3D%22M32%20584H388%22%20stroke%3D%22%23fff%22%20opacity%3D%22.3%22%2F%3E%3Ctext%20x%3D%22210%22%20y%3D%22612%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2217%22%20letter-spacing%3D%226%22%20fill%3D%22%23fff%22%3EVAYEN%3C%2Ftext%3E%0A%3C%2Fsvg%3E"/></a>
+<a aria-label="Ai Prompt Readymade" class="vayen-mini-book ai" href="collection.html"><img alt="Ai Prompt Readymade" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22420%22%20height%3D%22630%22%20viewBox%3D%220%200%20420%20630%22%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%22b%22%20x2%3D%220.8%22%20y2%3D%221%22%3E%3Cstop%20stop-color%3D%22%23171a45%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2358328d%22%2F%3E%3C%2FlinearGradient%3E%0A%3CradialGradient%20id%3D%22sun%22%3E%3Cstop%20stop-color%3D%22%2366b7fa%22%20stop-opacity%3D%22.92%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2366b7fa%22%20stop-opacity%3D%220%22%2F%3E%3C%2FradialGradient%3E%0A%3ClinearGradient%20id%3D%22glow%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20stop-color%3D%22%23fff%22%20stop-opacity%3D%22.18%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23fff%22%20stop-opacity%3D%220%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%0A%3Crect%20width%3D%22420%22%20height%3D%22630%22%20rx%3D%2216%22%20fill%3D%22url%28%23b%29%22%2F%3E%3Ccircle%20cx%3D%22310%22%20cy%3D%22425%22%20r%3D%22225%22%20fill%3D%22url%28%23sun%29%22%2F%3E%0A%3Cpath%20d%3D%22M0%20520%20Q110%20390%20220%20490%20T420%20435%20V630%20H0Z%22%20fill%3D%22%23120e17%22%20opacity%3D%22.43%22%2F%3E%0A%3Cpath%20d%3D%22M0%20555%20Q120%20490%20210%20535%20T420%20495%20V630%20H0Z%22%20fill%3D%22%230e0c13%22%20opacity%3D%22.63%22%2F%3E%0A%3Crect%20x%3D%2285%22%20y%3D%22300%22%20width%3D%22260%22%20height%3D%22235%22%20rx%3D%2224%22%20fill%3D%22%2318152e%22%20stroke%3D%22%239e87ff%22%20stroke-width%3D%225%22%2F%3E%3Crect%20x%3D%22105%22%20y%3D%22324%22%20width%3D%22220%22%20height%3D%22184%22%20rx%3D%2214%22%20fill%3D%22%23252451%22%2F%3E%3Ccircle%20cx%3D%22213%22%20cy%3D%22414%22%20r%3D%2273%22%20fill%3D%22none%22%20stroke%3D%22%2365c6ed%22%20stroke-width%3D%228%22%2F%3E%3Ccircle%20cx%3D%22213%22%20cy%3D%22414%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23a58dff%22%20stroke-width%3D%228%22%2F%3E%3Cpath%20d%3D%22M164%20414q50-80%2099%200q-50%2080-99%200%22%20fill%3D%22none%22%20stroke%3D%22%23a8eafa%22%20stroke-width%3D%227%22%2F%3E%3Ccircle%20cx%3D%22340%22%20cy%3D%22277%22%20r%3D%2216%22%20fill%3D%22%23a18cff%22%2F%3E%3Ccircle%20cx%3D%2271%22%20cy%3D%22405%22%20r%3D%2212%22%20fill%3D%22%2356d2f3%22%2F%3E%3Cpath%20d%3D%22M50%20270l12%2028%2028%2012-28%2012-12%2028-12-28-28-12%2028-12z%22%20fill%3D%22%23d5baff%22%2F%3E%0A%3Crect%20width%3D%22420%22%20height%3D%22630%22%20fill%3D%22url%28%23glow%29%22%2F%3E%0A%3Ctext%20x%3D%2234%22%20y%3D%2247%22%20fill%3D%22%23fff%22%20font-family%3D%22Arial%2Csans-serif%22%20font-size%3D%2214%22%20letter-spacing%3D%225%22%20opacity%3D%22.83%22%3EVAYEN%20%2F%20DIGITAL%3C%2Ftext%3E%0A%3Ctext%20x%3D%22210%22%20y%3D%22128%22%20fill%3D%22%23fff%22%20font-family%3D%22Arial%2Csans-serif%22%20font-weight%3D%22700%22%20font-size%3D%2236%22%20text-anchor%3D%22middle%22%3EAI%20PROMPT%3C%2Ftext%3E%0A%3Ctext%20x%3D%22210%22%20y%3D%22169%22%20fill%3D%22%23fff%22%20font-family%3D%22Arial%2Csans-serif%22%20font-weight%3D%22700%22%20font-size%3D%2236%22%20text-anchor%3D%22middle%22%3EREADYMADE%3C%2Ftext%3E%0A%3Ctext%20x%3D%22210%22%20y%3D%22205%22%20fill%3D%22%23fff%22%20font-family%3D%22Arial%2Csans-serif%22%20font-size%3D%2215%22%20text-anchor%3D%22middle%22%20opacity%3D%22.78%22%20letter-spacing%3D%222%22%3EAI%20WORKSPACE%3C%2Ftext%3E%0A%3Cpath%20d%3D%22M32%20584H388%22%20stroke%3D%22%23fff%22%20opacity%3D%22.3%22%2F%3E%3Ctext%20x%3D%22210%22%20y%3D%22612%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2217%22%20letter-spacing%3D%226%22%20fill%3D%22%23fff%22%3EVAYEN%3C%2Ftext%3E%0A%3C%2Fsvg%3E"/></a>
+</div>
+</div>
 <!-- RIGHT -->
-
 <div class="login-panel">
-
-    <div class="login-panel-top">
-    <span id="loginPanelLabel">
+<div class="login-panel-top">
+<span id="loginPanelLabel">
         WELCOME TO VAYEN
     </span>
-
-    <h2 id="loginPanelTitle">
+<h2 id="loginPanelTitle">
         Enter your space.
     </h2>
-
-    <p id="loginPanelText">
+<p id="loginPanelText">
         Continue in the way that
         works best for you.
     </p>
-
 </div>
-
-            <!-- GOOGLE -->
-
-            <button type="button"
-                    class="google-login"
-                    id="googleLogin">
-
-                <span class="google-mark">
+<!-- GOOGLE -->
+<button class="google-login" id="googleLogin" type="button">
+<span class="google-mark">
                     G
                 </span>
-
-                <span>
+<span>
                     Continue with Google
                 </span>
-
-                <span class="login-arrow">
+<span class="login-arrow">
                     →
                 </span>
-
-            </button>
-
-
-
-            <!-- DIVIDER -->
-
-            <div class="login-divider">
-
-                <span></span>
-
-                <small>
+</button>
+<!-- DIVIDER -->
+<div class="login-divider">
+<span></span>
+<small>
                     OR
                 </small>
-
-                <span></span>
-
-            </div>
-
-
-
-            <!-- EMAIL -->
-
-            <form class="email-login"
-                  id="emailLoginForm">
-
-                <label for="loginEmail">
-                    EMAIL ADDRESS
-                </label>
-
-
-                <div class="login-email-field">
-
-                    <input
-                        type="email"
-                        id="loginEmail"
-                        placeholder="you@example.com"
-                        autocomplete="email"
-                        required
-                    >
-
-                    <button type="submit"
-                            aria-label="Continue">
-
-                        →
-
-                    </button>
-
-                </div>
-
-            </form>
-
-
-
-            <!-- SECURITY -->
-
-            <div class="login-security">
-
-                <span class="security-mark">
+<span></span>
+</div>
+<!-- EMAIL ACCOUNT DEMO -->
+<div aria-label="Account options" class="auth-tabs" role="tablist">
+<button aria-selected="true" class="auth-tab active" data-auth-mode="signin" type="button">Sign In</button>
+<button aria-selected="false" class="auth-tab" data-auth-mode="signup" type="button">Create Account</button>
+</div>
+<form class="email-login auth-form" id="emailLoginForm" novalidate="">
+<div class="auth-name" hidden="" id="authNameWrap">
+<label for="authName">FULL NAME</label>
+<input autocomplete="name" class="auth-input" id="authName" maxlength="90" placeholder="Your full name" type="text"/>
+</div>
+<label for="loginEmail">EMAIL ADDRESS</label>
+<input autocomplete="email" class="auth-input" id="loginEmail" placeholder="you@example.com" required="" type="email"/>
+<div class="auth-password-wrap" id="authPasswordWrap">
+<label for="loginPassword">PASSWORD</label>
+<div class="auth-password-field">
+<input autocomplete="current-password" id="loginPassword" minlength="8" placeholder="Enter your password" required="" type="password"/>
+<button aria-label="Show password" aria-pressed="false" class="auth-eye" id="togglePassword" title="Show password" type="button">
+<svg aria-hidden="true" fill="none" id="eyeOpen" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+<svg aria-hidden="true" fill="none" hidden="" id="eyeClosed" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="m3 3 18 18M10.6 5.6A11 11 0 0 1 12 5.5c6.4 0 10 6.5 10 6.5a15 15 0 0 1-3.2 3.7M6.2 6.3C3.5 8.1 2 12 2 12s3.6 6.5 10 6.5a10.5 10.5 0 0 0 4.3-.9"></path><path d="M10 10a3 3 0 0 0 4 4"></path></svg>
+</button>
+</div>
+</div>
+<div class="auth-help"><button id="forgotPassword" type="button">Forgot password?</button></div>
+<p aria-live="polite" class="auth-message" hidden="" id="authMessage" role="status"></p>
+<button class="auth-submit" id="authSubmit" type="submit">Sign In <span>→</span></button>
+<p class="auth-demo-label">SECURE SIGN-IN · POWERED BY FIREBASE</p>
+</form>
+<div class="auth-switch" id="authSwitch">New to VAYEN? <button id="authSwitchButton" type="button">Create an account</button></div>
+<!-- SECURITY -->
+<div class="login-security">
+<span class="security-mark">
                     ✓
                 </span>
-
-                <p>
+<p>
                     Your account keeps your
                     VAYEN purchases and personal
                     space connected in one place.
                 </p>
-
-            </div>
-
-
-            <p class="login-legal">
+</div>
+<p class="login-legal">
                 By continuing, you agree to VAYEN's
                 <a href="#">Terms</a>
                 and
                 <a href="#">Privacy Policy</a>.
             </p>
 <div class="login-explore">
-
-    <span>STILL EXPLORING?</span>
-
-    <h3>
-        VAYEN is yours<br>
+<span>STILL EXPLORING?</span>
+<h3>
+        VAYEN is yours<br/>
         to explore.
     </h3>
-
-    <p>
+<p>
         No account needed to look around.
         Discover freely, sign in when you're ready.
     </p>
-
-    <a href="index.html?explore=1">
+<a href="index.html?explore=1">
     Continue exploring
     <span>→</span>
 </a>
 </div>
-
-        </div>
-
-
-    </section>
-
-
+</div>
+</section>
+<div aria-label="VAYEN account benefits" class="vayen-side-label right-side"><div class="vayen-ref-tile featured ai-feature"><div class="vayen-ref-icon">▣</div><div class="vayen-ref-copy"><span class="vayen-ref-badge">#3</span><strong>AI Prompt Readymade</strong><p>Get ready-to-use AI prompts and resources to work faster and smarter.</p></div></div><div class="vayen-ref-tile trust"><div class="vayen-ref-icon">♢</div><div class="vayen-ref-copy"><strong>Safe &amp; Secure</strong><p>Your account information stays in your personal space.</p></div></div><div class="vayen-ref-tile trust"><div class="vayen-ref-icon">♧</div><div class="vayen-ref-copy"><strong>Access Anywhere</strong><p>Open your account on supported devices.</p></div></div><div class="vayen-ref-tile trust"><div class="vayen-ref-icon">☏</div><div class="vayen-ref-copy"><strong>Dedicated Support</strong><p>We’re here to help when you need it.</p></div></div></div>
 </main>
+<!-- MOBILE PREMIUM EXPLORE & FOOTER -->
+<section class="mobile-login-explore">
+<span>STILL EXPLORING?</span>
+<h2>
+        VAYEN is yours<br/>
+<em>to explore.</em>
+</h2>
+<p>
+        No account needed to look around.
+        Discover freely, sign in when you're ready.
+    </p>
+<a href="index.html?explore=1">
+        Continue exploring <span>→</span>
+</a>
+</section>
+<footer class="mobile-login-footer">
+<p>© 2026 VAYEN. All Rights Reserved.</p>
+<div>
+<a href="#">Terms</a>
+<span>·</span>
+<a href="#">Privacy Policy</a>
+<span>·</span>
+<a href="index.html">Home</a>
+</div>
+</footer>
+<script type="module" id="vayen-firebase-auth">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, updateProfile, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 
-
-
-<script>
-/* PURCHASE LOGIN CONTEXT */
-
-const loginParams =
-    new URLSearchParams(window.location.search);
-/* REMEMBER PRODUCT FOR AFTER LOGIN */
-
-const requestedProduct =
-    loginParams.get("product");
-
-if (
-    loginParams.get("from") === "get" &&
-    requestedProduct
-) {
-    sessionStorage.setItem(
-        "vayenPendingProduct",
-        requestedProduct
-    );
+// Fill ONLY apiKey with your Firebase project's Web API key.
+const firebaseConfig = {
+  apiKey: "AIzaSyCJStLo-FmvkPQo-u-cP-J4rQ8z4ecYMW4",
+  authDomain: "veyan-53930.firebaseapp.com",
+  projectId: "veyan-53930",
+  storageBucket: "veyan-53930.firebasestorage.app",
+  messagingSenderId: "836801786398",
+  appId: "1:836801786398:web:a73fbda60267efcdbd740f",
+  measurementId: "G-2T5XNQGKTP"
+};
+const $ = id => document.getElementById(id);
+const params = new URLSearchParams(location.search);
+const product = params.get('product');
+const isProductLogin = params.get('from') === 'get' && !!product && /^[a-zA-Z0-9_-]{1,120}$/.test(product);
+const isPlanLogin = params.get('from') === 'plan' && ['discount-pass','surprise-box','shopping-pass'].includes(params.get('plan'));
+if (isProductLogin) sessionStorage.setItem('vayenPendingProduct', product);
+else sessionStorage.removeItem('vayenPendingProduct');
+if (params.get('from') === 'get') {
+  $('loginPanelLabel').textContent = 'ONE STEP AWAY';
+  $('loginPanelTitle').textContent = 'Almost yours.';
+  $('loginPanelText').textContent = 'Sign in to continue with your product.';
 }
-
-if (loginParams.get("from") === "get") {
-
-    document.getElementById("loginPanelLabel")
-        .textContent = "ONE STEP AWAY";
-
-    document.getElementById("loginPanelTitle")
-        .textContent = "Almost yours.";
-
-    document.getElementById("loginPanelText")
-        .textContent =
-        "Sign in to continue with your product.";
+let mode = 'signin';
+const message = (text, ok=false) => { const el=$('authMessage'); el.hidden=!text; el.textContent=text; el.classList.toggle('ok',ok); };
+function setMode(next) {
+  mode=next;
+  document.querySelectorAll('[data-auth-mode]').forEach(b=>{const active=b.dataset.authMode===mode;b.classList.toggle('active',active);b.setAttribute('aria-selected',String(active));});
+  $('authNameWrap').hidden=mode!=='signup'; $('authPasswordWrap').hidden=mode==='reset';
+  $('authName').required=mode==='signup'; $('loginPassword').required=mode!=='reset';
+  $('loginPassword').autocomplete=mode==='signup'?'new-password':'current-password';
+  $('authSubmit').innerHTML=(mode==='signup'?'Create Account':mode==='reset'?'Send Reset Email':'Sign In')+' <span>→</span>';
+  $('forgotPassword').textContent=mode==='reset'?'Back to Sign In':'Forgot password?';
+  $('authSwitch').hidden=mode==='reset';
+  $('authSwitch').firstChild.textContent=mode==='signup'?'Already have an account? ':'New to VAYEN? ';
+  $('authSwitchButton').textContent=mode==='signup'?'Sign In':'Create an account';
+  message('');
 }
-
-/*
-    DEMO ONLY
-    Real authentication will be connected later.
-*/
-
-
-const googleLogin =
-    document.getElementById("googleLogin");
-
-const emailLoginForm =
-    document.getElementById("emailLoginForm");
-
-
-googleLogin.addEventListener(
-    "click",
-    function () {
-
-        googleLogin.classList.add(
-            "login-demo-click"
-        );
-
-        setTimeout(function () {
-
-            googleLogin.classList.remove(
-                "login-demo-click"
-            );
-
-        }, 500);
-
-    }
-);
-
-
-emailLoginForm.addEventListener(
-    "submit",
-    function (event) {
-
-        event.preventDefault();
-
-        const email =
-            document
-                .getElementById("loginEmail")
-                .value
-                .trim();
-
-        if (!email) {
-            return;
-        }
-
-        const button =
-            emailLoginForm.querySelector("button");
-
-        button.textContent = "✓";
-
-        setTimeout(function () {
-            button.textContent = "→";
-        }, 1300);
-
-    }
-);
-
+document.querySelectorAll('[data-auth-mode]').forEach(b=>b.onclick=()=>setMode(b.dataset.authMode));
+$('authSwitchButton').onclick=()=>setMode(mode==='signup'?'signin':'signup');
+$('forgotPassword').onclick=()=>{if(mode==='reset')setMode('signin');else setMode('reset');};
+$('togglePassword').onclick=()=>{
+  const shown=$('loginPassword').type==='text'; $('loginPassword').type=shown?'password':'text';
+  $('eyeOpen').hidden=!shown; $('eyeClosed').hidden=shown;
+  $('togglePassword').setAttribute('aria-label',shown?'Show password':'Hide password');
+  $('togglePassword').setAttribute('aria-pressed',String(!shown));
+};
+const errorText = e => ({
+  'auth/invalid-email':'Enter a valid email address.',
+  'auth/email-already-in-use':'This email is already registered. Please Sign In.',
+  'auth/weak-password':'Choose a stronger password.',
+  'auth/invalid-credential':'Incorrect email or password.',
+  'auth/wrong-password':'Incorrect email or password.',
+  'auth/user-not-found':'Incorrect email or password.',
+  'auth/popup-closed-by-user':'Google sign-in was cancelled.',
+  'auth/popup-blocked':'Your browser blocked the Google sign-in popup.',
+  'auth/unauthorized-domain':'Add this website domain in Firebase Authentication → Settings → Authorized domains.',
+  'auth/operation-not-allowed':'Enable this sign-in method in Firebase Authentication.'
+})[e?.code] || e?.message || 'Could not sign in. Please try again.';
+function finish(user, created=false) {
+  const name=(user.displayName || user.email?.split('@')[0] || 'Customer').trim();
+  const account={id:user.uid,name,email:user.email || '',provider:user.providerData?.[0]?.providerId || 'password',demo:false,loginAt:new Date().toISOString()};
+  // Compatibility with existing VAYEN pages. Firebase Auth remains the source of truth.
+  sessionStorage.setItem('vayenDemoLoginSessionV1',JSON.stringify(account));
+  localStorage.setItem('vayenDemoCurrentCustomerV1',JSON.stringify(account));
+  sessionStorage.setItem('vayenAuthFlash',created?'Account created successfully!':'Welcome back!');
+  localStorage.setItem('vayenHeaderName',name.split(/\s+/)[0]);
+  localStorage.setItem('vayenCardName',name.split(/\s+/)[0]);
+  $('vayenAuthLoader').hidden=false;
+  const next=isProductLogin?product:null;
+  const plan=isPlanLogin?params.get('plan'):null;
+  const destination=next?'payment.html?product='+encodeURIComponent(next):plan?'plan-checkout.html?plan='+encodeURIComponent(plan):'index.html';
+  setTimeout(()=>location.href=destination,created?3000:2200);
+}
+setMode('signin');
+if (!firebaseConfig.apiKey) {
+  message('Firebase API key is empty. Add your API key in firebaseConfig to enable real login.');
+} else {
+  try {
+    const app=initializeApp(firebaseConfig);
+    const auth=getAuth(app);
+    const provider=new GoogleAuthProvider();
+    // Redirect flow may be used by browsers that cannot open a popup.
+    getRedirectResult(auth).then(result=>{if(result?.user)finish(result.user);}).catch(e=>message(errorText(e)));
+    $('googleLogin').onclick=async()=>{
+      try {const result=await signInWithPopup(auth,provider);finish(result.user);}
+      catch(e){if(e.code==='auth/popup-blocked') {try {await signInWithRedirect(auth,provider);} catch(err){message(errorText(err));}}else message(errorText(e));}
+    };
+    $('emailLoginForm').addEventListener('submit',async e=>{
+      e.preventDefault();message('');
+      const email=$('loginEmail').value.trim();const password=$('loginPassword').value;const name=$('authName').value.trim();
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){message('Enter a valid email address.');return;}
+      const btn=$('authSubmit');btn.disabled=true;
+      try {
+        if(mode==='reset'){await sendPasswordResetEmail(auth,email);message('Password reset link sent. Check your email.',true);return;}
+        if(password.length<8){message('Password must contain at least 8 characters.');return;}
+        if(mode==='signup'){
+          if(name.length<2){message('Enter your full name.');return;}
+          const result=await createUserWithEmailAndPassword(auth,email,password);
+          await updateProfile(result.user,{displayName:name});finish(result.user,true);
+        } else {const result=await signInWithEmailAndPassword(auth,email,password);finish(result.user);}
+      } catch(err){message(errorText(err));} finally {btn.disabled=false;}
+    });
+  } catch(e){message('Firebase setup error: '+errorText(e));}
+}
 </script>
+<style>
+#vayenAuthLoader[hidden]{display:none!important}#vayenAuthLoader{position:fixed;inset:0;z-index:999999;background:rgba(30,18,25,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font:700 14px Arial;letter-spacing:2px;gap:24px;backdrop-filter:blur(14px)}
+.vayen-loader-ring{width:48px;height:48px;border:3px solid #8b6778;border-top-color:#fff;border-radius:50%;animation:vayen-spin .8s linear infinite}@keyframes vayen-spin{to{transform:rotate(360deg)}}
+</style><div aria-live="polite" hidden="" id="vayenAuthLoader" role="status"><div class="vayen-loader-ring"></div><span>PREPARING YOUR SPACE...</span></div>
 
-
-</body>
+<nav aria-label="Mobile main navigation" class="vayen-mobile-nav"><a class="mobile-nav-item" href="index.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-7H9v7H3z"></path></svg></span><span>Home</span></a><a class="mobile-nav-item" href="collection.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM9 4v16M5 10h14"></path></svg></span><span>Collection</span></a><a class="mobile-nav-item" href="library.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg></span><span>Library</span></a><a class="mobile-nav-item" href="orders.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 3h14v18l-3-2-4 2-4-2-3 2zM8 8h8M8 12h8"></path></svg></span><span>Orders</span></a><a class="mobile-nav-item" href="profile.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 21c.8-4.5 3.1-6.5 7-6.5s6.2 2 7 6.5"></path></svg></span><span>Account</span></a></nav></body>
 </html>

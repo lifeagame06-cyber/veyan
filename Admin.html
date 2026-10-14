@@ -3,21 +3,65 @@
 <style>
 :root{--bg:#f4f2ed;--paper:#fffefa;--ink:#1b1818;--muted:#817b78;--line:#e9e3df;--rose:#a66d76;--dark:#21191c}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}.app{display:flex;min-height:100vh}.side{width:260px;position:sticky;top:0;height:100vh;background:#201a1c;color:#fff;padding:30px 18px;display:flex;flex-direction:column;gap:25px}.logo{font-size:21px;letter-spacing:5px;font-weight:900;padding:5px 15px}.logo small{display:block;font-size:9px;letter-spacing:2px;color:#bd9da3;margin-top:8px}.nav{display:grid;gap:5px}.nav button{border:0;background:none;color:#c6b9bd;text-align:left;border-radius:12px;padding:13px 15px;font-size:13px;font-weight:600}.nav button:hover,.nav button.active{background:#3a2b30;color:#fff}.nav button.active{box-shadow:inset 3px 0 #e6aeb9}.sidefoot{margin-top:auto;padding:15px;font-size:11px;line-height:1.8;color:#aa9ba0}.sidefoot a{color:#fff}.main{flex:1;min-width:0;padding:34px clamp(18px,4vw,64px) 70px}.top{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:38px}.eyebrow{color:var(--rose);font-size:10px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase}.top h1{font-size:clamp(30px,4vw,48px);font-weight:500;letter-spacing:-2px;margin:10px 0 0}.topright{display:flex;align-items:center;gap:10px}.pill{border:1px solid #e4d3d7;background:#f8eef0;border-radius:50px;padding:11px 15px;color:#8a5360;font-size:11px;font-weight:800}.mobile-menu{display:none}.section{display:none;animation:appear .22s ease}.section.active{display:block}@keyframes appear{from{opacity:.65;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.stat,.panel{background:var(--paper);border:1px solid var(--line);border-radius:20px}.stat{padding:24px;min-height:150px}.stat label{display:block;font-size:11px;color:var(--muted);font-weight:700}.stat strong{display:block;font-size:34px;letter-spacing:-1.8px;margin-top:24px}.stat small{font-size:11px;color:var(--muted)}.panel{padding:25px;margin-top:20px}.panelhead{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:18px}.panelhead h2{margin:0;font-size:19px;letter-spacing:-.5px}.sub{color:var(--muted);font-size:12px;line-height:1.6}.button{background:#21191c;color:#fff;border:1px solid #21191c;padding:12px 17px;border-radius:10px;font-size:12px;font-weight:700}.button:hover{background:#49353c}.button.secondary{background:#fff;color:#241e20;border-color:#e5dddb}.button.danger{background:#fff;color:#a53746;border-color:#efd3d8}.button:disabled{opacity:.4;cursor:not-allowed}.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}.field{background:#fff;border:1px solid #e6dedb;padding:12px 13px;border-radius:10px;min-width:0;color:#282124}.toolbar .field{flex:1;min-width:180px}.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;text-align:left;min-width:620px}th{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#918784;font-weight:800;background:#faf7f4}td,th{padding:15px 12px;border-bottom:1px solid #eee9e6}td{font-size:12px}td strong{font-size:12px}.tag{display:inline-block;padding:7px 9px;border-radius:30px;background:#f0edeb;color:#655b58;font-size:10px;font-weight:800;text-transform:capitalize}.tag.success,.tag.delivered,.tag.redeemed{background:#e5f4e9;color:#286640}.tag.failed,.tag.cancelled{background:#fae9e9;color:#a13b42}.tag.pending,.tag.processing{background:#fff1d9;color:#93621a}.tag.active{background:#f8e8ee;color:#995668}.empty{text-align:center;padding:35px;color:#928986;font-size:13px}.note{background:#f9eff0;border:1px solid #eedcdf;border-radius:12px;padding:14px 16px;font-size:12px;color:#7e4c57;line-height:1.6;margin:0 0 18px}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.formgrid label{display:grid;gap:7px;font-size:11px;font-weight:700;color:#635a59}.formgrid .wide{grid-column:1/-1}.formgrid input,.formgrid select,.formgrid textarea{width:100%}.actions{display:flex;gap:8px;flex-wrap:wrap}.tiny{border:1px solid #e5dcda;background:#fff;border-radius:8px;padding:8px 10px;font-size:11px;font-weight:700}.tiny:hover{background:#f8eff1}.cards2{display:grid;grid-template-columns:1fr 1fr;gap:20px}.activity{display:grid;gap:0}.activity div{padding:13px 0;border-bottom:1px solid var(--line);font-size:12px;display:flex;justify-content:space-between;gap:12px}.activity small{color:var(--muted)}dialog{border:1px solid #e9dede;border-radius:20px;padding:0;width:min(540px,calc(100% - 30px));box-shadow:0 30px 90px #23171933}dialog::backdrop{background:#160e12a8}.modal{padding:26px}.modal h2{margin:0 0 20px;font-size:23px}.modalfooter{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}.toast{position:fixed;bottom:24px;right:24px;background:#21191c;color:white;padding:14px 20px;border-radius:12px;font-size:12px;box-shadow:0 15px 40px #0003;display:none;z-index:100}.kpi{color:#8c5b67;font-weight:700}.footnote{margin-top:22px;color:#948b87;font-size:11px;line-height:1.7}@media(max-width:1050px){.stats{grid-template-columns:repeat(2,1fr)}.cards2{grid-template-columns:1fr}.side{width:225px}}@media(max-width:740px){.app{display:block}.side{height:auto;width:100%;position:relative;padding:15px 18px;gap:8px}.logo{font-size:17px;padding:5px}.logo small{display:none}.nav{display:none;grid-template-columns:repeat(2,1fr);gap:5px;padding-top:12px}.side.open .nav{display:grid}.sidefoot{display:none}.mobile-menu{display:inline-block;position:absolute;right:18px;top:15px;background:#3a2b30;color:#fff;border:0;border-radius:8px;padding:9px 12px}.main{padding:26px 16px 60px}.top{margin-bottom:25px}.top h1{font-size:32px}.pill{font-size:9px;padding:8px}.stat{padding:17px;min-height:125px}.stat strong{font-size:28px;margin-top:19px}.panel{padding:18px}.formgrid{grid-template-columns:1fr}.formgrid .wide{grid-column:auto}}@media(max-width:380px){.stats{gap:9px}.stat{padding:12px}.stat strong{font-size:24px}}
 @media(max-width:740px){#products .stats{grid-template-columns:repeat(3,minmax(0,1fr))!important}#products .stat{min-height:95px}#products .stat strong{font-size:24px}}
+
+#support .stat { min-height:125px; }
+#support .stat strong { margin-top:16px; }
+.support-details { font-size:13px; line-height:1.8; color:#655b5e; overflow-wrap:anywhere; }
+.support-details p { white-space:pre-wrap; background:#faf7f5; padding:12px; border-radius:10px; }
+.support-reply-label { display:block; font-size:12px; font-weight:700; margin:16px 0 9px; }
+@media(max-width:740px){#support .stats{gap:8px}#support .stat{padding:12px}#support .stat strong{font-size:24px}}
 </style></head><body>
 <div class="app"><aside class="side" id="side"><div class="logo">VAYEN<small>ADMIN STUDIO / DEMO</small></div><button class="mobile-menu" id="mobileMenu" aria-label="Toggle menu">☰ Menu</button><nav class="nav" id="nav">
-<button class="active" data-tab="dashboard">◫ &nbsp; Dashboard</button><button data-tab="products">▦ &nbsp; Products</button><button data-tab="orders">▤ &nbsp; Orders</button><button data-tab="payments">◈ &nbsp; Payments</button><button data-tab="customers">♙ &nbsp; Customers</button><button data-tab="surprise">✦ &nbsp; Surprise Boxes</button><button data-tab="giftcards">◇ &nbsp; Gift Cards</button><button data-tab="delivery">↗ &nbsp; Gift Delivery</button><button data-tab="notifications">♧ &nbsp; Notifications</button><button data-tab="activity">◷ &nbsp; Activity Log</button><button data-tab="settings">⚙ &nbsp; Settings</button>
+<button class="active" data-tab="dashboard">◫ &nbsp; Dashboard</button><button data-tab="products">▦ &nbsp; Products</button><button data-tab="orders">▤ &nbsp; Orders</button><button data-tab="payments">◈ &nbsp; Payments</button><button data-tab="customers">♙ &nbsp; Customers</button><button data-tab="surprise">✦ &nbsp; Surprise Boxes</button><button data-tab="giftcards">◇ &nbsp; Gift Cards</button><button data-tab="delivery">↗ &nbsp; Gift Delivery</button><button data-tab="notifications">♧ &nbsp; Notifications</button><button data-tab="activity">◷ &nbsp; Activity Log</button><button data-tab="support">✉ &nbsp; Support Requests <span id="supportNavCount" style="float:right;color:#e6aeb9"></span></button><button data-tab="settings">⚙ &nbsp; Settings</button>
 </nav><div class="sidefoot">LOCAL DEMO • Not connected to live payments<br><a href="index.html">← Back to VAYEN</a></div></aside>
 <main class="main"><header class="top"><div><span class="eyebrow">VAYEN / MANAGEMENT</span><h1 id="pageTitle">Overview<span style="color:#ae7c85">.</span></h1></div><div class="topright"><span class="pill">● DEMO MODE</span></div></header>
 <section class="section active" id="dashboard"><div class="stats"><div class="stat"><label>Total orders</label><strong id="sOrders">0</strong><small>Recorded demo orders</small></div><div class="stat"><label>Paid revenue</label><strong id="sRevenue">₹0</strong><small>Successful demo payments</small></div><div class="stat"><label>Customers</label><strong id="sCustomers">0</strong><small>Unique demo customers</small></div><div class="stat"><label>Gifts to deliver</label><strong id="sGifts">0</strong><small>Awaiting fulfillment</small></div></div><div class="cards2"><div class="panel"><div class="panelhead"><h2>Recent orders</h2><button class="tiny" data-go="orders">View all →</button></div><div id="recentOrders" class="activity"></div></div><div class="panel"><div class="panelhead"><h2>Gift fulfillment</h2><button class="tiny" data-go="delivery">Manage →</button></div><div id="recentGifts" class="activity"></div></div></div><div class="panel"><div class="panelhead"><h2>Quick actions</h2></div><div class="actions"><button class="button" id="quickProduct">+ Add product</button><button class="button secondary" id="quickOrder">+ Demo order</button><button class="button secondary" id="quickGift">+ Demo surprise box</button></div></div></section>
 <section class="section" id="products"><p class="note">Products sync with Collection and Product pages in this browser only. Live multi-device sync needs a backend.</p><div class="panel"><div class="panelhead"><h2>Product catalog</h2><button class="button" id="addProduct">+ Add product</button></div><div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:15px"><div class="stat"><label>Premium products</label><strong id="premiumCount">0</strong></div><div class="stat"><label>Worlds</label><strong id="worldCount">0</strong></div><div class="stat"><label>Expensive / Flagship</label><strong id="otherCount">0</strong></div></div><div class="toolbar"><input class="field" id="productSearch" placeholder="Search products..."></div><div class="tablewrap"><table><thead><tr><th>Product</th><th>Collection</th><th>Category</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead><tbody id="productRows"></tbody></table></div></div></section>
 <section class="section" id="orders"><p class="note">Order and payment statuses here are manual demo records, not verified transactions.</p><div class="panel"><div class="panelhead"><h2>Orders</h2><button class="button" id="addOrder">+ Demo order</button></div><div class="toolbar"><input class="field" id="orderSearch" placeholder="Search order, customer, product..."><select class="field" id="orderFilter"><option value="">All statuses</option><option>pending</option><option>success</option><option>failed</option><option>refunded</option></select></div><div class="tablewrap"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Product</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead><tbody id="orderRows"></tbody></table></div></div></section>
 <section class="section" id="payments"><div class="panel"><div class="panelhead"><h2>Payment records</h2></div><p class="sub">Payment status follows the demo order status. Real payment verification will be connected later.</p><div class="tablewrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Amount</th><th>Payment reference</th><th>Status</th></tr></thead><tbody id="paymentRows"></tbody></table></div></div></section>
-<section class="section" id="customers"><div class="panel"><div class="panelhead"><h2>Customers</h2></div><p class="sub">Unique customers from local demo orders, surprise boxes and gift cards. Notification recipient selection uses these records.</p><div class="tablewrap"><table><thead><tr><th>Email</th><th>Orders</th><th>Gift cards bought</th><th>Surprise boxes</th></tr></thead><tbody id="customerRows"></tbody></table></div></div></section>
+<section class="section" id="customers">
+<div class="panel">
+  <div class="panelhead"><h2>Customer Login Details</h2><button type="button" class="button secondary" id="refreshLoginCustomers">↻ Refresh</button></div>
+  <p class="sub" id="customerRefreshStatus" role="status" aria-live="polite">Ready to check demo customer records.</p>
+  <p class="sub">Demo account viewer. Customer information is visible only when saved on this same website origin in the demo login accounts. Passwords and password hashes are never displayed here. Eye controls only change this admin display.</p>
+  <div class="toolbar"><input class="field" id="loginCustomerSearch" placeholder="Search name, email or customer ID..."></div>
+  <div class="tablewrap"><table><thead><tr><th>Customer ID</th><th>Name</th><th>Email</th><th>Login method</th><th>Joined</th><th>Password</th><th>Details</th></tr></thead><tbody id="loginCustomerRows"></tbody></table></div>
+</div><div class="panel"><div class="panelhead"><h2>Customers</h2></div><p class="sub">Unique customers from local demo orders, surprise boxes and gift cards. Notification recipient selection uses these records.</p><div class="tablewrap"><table><thead><tr><th>Email</th><th>Orders</th><th>Gift cards bought</th><th>Surprise boxes</th></tr></thead><tbody id="customerRows"></tbody></table></div></div></section>
 <section class="section" id="surprise"><p class="note">When a customer buys a Surprise Box, its purchase will eventually enter this queue after verified payment. For now you can test the entire assignment flow using demo requests.</p><div class="panel"><div class="panelhead"><h2>Surprise Box requests</h2><button class="button" id="addSurprise">+ Demo request</button></div><div class="tablewrap"><table><thead><tr><th>Request</th><th>Customer</th><th>Box / Amount</th><th>Selected gift</th><th>Status</th><th>Action</th></tr></thead><tbody id="surpriseRows"></tbody></table></div></div></section>
 <section class="section" id="giftcards"><div class="stats" style="grid-template-columns:repeat(2,minmax(0,1fr))"><div class="stat"><label>Gift cards purchased</label><strong id="giftCount">0</strong><small>Number of demo cards</small></div><div class="stat"><label>Total face value</label><strong id="giftValue">₹0</strong><small>Demo gift card value</small></div></div><div class="panel"><div class="panelhead"><h2>Gift cards</h2><button class="button" id="addGiftCard">+ Demo gift card</button></div><div class="tablewrap"><table><thead><tr><th>Card code</th><th>Buyer</th><th>Recipient</th><th>Value</th><th>Status</th><th>Action</th></tr></thead><tbody id="giftcardRows"></tbody></table></div></div></section>
 <section class="section" id="delivery"><p class="note">Assigning a product and marking it delivered updates the local demo record only. It does not send a real email or grant access to a customer's account yet.</p><div class="panel"><div class="panelhead"><h2>Gift delivery queue</h2></div><div class="tablewrap"><table><thead><tr><th>Request</th><th>Recipient</th><th>Assigned product</th><th>Status</th><th>Action</th></tr></thead><tbody id="deliveryRows"></tbody></table></div></div></section>
 <section class="section" id="notifications"><p class="note">Demo notification center: messages are saved in this browser only. They do not reach customer devices or accounts yet. Real in-app notifications and phone push require a backend, customer login and push permission.</p><div class="panel"><div class="panelhead"><h2>Compose notification</h2></div><form id="notificationForm" class="formgrid"><label class="wide">Recipients<select id="notificationAudience" class="field" required><option value="all">All known customers</option><option value="one">One customer</option></select></label><label class="wide" id="notificationRecipientWrap" style="display:none">Choose customer<select id="notificationRecipient" class="field"></select></label><label class="wide">Title<input id="notificationTitle" class="field" maxlength="100" required placeholder="New from VAYEN"></label><label class="wide">Message<textarea id="notificationMessage" class="field" rows="4" maxlength="1000" required placeholder="Write your message..."></textarea></label><div class="wide"><button class="button" type="submit">Save demo notification</button></div></form></div><div class="panel"><div class="panelhead"><h2>Notification history</h2></div><div class="tablewrap"><table><thead><tr><th>Title / Message</th><th>Audience</th><th>Recipients</th><th>Created</th></tr></thead><tbody id="notificationRows"></tbody></table></div></div></section>
 <section class="section" id="activity"><div class="panel"><div class="panelhead"><h2>Recent admin actions</h2></div><div id="activityRows" class="activity"></div></div></section>
+
+<!-- VAYEN Support Requests: isolated demo ticket workspace -->
+<section class="section" id="support">
+  <p class="note">DEMO ONLY — Tickets from the Contact form appear here when submitted on the same browser and website origin. Admin replies are saved locally; no email is sent.</p>
+  <div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+    <div class="stat"><label>Total requests</label><strong id="supportTotal">0</strong></div>
+    <div class="stat"><label>New requests</label><strong id="supportNew">0</strong></div>
+    <div class="stat"><label>Resolved</label><strong id="supportResolved">0</strong></div>
+  </div>
+  <div class="panel">
+    <div class="panelhead"><h2>Customer support tickets</h2><button type="button" class="button secondary" id="supportRefresh">↻ Refresh</button></div>
+    <div class="toolbar">
+      <input class="field" id="supportSearch" placeholder="Search ticket, name, email, order ID..." aria-label="Search support tickets">
+      <select class="field" id="supportFilter" aria-label="Filter support status"><option value="">All statuses</option><option>New</option><option>In Progress</option><option>Resolved</option></select>
+    </div>
+    <div class="tablewrap"><table><thead><tr><th>Ticket / Date</th><th>Customer</th><th>Issue / Order</th><th>Status</th><th>Action</th></tr></thead><tbody id="supportRows"></tbody></table></div>
+  </div>
+</section>
+<dialog id="supportTicketDialog"><div class="modal">
+  <h2>Support request</h2>
+  <div id="supportTicketDetails" class="support-details"></div>
+  <label class="support-reply-label" for="supportReply">Admin reply (demo — not emailed)</label>
+  <textarea id="supportReply" class="field" rows="5" maxlength="3000" style="width:100%;resize:vertical" placeholder="Write your response to the customer..."></textarea>
+  <div class="modalfooter" style="flex-wrap:wrap">
+    <button type="button" class="button secondary" id="supportClose">Close</button>
+    <button type="button" class="button secondary" id="supportProgress">In Progress</button>
+    <button type="button" class="button" id="supportSave">Save reply</button>
+    <button type="button" class="button" id="supportResolve">Mark Resolved</button>
+  </div>
+</div></dialog>
 <section class="section" id="settings"><div class="panel"><h2>Demo workspace</h2><p class="sub">This dashboard uses separate <b>vayenAdminDemoV1</b> browser storage. It does not access or modify your existing website's customer data. Product catalog and notifications are admin-only demo records.</p><p class="sub">For production we will add secure admin login, a shared product database, payment verification, customer gift entitlements, in-app notifications and optional phone push notifications.</p><button class="button danger" id="resetDemo">Reset all demo data</button></div></section>
 <p class="footnote">VAYEN Admin Studio · Interface & local workflow prototype · No live payment, email, customer account or fulfillment integration.</p></main></div>
 <dialog id="editor"><form class="modal" id="editorForm"><h2 id="editorTitle">Add</h2><div id="editorFields" class="formgrid"></div><div class="modalfooter"><button type="button" class="button secondary" id="closeEditor">Cancel</button><button class="button" type="submit">Save changes</button></div></form></dialog><div class="toast" id="toast" role="status"></div>
@@ -26,7 +70,7 @@
 (function(){'use strict';
 const KEY='vayenAdminDemoV1';const blank=()=>({products:[],orders:[],surprises:[],giftcards:[],activity:[],notifications:[]});let db;try{db=JSON.parse(localStorage.getItem(KEY))||blank()}catch{db=blank()}for(const k of Object.keys(blank()))if(!Array.isArray(db[k]))db[k]=[];const seenProducts=new Set(db.products.map(p=>p.slug||p.id));for(const p of VayenCatalog.seed())if(!seenProducts.has(p.slug))db.products.push(p);localStorage.setItem(KEY,JSON.stringify(db));
 const $=id=>document.getElementById(id);const fmt=n=>'₹'+Number(n||0).toLocaleString('en-IN');const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const uid=p=>p+'-'+Date.now().toString(36).toUpperCase()+Math.random().toString(36).slice(2,5).toUpperCase();const save=()=>localStorage.setItem(KEY,JSON.stringify(db));const log=msg=>{db.activity.unshift({msg,date:new Date().toLocaleString('en-IN')});db.activity=db.activity.slice(0,100)};const notify=msg=>{const t=$('toast');t.textContent=msg;t.style.display='block';clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.style.display='none',2600)};const badge=s=>'<span class="tag '+esc(s)+'">'+esc(s)+'</span>';const empty=(cols,msg='No records yet')=>'<tr><td colspan="'+cols+'" class="empty">'+esc(msg)+'</td></tr>';
-const titles={dashboard:'Overview',products:'Products',orders:'Orders',payments:'Payments',customers:'Customers',surprise:'Surprise Boxes',giftcards:'Gift Cards',delivery:'Gift Delivery',activity:'Activity Log',notifications:'Notifications',settings:'Settings'};
+const titles={dashboard:'Overview',products:'Products',orders:'Orders',payments:'Payments',customers:'Customers',surprise:'Surprise Boxes',giftcards:'Gift Cards',delivery:'Gift Delivery',activity:'Activity Log',notifications:'Notifications',support:'Support Requests',settings:'Settings'};
 function tab(name){document.querySelectorAll('.section').forEach(e=>e.classList.toggle('active',e.id===name));document.querySelectorAll('.nav button').forEach(e=>e.classList.toggle('active',e.dataset.tab===name));$('pageTitle').innerHTML=esc(titles[name]||'Overview')+'<span style="color:#ae7c85">.</span>';$('side').classList.remove('open');render();window.scrollTo({top:0,behavior:'instant'})}
 document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>tab(b.dataset.tab)));document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>tab(b.dataset.go)));$('mobileMenu').onclick=()=>$('side').classList.toggle('open');
 let editing=null;const input=(name,label,type='text',value='',opts=null,wide=false)=>'<label class="'+(wide?'wide':'')+'">'+esc(label)+(opts?'<select class="field" name="'+name+'">'+opts.map(o=>'<option value="'+esc(o)+'" '+(o===value?'selected':'')+'>'+esc(o)+'</option>').join('')+'</select>':'<input class="field" name="'+name+'" type="'+type+'" value="'+esc(value)+'" '+(type==='number'?'min="0" step="0.01"':'')+(['name','category','price','email','product','amount','buyer','recipient','value'].includes(name)?' required':'')+'>')+'</label>';
@@ -59,4 +103,170 @@ function giftActions(x){return x.status==='delivered'?'<span class="sub">Complet
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.tagName==='SELECT')return;const {act,id}=b.dataset;if(act==='edit')editor('products',id);if(act==='assign')editor('assign',id);if(act==='remove-product'){const p=db.products.find(x=>x.id===id);if(!p)return;if(!confirm('Hide '+p.name+' from new customers? The product record will be kept.'))return;p.status='hidden';log('Hidden product '+p.name);save();render()}if(act==='deliver'){const x=db.surprises.find(x=>x.id===id);if(!x||!x.productId||x.status==='delivered')return;if(!confirm('Mark gift as delivered in demo? No real delivery will occur.'))return;x.status='delivered';x.deliveredAt=new Date().toISOString();log('Marked gift '+id+' delivered (demo)');save();render();notify('Demo delivery recorded')}});
 document.addEventListener('change',e=>{const el=e.target;if(!el.matches('select[data-act]')||!el.value)return;const {act,id}=el.dataset;if(act==='order-status'){const x=db.orders.find(x=>x.id===id);if(x){x.status=el.value;log('Set demo order '+id+' to '+el.value)}}if(act==='card-status'){const x=db.giftcards.find(x=>x.id===id);if(x){x.status=el.value;log('Set demo gift card '+id+' to '+el.value)}}save();render();notify('Demo status updated')});['productSearch','orderSearch'].forEach(id=>$(id).addEventListener('input',render));$('orderFilter').addEventListener('change',render);$('resetDemo').onclick=()=>{if(!confirm('Delete ALL VAYEN admin demo records from this browser?'))return;db=blank();save();render();notify('Demo records reset')};render();
 })();
-</script></body></html>
+</script>
+<script>
+/* Support ticket module — independent from all existing Admin Studio features. */
+(function () {
+    'use strict';
+    const KEY = 'vayenSupportTicketsDemoV1';
+    const $ = id => document.getElementById(id);
+    let activeId = null;
+    const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[ch]));
+
+    function readTickets() {
+        try {
+            const data = JSON.parse(localStorage.getItem(KEY) || '[]');
+            return Array.isArray(data) ? data : [];
+        } catch (error) {
+            return [];
+        }
+    }
+
+    function saveTickets(tickets) {
+        try {
+            localStorage.setItem(KEY, JSON.stringify(tickets));
+            return true;
+        } catch (error) {
+            alert('Unable to save the ticket in browser storage.');
+            return false;
+        }
+    }
+
+    function renderSupport() {
+        const tickets = readTickets();
+        const query = $('supportSearch').value.trim().toLowerCase();
+        const filter = $('supportFilter').value;
+        $('supportTotal').textContent = tickets.length;
+        $('supportNew').textContent = tickets.filter(t => (t.status || 'New') === 'New').length;
+        $('supportResolved').textContent = tickets.filter(t => t.status === 'Resolved').length;
+        $('supportNavCount').textContent = tickets.filter(t => (t.status || 'New') === 'New').length || '';
+        const visible = tickets.filter(t => {
+            const match = [t.id, t.name, t.email, t.orderReference, t.issue, t.message]
+                .join(' ').toLowerCase().includes(query);
+            return match && (!filter || (t.status || 'New') === filter);
+        });
+        $('supportRows').innerHTML = visible.map(t => {
+            const status = t.status || 'New';
+            const date = t.createdAt && !Number.isNaN(Date.parse(t.createdAt))
+                ? new Date(t.createdAt).toLocaleString('en-IN') : '—';
+            return `<tr>
+                <td><strong>${escapeHtml(t.id)}</strong><br><small>${escapeHtml(date)}</small></td>
+                <td><strong>${escapeHtml(t.name)}</strong><br><small>${escapeHtml(t.email)}</small></td>
+                <td>${escapeHtml(t.issue)}<br><small>${escapeHtml(t.orderReference || 'No order reference')}</small></td>
+                <td><span class="tag ${status === 'Resolved' ? 'success' : status === 'New' ? 'pending' : 'active'}">${escapeHtml(status)}</span></td>
+                <td><button type="button" class="tiny" data-support-id="${escapeHtml(t.id)}">View / Reply</button></td>
+            </tr>`;
+        }).join('') || '<tr><td colspan="5" class="empty">No support requests found.</td></tr>';
+    }
+
+    function openTicket(id) {
+        const ticket = readTickets().find(t => t.id === id);
+        if (!ticket) return;
+        activeId = id;
+        const fields = [
+            ['Ticket ID', ticket.id], ['Customer', ticket.name],
+            ['Email', ticket.email], ['Order / Reference', ticket.orderReference || 'Not provided'],
+            ['Issue', ticket.issue], ['Status', ticket.status || 'New']
+        ];
+        $('supportTicketDetails').innerHTML = fields.map(([label, value]) =>
+            `<div><strong>${escapeHtml(label)}:</strong> ${escapeHtml(value)}</div>`
+        ).join('') + `<strong>Customer message:</strong><p>${escapeHtml(ticket.message)}</p>`;
+        $('supportReply').value = ticket.adminReply || '';
+        $('supportTicketDialog').showModal();
+    }
+
+    function updateTicket(status, closeAfter) {
+        const tickets = readTickets();
+        const ticket = tickets.find(t => t.id === activeId);
+        if (!ticket) return;
+        const reply = $('supportReply').value.trim();
+        if (status === 'Resolved' && !reply && !ticket.adminReply) {
+            if (!confirm('Resolve this ticket without a written reply?')) return;
+        }
+        ticket.adminReply = reply;
+        if (status) ticket.status = status;
+        else if ((ticket.status || 'New') === 'New' && reply) ticket.status = 'In Progress';
+        ticket.updatedAt = new Date().toISOString();
+        if (!saveTickets(tickets)) return;
+        renderSupport();
+        if (closeAfter) $('supportTicketDialog').close();
+        else openTicket(activeId);
+        // This is only a local draft; it does not deliver an email or customer notification.
+    }
+
+    $('supportRows').addEventListener('click', event => {
+        const button = event.target.closest('[data-support-id]');
+        if (button) openTicket(button.dataset.supportId);
+    });
+    $('supportSearch').addEventListener('input', renderSupport);
+    $('supportFilter').addEventListener('change', renderSupport);
+    $('supportRefresh').addEventListener('click', renderSupport);
+    $('supportClose').addEventListener('click', () => $('supportTicketDialog').close());
+    $('supportProgress').addEventListener('click', () => updateTicket('In Progress', true));
+    $('supportSave').addEventListener('click', () => updateTicket(null, true));
+    $('supportResolve').addEventListener('click', () => updateTicket('Resolved', true));
+    document.querySelector('[data-tab="support"]').addEventListener('click', renderSupport);
+    window.addEventListener('storage', event => {
+        if (event.key === KEY) renderSupport();
+    });
+    renderSupport();
+})();
+</script>
+
+<script>
+/* Independent customer account viewer. No password access or customer-side changes. */
+(function () {
+    'use strict';
+    const STORAGE_KEY = 'vayenDemoLoginAccountsV1';
+    const $ = id => document.getElementById(id);
+    const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({
+        '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+    }[char]));
+    let visibleEmails = new Set();
+    function renderLoginCustomers() {
+        let records = [];
+        try {
+            const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            if (Array.isArray(saved)) records = saved;
+        } catch (error) { /* Invalid demo records are ignored. */ }
+        const query = $('loginCustomerSearch').value.trim().toLowerCase();
+        const filtered = records.filter(customer => [customer.id, customer.name, customer.email, customer.provider || customer.method]
+            .join(' ').toLowerCase().includes(query));
+        $('loginCustomerRows').innerHTML = filtered.map(customer => {
+            const id = String(customer.id || '—');
+            const email = String(customer.email || '—');
+            const shown = visibleEmails.has(id);
+            const joined = (customer.joinedAt || customer.createdAt) && !Number.isNaN(Date.parse(customer.joinedAt || customer.createdAt))
+                ? new Date(customer.joinedAt || customer.createdAt).toLocaleDateString('en-IN') : '—';
+            return `<tr data-login-customer="true"><td>${escapeHtml(id)}</td><td>${escapeHtml(customer.name || '—')}</td>
+                <td>${shown ? escapeHtml(email) : '••••••••'}</td>
+                <td>${escapeHtml(customer.provider || customer.method || '—')}</td><td>${escapeHtml(joined)}</td>
+                <td><span title="Passwords cannot be revealed">••••••••</span></td>
+                <td><button type="button" class="tiny" data-customer-eye="${escapeHtml(id)}" aria-label="${shown ? 'Hide' : 'Show'} customer email">${shown ? '◉ Hide' : '◎ Show'}</button></td></tr>`;
+        }).join('') || '<tr><td colspan="7" class="empty">No demo login accounts yet. Real Google and email sign-in are not connected.</td></tr>';
+    }
+    $('loginCustomerRows').addEventListener('click', event => {
+        const button = event.target.closest('[data-customer-eye]');
+        if (!button) return;
+        const id = button.dataset.customerEye;
+        if (visibleEmails.has(id)) visibleEmails.delete(id);
+        else visibleEmails.add(id);
+        renderLoginCustomers();
+    });
+    $('loginCustomerSearch').addEventListener('input', renderLoginCustomers);
+    $('refreshLoginCustomers').addEventListener('click', () => {
+        renderLoginCustomers();
+        const count = $('loginCustomerRows').querySelectorAll('tr[data-login-customer]').length;
+        const time = new Date().toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+        $('customerRefreshStatus').textContent = '✓ Refreshed at ' + time + ' · ' + count + ' demo login account(s) found.';
+    });
+    document.querySelector('[data-tab="customers"]').addEventListener('click', renderLoginCustomers);
+    window.addEventListener('storage', event => {
+        if (event.key === STORAGE_KEY) renderLoginCustomers();
+    });
+    renderLoginCustomers();
+})();
+</script>
+</body></html>
