@@ -299,7 +299,7 @@
 
     const $ = selector => document.querySelector(selector);
     const catalog = window.VayenCatalog;
-    const products = catalog && typeof catalog.list === 'function' ? catalog.list() : [];
+    let products = catalog && typeof catalog.list === 'function' ? catalog.list() : [];
 
     let accountId = null;
     let state = { saved: [], folders: [] };
@@ -359,6 +359,9 @@
             };
         }
 
+         if (catalog?.BASE?.[id]) {
+             return { slug: id, name: catalog.BASE[id].name, price: catalog.BASE[id].price };
+         }
         return null;
     }
 
@@ -744,7 +747,13 @@
     };
 
     window.VayenLibraryBridge = {
-        init(uid, data) {
+         async init(uid, data) {
+             // Firestore catalog may arrive after the library document.
+             // Resolve products before rendering saved IDs, including Premium/Worlds.
+             try { if (catalog?.ready) await catalog.ready; } catch (error) {
+                 console.warn('Catalog unavailable for library:', error);
+             }
+             products = catalog && typeof catalog.list === 'function' ? catalog.list() : [];
             accountId = uid;
             state = normalize(data);
             libraryReady = true;
@@ -824,7 +833,7 @@ else {
           if(token!==version)return;
         }
         uid=user.uid;
-        bridge.init(uid,data);
+        await bridge.init(uid,data);
         try {
           const orders = await getDocs(collection(db, 'users', user.uid, 'orders'));
           if (token !== version) return;

@@ -497,6 +497,20 @@ body:has(.vayen-collection-final) {
     right: 15px !important;
 }
 </style>
+<style id="vayen-world-save-layout">
+.vayen-collection-final .vc-world-list .vc-world-save-wrap { position:relative; min-width:0; }
+.vayen-collection-final .vc-world-list .vc-world-save-wrap > button[data-world] {
+    display:block; width:100%; height:100%; padding-right:69px; text-align:left;
+}
+.vayen-collection-final .vc-world-list .vc-world-save-wrap > .vayen-save-heart {
+    position:absolute; top:50%; right:8px; transform:translateY(-50%);
+    width:31px; height:31px; min-height:31px; padding:0; z-index:3;
+    display:grid; place-items:center; border-radius:50%; background:rgba(255,250,250,.96);
+    color:#765763; border:1px solid rgba(190,155,166,.42); text-align:center;
+}
+.vayen-collection-final .vc-world-list .vc-world-save-wrap > .vayen-save-heart:hover {transform:translateY(-50%) scale(1.06)}
+.vayen-collection-final .vc-world-list .vc-world-save-wrap > button[data-world]::after {right:43px}
+</style>
 </head>
 <body>
 <main class="vayen-collection-final">
@@ -958,6 +972,20 @@ for(const p of extraRows){const target=p.group==='Expensive / Flagship'?document
             if (!id) return;
             card.style.position = 'relative';
             card.appendChild(VayenSaved.heart(id));
+        });
+        // World tiles are buttons, so their save controls must be siblings,
+        // never nested buttons (which browsers handle inconsistently).
+        document.querySelectorAll('#collectionWorlds > button[data-world]').forEach(tile => {
+            const ids = ['reels-growth','web-creator','youtube-algorithm','earn-from-social-media',
+                'creator-studio','business-launch','content-strategy','design-thumbnails',
+                'edit-videos','ai-automation','seller-commerce','personal-brand'];
+            const id = ids[Number(tile.dataset.world) - 1];
+            if (!id) return;
+            const wrapper = document.createElement('div');
+            wrapper.className = 'vc-world-save-wrap';
+            tile.parentNode.insertBefore(wrapper, tile);
+            wrapper.appendChild(tile);
+            wrapper.appendChild(VayenSaved.heart(id));
         });
         VayenSaved.sync();
     }
