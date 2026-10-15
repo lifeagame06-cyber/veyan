@@ -209,7 +209,7 @@ if (!getApps().length) {
             }));
             status.textContent = '';
         }, error => {
-            console.error('Orders Firebase read failed:', error);
+            console.error('Unable to load orders:', error);
             status.textContent = '';
         });
     });
