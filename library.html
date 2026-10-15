@@ -337,7 +337,28 @@
     }
 
     function byId(id) {
-        return products.find(product => (product.slug || product.id) === id);
+        const product = products.find(item => (item.slug || item.id) === id);
+
+        if (product) {
+            return product;
+        }
+
+        // These two signature products are also part of the catalog's BASE data.
+        // Keep their saved entries visible if a local catalog override excludes them.
+        const signatureIds = [
+            'vlogging-mastery',
+            'youtube-creator-system'
+        ];
+
+        if (signatureIds.includes(id) && catalog?.BASE?.[id]) {
+            return {
+                slug: id,
+                name: catalog.BASE[id].name,
+                price: catalog.BASE[id].price
+            };
+        }
+
+        return null;
     }
 
     function safe(value) {
