@@ -868,23 +868,195 @@ for(const p of extraRows){const target=p.group==='Expensive / Flagship'?document
 })();
 </script>
 <nav aria-label="Mobile main navigation" class="vayen-mobile-nav"><a class="mobile-nav-item" href="index.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-7H9v7H3z"></path></svg></span><span>Home</span></a><a aria-current="page" class="mobile-nav-item active" href="collection.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM9 4v16M5 10h14"></path></svg></span><span>Collection</span></a><a class="mobile-nav-item" href="library.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg></span><span>Library</span></a><a class="mobile-nav-item" href="orders.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 3h14v18l-3-2-4 2-4-2-3 2zM8 8h8M8 12h8"></path></svg></span><span>Orders</span></a><a class="mobile-nav-item" href="profile.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 21c.8-4.5 3.1-6.5 7-6.5s6.2 2 7 6.5"></path></svg></span><span>Account</span></a></nav><script id="vayen-saved-heart-engine">
-(function(){
-'use strict';
-const PREFIX='vayenSavedProductsDemoV1_';
-function user(){try{const s=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null');return s&& (s.id||s.email)?String(s.id||s.email).toLowerCase():'guest'}catch(e){return 'guest'}}
-const key=()=>PREFIX+user();
-function get(){try{const x=JSON.parse(localStorage.getItem(key())||'[]');return Array.isArray(x)?x.filter(x=>typeof x==='string'):[]}catch(e){return []}}
-function set(a){try{localStorage.setItem(key(),JSON.stringify(a))}catch(e){}}
-function toggle(id){let a=get();a=a.includes(id)?a.filter(x=>x!==id):[id,...a];set(a);window.dispatchEvent(new Event('vayen-saved-changed'));return a.includes(id)}
-function svg(){return '<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg>'}
-function heart(id){const b=document.createElement('button');b.type='button';b.className='vayen-save-heart';b.dataset.saveId=id;b.innerHTML=svg();b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();toggle(id)});return b}
-function sync(){document.querySelectorAll('.vayen-save-heart').forEach(b=>{const active=get().includes(b.dataset.saveId);b.classList.toggle('is-saved',active);b.setAttribute('aria-pressed',String(active));b.setAttribute('aria-label',active?'Remove from Saved':'Save product');b.title=active?'Remove from Saved':'Save product'})}
-window.VayenSaved={get,toggle,heart,sync,user};window.addEventListener('vayen-saved-changed',sync);
+(function () {
+    'use strict';
+
+    let saved = [];
+    let ready = false;
+    let saving = false;
+    let toggleRemote = null;
+
+    function svg() {
+        return `<svg viewBox="0 0 24 24" width="21" height="21"
+            fill="none" stroke="currentColor" stroke-width="1.9"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1
+                a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6
+                a5.5 5.5 0 0 0 0-7.8z"/>
+        </svg>`;
+    }
+
+    function sync() {
+        document.querySelectorAll('.vayen-save-heart').forEach(button => {
+            const active = saved.includes(button.dataset.saveId);
+            button.classList.toggle('is-saved', active);
+            button.disabled = !ready || saving;
+            button.style.opacity = ready ? '1' : '.55';
+            button.setAttribute('aria-pressed', String(active));
+            button.setAttribute('aria-label', active ? 'Remove from Saved' : 'Save product');
+            button.title = ready ? (active ? 'Remove from Saved' : 'Save product') : 'Loading saved products';
+        });
+    }
+
+    async function toggle(id) {
+        if (!ready || saving || !toggleRemote) return false;
+        saving = true;
+        sync();
+        try {
+            const next = await toggleRemote(id);
+            saved = next;
+            window.dispatchEvent(new Event('vayen-saved-changed'));
+            return saved.includes(id);
+        } catch (error) {
+            console.error('VAYEN Save failed:', error);
+            alert('Could not save this product. Please try again.');
+            return saved.includes(id);
+        } finally {
+            saving = false;
+            sync();
+        }
+    }
+
+    function heart(id) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'vayen-save-heart';
+        button.dataset.saveId = id;
+        button.innerHTML = svg();
+        button.addEventListener('click', event => {
+            event.preventDefault();
+            event.stopPropagation();
+            toggle(id);
+        });
+        return button;
+    }
+
+    window.VayenSaved = {
+        get: () => [...saved],
+        toggle,
+        heart,
+        sync,
+        setRemote(fn) { toggleRemote = fn; },
+        setData(ids, isReady) {
+            saved = Array.isArray(ids) ? ids.filter(x => typeof x === 'string') : [];
+            ready = Boolean(isReady);
+            sync();
+        }
+    };
+
+    window.addEventListener('vayen-saved-changed', sync);
 })();
-</script><script id="vayen-collection-saved-init">
-(function(){
-function init(){document.querySelectorAll('a.vc-card[href*="product.html"]').forEach(a=>{if(a.querySelector('.vayen-save-heart'))return;const id=new URL(a.href,location.href).searchParams.get('id');if(!id)return;a.style.position='relative';a.appendChild(VayenSaved.heart(id))});VayenSaved.sync()}
-init();new MutationObserver(init).observe(document.querySelector('.vayen-collection-final')||document.body,{childList:true,subtree:true});
+</script>
+<script id="vayen-collection-saved-init">
+(function () {
+    function init() {
+        document.querySelectorAll('a.vc-card[href*="product.html"]').forEach(card => {
+            if (card.querySelector('.vayen-save-heart')) return;
+            const id = new URL(card.href, location.href).searchParams.get('id');
+            if (!id) return;
+            card.style.position = 'relative';
+            card.appendChild(VayenSaved.heart(id));
+        });
+        VayenSaved.sync();
+    }
+
+    init();
+    new MutationObserver(init).observe(
+        document.querySelector('.vayen-collection-final') || document.body,
+        { childList: true, subtree: true }
+    );
 })();
-</script></body>
+</script>
+<script type="module" id="vayen-firebase-saved-sync">
+import { initializeApp, getApps, getApp }
+    from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
+import { getAuth, onAuthStateChanged }
+    from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
+import { getFirestore, doc, getDoc, updateDoc, setDoc, arrayUnion, arrayRemove, serverTimestamp }
+    from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCJStLo-FmvkPQo-u-cP-J4rQ8z4ecYMW4",
+    authDomain: "veyan-53930.firebaseapp.com",
+    projectId: "veyan-53930",
+    storageBucket: "veyan-53930.firebasestorage.app",
+    messagingSenderId: "836801786398",
+    appId: "1:836801786398:web:a73fbda60267efcdbd740f",
+    measurementId: "G-2T5XNQGKTP"
+};
+
+if (!firebaseConfig.apiKey) {
+    console.error('VAYEN: Firebase API key is missing.');
+} else {
+    try {
+        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        let currentUser = null;
+        let generation = 0;
+        let savedIds = [];
+
+        onAuthStateChanged(auth, async user => {
+            const thisGeneration = ++generation;
+            currentUser = null;
+            savedIds = [];
+            VayenSaved.setData([], false);
+
+            if (!user) {
+                console.info('Sign in to save products to your VAYEN Library.');
+                return;
+            }
+
+            try {
+                const ref = doc(db, 'libraries', user.uid);
+                const snapshot = await getDoc(ref);
+                if (thisGeneration !== generation) return;
+
+                savedIds = snapshot.exists() && Array.isArray(snapshot.data().saved)
+                    ? snapshot.data().saved.filter(id => typeof id === 'string')
+                    : [];
+                currentUser = user;
+                VayenSaved.setData(savedIds, true);
+            } catch (error) {
+                console.error('Could not load saved products:', error);
+            }
+        });
+
+        VayenSaved.setRemote(async id => {
+            if (!currentUser) throw new Error('Please sign in first.');
+            const uid = currentUser.uid;
+            const ref = doc(db, 'libraries', uid);
+            const wasSaved = savedIds.includes(id);
+
+            // Only modify the saved field. Never overwrite existing collections.
+            try {
+                await updateDoc(ref, {
+                    saved: wasSaved ? arrayRemove(id) : arrayUnion(id),
+                    updatedAt: serverTimestamp()
+                });
+            } catch (error) {
+                // A new account may not have a library document yet.
+                if (error.code !== 'not-found') throw error;
+                await setDoc(ref, {
+                    saved: wasSaved ? [] : [id],
+                    folders: [],
+                    updatedAt: serverTimestamp()
+                });
+            }
+
+            if (!currentUser || currentUser.uid !== uid) {
+                throw new Error('Account changed while saving.');
+            }
+
+            savedIds = wasSaved
+                ? savedIds.filter(value => value !== id)
+                : [...savedIds, id];
+            return [...savedIds];
+        });
+    } catch (error) {
+        console.error('VAYEN Firebase setup failed:', error);
+    }
+}
+</script>
+</body>
 </html>
