@@ -1,7 +1,7 @@
 // VAYEN shared authentication for Home and Profile.
 // Configure your Firebase API key locally before deploying.
 import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
-import { getAuth, onAuthStateChanged, signOut, updateProfile } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
+import { getAuth, onAuthStateChanged, signOut, updateProfile, getIdTokenResult } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
 import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
 
 const firebaseConfig = {
@@ -74,22 +74,31 @@ async function loadProfile(user) {
   const ref = doc(db, 'users', user.uid);
   const snap = await getDoc(ref);
   const fallback = localNames(user);
+  // Sign-in method is obtained from the verified Firebase ID token.
+  const token = await getIdTokenResult(user);
+  const email = user.email || '';
+  const loginMethod = token.claims.firebase?.sign_in_provider || 'unknown';
   if (snap.exists()) {
     const data = snap.data();
     remoteNames = {
       dearName: typeof data.dearName === 'string' && data.dearName.trim()
         ? data.dearName : fallback.dearName
     };
+    // Do not overwrite names or original account creation date.
+    if (data.email !== email || data.loginMethod !== loginMethod) {
+      await setDoc(ref, { email, loginMethod, updatedAt: serverTimestamp() }, { merge: true });
+    }
   } else {
     remoteNames = fallback;
     await setDoc(ref, {
       fullName: nameFor(user),
       dearName: fallback.dearName,
+      email,
+      loginMethod,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()
     });
   }
-  // Local cache is for display fallback; account data is read from Firestore.
   localStorage.setItem('vayenHeaderName:' + user.uid, remoteNames.dearName);
 }
 

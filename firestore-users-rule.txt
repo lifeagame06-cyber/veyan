@@ -1,0 +1,35 @@
+// Replace ONLY the existing /users/{userId} match block in Firestore rules.
+// Keep your existing /admins/{adminId} block and other rules unchanged.
+match /users/{userId} {
+  function isOwner() {
+    return request.auth != null && request.auth.uid == userId;
+  }
+  function isAdmin() {
+    return request.auth != null
+      && exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin';
+  }
+  function validProfile() {
+    return request.resource.data.keys().hasOnly([
+      'fullName', 'dearName', 'welcomeName', 'createdAt', 'updatedAt',
+      'email', 'loginMethod'
+    ])
+    && request.resource.data.fullName is string
+    && request.resource.data.dearName is string
+    && request.resource.data.fullName.size() >= 2
+    && request.resource.data.fullName.size() <= 100
+    && request.resource.data.dearName.size() >= 2
+    && request.resource.data.dearName.size() <= 35
+    && request.resource.data.email is string
+    && request.resource.data.email == request.auth.token.get('email', '')
+    && request.resource.data.loginMethod is string
+    && request.resource.data.loginMethod == request.auth.token.firebase.sign_in_provider;
+  }
+  allow read: if isOwner() || isAdmin();
+  allow create: if isOwner() && validProfile()
+    && request.resource.data.createdAt == request.time
+    && request.resource.data.updatedAt == request.time;
+  allow update: if isOwner() && validProfile()
+    && request.resource.data.createdAt == resource.data.createdAt;
+  allow delete: if false;
+}
