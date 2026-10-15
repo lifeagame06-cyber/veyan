@@ -623,8 +623,10 @@ body.page-leaving {
 
 </a>
 </div>
+<script src="vayen-firebase-config.js"></script>
 <script src="vayen-catalog.js"></script>
 <script>
+(async function(){try{await VayenCatalog.ready;}catch(error){document.body.innerHTML='<main style="padding:50px;text-align:center"><h1>Products temporarily unavailable</h1><a href="collection.html">Back to Collection</a></main>';return;}
 /* VAYEN — PRODUCT DETAIL CATALOG */
 const vayenProducts = {
     "ai-prompting": {
@@ -809,8 +811,8 @@ const vayenProducts = {
 
 const productParams = new URLSearchParams(window.location.search);
 const productId = productParams.get("id") || productParams.get("product") || "ai-prompting";
-const product = VayenCatalog.get(productId) || (!VayenCatalog.records().some(p=>(p.slug||p.id)===productId) ? vayenProducts[productId] : null);
-if (!product) { document.body.innerHTML = '<main style="max-width:640px;margin:12vh auto;padding:30px;font-family:Arial;text-align:center"><h1>Product unavailable</h1><p>This product is not available for new purchases.</p><a href="collection.html">← Back to Collection</a></main>'; throw new Error('Product unavailable: '+productId); }
+const product = VayenCatalog.get(productId);
+if (!product) { document.body.innerHTML = '<main style="max-width:640px;margin:12vh auto;padding:30px;font-family:Arial;text-align:center"><h1>Product unavailable</h1><p>This product is not available for new purchases.</p><a href="collection.html">← Back to Collection</a></main>'; return; }
 
 /* Save viewed products for the homepage Recently Viewed section. */
 if (Object.prototype.hasOwnProperty.call(vayenProducts, productId)) {
@@ -921,6 +923,8 @@ if (productId === "youtube-creator-system") {
         `radial-gradient(circle at 80% 85%, rgba(255,255,255,.35), transparent 39%),
          linear-gradient(145deg, ${product.colors[0]}, ${product.colors[1]})`;
 }
+
+})();
 </script>
 
 <script>

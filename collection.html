@@ -781,6 +781,7 @@ body:has(.vayen-collection-final) {
 
 </section>
 </main>
+<script src="vayen-firebase-config.js"></script>
 <script src="vayen-catalog.js"></script>
 <script>
    (function () {
@@ -834,12 +835,13 @@ body:has(.vayen-collection-final) {
   </script>
 <script>
 /* Non-destructive catalog visibility and additional product cards. */
-(function(){
-const C=window.VayenCatalog;if(!C)return;
+(async function(){
+const C=window.VayenCatalog;if(!C)return;try{await C.ready}catch(e){document.querySelectorAll('a[href*="product.html?id="],#collectionWorlds button').forEach(x=>x.remove());alert("Products are temporarily unavailable. Please try again later.");return;}
 for(const a of document.querySelectorAll('a[href*="product.html?id="]')){
   const id=new URL(a.href,location.href).searchParams.get('id');
   const row=C.records().find(p=>(p.slug||p.id)===id);
-  if(row){if(row.status!=='published'){a.remove();continue;}
+  if(!row || row.status!=='published'){a.remove();continue;}
+  if(row){
     // Keep existing custom card art and text; show edited price/title where safely identifiable.
     a.dataset.vayenProduct=id;
     if(row.name!==C.BASE[id]?.name){const heading=a.querySelector('.vc-copy h3')||a.querySelector('h2,h3');if(heading)heading.textContent=row.name;}
@@ -849,7 +851,7 @@ for(const a of document.querySelectorAll('a[href*="product.html?id="]')){
 const worldIds=C.WORLDS;
 for(const button of document.querySelectorAll('#collectionWorlds button')){
   const i=Number(button.dataset.world)-1;const row=C.records().find(p=>(p.slug||p.id)===worldIds[i]);
-  if(row){if(row.status!=='published')button.remove();else button.textContent=row.name;}
+  if(!row || row.status!=='published')button.remove();else button.textContent=row.name;
 }
 const worldList=document.getElementById('collectionWorlds');
 if(worldList){for(const row of C.list('Worlds')){

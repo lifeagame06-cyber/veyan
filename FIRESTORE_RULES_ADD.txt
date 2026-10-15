@@ -1,0 +1,17 @@
+// Add this match inside match /databases/{database}/documents in your EXISTING rules.
+// Do not replace your users/libraries/orders/admins rules.
+match /products/{productId} {
+  function productAdmin() {
+    return request.auth != null
+      && exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin';
+  }
+  allow get, list: if (resource.data.status == 'published') || productAdmin();
+  allow create, update: if productAdmin()
+    && request.resource.data.slug == productId
+    && request.resource.data.status in ['published','draft','hidden','unlisted']
+    && request.resource.data.keys().hasOnly(['id','slug','name','category','price','status','group','image','shortDescription','description','features','badge','worldNumber','builtin','updatedAt'])
+    && request.resource.data.name is string
+    && request.resource.data.price is number;
+  allow delete: if false;
+}

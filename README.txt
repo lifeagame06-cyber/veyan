@@ -1,22 +1,16 @@
-VAYEN — Final customer profile sync package
+VAYEN FIREBASE PRODUCTS - staging package
 
-FILES
-1. Admin.html — professional admin with one Firebase customer table, real dashboard count, email and login method.
-2. vayen-auth-sync.js — syncs signed-in user's email and provider to Firestore without changing names or createdAt.
-3. firestore-users-rule.txt — replacement /users/{userId} rules block; retain your existing /admins block.
+1. BACK UP your existing files. Do NOT deploy yet until config and rules are complete.
+2. In vayen-firebase-config.js, paste the Firebase Web API key from your existing working auth config. This is a web config value, NOT a service account secret.
+3. Merge FIRESTORE_RULES_ADD.txt into the existing Firestore rules (inside match /databases/{database}/documents). Publish rules.
+4. Upload the 5 files: Admin.html, collection.html, product.html, vayen-catalog.js, vayen-firebase-config.js to the same GitHub Pages directory.
+5. Sign in as authorized admin; Admin > Products > Import original catalog ONCE. The import stops if any product exists, to avoid overwrite.
+6. Test: public collection, detail, admin add/edit/hide, another browser/device, and purchase link.
 
-INSTALL IN ORDER
-1. Back up your current Firestore rules and both existing files.
-2. In Firebase Console > Firestore > Rules, replace ONLY the /users/{userId} match block with firestore-users-rule.txt. Keep the surrounding rules_version, service cloud.firestore, match /databases/{database}/documents and your other match blocks intact. Publish.
-3. Add your own Firebase Web API key to BOTH Admin.html and vayen-auth-sync.js (apiKey: "").
-4. Replace Admin.html and vayen-auth-sync.js in GitHub repository root. Commit and wait for Pages deployment.
-5. Sign into the website with a customer account and open a page that loads vayen-auth-sync.js. Then refresh Admin > Customers.
-
-IMPORTANT
-- Existing users show 'Not synced yet' until they visit the updated website while signed in.
-- The dashboard counts Firestore profile documents, not every Firebase Authentication account.
-- Login method is the last Firebase sign-in provider reflected in the ID token, not necessarily all providers linked to an account.
-- Email is personally identifiable information: only authenticated owner and authorized admin may read these documents. Do not publish users collection with public read rules.
-- This package does NOT implement real payments, orders, notification delivery, or support backend.
-- Firebase web API key is public client configuration, not a service account secret. Do NOT put service account credentials in these files.
-- Firestore rules should be tested using Rules Playground for owner/admin/other-user cases before production launch.
+IMPORTANT LIMITATIONS:
+- Only collection.html and product.html are integrated here. Other pages (homepage, search, checkout, saved/library) may still depend on old catalog behavior and need separate validation.
+- No real payment or server-side price verification has been added. Never trust client-side product price for real checkout.
+- Firestore products collection must be imported before public listings will show.
+- Do not store private PDF URLs or credentials in public product documents.
+- For published-only queries, Firestore rules permit public listing. Admin can read all.
+- This is a staging build, not verified in a deployed browser.
