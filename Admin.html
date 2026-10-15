@@ -11,7 +11,7 @@
 .support-reply-label { display:block; font-size:12px; font-weight:700; margin:16px 0 9px; }
 @media(max-width:740px){#support .stats{gap:8px}#support .stat{padding:12px}#support .stat strong{font-size:24px}}
 </style></head><body>
-<div class="app"><aside class="side" id="side"><div class="logo">VAYEN<small>ADMIN STUDIO / DEMO</small></div><button class="mobile-menu" id="mobileMenu" aria-label="Toggle menu">☰ Menu</button><nav class="nav" id="nav">
+<div id="adminAccessGate" style="position:fixed;inset:0;z-index:99999;background:#f4f2ed;display:grid;place-items:center;padding:24px"><div style="max-width:450px;text-align:center;font:14px Arial;color:#21191c"><h2 style="letter-spacing:3px">VAYEN ADMIN</h2><p id="adminAccessMessage">Verifying secure admin access...</p><a href="login.html" id="adminAccessLogin" style="display:none;color:#a66d76;font-weight:bold">Sign in to VAYEN →</a></div></div><div class="app"><aside class="side" id="side"><div class="logo">VAYEN<small>ADMIN STUDIO / DEMO</small></div><button class="mobile-menu" id="mobileMenu" aria-label="Toggle menu">☰ Menu</button><nav class="nav" id="nav">
 <button class="active" data-tab="dashboard">◫ &nbsp; Dashboard</button><button data-tab="products">▦ &nbsp; Products</button><button data-tab="orders">▤ &nbsp; Orders</button><button data-tab="payments">◈ &nbsp; Payments</button><button data-tab="customers">♙ &nbsp; Customers</button><button data-tab="surprise">✦ &nbsp; Surprise Boxes</button><button data-tab="giftcards">◇ &nbsp; Gift Cards</button><button data-tab="delivery">↗ &nbsp; Gift Delivery</button><button data-tab="notifications">♧ &nbsp; Notifications</button><button data-tab="activity">◷ &nbsp; Activity Log</button><button data-tab="support">✉ &nbsp; Support Requests <span id="supportNavCount" style="float:right;color:#e6aeb9"></span></button><button data-tab="settings">⚙ &nbsp; Settings</button>
 </nav><div class="sidefoot">LOCAL DEMO • Not connected to live payments<br><a href="index.html">← Back to VAYEN</a></div></aside>
 <main class="main"><header class="top"><div><span class="eyebrow">VAYEN / MANAGEMENT</span><h1 id="pageTitle">Overview<span style="color:#ae7c85">.</span></h1></div><div class="topright"><span class="pill">● DEMO MODE</span></div></header>
@@ -21,11 +21,11 @@
 <section class="section" id="payments"><div class="panel"><div class="panelhead"><h2>Payment records</h2></div><p class="sub">Payment status follows the demo order status. Real payment verification will be connected later.</p><div class="tablewrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Amount</th><th>Payment reference</th><th>Status</th></tr></thead><tbody id="paymentRows"></tbody></table></div></div></section>
 <section class="section" id="customers">
 <div class="panel">
-  <div class="panelhead"><h2>Customer Login Details</h2><button type="button" class="button secondary" id="refreshLoginCustomers">↻ Refresh</button></div>
-  <p class="sub" id="customerRefreshStatus" role="status" aria-live="polite">Ready to check demo customer records.</p>
-  <p class="sub">Demo account viewer. Customer information is visible only when saved on this same website origin in the demo login accounts. Passwords and password hashes are never displayed here. Eye controls only change this admin display.</p>
+  <div class="panelhead"><h2>Registered Firebase Customers</h2><button type="button" class="button secondary" id="refreshLoginCustomers">↻ Refresh</button></div>
+  <p class="sub" id="customerRefreshStatus" role="status" aria-live="polite">Waiting for secure Firebase connection...</p>
+  <p class="sub">Live customer profiles from Firestore. Email and sign-in method are not currently stored in these profile documents. Passwords are never available to admins.</p>
   <div class="toolbar"><input class="field" id="loginCustomerSearch" placeholder="Search name, email or customer ID..."></div>
-  <div class="tablewrap"><table><thead><tr><th>Customer ID</th><th>Name</th><th>Email</th><th>Login method</th><th>Joined</th><th>Password</th><th>Details</th></tr></thead><tbody id="loginCustomerRows"></tbody></table></div>
+  <div class="tablewrap"><table><thead><tr><th>Customer ID</th><th>Name</th><th>Email</th><th>Login method</th><th>Joined</th><th>Dear name</th><th>Details</th></tr></thead><tbody id="loginCustomerRows"></tbody></table></div>
 </div><div class="panel"><div class="panelhead"><h2>Customers</h2></div><p class="sub">Unique customers from local demo orders, surprise boxes and gift cards. Notification recipient selection uses these records.</p><div class="tablewrap"><table><thead><tr><th>Email</th><th>Orders</th><th>Gift cards bought</th><th>Surprise boxes</th></tr></thead><tbody id="customerRows"></tbody></table></div></div></section>
 <section class="section" id="surprise"><p class="note">When a customer buys a Surprise Box, its purchase will eventually enter this queue after verified payment. For now you can test the entire assignment flow using demo requests.</p><div class="panel"><div class="panelhead"><h2>Surprise Box requests</h2><button class="button" id="addSurprise">+ Demo request</button></div><div class="tablewrap"><table><thead><tr><th>Request</th><th>Customer</th><th>Box / Amount</th><th>Selected gift</th><th>Status</th><th>Action</th></tr></thead><tbody id="surpriseRows"></tbody></table></div></div></section>
 <section class="section" id="giftcards"><div class="stats" style="grid-template-columns:repeat(2,minmax(0,1fr))"><div class="stat"><label>Gift cards purchased</label><strong id="giftCount">0</strong><small>Number of demo cards</small></div><div class="stat"><label>Total face value</label><strong id="giftValue">₹0</strong><small>Demo gift card value</small></div></div><div class="panel"><div class="panelhead"><h2>Gift cards</h2><button class="button" id="addGiftCard">+ Demo gift card</button></div><div class="tablewrap"><table><thead><tr><th>Card code</th><th>Buyer</th><th>Recipient</th><th>Value</th><th>Status</th><th>Action</th></tr></thead><tbody id="giftcardRows"></tbody></table></div></div></section>
@@ -215,58 +215,73 @@ document.addEventListener('change',e=>{const el=e.target;if(!el.matches('select[
 })();
 </script>
 
-<script>
-/* Independent customer account viewer. No password access or customer-side changes. */
-(function () {
-    'use strict';
-    const STORAGE_KEY = 'vayenDemoLoginAccountsV1';
-    const $ = id => document.getElementById(id);
-    const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({
-        '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
-    }[char]));
-    let visibleEmails = new Set();
-    function renderLoginCustomers() {
-        let records = [];
-        try {
-            const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-            if (Array.isArray(saved)) records = saved;
-        } catch (error) { /* Invalid demo records are ignored. */ }
-        const query = $('loginCustomerSearch').value.trim().toLowerCase();
-        const filtered = records.filter(customer => [customer.id, customer.name, customer.email, customer.provider || customer.method]
-            .join(' ').toLowerCase().includes(query));
-        $('loginCustomerRows').innerHTML = filtered.map(customer => {
-            const id = String(customer.id || '—');
-            const email = String(customer.email || '—');
-            const shown = visibleEmails.has(id);
-            const joined = (customer.joinedAt || customer.createdAt) && !Number.isNaN(Date.parse(customer.joinedAt || customer.createdAt))
-                ? new Date(customer.joinedAt || customer.createdAt).toLocaleDateString('en-IN') : '—';
-            return `<tr data-login-customer="true"><td>${escapeHtml(id)}</td><td>${escapeHtml(customer.name || '—')}</td>
-                <td>${shown ? escapeHtml(email) : '••••••••'}</td>
-                <td>${escapeHtml(customer.provider || customer.method || '—')}</td><td>${escapeHtml(joined)}</td>
-                <td><span title="Passwords cannot be revealed">••••••••</span></td>
-                <td><button type="button" class="tiny" data-customer-eye="${escapeHtml(id)}" aria-label="${shown ? 'Hide' : 'Show'} customer email">${shown ? '◉ Hide' : '◎ Show'}</button></td></tr>`;
-        }).join('') || '<tr><td colspan="7" class="empty">No demo login accounts yet. Real Google and email sign-in are not connected.</td></tr>';
-    }
-    $('loginCustomerRows').addEventListener('click', event => {
-        const button = event.target.closest('[data-customer-eye]');
-        if (!button) return;
-        const id = button.dataset.customerEye;
-        if (visibleEmails.has(id)) visibleEmails.delete(id);
-        else visibleEmails.add(id);
-        renderLoginCustomers();
-    });
-    $('loginCustomerSearch').addEventListener('input', renderLoginCustomers);
-    $('refreshLoginCustomers').addEventListener('click', () => {
-        renderLoginCustomers();
-        const count = $('loginCustomerRows').querySelectorAll('tr[data-login-customer]').length;
-        const time = new Date().toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
-        $('customerRefreshStatus').textContent = '✓ Refreshed at ' + time + ' · ' + count + ' demo login account(s) found.';
-    });
-    document.querySelector('[data-tab="customers"]').addEventListener('click', renderLoginCustomers);
-    window.addEventListener('storage', event => {
-        if (event.key === STORAGE_KEY) renderLoginCustomers();
-    });
-    renderLoginCustomers();
-})();
+<script type="module">
+// Firebase customer sync. The API key is public Firebase web configuration, not a service-account secret.
+import {initializeApp,getApps,getApp} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
+import {getAuth,onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
+import {getFirestore,doc,getDoc,collection,getDocs} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
+const firebaseConfig = {
+  apiKey: "AIzaSyCJStLo-FmvkPQo-u-cP-J4rQ8z4ecYMW4", 
+  authDomain: "veyan-53930.firebaseapp.com",
+  projectId: "veyan-53930",
+  storageBucket: "veyan-53930.firebasestorage.app",
+  messagingSenderId: "836801786398",
+  appId: "1:836801786398:web:a73fbda60267efcdbd740f"
+};
+const $ = id => document.getElementById(id);
+const gate = $('adminAccessGate');
+const message = $('adminAccessMessage');
+const signIn = $('adminAccessLogin');
+const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let authorized=false, firestore=null, records=[];
+function blocked(text,showLogin=false){authorized=false;gate.style.display='grid';message.textContent=text;signIn.style.display=showLogin?'inline-block':'none';}
+function dateLabel(value){
+  if(!value)return '—';
+  const d=typeof value.toDate==='function'?value.toDate():new Date(value);
+  return Number.isNaN(d.getTime())?'—':d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+}
+function renderCustomers(){
+  const q=$('loginCustomerSearch').value.trim().toLowerCase();
+  const visible=records.filter(x=>[x.id,x.fullName,x.dearName].join(' ').toLowerCase().includes(q));
+  $('loginCustomerRows').innerHTML=visible.map(x=>`<tr><td>${escapeHtml(x.id)}</td><td>${escapeHtml(x.fullName)}</td><td>Not stored</td><td>Not stored</td><td>${escapeHtml(dateLabel(x.createdAt))}</td><td>${escapeHtml(x.dearName)}</td><td>Firebase profile</td></tr>`).join('') || '<tr><td colspan="7" class="empty">No matching Firebase customer profiles.</td></tr>';
+}
+async function refreshCustomers(){
+  if(!authorized||!firestore)return;
+  $('customerRefreshStatus').textContent='Loading customer profiles from Firestore...';
+  try{
+    const snapshot=await getDocs(collection(firestore,'users'));
+    records=snapshot.docs.map(d=>({id:d.id,...d.data()}));
+    records.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+    renderCustomers();
+    $('customerRefreshStatus').textContent=`✓ ${records.length} real Firebase profile(s) loaded · ${new Date().toLocaleTimeString('en-IN')}`;
+  }catch(error){
+    console.error('Admin customer load failed:',error);
+    $('customerRefreshStatus').textContent='Unable to load customers. Check admin permission and Firebase configuration.';
+  }
+}
+$('refreshLoginCustomers').addEventListener('click',refreshCustomers);
+$('loginCustomerSearch').addEventListener('input',renderCustomers);
+document.querySelector('[data-tab="customers"]').addEventListener('click',()=>{if(authorized)refreshCustomers()});
+if(!firebaseConfig.apiKey){blocked('Add the Firebase Web API key in this admin.html file before publishing.');}
+else{
+  try{
+    const app=getApps().length?getApp():initializeApp(firebaseConfig);
+    const auth=getAuth(app);
+    firestore=getFirestore(app);
+    onAuthStateChanged(auth,async user=>{
+      if(!user){blocked('Please sign in with your authorized admin account.',true);return;}
+      blocked('Verifying admin role...');
+      try{
+        const admin=await getDoc(doc(firestore,'admins',user.uid));
+        if(!admin.exists()||admin.data().role!=='admin'){
+          blocked('Access denied. This Firebase account is not an authorized VAYEN admin.');return;
+        }
+        authorized=true;
+        gate.style.display='none';
+        await refreshCustomers();
+      }catch(error){console.error('Admin verification failed:',error);blocked('Admin verification failed. Check your Firestore rules and connection.');}
+    },error=>{console.error(error);blocked('Unable to verify Firebase sign-in.',true)});
+  }catch(error){console.error(error);blocked('Firebase initialization failed. Check the web API key.');}
+}
 </script>
 </body></html>
