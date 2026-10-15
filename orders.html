@@ -107,7 +107,23 @@
 const list=document.getElementById('ordersList'),empty=document.getElementById('ordersEmpty'),count=document.getElementById('ordersCount');
 let session=null;try{session=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null')}catch(e){}
 let records=[];if(session&&session.id){try{const value=JSON.parse(localStorage.getItem('vayenDemoOrdersV1_'+String(session.id))||'[]');if(Array.isArray(value))records=value.filter(o=>o&&o.status==='demo')}catch(e){}}
-const money=n=>'₹'+Number(n).toLocaleString('en-IN');
+const money=n=>'₹'+Number(n || 0).toLocaleString('en-IN');
+const localRecords = records.slice();
+let cloudRecords = [];
+let recentActive = false;
+function refreshRecords() {
+    const byId = new Map();
+    localRecords.forEach(order => byId.set(String(order.id), order));
+    cloudRecords.forEach(order => byId.set(String(order.id), order));
+    records = Array.from(byId.values()).sort((a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+    render(recentActive);
+}
+window.addEventListener('vayen-orders-cloud', event => {
+    cloudRecords = Array.isArray(event.detail) ? event.detail : [];
+    refreshRecords();
+});
 const safe=(s)=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const params=new URLSearchParams(location.search),highlight=params.get('highlight');
 const modal=document.getElementById('vyOrderModal'),modalTitle=document.getElementById('vyModalTitle'),modalDesc=document.getElementById('vyModalDescription'),modalDetail=document.getElementById('vyModalDetail'),modalAction=document.getElementById('vyModalAction'),modalIcon=document.getElementById('vyModalIcon');
@@ -115,18 +131,91 @@ function close(){modal.hidden=true;document.body.style.overflow=''}
 function open(type,o){
  modal.hidden=false;document.body.style.overflow='hidden';modalIcon.textContent=type==='download'?'↓':'✉';
  modalTitle.textContent=type==='download'?'Download product':'Send to Email';
- modalDesc.textContent=type==='download'?'Your demo order is ready. Real file downloads will be enabled after secure product delivery is connected.':'Your account email is shown below. Real email sending will be enabled after the email service is connected.';
- modalDetail.textContent=type==='download'?o.name+' · Demo order #'+o.id:(session&&session.email||o.email||'Account email unavailable');
+ modalDesc.textContent=type==='download'?'File downloads are not enabled yet. Access will require verified payment and secure product delivery.':'Your account email is shown below. Real email sending will be enabled after the email service is connected.';
+ modalDetail.textContent=type==='download'?o.name+' · Order #'+o.id:(session&&session.email||o.email||'Account email unavailable');
  modalAction.textContent='Close';modalAction.onclick=close;
 }
 document.getElementById('vyModalClose').onclick=close;modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close()});
 function render(recent){const shown=recent?records.filter(o=>Date.now()-new Date(o.createdAt).getTime()<30*86400000):records;
- list.innerHTML=shown.map(o=>`<article class="vy-demo-order" data-order="${safe(o.id)}"><div class="vy-order-art">V</div><div class="vy-order-info"><div class="vy-order-meta"><span class="vy-order-pill">DEMO ORDER</span><span class="vy-order-ready">Ready to preview</span></div><h2>${safe(o.name)}</h2><p>${safe(o.category)} · #${safe(o.id)}</p><small>${safe(new Date(o.createdAt).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'}))}</small></div><strong class="vy-order-price">${money(o.price)}</strong><div class="vy-order-actions"><button type="button" data-action="download" data-id="${safe(o.id)}">↓ Download</button><button type="button" data-action="email" data-id="${safe(o.id)}">✉ Send to Email</button></div></article>`).join('');
+ list.innerHTML=shown.map(o=>`<article class="vy-demo-order" data-order="${safe(o.id)}"><div class="vy-order-art">V</div><div class="vy-order-info"><div class="vy-order-meta"><span class="vy-order-pill">${o.status==='demo'?'DEMO ORDER':'ORDER RECORD'}</span><span class="vy-order-ready">Ready to preview</span></div><h2>${safe(o.name)}</h2><p>${safe(o.category)} · #${safe(o.id)}</p><small>${safe(new Date(o.createdAt).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'}))}</small></div><strong class="vy-order-price">${money(o.price)}</strong><div class="vy-order-actions"><button type="button" data-action="download" data-id="${safe(o.id)}">↓ Download</button><button type="button" data-action="email" data-id="${safe(o.id)}">✉ Send to Email</button></div></article>`).join('');
  count.textContent=String(shown.length);empty.style.display=shown.length?'none':'';
  if(highlight&&!recent){const item=Array.from(list.querySelectorAll('[data-order]')).find(el=>el.dataset.order===highlight);if(item){item.classList.add('vy-order-highlight');requestAnimationFrame(()=>item.scrollIntoView({behavior:'smooth',block:'center'}));setTimeout(()=>item.classList.remove('vy-order-highlight'),10000)}}
 }
 list.addEventListener('click',e=>{const btn=e.target.closest('button[data-action]');if(!btn)return;const o=records.find(x=>x.id===btn.dataset.id);if(o)open(btn.dataset.action,o)});
-const filters=document.querySelectorAll('.orders-filter');filters.forEach((btn,i)=>btn.addEventListener('click',()=>{filters.forEach(x=>x.classList.remove('active'));btn.classList.add('active');render(i===1)}));render(false);
+const filters=document.querySelectorAll('.orders-filter');filters.forEach((btn,i)=>btn.addEventListener('click',()=>{filters.forEach(x=>x.classList.remove('active'));btn.classList.add('active');recentActive=i===1;render(recentActive)}));render(false);
 })();
-</script></body>
+</script>
+
+<script type="module" id="vayen-orders-firestore-sync">
+import './vayen-auth-sync.js';
+import { getApps, getApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
+import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
+import {
+    getFirestore,
+    collection,
+    onSnapshot
+} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
+
+const list = document.getElementById('ordersList');
+const status = document.createElement('p');
+status.id = 'vayenOrdersSyncStatus';
+status.style.cssText = 'font-size:12px;color:#81757b;margin:12px 0;';
+list.parentNode.insertBefore(status, list);
+
+if (!getApps().length) {
+    status.textContent = 'Firebase is not configured. Showing orders saved on this device.';
+} else {
+    const auth = getAuth(getApp());
+    const db = getFirestore(getApp());
+    let stopListening = null;
+
+    onAuthStateChanged(auth, user => {
+        if (stopListening) {
+            stopListening();
+            stopListening = null;
+        }
+
+        window.dispatchEvent(new CustomEvent('vayen-orders-cloud', {
+            detail: []
+        }));
+
+        if (!user) {
+            status.textContent = 'Sign in to load your Firebase orders.';
+            return;
+        }
+
+        status.textContent = 'Loading your orders…';
+        // Read-only. New orders must eventually be written by a trusted payment backend.
+        const ref = collection(db, 'users', user.uid, 'orders');
+        stopListening = onSnapshot(ref, snapshot => {
+            const orders = snapshot.docs.map(item => {
+                const data = item.data();
+                const rawDate = data.createdAt;
+                const date = rawDate?.toDate?.() || new Date(rawDate || 0);
+                return {
+                    id: item.id,
+                    name: String(data.name || 'Digital product'),
+                    category: String(data.category || 'DIGITAL PRODUCT'),
+                    price: Number(data.price || 0),
+                    status: String(data.status || 'record'),
+                    email: String(data.email || user.email || ''),
+                    createdAt: Number.isNaN(date.getTime())
+                        ? new Date(0).toISOString()
+                        : date.toISOString()
+                };
+            });
+            window.dispatchEvent(new CustomEvent('vayen-orders-cloud', {
+                detail: orders
+            }));
+            status.textContent = orders.length
+                ? 'Firebase order records loaded.'
+                : 'No Firebase orders yet. Device demo orders remain visible.';
+        }, error => {
+            console.error('Orders Firebase read failed:', error);
+            status.textContent = 'Could not load Firebase orders. Check Firestore rules. Device demo orders remain visible.';
+        });
+    });
+}
+</script>
+</body>
 </html>
