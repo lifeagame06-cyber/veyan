@@ -225,7 +225,7 @@ document.addEventListener('change',e=>{const el=e.target;if(!el.matches('select[
 // Firebase customer sync. The API key is public Firebase web configuration, not a service-account secret.
 import {initializeApp,getApps,getApp} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
 import {getAuth,onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
-import {getFirestore,doc,getDoc,collection,getDocs,setDoc} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
+import {getFirestore,doc,getDoc,collection,getDocs,setDoc,writeBatch} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
 const firebaseConfig = window.VAYEN_FIREBASE_CONFIG || {
   apiKey: "AIzaSyCJStLo-FmvkPQo-u-cP-J4rQ8z4ecYMW4", 
   authDomain: "veyan-53930.firebaseapp.com",
@@ -241,6 +241,46 @@ const message = $('adminAccessMessage');
 const signIn = $('adminAccessLogin');
 const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let authorized=false, firestore=null, records=[];
+// Firebase product management. Catalog document IDs are product slugs.
+async function refreshProducts(){
+  if(!authorized||!firestore)return;
+  try{
+    const snap=await getDocs(collection(firestore,'products'));
+    const products=snap.docs.map(d=>({...d.data(),slug:d.id,id:d.data().id||'BASE-'+d.id}));
+    window.dispatchEvent(new CustomEvent('vayen-admin-products-loaded',{detail:products}));
+  }catch(error){console.error('Product load failed:',error);alert('Unable to load products: '+error.message);}
+}
+async function saveProduct(rec){
+  if(!authorized||!firestore)throw Error('Admin access required');
+  const slug=String(rec.slug||'').trim();
+  if(!slug||slug.includes('/'))throw Error('Invalid product slug');
+  const ref=doc(firestore,'products',slug);
+  const old=await getDoc(ref);
+  if(old.exists() && old.data().id && old.data().id!==rec.id)throw Error('Product slug already belongs to another product');
+  await setDoc(ref,rec);
+}
+window.VayenAdminProducts.save=saveProduct;
+document.getElementById('importProducts').addEventListener('click',async()=>{
+  if(!authorized||!firestore){alert('Wait for admin verification.');return;}
+  const button=document.getElementById('importProducts');
+  if(button.disabled)return;
+  if(!confirm('Import missing original VAYEN products to Firebase? Existing products will not be overwritten.'))return;
+  button.disabled=true;button.textContent='Importing...';
+  try{
+    const existing=await getDocs(collection(firestore,'products'));
+    const known=new Set(existing.docs.map(d=>d.id));
+    const missing=VayenCatalog.seed().filter(p=>!known.has(p.slug));
+    if(missing.length){
+      const batch=writeBatch(firestore);
+      for(const rec of missing)batch.set(doc(firestore,'products',rec.slug),rec);
+      await batch.commit();
+    }
+    await refreshProducts();
+    alert(missing.length+' original product(s) imported. '+(existing.size)+' existing product(s) preserved.');
+  }catch(error){console.error('Catalog import failed:',error);alert('Import failed: '+error.message);}
+  finally{button.disabled=false;button.textContent='Import original catalog';}
+});
+
 function blocked(text,showLogin=false){authorized=false;window.VayenAdminProducts.save=async()=>{throw Error('Admin access required')};gate.style.display='grid';message.textContent=text;signIn.style.display=showLogin?'inline-block':'none';}
 function dateLabel(value){
   if(!value)return '—';
@@ -286,10 +326,11 @@ else{
         }
         authorized=true;
         gate.style.display='none';
-        await refreshCustomers();
+        await Promise.all([refreshCustomers(),refreshProducts()]);
       }catch(error){console.error('Admin verification failed:',error);blocked('Admin verification failed. Check your Firestore rules and connection.');}
     },error=>{console.error(error);blocked('Unable to verify Firebase sign-in.',true)});
   }catch(error){console.error(error);blocked('Firebase initialization failed. Check the web API key.');}
 }
 </script>
 </body></html>
+s
