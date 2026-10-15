@@ -325,6 +325,7 @@ else{
           blocked('Access denied. This Firebase account is not an authorized VAYEN admin.');return;
         }
         authorized=true;
+        window.VayenAdminProducts.save=saveProduct;
         gate.style.display='none';
         await Promise.all([refreshCustomers(),refreshProducts()]);
       }catch(error){console.error('Admin verification failed:',error);blocked('Admin verification failed. Check your Firestore rules and connection.');}
