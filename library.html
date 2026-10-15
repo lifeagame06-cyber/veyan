@@ -750,7 +750,12 @@
             libraryReady = true;
             render();
         },
+        setPurchases(items) {
+            verifiedPurchases = Array.isArray(items) ? items : [];
+            render();
+        },
         reset() {
+            verifiedPurchases = [];
             accountId = null;
             state = { saved: [], folders: [] };
             libraryReady = false;
@@ -800,7 +805,7 @@ else {
       }).catch(err=>{console.error('Library save failed:',err);info('Could not sync your latest changes. Please check your connection and refresh.');});
     });
     onAuthStateChanged(auth,async user=>{
-      const token=++version;uid=null;verifiedPurchases=[];bridge.reset();
+      const token=++version;uid=null;bridge.reset();
       if(!user){account.textContent='Sign in';account.href='login.html';info('Sign in to save products and collections across your devices.');document.getElementById('content').innerHTML='<div class="empty"><h3>Sign in to your library</h3><p>Your saved products and collections will appear here.</p><a class="btn" href="login.html">Sign in →</a></div>';return;}
       account.textContent='My Account';account.href='profile.html';
       info('Loading your library...');
@@ -820,6 +825,21 @@ else {
         }
         uid=user.uid;
         bridge.init(uid,data);
+        try {
+          const orders = await getDocs(collection(db, 'users', user.uid, 'orders'));
+          if (token !== version) return;
+          const verified = orders.docs.map(snap => {
+            const o = snap.data(), id = o.productId;
+            if (o.userId !== user.uid || o.paymentStatus !== 'paid' ||
+                o.verificationStatus !== 'verified' || typeof id !== 'string' || snap.id !== id) return null;
+            return { slug: id, name: o.productName || id.replace(/-/g, ' ') };
+          }).filter(Boolean);
+          bridge.setPurchases(verified);
+        } catch (orderError) {
+          console.error('Unable to load verified orders:', orderError);
+          info('Saved products loaded, but purchases could not be checked.');
+          return;
+        }
         info('Your saved products and collections are synced to your VAYEN account.');
       }catch(err){console.error('Library loading failed:',err);info('Unable to load your library. Please refresh and try again.');document.getElementById('content').innerHTML='<div class="empty"><h3>Library unavailable</h3><p>Please refresh and try again.</p></div>';}
     });
