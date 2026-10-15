@@ -97,7 +97,7 @@ body.product-body:not(.vayen-product-ready) .product-mobile-get { visibility: hi
 </style></head>
 
 
-<body class="product-body">
+<body class="product-body" style="visibility:hidden">
 
 
 <!-- HEADER -->
@@ -631,7 +631,7 @@ body.product-body:not(.vayen-product-ready) .product-mobile-get { visibility: hi
 <script src="vayen-firebase-config.js"></script>
 <script src="vayen-catalog.js"></script>
 <script>
-(async function(){try{await VayenCatalog.ready;}catch(error){document.body.innerHTML='<main style="padding:50px;text-align:center"><h1>Products temporarily unavailable</h1><a href="collection.html">Back to Collection</a></main>';return;}
+(async function(){try{await VayenCatalog.ready;}catch(error){document.body.style.visibility='visible';document.body.innerHTML='<main style="padding:50px;text-align:center"><h1>Products temporarily unavailable</h1><a href="collection.html">Back to Collection</a></main>';return;}
 /* VAYEN — PRODUCT DETAIL CATALOG */
 const vayenProducts = {
     "ai-prompting": {
@@ -817,7 +817,7 @@ const vayenProducts = {
 const productParams = new URLSearchParams(window.location.search);
 const productId = productParams.get("id") || productParams.get("product") || "ai-prompting";
 const product = VayenCatalog.get(productId);
-if (!product) { document.body.innerHTML = '<main style="max-width:640px;margin:12vh auto;padding:30px;font-family:Arial;text-align:center"><h1>Product unavailable</h1><p>This product is not available for new purchases.</p><a href="collection.html">← Back to Collection</a></main>'; return; }
+if (!product) { document.body.style.visibility='visible'; document.body.innerHTML = '<main style="max-width:640px;margin:12vh auto;padding:30px;font-family:Arial;text-align:center"><h1>Product unavailable</h1><p>This product is not available for new purchases.</p><a href="collection.html">← Back to Collection</a></main>'; return; }
 
 /* Save viewed products for the homepage Recently Viewed section. */
 if (Object.prototype.hasOwnProperty.call(vayenProducts, productId)) {
@@ -930,6 +930,7 @@ if (productId === "youtube-creator-system") {
 }
 
  document.body.classList.add("vayen-product-ready");
+ document.body.style.visibility = "visible";
 })();
 </script>
 
