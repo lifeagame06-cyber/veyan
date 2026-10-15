@@ -1001,7 +1001,7 @@ function heart(id){const b=document.createElement('button');b.type='button';b.cl
 function sync(){document.querySelectorAll('.vayen-save-heart').forEach(b=>{const active=get().includes(b.dataset.saveId);b.classList.toggle('is-saved',active);b.setAttribute('aria-pressed',String(active));b.setAttribute('aria-label',active?'Remove from Saved':'Save product');b.title=active?'Remove from Saved':'Save product'})}
 window.VayenSaved={get,toggle,heart,sync,user};window.addEventListener('vayen-saved-changed',sync);
 })();
-</script><script id="vayen-product-saved-init">
-(function(){const visual=document.querySelector('.product-visual');if(!visual||!window.VayenSaved)return;visual.style.position='relative';const id=new URLSearchParams(location.search).get('id')||'ai-prompting';visual.appendChild(VayenSaved.heart(id));VayenSaved.sync()})();
-</script></body>
+</script>
+
+</body>
 </html>
