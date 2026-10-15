@@ -25,14 +25,43 @@ const brightness=$('brightness'),brightnessValue=$('brightnessValue');
 function setBrightness(value){const n=Math.min(130,Math.max(60,Number(value)||100));brightness.value=String(n);brightnessValue.textContent=n+'%';document.documentElement.style.setProperty('--reading-brightness',String(n/100));try{localStorage.setItem('vayenReaderBrightness',String(n))}catch{}}
 try{setBrightness(localStorage.getItem('vayenReaderBrightness')||100)}catch{setBrightness(100)}
 brightness.addEventListener('input',e=>setBrightness(e.target.value));
+const FUNCTION_URL='https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/smart-handler';
+const requestedProduct=new URLSearchParams(location.search).get('product');
 const controlIds=['prev','next','zoomOut','zoomIn','fit','full','focus','pageInput'];
 try{const t=localStorage.getItem('vayenReaderTheme');if(['light','sepia','dark'].includes(t)){$('theme').value=t;document.body.dataset.theme=t}}catch{}
 function refresh(){const count=pdf?.numPages||0;$('pageInput').value=count?pageNumber:0;$('pageInput').max=count||1;$('pageTotal').textContent='/ '+count;$('zoomLabel').textContent=Math.round(scale*100)+'%';for(const id of controlIds)$(id).disabled=!pdf;$('prev').disabled=!pdf||pageNumber<=1;$('next').disabled=!pdf||pageNumber>=count;$('progressBar').style.width=count?(pageNumber/count*100)+'%':'0%'}
 async function render(){if(!pdf)return;const doc=pdf,num=pageNumber,seq=++renderSeq;try{if(task){task.cancel();try{await task.promise}catch{}}const page=await doc.getPage(num);if(seq!==renderSeq||doc!==pdf)return;const pixelRatio=Math.min(window.devicePixelRatio||1,2),view=page.getViewport({scale:scale*pixelRatio});canvas.width=Math.floor(view.width);canvas.height=Math.floor(view.height);canvas.style.width=(view.width/pixelRatio)+'px';canvas.style.height=(view.height/pixelRatio)+'px';task=page.render({canvasContext:ctx,viewport:view});await task.promise;if(seq!==renderSeq||doc!==pdf)return;try{localStorage.setItem('vayenReaderPage:'+documentKey,String(num))}catch{}$('status').textContent='Page '+num+' of '+doc.numPages+' · Your progress is saved on this device.';$('viewport').scrollTop=0}catch(err){if(err?.name!=='RenderingCancelledException'){console.error(err);$('status').textContent='Unable to display this page.'}}finally{if(seq===renderSeq){task=null;refresh()}}}
 async function openFile(file){if(!file)return;if(file.type!=='application/pdf'&&!file.name.toLowerCase().endsWith('.pdf')){$('status').textContent='Please choose a PDF file.';return}const token=++generation;++renderSeq;if(task)task.cancel();pdf=null;refresh();$('status').textContent='Opening your PDF…';try{const data=await file.arrayBuffer(),opened=await pdfjsLib.getDocument({data:new Uint8Array(data)}).promise;if(token!==generation){await opened.destroy();return}pdf=opened;documentKey=[file.name,file.size,file.lastModified].join(':');let last=1;try{last=Number(localStorage.getItem('vayenReaderPage:'+documentKey))||1}catch{}pageNumber=Math.min(Math.max(1,last),pdf.numPages);scale=1;$('empty').hidden=true;canvas.hidden=false;$('subtitle').textContent=file.name;refresh();await fitWidth()}catch(err){console.error(err);$('status').textContent='Could not open this PDF. Please check the file and try again.'}}
+async function openPurchasedPdf(productId){
+  $('status').textContent='Checking your library access…';
+  try {
+    const {initializeApp,getApps,getApp}=await import('https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js');
+    const {getAuth,onAuthStateChanged}=await import('https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js');
+    const config={apiKey:'AIzaSyCJStLo-FmvkPQo-u-cP-J4rQ8z4ecYMW4',authDomain:'veyan-53930.firebaseapp.com',projectId:'veyan-53930',appId:'1:836801786398:web:a73fbda60267efcdbd740f'};
+    const app=getApps().length?getApp():initializeApp(config);
+    const user=await new Promise(resolve=>{const unsub=onAuthStateChanged(getAuth(app),u=>{unsub();resolve(u)},()=>resolve(null))});
+    if(!user){$('status').textContent='Sign in to read your purchased ebook.';return}
+    const token=await user.getIdToken();
+    const response=await fetch(FUNCTION_URL,{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({productId})});
+    const result=await response.json().catch(()=>({}));
+    if(!response.ok){$('status').textContent=response.status===403?'This ebook is not in your verified purchases.':response.status===401?'Please sign in again.':'Unable to open this ebook right now.';return}
+    if(typeof result.url!=='string'||!result.url.startsWith('https://'))throw Error('Invalid PDF URL');
+    const pdfResponse=await fetch(result.url,{cache:'no-store'});
+    if(!pdfResponse.ok)throw Error('PDF download failed');
+    const data=new Uint8Array(await pdfResponse.arrayBuffer());
+    if(data.length>60*1024*1024)throw Error('PDF too large');
+    const opened=await pdfjsLib.getDocument({data}).promise;
+    ++generation;++renderSeq;if(task)task.cancel();
+    pdf=opened;documentKey='purchased:'+user.uid+':'+productId;
+    let last=1;try{last=Number(localStorage.getItem('vayenReaderPage:'+documentKey))||1}catch{}
+    pageNumber=Math.min(Math.max(1,last),pdf.numPages);scale=1;
+    $('empty').hidden=true;canvas.hidden=false;$('subtitle').textContent=productId.replace(/-/g,' ');
+    refresh();await fitWidth();
+  }catch(error){console.error('Purchased PDF access failed:',error);$('status').textContent='Could not load this ebook. Please try again later.'}
+}
 async function fitWidth(){if(!pdf)return;const current=pdf,number=pageNumber,page=await current.getPage(number);if(current!==pdf||number!==pageNumber)return;const width=page.getViewport({scale:1}).width;scale=Math.max(.35,Math.min(3,($('viewport').clientWidth-42)/width));render()}
 function go(n){if(!pdf)return;const next=Math.min(pdf.numPages,Math.max(1,Math.floor(n)));if(next!==pageNumber){pageNumber=next;refresh();render()}}
 $('pdfFile').addEventListener('change',e=>openFile(e.target.files?.[0]));$('prev').onclick=()=>go(pageNumber-1);$('next').onclick=()=>go(pageNumber+1);$('pageInput').addEventListener('change',e=>go(Number(e.target.value)||pageNumber));$('zoomIn').onclick=()=>{scale=Math.min(3,scale+.15);render()};$('zoomOut').onclick=()=>{scale=Math.max(.35,scale-.15);render()};$('fit').onclick=fitWidth;$('theme').onchange=e=>{document.body.dataset.theme=e.target.value;try{localStorage.setItem('vayenReaderTheme',e.target.value)}catch{}};
 function focus(on){document.body.classList.toggle('focus',on);$('focus').textContent=on?'Exit focus':'Focus mode';if(pdf)fitWidth()}$('focus').onclick=()=>focus(!document.body.classList.contains('focus'));$('exitFocus').onclick=()=>focus(false);$('full').onclick=()=>{if(document.fullscreenElement)document.exitFullscreen();else $('viewport').requestFullscreen?.()};
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('focus')){focus(false);return}if(e.target.closest('input,select,textarea,button'))return;if(e.key==='ArrowRight'){go(pageNumber+1);e.preventDefault()}else if(e.key==='ArrowLeft'){go(pageNumber-1);e.preventDefault()}else if(e.key==='+'||e.key==='='){$('zoomIn').click();e.preventDefault()}else if(e.key==='-'){$('zoomOut').click();e.preventDefault()}});refresh();
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('focus')){focus(false);return}if(e.target.closest('input,select,textarea,button'))return;if(e.key==='ArrowRight'){go(pageNumber+1);e.preventDefault()}else if(e.key==='ArrowLeft'){go(pageNumber-1);e.preventDefault()}else if(e.key==='+'||e.key==='='){$('zoomIn').click();e.preventDefault()}else if(e.key==='-'){$('zoomOut').click();e.preventDefault()}});refresh();if(requestedProduct)openPurchasedPdf(requestedProduct);
 </script></body></html>
