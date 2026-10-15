@@ -40,7 +40,7 @@
   </header>
   <main class="wrap">
    <span class="eyebrow">
-    VAYEN / SECURE CHECKOUT DESIGN
+    VAYEN / CHECKOUT
    </span>
    <h1 class="headline">
     Make it yours
@@ -75,7 +75,7 @@
        ✓
       </b>
       <span>
-       Digital access after verified payment and order fulfilment are connected.
+       Digital delivery will be available when checkout is activated.
       </span>
      </div>
      <div class="small-row">
@@ -121,27 +121,27 @@
       </span>
      </div>
      <p class="note">
-      Prices shown in INR. Payment integration is not yet connected.
+      Prices shown in INR. Online payments are currently unavailable.
      </p>
      <button class="primary" id="demoContinue" type="button">
-      Preview payment outcomes
+      View checkout status
       <span>
        →
       </span>
      </button>
      <div class="demo" hidden="" id="demoActions">
       <strong>
-       DEMO ONLY — no payment is collected.
+       Online payment is not available yet.
       </strong>
       <p>
-       Choose a preview to test the page flow. Neither option records a purchase.
+       You can explore the confirmation and unsuccessful-payment screens. No payment will be charged or order placed.
       </p>
       <div style="display:flex;flex-wrap:wrap;gap:9px">
        <a class="secondary" href="#" id="testSuccess">
-        Preview success
+        View confirmation screen
        </a>
        <a class="secondary" href="#" id="testFailed">
-        Preview failed
+        View unsuccessful screen
        </a>
       </div>
      </div>
@@ -181,7 +181,7 @@ function fill(){document.querySelectorAll('[data-name]').forEach(e=>e.textConten
 fill();
   </script>
   <script>
-   document.getElementById('demoContinue').disabled=!valid;document.getElementById('demoContinue').onclick=()=>document.getElementById('demoActions').hidden=false;document.getElementById('testSuccess').href='success.html?'+qs+'&demo=1';document.getElementById('testFailed').href='failed.html?'+qs+'&demo=1';
+   document.getElementById('demoContinue').disabled=!valid;document.getElementById('demoContinue').onclick=()=>document.getElementById('demoActions').hidden=false;document.getElementById('testSuccess').href='success.html?'+qs;document.getElementById('testFailed').href='failed.html?'+qs;
  document.getElementById('testSuccess').addEventListener('click',function(){if(!valid)return;try{sessionStorage.setItem('vayenDemoPurchaseIntentV1',JSON.stringify({productId:productId,at:Date.now()}))}catch(e){}});
   </script>
  </body>
