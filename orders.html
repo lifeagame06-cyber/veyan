@@ -204,16 +204,17 @@ if (!getApps().length) {
                         : date.toISOString()
                 };
             });
-            window.dispatchEvent(new CustomEvent('vayen-orders-cloud', {
-                detail: orders
-            }));
-            status.textContent = orders.length
-                ? 'Firebase order records loaded.'
-                : 'No Firebase orders yet. Device demo orders remain visible.';
-        }, error => {
-            console.error('Orders Firebase read failed:', error);
-            status.textContent = 'Could not load Firebase orders. Check Firestore rules. Device demo orders remain visible.';
-        });
+           window.dispatchEvent(new CustomEvent('vayen-orders-cloud', {
+    detail: orders
+}));
+
+status.textContent = '';
+
+}, error => {
+    console.error('Orders sync failed:', error);
+
+    status.textContent = '';
+});
     });
 }
 </script>
