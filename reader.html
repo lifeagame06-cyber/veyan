@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDF Reader — VAYEN</title>
+<style>
+:root{font-family:Inter,Arial,sans-serif;color:#402631;background:#fcf8f7}*{box-sizing:border-box}body{margin:0}header{background:#fffaf9;border-bottom:1px solid #eadfe1;padding:16px max(18px,calc((100vw - 1100px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px}header a{text-decoration:none;color:#573343;font-size:13px;font-weight:700}.brand{font:30px Georgia,serif;letter-spacing:4px}.shell{max-width:1100px;margin:26px auto;padding:0 16px}.topline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.topline h1{font:38px Georgia,serif;margin:0 0 6px}.sub{color:#84737a;font-size:13px}.toolbar{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;background:#fff;border:1px solid #eadfe1;border-radius:17px;padding:12px;margin:20px 0}.btn{background:#f5e4e6;border:1px solid #ead9dd;border-radius:11px;padding:11px 14px;color:#563441;cursor:pointer;font-size:13px;font-weight:700}.btn:disabled{opacity:.4;cursor:not-allowed}.btn.primary{background:#573343;color:white}.file-input{display:none}.viewport{min-height:55vh;background:#f0e8e8;border:1px solid #eadfe1;border-radius:18px;padding:22px 10px;text-align:center;overflow:auto}.viewport canvas{max-width:none;box-shadow:0 12px 35px #3e273526;background:white}.empty{padding:12vh 15px;color:#84737a}.empty h2{color:#402631;font:28px Georgia,serif}.status{font-size:12px;color:#84737a;margin:12px 0;min-height:20px}.page-count{font-size:13px;font-weight:700;min-width:105px;text-align:center}.zoom{font-size:13px;min-width:46px;text-align:center}@media(max-width:650px){.topline h1{font-size:30px}.viewport{padding:12px 5px}.toolbar{gap:7px}.btn{padding:10px}.shell{margin-top:18px}}
+</style>
+</head>
+<body>
+<header><a class="brand" href="index.html">VAYEN</a><a href="library.html">← My Library</a></header>
+<main class="shell">
+<div class="topline"><div><h1>PDF Reader</h1><div class="sub">A comfortable place for your reading.</div></div><label class="btn primary" for="pdfFile">Open a PDF</label><input class="file-input" type="file" id="pdfFile" accept="application/pdf,.pdf"></div>
+<div class="toolbar"><button class="btn" id="prev" disabled>← Previous</button><span class="page-count" id="pageCount">0 / 0</span><button class="btn" id="next" disabled>Next →</button><button class="btn" id="zoomOut" disabled>−</button><span class="zoom" id="zoomLabel">100%</span><button class="btn" id="zoomIn" disabled>+</button><button class="btn" id="fit" disabled>Fit width</button><button class="btn" id="full" disabled>Full screen</button></div>
+<div class="viewport" id="viewport"><div class="empty" id="empty"><h2>Your reading space</h2><p>Choose a PDF from your device to begin reading.</p></div><canvas id="page" hidden></canvas></div>
+<p class="status" id="status" role="status">Your selected file stays on your device. Purchase-based Library access will be available once secure delivery is connected.</p>
+</main>
+<script type="module">
+import * as pdfjsLib from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs';
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
+const $=id=>document.getElementById(id);
+let pdf=null,pageNumber=1,scale=1,rendering=false,pending=false,documentKey='',generation=0;
+const canvas=$('page'),ctx=canvas.getContext('2d');
+const buttons=['prev','next','zoomOut','zoomIn','fit','full'];
+function refresh(){const count=pdf?.numPages||0;$('pageCount').textContent=`${count?pageNumber:0} / ${count}`;$('zoomLabel').textContent=Math.round(scale*100)+'%';for(const id of buttons)$(id).disabled=!pdf;$('prev').disabled=!pdf||pageNumber<=1;$('next').disabled=!pdf||pageNumber>=count;}
+async function render(){if(!pdf)return;if(rendering){pending=true;return;}rendering=true;const token=generation;try{const page=await pdf.getPage(pageNumber);if(token!==generation)return;const viewport=page.getViewport({scale:scale*devicePixelRatio});canvas.width=Math.floor(viewport.width);canvas.height=Math.floor(viewport.height);canvas.style.width=(viewport.width/devicePixelRatio)+'px';canvas.style.height=(viewport.height/devicePixelRatio)+'px';await page.render({canvasContext:ctx,viewport}).promise;if(token!==generation)return;const safeKey='vayenReaderPage:'+documentKey;try{localStorage.setItem(safeKey,String(pageNumber));}catch{}$('status').textContent='Page '+pageNumber+' of '+pdf.numPages;}catch(e){$('status').textContent='Unable to display this page.';console.error(e)}finally{rendering=false;refresh();if(pending){pending=false;render();}}}
+$('pdfFile').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;if(file.type!=='application/pdf'&&!file.name.toLowerCase().endsWith('.pdf')){$('status').textContent='Please select a PDF file.';return;}generation++;pdf=null;refresh();$('status').textContent='Opening PDF…';try{const data=await file.arrayBuffer();const opened=await pdfjsLib.getDocument({data:new Uint8Array(data)}).promise;pdf=opened;documentKey=[file.name,file.size,file.lastModified].join(':');let stored=1;try{stored=Number(localStorage.getItem('vayenReaderPage:'+documentKey))||1}catch{}pageNumber=Math.min(Math.max(1,stored),pdf.numPages);scale=1;$('empty').hidden=true;canvas.hidden=false;render();}catch(error){$('status').textContent='Could not open this PDF. Check the file and try again.';console.error(error)}});
+$('prev').onclick=()=>{if(pageNumber>1){pageNumber--;render()}};
+$('next').onclick=()=>{if(pdf&&pageNumber<pdf.numPages){pageNumber++;render()}};
+$('zoomIn').onclick=()=>{scale=Math.min(3,Math.round((scale+.2)*10)/10);render()};
+$('zoomOut').onclick=()=>{scale=Math.max(.4,Math.round((scale-.2)*10)/10);render()};
+$('fit').onclick=async()=>{if(!pdf)return;const page=await pdf.getPage(pageNumber);scale=Math.max(.4,Math.min(3,($('viewport').clientWidth-30)/page.getViewport({scale:1}).width));render()};
+$('full').onclick=()=>{if(document.fullscreenElement)document.exitFullscreen();else $('viewport').requestFullscreen?.()};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea'))return;if(e.key==='ArrowRight'&&!$('next').disabled)$('next').click();if(e.key==='ArrowLeft'&&!$('prev').disabled)$('prev').click()});
+refresh();
+</script>
+</body></html>
