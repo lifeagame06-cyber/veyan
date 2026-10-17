@@ -552,97 +552,79 @@ body { --product-accent:#a87076; --product-light:#f0dcd7; --product-deep:#d7b4b5
   <footer>
    &copy; 2026 VAYEN &middot; DIGITAL PRODUCTS
   </footer>
-  <script>
-   /* DEMO CATALOG — NO PAYMENT OR LOGIN IS PERFORMED HERE */
-const checkoutProducts = {
-    "ai-prompting": {
-        title: "AI Prompting", category: "AI WORKSPACE", cover: "AI Prompting",
-        tag: "VAYEN / AI", price: 499,
-        description: "Learn to write clearer AI prompts with examples and ready-to-use prompts.",
-        includes: ["Prompt basics and simple methods", "Real before-and-after examples", "300 ready-to-use prompts"],
-        accent: "#a87076", light: "#f0dcd7", deep: "#d7b4b5"
-    },
-    "creator-launch-kit": {
-        title: "Creator Launch Kit", category: "CREATOR STUDIO", cover: "Creator Launch Kit",
-        tag: "VAYEN / CREATE", price: 699,
-        description: "Plan your content, build a repeatable creation routine and prepare to publish.",
-        includes: ["Content planning guide", "Ideas and publishing checklist", "Ready-to-use creator templates"],
-        accent: "#a66c75", light: "#efdad7", deep: "#d9aeb5"
-    },
-    "business-launch-kit": {
-        title: "Business Launch Kit", category: "BUSINESS LAUNCH", cover: "Business Launch Kit",
-        tag: "VAYEN / BUILD", price: 899,
-        description: "Turn a business idea into a clear launch plan with practical steps and tools.",
-        includes: ["Business idea and offer planner", "Launch checklist", "Simple planning templates"],
-        accent: "#a17d4f", light: "#eee3ce", deep: "#d5bc94"
-    },
-    "vlogging-mastery": {
-        title: "Vlogging Mastery", category: "CREATOR STUDIO", cover: "Vlogging Mastery",
-        tag: "VAYEN / VLOG", price: 1999, featured: true,
-        description: "A practical learning path for planning, filming and editing more engaging vlogs.",
-        includes: ["Planning a vlog and choosing a story", "Framing, lighting and recording clear audio", "Shooting sequences and editing workflow"],
-        audience: "Beginners and creators who want to improve their vlogging process.",
-        outcome: "Understand a step-by-step approach from vlog idea to finished video.",
-        note: "Product contents are a planned preview. Payment is unavailable; no order can be placed.",
-        accent: "#b65c69", light: "#f2d9dc", deep: "#d9a5ad"
-    },
-    "youtube-creator-system": {
-        title: "YouTube Creator System", category: "YOUTUBE STUDIO", cover: "YouTube Creator System",
-        tag: "VAYEN / YOUTUBE", price: 2499, featured: true,
-        description: "A structured guide to planning YouTube videos and building a consistent publishing workflow.",
-        includes: ["Video ideas, research and scripting", "Titles, thumbnails and viewer retention basics", "Publishing routine and understanding analytics"],
-        audience: "New and growing YouTube creators looking for a clearer process.",
-        outcome: "Learn how to organize each video from idea to review, without promises of guaranteed growth.",
-        note: "Product contents are a planned preview. Payment is unavailable; no order can be placed.",
-        accent: "#327fae", light: "#dbeaf4", deep: "#a4cce6"
-    },
-    "productivity-planner": {
-        title: "Productivity Planner", category: "PRODUCTIVITY OS", cover: "Productivity Planner",
-        tag: "VAYEN / FOCUS", price: 299,
-        description: "Organize daily tasks, plan priorities and keep track of your progress.",
-        includes: ["Daily and weekly planning pages", "Priority and focus tracker", "Simple progress review"],
-        accent: "#8572a5", light: "#e7e0ef", deep: "#c6b6d9"
-    }
-};
-
-const checkoutParams = new URLSearchParams(window.location.search);
-const checkoutId = checkoutParams.get("product") || checkoutParams.get("id") || "ai-prompting";
-const selected = checkoutProducts[checkoutId];
-
-if (selected) {
-    document.getElementById("checkoutBack").href = "product.html?id=" + encodeURIComponent(checkoutId);
-    document.getElementById("checkoutCategory").textContent = selected.category;
-    document.getElementById("checkoutProductName").textContent = selected.title;
-    document.getElementById("checkoutDescription").textContent = selected.description;
-    document.getElementById("checkoutCoverTag").textContent = selected.tag;
-    document.getElementById("checkoutCoverTitle").textContent = selected.cover;
-    document.getElementById("checkoutPrice").textContent = selected.price === null ? "To be confirmed" : "₹" + selected.price.toLocaleString("en-IN");
-    document.getElementById("checkoutTotal").textContent = selected.price === null ? "To be confirmed" : "₹" + selected.price.toLocaleString("en-IN");
-    document.body.style.setProperty("--product-accent", selected.accent);
-    document.body.style.setProperty("--product-light", selected.light);
-    document.body.style.setProperty("--product-deep", selected.deep);
-    if (selected.featured) {
-        document.body.classList.add("hero-checkout");
-        document.getElementById("featuredCheckoutDetails").hidden = false;
-        document.getElementById("featuredAudience").textContent = selected.audience;
-        document.getElementById("featuredOutcome").textContent = selected.outcome;
-        document.getElementById("featuredNote").textContent = selected.note;
-    }
-    const list = document.getElementById("checkoutIncludes");
-    selected.includes.forEach(function (item) {
-        const li = document.createElement("li");
-        li.textContent = item;
-        list.appendChild(li);
-    });
-} else {
-    document.querySelector(".checkout-grid").style.display = "none";
-    const warning = document.createElement("p");
-    warning.className = "checkout-error";
-    warning.textContent = "This product could not be found. Please return to the product page and try again.";
-    document.querySelector(".intro").appendChild(warning);
-    document.getElementById("checkoutBack").href = "index.html";
-    document.getElementById("checkoutBack").textContent = "← Back to VAYEN";
-}
-  </script>
- </body>
+     <script src="vayen-firebase-config.js"></script>
+   <script src="vayen-catalog.js"></script>
+   <script>
+   /* Checkout uses the same published product and price as the catalog. */
+   (async function () {
+     const params = new URLSearchParams(location.search);
+     const id = params.get('product') || params.get('id');
+     const $ = name => document.getElementById(name);
+     const back = $('checkoutBack');
+     if (id) back.href = 'product.html?id=' + encodeURIComponent(id);
+     const unavailable = (message) => {
+       $('checkoutProductName').textContent = 'Product unavailable';
+       $('checkoutDescription').textContent = message;
+       $('checkoutCoverTitle').textContent = 'VAYEN';
+       $('checkoutCategory').textContent = 'DIGITAL PRODUCT';
+       $('checkoutCoverTag').textContent = 'VAYEN';
+       $('checkoutPrice').textContent = '—';
+       $('checkoutTotal').textContent = '—';
+       $('checkoutIncludes').replaceChildren();
+       $('featuredCheckoutDetails').hidden = true;
+     };
+     unavailable('Loading product details…');
+     if (!id) { unavailable('Please select a product first.'); return; }
+     try {
+       const catalog = window.VayenCatalog;
+       if (!catalog) throw new Error('Catalog script missing');
+       if (catalog.ready) await catalog.ready;
+       const record = typeof catalog.records === 'function'
+         ? catalog.records().find(p => (p.slug || p.id) === id && p.status === 'published')
+         : null;
+       if (!record) { unavailable('This product is not currently available.'); return; }
+       const product = typeof catalog.get === 'function' ? catalog.get(id, false) : null;
+       const title = record.name || product?.name || id;
+       const description = record.shortDescription || product?.subtitle || record.description || '';
+       const category = record.category || product?.category || 'DIGITAL PRODUCT';
+       const price = record.price == null || record.price === '' ? null : Number(record.price);
+       $('checkoutProductName').textContent = title;
+       $('checkoutDescription').textContent = description;
+       $('checkoutCategory').textContent = category.toUpperCase();
+       $('checkoutCoverTitle').textContent = title;
+       $('checkoutCoverTag').textContent = 'VAYEN / ' + (product?.number || 'DIGITAL');
+       const formatted = price !== null && Number.isFinite(price) && price >= 0
+         ? '₹' + price.toLocaleString('en-IN') : 'Price to be confirmed';
+       $('checkoutPrice').textContent = formatted;
+       $('checkoutTotal').textContent = formatted;
+       const includes = $('checkoutIncludes');
+       includes.replaceChildren();
+       const points = Array.isArray(product?.points) ? product.points
+         : String(record.features || '').split(',').map(x => x.trim()).filter(Boolean);
+       points.slice(0, 4).forEach(point => {
+         const li = document.createElement('li');
+         li.textContent = point;
+         includes.appendChild(li);
+       });
+       document.querySelector('.product-includes').hidden = !includes.children.length;
+       const colors = product?.colors;
+       if (Array.isArray(colors) && colors.length >= 2) {
+         document.body.style.setProperty('--product-light', colors[0]);
+         document.body.style.setProperty('--product-deep', colors[1]);
+       }
+       const featured = Array.isArray(catalog.FLAG) && catalog.FLAG.includes(id);
+       $('featuredCheckoutDetails').hidden = !featured;
+       if (featured) {
+         document.body.classList.add('hero-checkout');
+         $('featuredAudience').textContent = product?.audience || '';
+         $('featuredOutcome').textContent = product?.confidence || '';
+         $('featuredNote').textContent = 'Payment is currently unavailable. No order will be placed.';
+       }
+     } catch (error) {
+       console.error('Checkout catalog load failed:', error);
+       unavailable('Product details could not be loaded. Please refresh and try again.');
+     }
+   })();
+   </script>
+</body>
 </html>
