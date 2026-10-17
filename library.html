@@ -793,7 +793,7 @@
   <script type="module">
    import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
-import { getFirestore, doc, getDoc, getDocs, collection, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
+import { getFirestore, doc, getDoc, collection, setDoc, serverTimestamp, onSnapshot } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
 
 // Use the same Firebase project and API key as vayen-auth-sync.js.
 const firebaseConfig = {
@@ -814,7 +814,7 @@ else {
   try {
     const app=getApps().length?getApp():initializeApp(firebaseConfig);
     const auth=getAuth(app),db=getFirestore(app);
-    let uid=null,version=0,writeQueue=Promise.resolve();
+    let uid=null,version=0,writeQueue=Promise.resolve(),stopOrders=null;
     window.addEventListener('vayen-library-changed',e=>{
       if(!uid)return;
       const targetUid=uid;
@@ -826,6 +826,7 @@ else {
     });
     onAuthStateChanged(auth,async user=>{
       const token=++version;uid=null;bridge.reset();
+       if (stopOrders) { stopOrders(); stopOrders = null; }
       if(!user){account.textContent='Sign in';account.href='login.html';info('Sign in to save products and collections across your devices.');document.getElementById('content').innerHTML='<div class="empty"><h3>Sign in to your library</h3><p>Your saved products and collections will appear here.</p><a class="btn" href="login.html">Sign in →</a></div>';return;}
       account.textContent='My Account';account.href='profile.html';
       info('Loading your library...');
@@ -845,22 +846,23 @@ else {
         }
         uid=user.uid;
         await bridge.init(uid,data);
-        try {
-          const orders = await getDocs(collection(db, 'users', user.uid, 'orders'));
+        // Read verified purchases live. Never trust browser-side purchase flags.
+        stopOrders = onSnapshot(collection(db, 'users', user.uid, 'orders'), snapshot => {
           if (token !== version) return;
-          const verified = orders.docs.map(snap => {
-            const o = snap.data(), id = o.productId;
+          const verified = snapshot.docs.map(orderSnap => {
+            const o = orderSnap.data();
+            const id = o.productId;
             if (o.userId !== user.uid || o.paymentStatus !== 'paid' ||
-                o.verificationStatus !== 'verified' || typeof id !== 'string' || snap.id !== id) return null;
-            return { slug: id, name: o.productName || id.replace(/-/g, ' ') };
+                o.verificationStatus !== 'verified' ||
+                typeof id !== 'string' || orderSnap.id !== id) return null;
+            return { slug: id, name: o.productName || o.name || id.replace(/-/g, ' ') };
           }).filter(Boolean);
           bridge.setPurchases(verified);
-        } catch (orderError) {
+        }, orderError => {
           console.error('Unable to load verified orders:', orderError);
-          info('Saved products loaded, but purchases could not be checked.');
-          return;
-        }
-        info('Your saved products and collections are synced to your VAYEN account.');
+          if (token === version) info('Saved products loaded, but purchases could not be checked.');
+        });
+info('Your saved products and collections are synced to your VAYEN account.');
       }catch(err){console.error('Library loading failed:',err);info('Unable to load your library. Please refresh and try again.');document.getElementById('content').innerHTML='<div class="empty"><h3>Library unavailable</h3><p>Please refresh and try again.</p></div>';}
     });
   }catch(err){console.error('Library setup failed:',err);info('Unable to connect your library. Please refresh and try again.');}
