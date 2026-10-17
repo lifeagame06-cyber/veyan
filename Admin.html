@@ -10,6 +10,26 @@
 .support-details p { white-space:pre-wrap; background:#faf7f5; padding:12px; border-radius:10px; }
 .support-reply-label { display:block; font-size:12px; font-weight:700; margin:16px 0 9px; }
 @media(max-width:740px){#support .stats{gap:8px}#support .stat{padding:12px}#support .stat strong{font-size:24px}}
+
+/* Keep the owner footer inside the dark admin sidebar. */
+@media (min-width:741px) {
+  .side {
+    overflow: hidden;
+  }
+  .side .nav {
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #69545c transparent;
+  }
+  .side .sidefoot {
+    flex-shrink: 0;
+    margin-top: 0;
+    background: #201a1c;
+    border-top: 1px solid rgba(255,255,255,.12);
+  }
+}
 </style></head><body>
 <div id="adminAccessGate" style="position:fixed;inset:0;z-index:99999;background:#f4f2ed;display:grid;place-items:center;padding:24px"><div style="max-width:450px;text-align:center;font:14px Arial;color:#21191c"><h2 style="letter-spacing:3px">VAYEN ADMIN</h2><p id="adminAccessMessage">Verifying secure admin access...</p><a href="login.html" id="adminAccessLogin" style="display:none;color:#a66d76;font-weight:bold">Sign in to VAYEN →</a></div></div><div class="app"><aside class="side" id="side"><div class="logo">VAYEN<small>ADMIN STUDIO</small></div><button class="mobile-menu" id="mobileMenu" aria-label="Toggle menu">☰ Menu</button><nav class="nav" id="nav">
 <button class="active" data-tab="dashboard">◫ &nbsp; Dashboard</button><button data-tab="products">▦ &nbsp; Products</button><button data-tab="orders">▤ &nbsp; Orders</button><button data-tab="payments">◈ &nbsp; Payments</button><button data-tab="customers">♙ &nbsp; Customers</button><button data-tab="surprise">✦ &nbsp; Surprise Boxes</button><button data-tab="giftcards">◇ &nbsp; Gift Cards</button><button data-tab="delivery">↗ &nbsp; Gift Delivery</button><button data-tab="notifications">♧ &nbsp; Notifications</button><button data-tab="activity">◷ &nbsp; Activity Log</button><button data-tab="support">✉ &nbsp; Support Requests <span id="supportNavCount" style="float:right;color:#e6aeb9"></span></button><button data-tab="settings">⚙ &nbsp; Settings</button>
@@ -17,7 +37,7 @@
 <main class="main"><header class="top"><div><span class="eyebrow">VAYEN / MANAGEMENT</span><h1 id="pageTitle">Overview<span style="color:#ae7c85">.</span></h1></div><div class="topright"><span class="pill">● ADMIN ACCESS</span></div></header>
 <section class="section active" id="dashboard"><div class="stats"><div class="stat"><label>Total orders</label><strong id="sOrders">0</strong><small>Local test records</small></div><div class="stat"><label>Paid revenue</label><strong id="sRevenue">₹0</strong><small>Unverified test payments</small></div><div class="stat"><label>Customers</label><strong id="sCustomers">—</strong><small>Registered Firebase profiles</small></div><div class="stat"><label>Gifts to deliver</label><strong id="sGifts">0</strong><small>Awaiting fulfillment</small></div></div><div class="cards2"><div class="panel"><div class="panelhead"><h2>Recent orders</h2><button class="tiny" data-go="orders">View all →</button></div><div id="recentOrders" class="activity"></div></div><div class="panel"><div class="panelhead"><h2>Gift fulfillment</h2><button class="tiny" data-go="delivery">Manage →</button></div><div id="recentGifts" class="activity"></div></div></div><div class="panel"><div class="panelhead"><h2>Quick actions</h2></div><div class="actions"><button class="button" id="quickProduct">+ Add product</button><button class="button secondary" id="quickOrder">+ Test order</button><button class="button secondary" id="quickGift">+ Test surprise box</button></div></div></section>
 <section class="section" id="products"><p class="note">FIREBASE PRODUCTS · Add, edit and hide products across devices. Existing demo orders and tickets remain local.</p><div class="panel"><div class="panelhead"><h2>Product catalog</h2><div class="actions"><button class="button secondary" id="importProducts" type="button">Import original catalog</button><button class="button" id="addProduct">+ Add product</button></div></div><div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:15px"><div class="stat"><label>Premium products</label><strong id="premiumCount">0</strong></div><div class="stat"><label>Worlds</label><strong id="worldCount">0</strong></div><div class="stat"><label>Expensive / Flagship</label><strong id="otherCount">0</strong></div></div><div class="toolbar"><input class="field" id="productSearch" placeholder="Search products..."></div><div class="tablewrap"><table><thead><tr><th>Product</th><th>Collection</th><th>Category</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead><tbody id="productRows"></tbody></table></div></div></section>
-<section class="section" id="orders"><p class="note">TEST RECORDS · Orders and payment statuses here are manually entered and are not verified purchases.</p><div class="panel"><div class="panelhead"><h2>Orders</h2><button class="button" id="addOrder">+ Test order</button></div><div class="toolbar"><input class="field" id="orderSearch" placeholder="Search order, customer, product..."><select class="field" id="orderFilter"><option value="">All statuses</option><option>pending</option><option>success</option><option>failed</option><option>refunded</option></select></div><div class="tablewrap"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Product</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead><tbody id="orderRows"></tbody></table></div></div></section>
+<section class="section" id="orders"><div class="panel"><div class="panelhead"><h2>Firebase customer orders</h2><button class="button secondary" type="button" id="refreshCloudOrders">↻ Refresh</button></div><p class="sub" id="cloudOrdersStatus" role="status" aria-live="polite">Waiting for secure admin access...</p><div class="toolbar"><input class="field" id="cloudOrderSearch" placeholder="Search order, customer, product..."></div><div class="tablewrap"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Product</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody id="cloudOrderRows"><tr><td colspan="6" class="empty">No orders loaded.</td></tr></tbody></table></div></div><p class="note">TEST RECORDS · Orders and payment statuses here are manually entered and are not verified purchases.</p><div class="panel"><div class="panelhead"><h2>Orders</h2><button class="button" id="addOrder">+ Test order</button></div><div class="toolbar"><input class="field" id="orderSearch" placeholder="Search order, customer, product..."><select class="field" id="orderFilter"><option value="">All statuses</option><option>pending</option><option>success</option><option>failed</option><option>refunded</option></select></div><div class="tablewrap"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Product</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead><tbody id="orderRows"></tbody></table></div></div></section>
 <section class="section" id="payments"><div class="panel"><div class="panelhead"><h2>Payment records</h2></div><p class="sub">TEST RECORDS · Payment statuses mirror local orders. Payment verification is not connected yet.</p><div class="tablewrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Amount</th><th>Payment reference</th><th>Status</th></tr></thead><tbody id="paymentRows"></tbody></table></div></div></section>
 <section class="section" id="customers">
 <div class="panel">
@@ -322,6 +342,55 @@ async function refreshCustomers(){
     $('customerRefreshStatus').textContent='Unable to load customers. Check admin permission and Firebase configuration.';
   }
 }
+// Read-only admin order overview. No payment verification or fulfillment occurs here.
+let cloudOrders = [];
+function renderCloudOrders() {
+  const q = $('cloudOrderSearch').value.trim().toLowerCase();
+  const rows = cloudOrders.filter(o => [o.id,o.customer,o.name,o.status].join(' ').toLowerCase().includes(q));
+  $('cloudOrderRows').innerHTML = rows.map(o => `<tr>
+    <td>${escapeHtml(o.id)}</td><td>${escapeHtml(o.customer)}</td>
+    <td>${escapeHtml(o.name)}</td><td>₹${Number(o.price || 0).toLocaleString('en-IN')}</td>
+    <td><span class="tag">${escapeHtml(o.status)}</span></td><td>${escapeHtml(dateLabel(o.createdAt))}</td>
+  </tr>`).join('') || '<tr><td colspan="6" class="empty">No matching Firebase orders.</td></tr>';
+}
+async function refreshCloudOrders() {
+  if (!authorized || !firestore) return;
+  const btn = $('refreshCloudOrders');
+  btn.disabled = true;
+  $('cloudOrdersStatus').textContent = 'Loading customer orders...';
+  try {
+    // Read the same users/{uid}/orders path used by the customer Orders page.
+    const users = await getDocs(collection(firestore, 'users'));
+    const results = await Promise.allSettled(users.docs.map(async userDoc => {
+      const snap = await getDocs(collection(firestore, 'users', userDoc.id, 'orders'));
+      return snap.docs.map(d => ({
+        id: d.id,
+        customer: String(userDoc.data().email || userDoc.data().fullName || userDoc.id),
+        name: String(d.data().name || 'Digital product'),
+        price: Number(d.data().price || 0),
+        status: String(d.data().status || 'record'),
+        createdAt: d.data().createdAt || null
+      }));
+    }));
+    const failures = results.filter(r => r.status === 'rejected');
+    cloudOrders = results.filter(r => r.status === 'fulfilled').flatMap(r => r.value);
+    cloudOrders.sort((a,b) => {
+      const time = v => v?.toDate?.()?.getTime?.() || new Date(v || 0).getTime() || 0;
+      return time(b.createdAt) - time(a.createdAt);
+    });
+    renderCloudOrders();
+    $('cloudOrdersStatus').textContent = failures.length
+      ? `${cloudOrders.length} order(s) loaded. ${failures.length} customer order collection(s) could not be accessed; check admin Firestore rules.`
+      : `${cloudOrders.length} Firebase order(s) found across ${users.size} customer profile(s).`;
+    if (failures.length) console.error('Some customer orders could not be loaded:', failures.map(r => r.reason));
+  } catch (error) {
+    console.error('Admin order load failed:', error);
+    $('cloudOrdersStatus').textContent = 'Unable to load Firebase orders. Check admin permissions and connection.';
+  } finally { btn.disabled = false; }
+}
+$('refreshCloudOrders').addEventListener('click', refreshCloudOrders);
+$('cloudOrderSearch').addEventListener('input', renderCloudOrders);
+document.querySelector('[data-tab="orders"]').addEventListener('click', () => { if (authorized) refreshCloudOrders(); });
 $('refreshLoginCustomers').addEventListener('click',refreshCustomers);
 $('loginCustomerSearch').addEventListener('input',renderCustomers);
 document.querySelector('[data-tab="customers"]').addEventListener('click',()=>{if(authorized)refreshCustomers()});
