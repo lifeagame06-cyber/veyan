@@ -318,13 +318,13 @@ a {
      PAYMENT NOT COMPLETED
     </span>
 <h1 class="headline">
-     Let's try again
+     Payment not completed
      <span style="color:#b67b90">
       .
      </span>
 </h1>
 <p class="muted">
-     The payment was not completed. No purchase has been confirmed. You can return to checkout and review your order.
+     No payment has been confirmed and no order has been placed. You can return to checkout to review your selection.
     </p>
 <div class="line">
 </div>
@@ -341,7 +341,7 @@ a {
      Continue exploring
     </a>
 <p class="note" style="margin-top:22px">
-     If your payment was unsuccessful, please return to checkout or contact support for assistance.
+     Online payments are currently unavailable. You can review your selection while checkout is being prepared.
     </p>
 </section>
 </main>
@@ -358,13 +358,57 @@ a {
 <script src="vayen-catalog.js">
 </script>
 <script>
-   const params=new URLSearchParams(location.search);
-const productId=params.get('product')||'';
-const product=window.VayenCatalog?.get(productId);
-const money=n=>'₹'+Number(n).toLocaleString('en-IN');
-const valid=product&&Number.isFinite(Number(product.price))&&Number(product.price)>0;
-const qs=new URLSearchParams({product:productId}).toString();
-function fill(){document.querySelectorAll('[data-name]').forEach(e=>e.textContent=valid?product.name:'Product unavailable');document.querySelectorAll('[data-price]').forEach(e=>e.textContent=valid?money(product.price):'—');document.querySelectorAll('[data-category]').forEach(e=>e.textContent=valid?(product.category||'DIGITAL PRODUCT'):'DIGITAL PRODUCT');document.querySelectorAll('[data-back]').forEach(e=>e.href='product.html?product='+encodeURIComponent(productId));document.querySelectorAll('[data-payment]').forEach(e=>e.href='payment.html?'+qs)}
+   const params = new URLSearchParams(window.location.search);
+const referrer = (() => {
+    try {
+        const url = new URL(document.referrer);
+        return url.origin === location.origin ? url : null;
+    } catch {
+        return null;
+    }
+})();
+
+// Prefer the selected product in this page's URL.
+// The same-origin checkout referrer is only a navigation fallback.
+const productId = params.get('product') ||
+    referrer?.searchParams.get('product') || '';
+
+const product = productId ? window.VayenCatalog?.get(productId) : null;
+const valid = Boolean(
+    product &&
+    product.name &&
+    Number.isFinite(Number(product.price)) &&
+    Number(product.price) > 0
+);
+
+const money = value => '₹' + Number(value).toLocaleString('en-IN');
+
+function fill() {
+    document.querySelectorAll('[data-name]').forEach(element => {
+        element.textContent = valid ? product.name : 'Product details unavailable';
+    });
+
+    document.querySelectorAll('[data-price]').forEach(element => {
+        element.textContent = valid ? money(product.price) : '—';
+    });
+
+    document.querySelectorAll('[data-category]').forEach(element => {
+        element.textContent = valid ? (product.category || 'DIGITAL PRODUCT') : 'DIGITAL PRODUCT';
+    });
+
+    document.querySelectorAll('[data-back]').forEach(element => {
+        element.href = valid
+            ? 'product.html?product=' + encodeURIComponent(productId)
+            : 'collection.html';
+    });
+
+    document.querySelectorAll('[data-payment]').forEach(element => {
+        element.href = valid
+            ? 'payment.html?product=' + encodeURIComponent(productId)
+            : 'collection.html';
+    });
+}
+
 fill();
   </script>
 </body>
