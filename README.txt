@@ -1,16 +1,13 @@
-VAYEN FIREBASE PRODUCTS - staging package
+VAYEN PWA INSTALL FIX
 
-1. BACK UP your existing files. Do NOT deploy yet until config and rules are complete.
-2. In vayen-firebase-config.js, paste the Firebase Web API key from your existing working auth config. This is a web config value, NOT a service account secret.
-3. Merge FIRESTORE_RULES_ADD.txt into the existing Firestore rules (inside match /databases/{database}/documents). Publish rules.
-4. Upload the 5 files: Admin.html, collection.html, product.html, vayen-catalog.js, vayen-firebase-config.js to the same GitHub Pages directory.
-5. Sign in as authorized admin; Admin > Products > Import original catalog ONCE. The import stops if any product exists, to avoid overwrite.
-6. Test: public collection, detail, admin add/edit/hide, another browser/device, and purchase link.
+1. Replace profile.html in your website root with the file from this ZIP.
+2. Ensure manifest.json is in the same website root.
+3. Confirm images/icon-192.png and images/icon-512.png actually exist and are valid PNG files.
+4. Confirm service-worker.js exists at the website root and registration works (already referenced by index.html).
+5. Publish to HTTPS and reload the live profile page.
 
-IMPORTANT LIMITATIONS:
-- Only collection.html and product.html are integrated here. Other pages (homepage, search, checkout, saved/library) may still depend on old catalog behavior and need separate validation.
-- No real payment or server-side price verification has been added. Never trust client-side product price for real checkout.
-- Firestore products collection must be imported before public listings will show.
-- Do not store private PDF URLs or credentials in public product documents.
-- For published-only queries, Firestore rules permit public listing. Admin can read all.
-- This is a staging build, not verified in a deployed browser.
+This adds the missing manifest reference to profile.html and preserves existing code.
+The install button already listens for Chrome's beforeinstallprompt event.
+Browsers only allow direct installation prompts when their eligibility criteria are met.
+No website can force the native prompt when the browser does not provide that event.
+If the prompt still does not appear, provide service-worker.js and both icon files for verification.
