@@ -386,7 +386,7 @@
 
     // Purchases must come from verified orders, not local browser data.
     function purchases() {
-        return [];
+        return verifiedPurchases.filter(item => item && typeof item.slug === "string" && item.slug.length > 0);
     }
 
     function openModal(title, help, fields, action) {
@@ -533,11 +533,21 @@
                 .map(product => `<div class="recent-item">♥ &nbsp;${safe(label(product))}</div>`)
                 .join('');
         } else if (tab === 'purchased') {
-            $('#content').innerHTML = empty(
-                'No purchases found',
-                'Completed purchases will appear here when connected to your order records.',
-                false
-            );
+            const rows = bought.filter(item => label(item).toLowerCase().includes(search));
+            $('#content').innerHTML = rows.length
+                ? '<div class="grid">' + rows.map(item => `
+                    <article class="product">
+                        <div class="cover"><span>${safe(label(item))}</span></div>
+                        <div class="product-info">
+                            <strong>${safe(label(item))}</strong>
+                            <div class="price">Purchased</div>
+                            <div class="product-foot">
+                                <a class="btn" href="product.html?id=${encodeURIComponent(item.slug)}">View Product →</a>
+                            </div>
+                        </div>
+                    </article>
+                `).join('') + '</div>'
+                : empty('No purchases found', 'Verified purchases will appear here after payment confirmation.', false);
         } else {
             const folders = state.folders.filter(folder => folder.name.toLowerCase().includes(search));
             $('#content').innerHTML = folders.length
