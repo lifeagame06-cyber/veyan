@@ -355,61 +355,51 @@ a {
 </nav>
 © 2026 VAYEN · Digital products, thoughtfully made.
   </footer>
+<script src="vayen-firebase-config.js"></script>
 <script src="vayen-catalog.js">
 </script>
 <script>
-   const params = new URLSearchParams(window.location.search);
-const referrer = (() => {
-    try {
-        const url = new URL(document.referrer);
-        return url.origin === location.origin ? url : null;
-    } catch {
-        return null;
-    }
-})();
-
-// Prefer the selected product in this page's URL.
-// The same-origin checkout referrer is only a navigation fallback.
-const productId = params.get('product') ||
-    referrer?.searchParams.get('product') || '';
-
-const product = productId ? window.VayenCatalog?.get(productId) : null;
-const valid = Boolean(
-    product &&
-    product.name &&
-    Number.isFinite(Number(product.price)) &&
-    Number(product.price) > 0
-);
-
-const money = value => '₹' + Number(value).toLocaleString('en-IN');
-
-function fill() {
-    document.querySelectorAll('[data-name]').forEach(element => {
-        element.textContent = valid ? product.name : 'Product details unavailable';
-    });
-
-    document.querySelectorAll('[data-price]').forEach(element => {
-        element.textContent = valid ? money(product.price) : '—';
-    });
-
-    document.querySelectorAll('[data-category]').forEach(element => {
-        element.textContent = valid ? (product.category || 'DIGITAL PRODUCT') : 'DIGITAL PRODUCT';
-    });
-
-    document.querySelectorAll('[data-back]').forEach(element => {
-        element.href = valid
-            ? 'product.html?product=' + encodeURIComponent(productId)
-            : 'collection.html';
-    });
+   (async function () {
+    const params = new URLSearchParams(location.search);
+    const productId = params.get('product') || '';
+    const money = value => '₹' + Number(value).toLocaleString('en-IN');
 
     document.querySelectorAll('[data-payment]').forEach(element => {
-        element.href = valid
+        element.href = productId
             ? 'payment.html?product=' + encodeURIComponent(productId)
             : 'collection.html';
     });
-}
 
-fill();
-  </script>
+    function fill(product) {
+        const valid = Boolean(
+            product && product.name &&
+            product.price !== null && product.price !== '' &&
+            Number.isFinite(Number(product.price)) && Number(product.price) > 0
+        );
+        document.querySelectorAll('[data-name]').forEach(element => {
+            element.textContent = valid ? product.name : 'Product details unavailable';
+        });
+        document.querySelectorAll('[data-price]').forEach(element => {
+            element.textContent = valid ? money(product.price) : '—';
+        });
+        document.querySelectorAll('[data-category]').forEach(element => {
+            element.textContent = valid ? (product.category || 'DIGITAL PRODUCT') : 'DIGITAL PRODUCT';
+        });
+    }
+
+    document.querySelectorAll('[data-name]').forEach(element => {
+        element.textContent = 'Loading product details…';
+    });
+
+    try {
+        if (!productId || !window.VayenCatalog) throw new Error('Catalog unavailable');
+        await window.VayenCatalog.ready;
+        fill(window.VayenCatalog.get(productId, false));
+    } catch (error) {
+        console.error('VAYEN status product load failed:', error);
+        fill(null);
+    }
+})();
+</script>
 </body>
 </html>

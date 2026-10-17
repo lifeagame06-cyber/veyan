@@ -5,13 +5,47 @@
 .checkout-policy-links { display:flex; justify-content:center; flex-wrap:wrap; gap:9px; margin-bottom:13px; font-size:12px; }
 .checkout-policy-links a:hover { text-decoration:underline; }
 .checkout-policy-links span { opacity:.5; }
-</style></head><body><header class="header"><a class="brand" href="index.html">VAYEN</a><a class="back" href="collection.html">← Continue exploring</a></header><main class="wrap"><section class="card result center"><div class="icon">✓</div><span class="badge">PAYMENT STATUS</span><h1 class="headline">Your order, thoughtfully handled<span style="color:#b67b90">.</span></h1><p class="muted">Your payment confirmation is not available yet. Once your payment is confirmed, your order details and product access will appear in your account.</p><div class="line"></div><div class="between"><span class="muted" data-name=""></span><strong data-price=""></strong></div><div class="payment-note">If you have completed a payment, please wait for confirmation before trying again. For assistance, contact our support team.</div><a class="primary" href="collection.html">Explore the collection →</a><a class="secondary" data-payment="" href="payment.html">Return to checkout</a></section></main><footer class="foot"><nav aria-label="Support and policies" class="checkout-policy-links"><a href="refund.html">Refund Policy</a><span aria-hidden="true">|</span><a href="contact.html">Contact Us</a><span aria-hidden="true">|</span><a href="privacy.html">Privacy Policy</a></nav>© 2026 VAYEN · Digital products, thoughtfully made.</footer><script src="vayen-catalog.js"></script><script>
-const params=new URLSearchParams(location.search);
-const productId=params.get('product')||'';
-const product=window.VayenCatalog?.get(productId);
-const money=n=>'₹'+Number(n).toLocaleString('en-IN');
-const valid=product&&Number.isFinite(Number(product.price))&&Number(product.price)>0;
-const qs=new URLSearchParams({product:productId}).toString();
-function fill(){document.querySelectorAll('[data-name]').forEach(e=>e.textContent=valid?product.name:'Product unavailable');document.querySelectorAll('[data-price]').forEach(e=>e.textContent=valid?money(product.price):'—');document.querySelectorAll('[data-category]').forEach(e=>e.textContent=valid?(product.category||'DIGITAL PRODUCT'):'DIGITAL PRODUCT');document.querySelectorAll('[data-back]').forEach(e=>e.href='product.html?product='+encodeURIComponent(productId));document.querySelectorAll('[data-payment]').forEach(e=>e.href='payment.html?'+qs)}
-fill();
+</style></head><body><header class="header"><a class="brand" href="index.html">VAYEN</a><a class="back" href="collection.html">← Continue exploring</a></header><main class="wrap"><section class="card result center"><div class="icon">✓</div><span class="badge">PAYMENT STATUS</span><h1 class="headline">Payment confirmation pending<span style="color:#b67b90">.</span></h1><p class="muted">Your payment confirmation is not available yet. Once your payment is confirmed, your order details and product access will appear in your account.</p><div class="line"></div><div class="between"><span class="muted" data-name=""></span><strong data-price=""></strong></div><div class="payment-note">Online payments are currently unavailable. No order or product access will be confirmed until payment is verified.</div><a class="primary" href="collection.html">Explore the collection →</a><a class="secondary" data-payment="" href="payment.html">Return to checkout</a></section></main><footer class="foot"><nav aria-label="Support and policies" class="checkout-policy-links"><a href="refund.html">Refund Policy</a><span aria-hidden="true">|</span><a href="contact.html">Contact Us</a><span aria-hidden="true">|</span><a href="privacy.html">Privacy Policy</a></nav>© 2026 VAYEN · Digital products, thoughtfully made.</footer><script src="vayen-firebase-config.js"></script>
+<script src="vayen-catalog.js"></script><script>
+(async function () {
+    const params = new URLSearchParams(location.search);
+    const productId = params.get('product') || '';
+    const money = value => '₹' + Number(value).toLocaleString('en-IN');
+
+    document.querySelectorAll('[data-payment]').forEach(element => {
+        element.href = productId
+            ? 'payment.html?product=' + encodeURIComponent(productId)
+            : 'collection.html';
+    });
+
+    function fill(product) {
+        const valid = Boolean(
+            product && product.name &&
+            product.price !== null && product.price !== '' &&
+            Number.isFinite(Number(product.price)) && Number(product.price) > 0
+        );
+        document.querySelectorAll('[data-name]').forEach(element => {
+            element.textContent = valid ? product.name : 'Product details unavailable';
+        });
+        document.querySelectorAll('[data-price]').forEach(element => {
+            element.textContent = valid ? money(product.price) : '—';
+        });
+        document.querySelectorAll('[data-category]').forEach(element => {
+            element.textContent = valid ? (product.category || 'DIGITAL PRODUCT') : 'DIGITAL PRODUCT';
+        });
+    }
+
+    document.querySelectorAll('[data-name]').forEach(element => {
+        element.textContent = 'Loading product details…';
+    });
+
+    try {
+        if (!productId || !window.VayenCatalog) throw new Error('Catalog unavailable');
+        await window.VayenCatalog.ready;
+        fill(window.VayenCatalog.get(productId, false));
+    } catch (error) {
+        console.error('VAYEN status product load failed:', error);
+        fill(null);
+    }
+})();
 </script></body></html>
