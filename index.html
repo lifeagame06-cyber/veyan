@@ -866,8 +866,16 @@ document.querySelectorAll(".purpose-item").forEach(function (item) {
    const small=document.createElement('small');small.textContent=p.category||'WORLD';a.append(n,h,small);list.appendChild(a);
   });
  }
- const count=document.querySelector('.worlds-intro h2');if(count){const n=C.list('Worlds').length;count.innerHTML=n+' worlds.<br>One standard.';}
-})();
+const count = document.querySelector('.worlds-intro h2');
+
+if (count) {
+    C.ready.then(() => {
+        const n = C.list('Worlds').length;
+        count.innerHTML = n + ' worlds.<br>One standard.';
+    }).catch(() => {
+        // Firebase unavailable: original heading remains visible.
+    });
+}})();
 </script>
 <!-- VAYEN Search Dialog -->
 <div aria-hidden="true" class="vayen-search-overlay" id="vayenSearchOverlay">
