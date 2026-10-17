@@ -257,7 +257,18 @@ async function saveProduct(rec){
   const ref=doc(firestore,'products',slug);
   const old=await getDoc(ref);
   if(old.exists() && old.data().id && old.data().id!==rec.id)throw Error('Product slug already belongs to another product');
-  await setDoc(ref,rec);
+  // Keep the original first-publication date across edits, hiding and republishing.
+  // Legacy published products without a date are NOT falsely marked as new.
+  const previous=old.exists()?old.data():null;
+  const saved={...(previous||{}),...rec};
+  if(previous?.publishedAt){
+    saved.publishedAt=previous.publishedAt;
+  }else if(rec.status==='published' && (!previous || previous.status!=='published')){
+    saved.publishedAt=new Date().toISOString();
+  }else{
+    delete saved.publishedAt;
+  }
+  await setDoc(ref,saved);
 }
 window.VayenAdminProducts.save=saveProduct;
 document.getElementById('importProducts').addEventListener('click',async()=>{
