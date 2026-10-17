@@ -240,8 +240,8 @@ body.support-open { overflow: hidden; }
                     <div class="contact-tile">
                         <div class="contact-icon" aria-hidden="true">✉</div>
                         <strong>Email support</strong>
-                        <span>[ADD YOUR SUPPORT EMAIL HERE]</span>
-                        <span>Replace this placeholder before publishing.</span>
+                        <span>Use the support form to reach our team securely.</span>
+                        <span>Sign in to submit or track a request.</span>
                     </div>
                     <button class="contact-tile assistance-trigger" type="button" id="openSupportForm" aria-haspopup="dialog">
                         <div class="contact-icon" aria-hidden="true">◎</div>
@@ -269,7 +269,7 @@ body.support-open { overflow: hidden; }
                     </form>
                     <div class="track-result" id="trackSupportResult" hidden aria-live="polite"></div>
                 </div>
-                <p class="sub">Demo tracking works only for requests saved in this browser on the same website origin.</p>
+                <p class="sub">Sign in with the account used to submit your request. Ticket updates are available across devices.</p>
             </section>
             <section>
                 <h2>How we can help</h2>
@@ -285,10 +285,7 @@ body.support-open { overflow: hidden; }
                 <p>Please do not send passwords, OTPs, full card numbers, or other sensitive payment credentials in a support message.</p>
                 <p>Read our <a href="privacy.html">Privacy Policy</a> and <a href="refund.html">Refund Policy</a> for more information.</p>
             </section>
-            <section>
-                <h2>Before publishing</h2>
-                <div class="soft-note">SETUP REQUIRED: Add your real support email and response timeframe before publishing. The order assistance form is a local demo; it does not deliver requests to support until a backend is connected.</div>
-            </section>
+
             </article>
 
             <aside class="side-card">
@@ -311,7 +308,7 @@ body.support-open { overflow: hidden; }
         <div>© 2026 VAYEN. All Rights Reserved.</div>
     </footer>
 
-    <!-- Demo support request modal: stored locally in this browser only -->
+    <!-- Secure VAYEN support request modal -->
     <div class="support-modal" id="supportModal" hidden>
         <section class="support-dialog" role="dialog" aria-modal="true" aria-labelledby="supportDialogTitle">
             <div class="support-dialog-head">
@@ -352,16 +349,16 @@ body.support-open { overflow: hidden; }
                     <label for="supportMessage">Describe your problem *</label>
                     <textarea id="supportMessage" name="message" required minlength="10" maxlength="3000" placeholder="Tell us what happened and which product is involved..."></textarea>
                 </div>
-                <div class="support-notice">DEMO ONLY — Submitting saves this request in this browser for testing. It does not send an email or reach VAYEN support yet.</div>
-                <button class="button support-submit" type="submit">Submit demo request →</button>
+                <div class="support-notice" id="supportSubmitNotice">Sign in to VAYEN before submitting. Your request will be securely shared with VAYEN Support.</div>
+                <button class="button support-submit" type="submit">Submit support request →</button>
             </form>
 
             <div class="support-confirmation" id="supportConfirmation" hidden aria-live="polite">
                 <div class="confirmation-icon" aria-hidden="true">✓</div>
-                <h2>Request saved.</h2>
-                <p>Your demo request reference:</p>
+                <h2>Request received.</h2>
+                <p>Your support ticket ID:</p>
                 <strong id="supportTicketId"></strong>
-                <p>This request is saved only in this browser. It has not been delivered to support.</p>
+                <p>Your request has been sent to VAYEN Support. Keep this ID to track updates.</p>
                 <div class="ticket-confirm-actions">
                     <button class="button" id="copySupportTicket" type="button">Copy Ticket ID</button>
                     <button class="button" id="trackNewTicket" type="button">Track My Request →</button>
@@ -371,252 +368,182 @@ body.support-open { overflow: hidden; }
         </section>
     </div>
 
-    <script>
-    (function () {
-        'use strict';
+    <script src="vayen-firebase-config.js"></script>
+    <script type="module">
+    import {initializeApp,getApps,getApp} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
+    import {getAuth,onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
+    import {getFirestore,doc,getDoc,setDoc,serverTimestamp} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
 
-        const STORAGE_KEY = 'vayenSupportTicketsDemoV1';
-        const modal = document.getElementById('supportModal');
-        const form = document.getElementById('supportForm');
-        const confirmation = document.getElementById('supportConfirmation');
-        const openButton = document.getElementById('openSupportForm');
-        const closeButton = document.getElementById('closeSupportForm');
-        const doneButton = document.getElementById('supportDone');
-        let latestTicket = null;
+    const $ = id => document.getElementById(id);
+    const modal = $('supportModal');
+    const form = $('supportForm');
+    const confirmation = $('supportConfirmation');
+    const trackForm = $('trackSupportForm');
+    const trackResult = $('trackSupportResult');
+    const trackButton = trackForm.querySelector('button[type="submit"]');
+    let latestTicket = null;
+    let currentUser = null;
+    let firestore = null;
+    let busy = false;
+    let previousFocus = null;
 
-        // A short, fresh ticket ID for every successful submission.
-        // Existing saved ticket IDs are never changed.
-        function createTicketId(existingTickets) {
-            const used = new Set(existingTickets.map(ticket => String(ticket.id || '').toUpperCase()));
-            const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-            let id;
-
-            do {
-                let code = '';
-                if (window.crypto && window.crypto.getRandomValues) {
-                    const bytes = new Uint8Array(8);
-                    window.crypto.getRandomValues(bytes);
-                    for (const byte of bytes) {
-                        code += alphabet[byte % alphabet.length];
-                    }
-                } else {
-                    for (let i = 0; i < 8; i++) {
-                        code += alphabet[Math.floor(Math.random() * alphabet.length)];
-                    }
-                }
-                id = 'VYS-' + code;
-            } while (used.has(id));
-
-            return id;
+    try {
+      const config = window.VAYEN_FIREBASE_CONFIG;
+      if (!config?.apiKey) throw Error('Configuration unavailable');
+      const app = getApps().length ? getApp() : initializeApp(config);
+      const auth = getAuth(app);
+      firestore = getFirestore(app);
+      onAuthStateChanged(auth, user => {
+        currentUser = user;
+        if (user?.email) {
+          $('supportEmail').value = user.email;
+          $('trackEmail').value = user.email;
         }
+      });
+    } catch (error) {
+      console.error('Support initialization failed:', error);
+      $('supportSubmitNotice').textContent = 'Support is temporarily unavailable. Please try again later.';
+    }
 
-        document.getElementById('copySupportTicket').addEventListener('click', async function () {
-            const id = document.getElementById('supportTicketId').textContent.trim();
-            if (!id) return;
-            try {
-                await navigator.clipboard.writeText(id);
-                this.textContent = 'Copied ✓';
-            } catch (error) {
-                const selection = window.getSelection();
-                const range = document.createRange();
-                range.selectNodeContents(document.getElementById('supportTicketId'));
-                selection.removeAllRanges();
-                selection.addRange(range);
-                this.textContent = 'Select and copy the Ticket ID';
-            }
-        });
-
-        document.getElementById('trackNewTicket').addEventListener('click', function () {
-            if (!latestTicket) return;
-            document.getElementById('trackTicketId').value = latestTicket.id;
-            document.getElementById('trackEmail').value = latestTicket.email;
-            closeModal();
-            document.getElementById('trackSupportForm').requestSubmit();
-            document.getElementById('trackSupportForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        });
-        let previousFocus = null;
-
-        function openModal() {
-            previousFocus = document.activeElement;
-            form.hidden = false;
-            confirmation.hidden = true;
-            modal.hidden = false;
-            document.body.classList.add('support-open');
-            document.getElementById('supportName').focus();
+    function openModal() {
+      previousFocus = document.activeElement;
+      form.hidden = false;
+      confirmation.hidden = true;
+      modal.hidden = false;
+      document.body.classList.add('support-open');
+      $('supportName').focus();
+    }
+    function closeModal() {
+      modal.hidden = true;
+      document.body.classList.remove('support-open');
+      previousFocus?.focus?.();
+    }
+    function showMessage(message) {
+      trackResult.hidden = false;
+      trackResult.replaceChildren();
+      const paragraph = document.createElement('p');
+      paragraph.textContent = message;
+      trackResult.appendChild(paragraph);
+    }
+    function generateId() {
+      const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      const bytes = new Uint8Array(12);
+      crypto.getRandomValues(bytes);
+      return 'VYS-' + Array.from(bytes, b => alphabet[b % alphabet.length]).join('');
+    }
+    function addText(tag, value, parent = trackResult, className = '') {
+      const element = document.createElement(tag);
+      element.textContent = value;
+      if (className) element.className = className;
+      parent.appendChild(element);
+      return element;
+    }
+    function showTicket(ticket, id) {
+      trackResult.hidden = false;
+      trackResult.replaceChildren();
+      addText('strong', 'Ticket: ' + id);
+      const status = addText('p', '');
+      addText('span', ticket.status || 'New', status, 'track-status');
+      const progress = document.createElement('div');
+      progress.className = 'track-progress';
+      const resolved = ticket.status === 'Resolved';
+      const working = ticket.status === 'In Progress';
+      addText('strong', resolved ? 'Request resolved' : working ? 'We are working on your request' : 'Request received', progress);
+      addText('p', resolved ? 'Your support request has been marked as resolved.' : working ? 'Our team is reviewing your issue.' : 'Your request has been received. Please check back for updates.', progress);
+      trackResult.appendChild(progress);
+      addText('p', 'Issue: ' + (ticket.issue || 'Support request'));
+      addText('strong', 'Response from VAYEN Support');
+      addText('div', ticket.adminReply?.trim() || 'Our support team is reviewing your request. Please check back later.', trackResult, 'track-reply');
+    }
+    $('openSupportForm').addEventListener('click', openModal);
+    $('closeSupportForm').addEventListener('click', closeModal);
+    $('supportDone').addEventListener('click', closeModal);
+    modal.addEventListener('click', event => { if (event.target === modal) closeModal(); });
+    document.addEventListener('keydown', event => {
+      if (modal.hidden) return;
+      if (event.key === 'Escape') closeModal();
+      if (event.key === 'Tab') {
+        const focusable = Array.from(modal.querySelectorAll('button, input, select, textarea'))
+          .filter(el => el.getClientRects().length > 0);
+        if (!focusable.length) return;
+        if (event.shiftKey && document.activeElement === focusable[0]) {
+          event.preventDefault(); focusable[focusable.length - 1].focus();
+        } else if (!event.shiftKey && document.activeElement === focusable[focusable.length - 1]) {
+          event.preventDefault(); focusable[0].focus();
         }
-
-        function closeModal() {
-            modal.hidden = true;
-            document.body.classList.remove('support-open');
-            if (previousFocus && typeof previousFocus.focus === 'function') {
-                previousFocus.focus();
-            }
-        }
-
-        openButton.addEventListener('click', openModal);
-        closeButton.addEventListener('click', closeModal);
-        doneButton.addEventListener('click', closeModal);
-        modal.addEventListener('click', function (event) {
-            if (event.target === modal) closeModal();
-        });
-        document.addEventListener('keydown', function (event) {
-            if (modal.hidden) return;
-            if (event.key === 'Escape') closeModal();
-            if (event.key === 'Tab') {
-                const focusable = Array.from(modal.querySelectorAll('button:not([hidden]), input:not([hidden]), select:not([hidden]), textarea:not([hidden])'))
-                    .filter(element => element.getClientRects().length > 0);
-                if (!focusable.length) return;
-                const first = focusable[0];
-                const last = focusable[focusable.length - 1];
-                if (event.shiftKey && document.activeElement === first) {
-                    event.preventDefault();
-                    last.focus();
-                } else if (!event.shiftKey && document.activeElement === last) {
-                    event.preventDefault();
-                    first.focus();
-                }
-            }
-        });
-
-
-        // Track a locally saved request without changing the existing Get Help flow.
-        const trackForm = document.getElementById('trackSupportForm');
-        const trackResult = document.getElementById('trackSupportResult');
-        const trackButton = trackForm.querySelector('button[type="submit"]');
-        let trackingTimer = null;
-
-        function showTrackMessage(message) {
-            trackResult.hidden = false;
-            trackResult.replaceChildren();
-            const paragraph = document.createElement('p');
-            paragraph.textContent = message;
-            trackResult.appendChild(paragraph);
-        }
-
-        trackForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-            if (!trackForm.reportValidity()) return;
-
-            // Give the visitor a clear five-second checking state before showing the result.
-            clearTimeout(trackingTimer);
-            trackResult.hidden = false;
-            trackResult.setAttribute('aria-busy', 'true');
-            trackResult.innerHTML = '<div class="track-loading" role="status"><span class="track-spinner" aria-hidden="true"></span><span>Checking your support request...</span></div>';
-            trackButton.disabled = true;
-            const submittedId = document.getElementById('trackTicketId').value.trim().toUpperCase();
-            const submittedEmail = document.getElementById('trackEmail').value.trim().toLowerCase();
-            trackingTimer = setTimeout(function () {
-                trackButton.disabled = false;
-                trackResult.removeAttribute('aria-busy');
-                const id = submittedId;
-                const email = submittedEmail;
-            let tickets;
-
-            try {
-                const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-                tickets = Array.isArray(stored) ? stored : [];
-            } catch (error) {
-                showTrackMessage('Unable to read saved demo requests in this browser.');
-                return;
-            }
-
-            const ticket = tickets.find(function (item) {
-                return String(item.id || '').trim().toUpperCase() === id &&
-                    String(item.email || '').trim().toLowerCase() === email;
-            });
-
-            if (!ticket) {
-                showTrackMessage('No matching ticket found. Check your Ticket ID and email. Demo tickets saved on another device or website origin are not available here.');
-                return;
-            }
-
-            trackResult.hidden = false;
-            trackResult.replaceChildren();
-
-            const heading = document.createElement('strong');
-            heading.textContent = 'Ticket: ' + ticket.id;
-            trackResult.appendChild(heading);
-
-            const status = document.createElement('p');
-            const statusBadge = document.createElement('span');
-            statusBadge.className = 'track-status';
-            statusBadge.textContent = ticket.status || 'New';
-            status.appendChild(statusBadge);
-            trackResult.appendChild(status);
-
-            const progress = document.createElement('div');
-            progress.className = 'track-progress';
-            const progressTitle = document.createElement('strong');
-            const progressDescription = document.createElement('p');
-            const currentStatus = String(ticket.status || 'New').toLowerCase().replace(/[-_]/g, ' ');
-            if (currentStatus === 'resolved' || currentStatus === 'closed') {
-                progressTitle.textContent = 'Request resolved';
-                progressDescription.textContent = 'Your support request has been marked as resolved.';
-            } else if (currentStatus === 'in progress' || currentStatus === 'processing') {
-                progressTitle.textContent = 'We are working on your request';
-                progressDescription.textContent = 'Our team is reviewing your issue. Please check back for updates.';
-            } else {
-                progressTitle.textContent = 'Request received';
-                progressDescription.textContent = 'Your ticket has been recorded. Please check back for updates.';
-            }
-            progress.append(progressTitle, progressDescription);
-            trackResult.appendChild(progress);
-
-            const issue = document.createElement('p');
-            issue.textContent = 'Issue: ' + (ticket.issue || 'Support request');
-            trackResult.appendChild(issue);
-
-            const replyLabel = document.createElement('strong');
-            replyLabel.textContent = 'Response from VAYEN Support';
-            trackResult.appendChild(replyLabel);
-
-            const reply = document.createElement('div');
-            reply.className = 'track-reply';
-            reply.textContent = ticket.adminReply && ticket.adminReply.trim()
-                ? ticket.adminReply
-                : 'Our support team is reviewing your request. Please check back later.';
-            trackResult.appendChild(reply);
-            }, 5000);
-        });
-
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-            if (!form.reportValidity()) return;
-
-            const ticket = {
-                id: '',
-                name: form.elements.name.value.trim(),
-                email: form.elements.email.value.trim(),
-                orderReference: form.elements.orderReference.value.trim(),
-                issue: form.elements.issue.value,
-                message: form.elements.message.value.trim(),
-                status: 'New',
-                adminReply: '',
-                createdAt: new Date().toISOString()
-            };
-
-            if (!ticket.name || ticket.message.length < 10) return;
-
-            try {
-                const previous = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-                const tickets = Array.isArray(previous) ? previous : [];
-                ticket.id = createTicketId(tickets);
-                tickets.unshift(ticket);
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(tickets));
-            } catch (error) {
-                alert('Could not save this demo request. Please check browser storage and try again.');
-                return;
-            }
-
-            latestTicket = ticket;
-            document.getElementById('supportTicketId').textContent = ticket.id;
-            document.getElementById('copySupportTicket').textContent = 'Copy Ticket ID';
-            form.reset();
-            form.hidden = true;
-            confirmation.hidden = false;
-            doneButton.focus();
-        });
-    })();
+      }
+    });
+    $('copySupportTicket').addEventListener('click', async function () {
+      const id = $('supportTicketId').textContent.trim();
+      try { await navigator.clipboard.writeText(id); this.textContent = 'Copied ✓'; }
+      catch { this.textContent = 'Select and copy the Ticket ID'; }
+    });
+    $('trackNewTicket').addEventListener('click', () => {
+      if (!latestTicket) return;
+      $('trackTicketId').value = latestTicket.id;
+      $('trackEmail').value = latestTicket.email;
+      closeModal();
+      trackForm.requestSubmit();
+      trackForm.scrollIntoView({behavior:'smooth',block:'center'});
+    });
+    trackForm.addEventListener('submit', async event => {
+      event.preventDefault();
+      if (!trackForm.reportValidity() || busy) return;
+      if (!currentUser?.email) { showMessage('Please sign in to your VAYEN account to track your request.'); return; }
+      const email = $('trackEmail').value.trim().toLowerCase();
+      if (email !== currentUser.email.toLowerCase()) { showMessage('Use the email linked to your signed-in VAYEN account.'); return; }
+      const id = $('trackTicketId').value.trim().toUpperCase();
+      busy = true; trackButton.disabled = true;
+      showMessage('Checking your support request...');
+      try {
+        const snapshot = await getDoc(doc(firestore,'supportTickets',id));
+        if (!snapshot.exists() || snapshot.data().userId !== currentUser.uid) {
+          showMessage('No matching request found for this account. Check your Ticket ID.');
+        } else showTicket(snapshot.data(), id);
+      } catch (error) {
+        console.error('Ticket lookup failed:',error);
+        showMessage('Unable to check this request. Please try again.');
+      } finally { busy = false; trackButton.disabled = false; }
+    });
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      if (!form.reportValidity() || busy) return;
+      if (!currentUser?.email) { alert('Please sign in to your VAYEN account before submitting a support request.'); return; }
+      const email = form.elements.email.value.trim().toLowerCase();
+      if (email !== currentUser.email.toLowerCase()) {
+        alert('Please use the email linked to your signed-in VAYEN account.'); return;
+      }
+      const ticket = {
+        userId: currentUser.uid,
+        name: form.elements.name.value.trim(),
+        email: currentUser.email,
+        orderReference: form.elements.orderReference.value.trim(),
+        issue: form.elements.issue.value,
+        message: form.elements.message.value.trim(),
+        status: 'New', adminReply: '',
+        createdAt: serverTimestamp(), updatedAt: serverTimestamp()
+      };
+      if (ticket.name.length < 2 || ticket.message.length < 10) return;
+      busy = true;
+      const submit = form.querySelector('[type="submit"]');
+      submit.disabled = true;
+      submit.textContent = 'Submitting request...';
+      try {
+        const id = generateId();
+        await setDoc(doc(firestore,'supportTickets',id),ticket);
+        latestTicket = {id,email:ticket.email};
+        $('supportTicketId').textContent = id;
+        $('copySupportTicket').textContent = 'Copy Ticket ID';
+        form.reset(); form.hidden = true; confirmation.hidden = false;
+        $('supportDone').focus();
+      } catch (error) {
+        console.error('Support request failed:',error);
+        alert('Unable to submit your request. Please try again.');
+      } finally {
+        busy = false; submit.disabled = false;
+        submit.textContent = 'Submit support request →';
+      }
+    });
     </script>
 
 <script id="vayen-page-back-navigation">

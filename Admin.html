@@ -35,7 +35,7 @@
 
 <!-- VAYEN Support Requests: isolated demo ticket workspace -->
 <section class="section" id="support">
-  <p class="note">LOCAL TESTING · Support requests and replies are stored in this browser only. Replies are not emailed.</p>
+  <p class="note">Support requests sync securely across devices. Replies appear in customer ticket tracking; no email is sent.</p>
   <div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr))">
     <div class="stat"><label>Total requests</label><strong id="supportTotal">0</strong></div>
     <div class="stat"><label>New requests</label><strong id="supportNew">0</strong></div>
@@ -53,7 +53,7 @@
 <dialog id="supportTicketDialog"><div class="modal">
   <h2>Support request</h2>
   <div id="supportTicketDetails" class="support-details"></div>
-  <label class="support-reply-label" for="supportReply">Admin reply (saved locally · not emailed)</label>
+  <label class="support-reply-label" for="supportReply">Reply to customer (visible in ticket tracking)</label>
   <textarea id="supportReply" class="field" rows="5" maxlength="3000" style="width:100%;resize:vertical" placeholder="Write your response to the customer..."></textarea>
   <div class="modalfooter" style="flex-wrap:wrap">
     <button type="button" class="button secondary" id="supportClose">Close</button>
@@ -62,7 +62,7 @@
     <button type="button" class="button" id="supportResolve">Mark Resolved</button>
   </div>
 </div></dialog>
-<section class="section" id="settings"><div class="panel"><h2>Workspace settings</h2><p class="sub">Customer profiles are read securely from Firestore. Product catalog is stored in Firestore. Test transactions, support tickets and notifications remain browser-local.</p><p class="sub">Admin role verification and Firestore customer profiles are connected. Verified payments, fulfillment and customer notifications are not integrated yet.</p><button class="button danger" id="resetDemo">Reset local test data</button></div></section>
+<section class="section" id="settings"><div class="panel"><h2>Workspace settings</h2><p class="sub">Customer profiles are read securely from Firestore. Product catalog is stored in Firestore. Test transactions and notifications remain browser-local; support tickets are stored securely in Firestore.</p><p class="sub">Admin role verification and Firestore customer profiles are connected. Verified payments, fulfillment and customer notifications are not integrated yet.</p><button class="button danger" id="resetDemo">Reset local test data</button></div></section>
 <p class="footnote">© 2026 VAYEN · Administration · Customer profiles connected · Transactions and fulfillment pending integration.</p></main></div>
 <dialog id="editor"><form class="modal" id="editorForm"><h2 id="editorTitle">Add</h2><div id="editorFields" class="formgrid"></div><div class="modalfooter"><button type="button" class="button secondary" id="closeEditor">Cancel</button><button class="button" type="submit">Save changes</button></div></form></dialog><div class="toast" id="toast" role="status"></div>
 <script src="vayen-firebase-config.js"></script>
@@ -111,113 +111,92 @@ document.addEventListener('change',e=>{const el=e.target;if(!el.matches('select[
 })();
 </script>
 <script>
-/* Support ticket module — independent from all existing Admin Studio features. */
+// Admin support UI: data is supplied only after verified Firebase admin access.
 (function () {
-    'use strict';
-    const KEY = 'vayenSupportTicketsDemoV1';
-    const $ = id => document.getElementById(id);
-    let activeId = null;
-    const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-    }[ch]));
-
-    function readTickets() {
-        try {
-            const data = JSON.parse(localStorage.getItem(KEY) || '[]');
-            return Array.isArray(data) ? data : [];
-        } catch (error) {
-            return [];
-        }
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({
+    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+  }[ch]));
+  let tickets = [];
+  let activeId = null;
+  let busy = false;
+  const dateLabel = value => {
+    const date = value?.toDate ? value.toDate() : new Date(value);
+    return date && !Number.isNaN(date.getTime()) ? date.toLocaleString('en-IN') : '—';
+  };
+  function render() {
+    const query = $('supportSearch').value.trim().toLowerCase();
+    const filter = $('supportFilter').value;
+    $('supportTotal').textContent = tickets.length;
+    $('supportNew').textContent = tickets.filter(t => t.status === 'New').length;
+    $('supportResolved').textContent = tickets.filter(t => t.status === 'Resolved').length;
+    $('supportNavCount').textContent = tickets.filter(t => t.status === 'New').length || '';
+    const visible = tickets.filter(t =>
+      [t.id,t.name,t.email,t.orderReference,t.issue,t.message].join(' ').toLowerCase().includes(query)
+      && (!filter || t.status === filter)
+    );
+    $('supportRows').innerHTML = visible.map(t => `<tr>
+      <td><strong>${escapeHtml(t.id)}</strong><br><small>${escapeHtml(dateLabel(t.createdAt))}</small></td>
+      <td><strong>${escapeHtml(t.name)}</strong><br><small>${escapeHtml(t.email)}</small></td>
+      <td>${escapeHtml(t.issue)}<br><small>${escapeHtml(t.orderReference || 'No order reference')}</small></td>
+      <td><span class="tag ${t.status === 'Resolved' ? 'success' : t.status === 'New' ? 'pending' : 'active'}">${escapeHtml(t.status || 'New')}</span></td>
+      <td><button type="button" class="tiny" data-support-id="${escapeHtml(t.id)}">View / Reply</button></td>
+    </tr>`).join('') || '<tr><td colspan="5" class="empty">No matching support requests.</td></tr>';
+  }
+  function openTicket(id) {
+    const ticket = tickets.find(t => t.id === id);
+    if (!ticket) return;
+    activeId = id;
+    const fields = [
+      ['Ticket ID', ticket.id], ['Customer', ticket.name], ['Email', ticket.email],
+      ['Order / Reference', ticket.orderReference || 'Not provided'],
+      ['Issue', ticket.issue], ['Status', ticket.status || 'New']
+    ];
+    $('supportTicketDetails').innerHTML = fields.map(([label,value]) =>
+      `<div><strong>${escapeHtml(label)}:</strong> ${escapeHtml(value)}</div>`
+    ).join('') + `<strong>Customer message:</strong><p>${escapeHtml(ticket.message)}</p>`;
+    $('supportReply').value = ticket.adminReply || '';
+    $('supportTicketDialog').showModal();
+  }
+  async function updateTicket(status) {
+    if (busy || !activeId || !window.VayenSupportAdmin) return;
+    const ticket = tickets.find(t => t.id === activeId);
+    if (!ticket) return;
+    const reply = $('supportReply').value.trim();
+    if (status === 'Resolved' && !reply && !confirm('Resolve without a written reply?')) return;
+    const nextStatus = status || (ticket.status === 'New' && reply ? 'In Progress' : ticket.status || 'New');
+    busy = true;
+    ['supportSave','supportResolve','supportProgress'].forEach(id => $(id).disabled = true);
+    try {
+      await window.VayenSupportAdmin.update(activeId, nextStatus, reply);
+      $('supportTicketDialog').close();
+      await window.VayenSupportAdmin.refresh();
+    } catch (error) {
+      console.error('Support update failed:', error);
+      alert('Unable to save your response. Please try again.');
+    } finally {
+      busy = false;
+      ['supportSave','supportResolve','supportProgress'].forEach(id => $(id).disabled = false);
     }
-
-    function saveTickets(tickets) {
-        try {
-            localStorage.setItem(KEY, JSON.stringify(tickets));
-            return true;
-        } catch (error) {
-            alert('Unable to save the ticket in browser storage.');
-            return false;
-        }
-    }
-
-    function renderSupport() {
-        const tickets = readTickets();
-        const query = $('supportSearch').value.trim().toLowerCase();
-        const filter = $('supportFilter').value;
-        $('supportTotal').textContent = tickets.length;
-        $('supportNew').textContent = tickets.filter(t => (t.status || 'New') === 'New').length;
-        $('supportResolved').textContent = tickets.filter(t => t.status === 'Resolved').length;
-        $('supportNavCount').textContent = tickets.filter(t => (t.status || 'New') === 'New').length || '';
-        const visible = tickets.filter(t => {
-            const match = [t.id, t.name, t.email, t.orderReference, t.issue, t.message]
-                .join(' ').toLowerCase().includes(query);
-            return match && (!filter || (t.status || 'New') === filter);
-        });
-        $('supportRows').innerHTML = visible.map(t => {
-            const status = t.status || 'New';
-            const date = t.createdAt && !Number.isNaN(Date.parse(t.createdAt))
-                ? new Date(t.createdAt).toLocaleString('en-IN') : '—';
-            return `<tr>
-                <td><strong>${escapeHtml(t.id)}</strong><br><small>${escapeHtml(date)}</small></td>
-                <td><strong>${escapeHtml(t.name)}</strong><br><small>${escapeHtml(t.email)}</small></td>
-                <td>${escapeHtml(t.issue)}<br><small>${escapeHtml(t.orderReference || 'No order reference')}</small></td>
-                <td><span class="tag ${status === 'Resolved' ? 'success' : status === 'New' ? 'pending' : 'active'}">${escapeHtml(status)}</span></td>
-                <td><button type="button" class="tiny" data-support-id="${escapeHtml(t.id)}">View / Reply</button></td>
-            </tr>`;
-        }).join('') || '<tr><td colspan="5" class="empty">No support requests found.</td></tr>';
-    }
-
-    function openTicket(id) {
-        const ticket = readTickets().find(t => t.id === id);
-        if (!ticket) return;
-        activeId = id;
-        const fields = [
-            ['Ticket ID', ticket.id], ['Customer', ticket.name],
-            ['Email', ticket.email], ['Order / Reference', ticket.orderReference || 'Not provided'],
-            ['Issue', ticket.issue], ['Status', ticket.status || 'New']
-        ];
-        $('supportTicketDetails').innerHTML = fields.map(([label, value]) =>
-            `<div><strong>${escapeHtml(label)}:</strong> ${escapeHtml(value)}</div>`
-        ).join('') + `<strong>Customer message:</strong><p>${escapeHtml(ticket.message)}</p>`;
-        $('supportReply').value = ticket.adminReply || '';
-        $('supportTicketDialog').showModal();
-    }
-
-    function updateTicket(status, closeAfter) {
-        const tickets = readTickets();
-        const ticket = tickets.find(t => t.id === activeId);
-        if (!ticket) return;
-        const reply = $('supportReply').value.trim();
-        if (status === 'Resolved' && !reply && !ticket.adminReply) {
-            if (!confirm('Resolve this ticket without a written reply?')) return;
-        }
-        ticket.adminReply = reply;
-        if (status) ticket.status = status;
-        else if ((ticket.status || 'New') === 'New' && reply) ticket.status = 'In Progress';
-        ticket.updatedAt = new Date().toISOString();
-        if (!saveTickets(tickets)) return;
-        renderSupport();
-        if (closeAfter) $('supportTicketDialog').close();
-        else openTicket(activeId);
-        // This is only a local draft; it does not deliver an email or customer notification.
-    }
-
-    $('supportRows').addEventListener('click', event => {
-        const button = event.target.closest('[data-support-id]');
-        if (button) openTicket(button.dataset.supportId);
-    });
-    $('supportSearch').addEventListener('input', renderSupport);
-    $('supportFilter').addEventListener('change', renderSupport);
-    $('supportRefresh').addEventListener('click', renderSupport);
-    $('supportClose').addEventListener('click', () => $('supportTicketDialog').close());
-    $('supportProgress').addEventListener('click', () => updateTicket('In Progress', true));
-    $('supportSave').addEventListener('click', () => updateTicket(null, true));
-    $('supportResolve').addEventListener('click', () => updateTicket('Resolved', true));
-    document.querySelector('[data-tab="support"]').addEventListener('click', renderSupport);
-    window.addEventListener('storage', event => {
-        if (event.key === KEY) renderSupport();
-    });
-    renderSupport();
+  }
+  window.VayenSupportView = {
+    setTickets(next) { tickets = next; render(); },
+    showError() { $('supportRows').innerHTML = '<tr><td colspan="5" class="empty">Unable to load support requests. Try Refresh.</td></tr>'; }
+  };
+  $('supportRows').addEventListener('click', event => {
+    const button = event.target.closest('[data-support-id]');
+    if (button) openTicket(button.dataset.supportId);
+  });
+  $('supportSearch').addEventListener('input', render);
+  $('supportFilter').addEventListener('change', render);
+  $('supportRefresh').addEventListener('click', () => window.VayenSupportAdmin?.refresh());
+  $('supportClose').addEventListener('click', () => $('supportTicketDialog').close());
+  $('supportProgress').addEventListener('click', () => updateTicket('In Progress'));
+  $('supportSave').addEventListener('click', () => updateTicket(null));
+  $('supportResolve').addEventListener('click', () => updateTicket('Resolved'));
+  document.querySelector('[data-tab="support"]').addEventListener('click', () => window.VayenSupportAdmin?.refresh());
+  render();
 })();
 </script>
 
@@ -225,7 +204,7 @@ document.addEventListener('change',e=>{const el=e.target;if(!el.matches('select[
 // Firebase customer sync. The API key is public Firebase web configuration, not a service-account secret.
 import {initializeApp,getApps,getApp} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
 import {getAuth,onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
-import {getFirestore,doc,getDoc,collection,getDocs,setDoc,writeBatch} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
+import {getFirestore,doc,getDoc,collection,getDocs,setDoc,writeBatch,updateDoc,serverTimestamp} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
 const firebaseConfig = window.VAYEN_FIREBASE_CONFIG || {
   apiKey: "AIzaSyCJStLo-FmvkPQo-u-cP-J4rQ8z4ecYMW4", 
   authDomain: "veyan-53930.firebaseapp.com",
@@ -271,6 +250,31 @@ async function saveProduct(rec){
   await setDoc(ref,saved);
 }
 window.VayenAdminProducts.save=saveProduct;
+// Shared, admin-only support operations. Firestore Rules enforce the role.
+async function refreshSupportTickets() {
+  if (!authorized || !firestore) return;
+  try {
+    const snapshot = await getDocs(collection(firestore, 'supportTickets'));
+    const tickets = snapshot.docs.map(d => ({id:d.id, ...d.data()}));
+    tickets.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+    window.VayenSupportView.setTickets(tickets);
+  } catch (error) {
+    console.error('Support load failed:', error);
+    window.VayenSupportView.showError();
+  }
+}
+window.VayenSupportAdmin = {
+  refresh: refreshSupportTickets,
+  async update(id, status, reply) {
+    if (!authorized || !firestore) throw Error('Admin access required');
+    await updateDoc(doc(firestore, 'supportTickets', id), {
+      status,
+      adminReply: reply,
+      updatedAt: serverTimestamp()
+    });
+  }
+};
+
 document.getElementById('importProducts').addEventListener('click',async()=>{
   if(!authorized||!firestore){alert('Wait for admin verification.');return;}
   const button=document.getElementById('importProducts');
@@ -338,11 +342,10 @@ else{
         authorized=true;
         window.VayenAdminProducts.save=saveProduct;
         gate.style.display='none';
-        await Promise.all([refreshCustomers(),refreshProducts()]);
+        await Promise.all([refreshCustomers(),refreshProducts(),refreshSupportTickets()]);
       }catch(error){console.error('Admin verification failed:',error);blocked('Admin verification failed. Check your Firestore rules and connection.');}
     },error=>{console.error(error);blocked('Unable to verify Firebase sign-in.',true)});
   }catch(error){console.error(error);blocked('Firebase initialization failed. Check the web API key.');}
 }
 </script>
 </body></html>
-s
