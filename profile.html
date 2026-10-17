@@ -447,38 +447,129 @@ html.vayen-profile-auth-verified #vayenProfileSkeleton { display: none !importan
 <div class="vy-credit-history" id="vyCreditHistory"><p class="vy-credit-empty">No credit transactions recorded yet. Once credits are issued or used, their source, date and amount will appear here.</p></div>
 <a class="vy-credit-repurchase" href="plans.html?highlight=shopping-pass#shopping-pass">Purchase Again <span>→</span></a>
 <p class="vy-credit-note">Shopping Pass purchases require verified payment before credits can be added.</p>
-</section></div><script id="vayen-credits-ui">
-(function(){
- const modal=document.getElementById('vyCreditsModal');
- const open=document.getElementById('vyOpenCredits');
- const close=()=>{modal.hidden=true;document.body.style.overflow='';open.focus()};
- const safe=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key)||'null')??fallback}catch(e){return fallback}};
- const current=()=>{try{return JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null')}catch(e){return null}};
- function render(){
-  const user=current(),key=user?.id;
-  // Dedicated account-scoped credit ledger. Never infer credits from unverified plan checkout.
-  const ledger=key?safe('vayenCreditTransactionsV1_'+key,[]):[];
-  const entries=Array.isArray(ledger)?ledger.filter(x=>x&&Number.isFinite(Number(x.amount))&&Number(x.amount)!==0):[];
-  const balance=Math.max(0,entries.reduce((sum,x)=>sum+Number(x.amount),0));
-  document.getElementById('vyCreditBalance').textContent=balance.toLocaleString('en-IN');
-  document.getElementById('vyModalCreditBalance').textContent=balance.toLocaleString('en-IN');
-  const history=document.getElementById('vyCreditHistory');
+</section></div><script type="module" id="vayen-credits-firebase-readonly">
+import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
+import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
+import { getFirestore, doc, collection, onSnapshot, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
+
+// Wallet is read-only on the customer device. Only a trusted backend may issue or spend credits.
+const firebaseConfig = {
+  apiKey: 'AIzaSyCJStLo-FmvkPQo-u-cP-J4rQ8z4ecYMW4',
+  authDomain: 'veyan-53930.firebaseapp.com',
+  projectId: 'veyan-53930',
+  storageBucket: 'veyan-53930.firebasestorage.app',
+  messagingSenderId: '836801786398',
+  appId: '1:836801786398:web:a73fbda60267efcdbd740f'
+};
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const modal = document.getElementById('vyCreditsModal');
+const openButton = document.getElementById('vyOpenCredits');
+const history = document.getElementById('vyCreditHistory');
+const balanceEls = ['vyCreditBalance', 'vyModalCreditBalance'].map(id => document.getElementById(id));
+let stopBalance = () => {};
+let stopHistory = () => {};
+let walletReady = false;
+let historyReady = false;
+let walletBalance = null;
+let walletEntries = [];
+let walletError = false;
+
+function setTextBalance(value) {
+  const display = value === null ? '—' : value.toLocaleString('en-IN');
+  balanceEls.forEach(el => { if (el) el.textContent = display; });
+}
+function message(text) {
   history.replaceChildren();
-  if(!entries.length){const p=document.createElement('p');p.className='vy-credit-empty';p.textContent='No credit transactions recorded yet. When credits are issued or used, their source, date and amount will appear here.';history.append(p);return}
-  entries.slice().reverse().forEach(x=>{
-   const item=document.createElement('div');item.className='vy-credit-entry';
-   const info=document.createElement('div'),title=document.createElement('strong'),sub=document.createElement('small'),amt=document.createElement('b');
-   title.textContent=String(x.source||'Credit transaction');
-   const dt=x.date?new Date(x.date):null;
-   sub.textContent=(dt&&!isNaN(dt.getTime())?dt.toLocaleDateString('en-IN'):'Date unavailable')+(x.product?' · '+String(x.product):'');
-   amt.textContent=(Number(x.amount)>0?'+':'')+Number(x.amount).toLocaleString('en-IN');
-   info.append(title,sub);item.append(info,amt);history.append(item);
+  const p = document.createElement('p');
+  p.className = 'vy-credit-empty';
+  p.textContent = text;
+  history.appendChild(p);
+}
+function render() {
+  setTextBalance(walletError || !walletReady ? null : walletBalance);
+  if (walletError) return message('Credit details are temporarily unavailable. Please try again later.');
+  if (!walletReady || !historyReady) return message('Loading your credit activity…');
+  if (!walletEntries.length) return message('No credit transactions recorded yet.');
+  history.replaceChildren();
+  walletEntries.forEach(entry => {
+    const row = document.createElement('div');
+    row.className = 'vy-credit-entry';
+    const info = document.createElement('div');
+    const title = document.createElement('strong');
+    const subtitle = document.createElement('small');
+    const amount = document.createElement('b');
+    title.textContent = String(entry.source || 'Credit activity');
+    const timestamp = entry.createdAt?.toDate?.();
+    subtitle.textContent = timestamp instanceof Date && !isNaN(timestamp.getTime())
+      ? timestamp.toLocaleDateString('en-IN') : 'Date unavailable';
+    if (entry.product) subtitle.textContent += ' · ' + String(entry.product);
+    amount.textContent = (entry.amount > 0 ? '+' : '') + entry.amount.toLocaleString('en-IN');
+    info.append(title, subtitle);
+    row.append(info, amount);
+    history.append(row);
   });
- }
- open?.addEventListener('click',()=>{render();modal.hidden=false;document.body.style.overflow='hidden';modal.querySelector('.vy-credit-close').focus()});
- modal.querySelectorAll('[data-close-credits]').forEach(x=>x.addEventListener('click',close));
- document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close()});
- render();
-})();
+}
+function clearSubscriptions() {
+  stopBalance(); stopHistory();
+  stopBalance = () => {}; stopHistory = () => {};
+  walletReady = false; historyReady = false;
+  walletBalance = null; walletEntries = []; walletError = false;
+  render();
+}
+function loadWallet(user) {
+  clearSubscriptions();
+  if (!user) return message('Sign in to view your credits.');
+  stopBalance = onSnapshot(doc(db, 'users', user.uid, 'wallet', 'summary'), snap => {
+    const amount = snap.exists() ? snap.data().balance : 0;
+    if (!Number.isSafeInteger(amount) || amount < 0) {
+      walletError = true;
+    } else {
+      walletBalance = amount;
+      walletReady = true;
+    }
+    render();
+  }, error => {
+    console.error('VAYEN wallet unavailable:', error);
+    walletError = true;
+    render();
+  });
+  stopHistory = onSnapshot(query(
+    collection(db, 'users', user.uid, 'creditTransactions'),
+    orderBy('createdAt', 'desc'), limit(50)
+  ), snap => {
+    walletEntries = snap.docs.map(item => item.data()).filter(entry =>
+      Number.isSafeInteger(entry.amount) && entry.amount !== 0);
+    historyReady = true;
+    render();
+  }, error => {
+    console.error('VAYEN credit activity unavailable:', error);
+    walletError = true;
+    render();
+  });
+}
+openButton?.addEventListener('click', () => {
+  render();
+  modal.hidden = false;
+  document.body.style.overflow = 'hidden';
+  modal.querySelector('.vy-credit-close').focus();
+});
+function closeModal() {
+  modal.hidden = true;
+  document.body.style.overflow = '';
+  openButton?.focus();
+}
+modal.querySelectorAll('[data-close-credits]').forEach(el => el.addEventListener('click', closeModal));
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && !modal.hidden) closeModal();
+});
+render();
+onAuthStateChanged(auth, loadWallet, error => {
+  console.error('VAYEN wallet sign-in unavailable:', error);
+  clearSubscriptions();
+  walletError = true;
+  render();
+});
 </script><script type="module" src="vayen-auth-sync.js"></script></body>
 </html>
