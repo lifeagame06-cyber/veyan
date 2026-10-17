@@ -369,63 +369,81 @@ html.vayen-profile-auth-verified #vayenProfileSkeleton { display: none !importan
 </div>
 </main>
 <script>
-/* VAYEN app install status: do not persist installed state after uninstall. */
+/* VAYEN install status: best-effort cross-window detection. */
 (function () {
   const button = document.getElementById('vayenInstallBtn');
   const help = document.getElementById('vayenAppHelp');
   if (!button || !help) return;
 
+  const storageKey = 'vayenPwaInstalledV2';
   let installEvent = null;
-  const standalone = () => window.matchMedia('(display-mode: standalone)').matches ||
-    window.navigator.standalone === true;
+  let installedHint = false;
+  const standalone = () =>
+    window.matchMedia('(display-mode: standalone)').matches ||
+    navigator.standalone === true;
 
-  /* Clear the old flag: browsers do not clear localStorage on PWA uninstall. */
-  try { localStorage.removeItem('vayenAppInstalled'); } catch (e) {}
+  function saveHint(value) {
+    installedHint = value;
+    try {
+      if (value) localStorage.setItem(storageKey, 'yes');
+      else localStorage.removeItem(storageKey);
+    } catch (error) {}
+  }
 
-  function updateStatus() {
-    if (standalone()) {
-      button.textContent = '✓ Already Installed';
-      button.disabled = true;
-      help.textContent = '';
-      help.hidden = true;
-    } else {
-      button.disabled = false;
-      button.textContent = installEvent ? 'Install VAYEN App ↗' : 'Get VAYEN App ↗';
-    }
+  function readHint() {
+    try { return localStorage.getItem(storageKey) === 'yes'; }
+    catch (error) { return false; }
   }
 
   function showHelp(message) {
     help.textContent = message;
-    help.hidden = false;
+    help.hidden = !message;
+  }
+
+  function updateStatus() {
+    if (standalone()) saveHint(true);
+    else installedHint = readHint();
+
+    const installed = standalone() || (installedHint && !installEvent);
+    button.disabled = installed;
+    button.textContent = installed
+      ? '✓ Already Installed'
+      : installEvent ? 'Install VAYEN App ↗' : 'Get VAYEN App ↗';
+    if (installed) showHelp('');
   }
 
   updateStatus();
   window.addEventListener('pageshow', updateStatus);
+  window.addEventListener('storage', event => {
+    if (event.key === storageKey) updateStatus();
+  });
 
-  window.addEventListener('beforeinstallprompt', function (event) {
+  window.addEventListener('beforeinstallprompt', event => {
     event.preventDefault();
     installEvent = event;
+    // An install offer is stronger evidence than an old saved hint.
+    saveHint(false);
     updateStatus();
-    help.hidden = true;
+    showHelp('');
   });
 
-  window.addEventListener('appinstalled', function () {
+  window.addEventListener('appinstalled', () => {
     installEvent = null;
+    saveHint(true);
     updateStatus();
   });
 
-  button.addEventListener('click', async function () {
+  button.addEventListener('click', async () => {
     if (standalone()) { updateStatus(); return; }
-
     if (installEvent) {
       const event = installEvent;
       installEvent = null;
       try {
         await event.prompt();
-        const result = await event.userChoice;
-        if (result.outcome !== 'accepted')
-          showHelp('Installation cancel ho gaya. Chrome menu se bhi install kar sakte ho.');
-      } catch (e) {
+        const choice = await event.userChoice;
+        if (choice.outcome === 'accepted') saveHint(true);
+        else showHelp('Installation cancel ho gaya. Chrome menu se bhi install kar sakte ho.');
+      } catch (error) {
         showHelp('Chrome ke menu mein Install app check karo.');
       }
       updateStatus();
