@@ -13,6 +13,35 @@ function records(){return remoteLoaded?remoteRows:[]}
 function merge(p,rec){const points=String(rec.features||'').split(',').map(x=>x.trim()).filter(Boolean);const desc=rec.description||rec.shortDescription||p.result||'';const fallback=(label,i)=>[label,'Part '+(i+1),desc];return {...p,name:rec.name||p.name,category:rec.category||p.category,price:rec.price===null?null:Number(rec.price),subtitle:rec.shortDescription||p.subtitle||desc,points:points.length?points:p.points||[],result:desc,resultTitle:p.resultTitle||rec.name,bonus:rec.badge||p.bonus||'Digital product',confidence:p.confidence||desc,audience:p.audience||'Digital creators',contents:p.contents||Array.from({length:4},(_,i)=>fallback('INCLUDED',i)),steps:p.steps||Array.from({length:4},(_,i)=>fallback('STEP',i)),previews:p.previews||Array.from({length:3},(_,i)=>fallback('PREVIEW',i)),colors:p.colors||['#f0deda','#d9b8b7'],number:p.number||String(rec.worldNumber||'001').padStart(3,'0')};}
 function get(id,allowUnlisted=true){const rec=records().find(x=>(x.slug||x.id)===id);if(!rec||rec.status==='hidden'||rec.status==='draft'||(!allowUnlisted&&rec.status!=='published'))return null;return merge(BASE[id]||{},rec)}
 function list(group){return records().filter(x=>x.status==='published'&&(!group||x.group===group))}
+/* New Arrivals: use original publish date (or original creation date as fallback).
+   Never use updatedAt: editing a product must not restart its 30-day window.
+   Products with no reliable original date are excluded instead of shown as new. */
+function timestampMs(value){
+ if(value==null)return NaN;
+ if(typeof value==='object'){
+  if(typeof value.toMillis==='function')return value.toMillis();
+  if(Number.isFinite(value.seconds))return value.seconds*1000+(Number(value.nanoseconds)||0)/1e6;
+  if(Number.isFinite(value._seconds))return value._seconds*1000+(Number(value._nanoseconds)||0)/1e6;
+ }
+ if(typeof value==='number')return value<1e11?value*1000:value;
+ if(typeof value==='string'){
+  const s=value.trim();if(!s)return NaN;
+  if(/^\d{10,13}$/.test(s)){const n=Number(s);return s.length===10?n*1000:n;}
+  return Date.parse(s);
+ }
+ return NaN;
+}
+function newArrivalDate(p){
+ for(const key of ['firstPublishedAt','publishedAt','publishedOn','publishDate','createdAt','createdOn','creationDate']){
+  const date=timestampMs(p?.[key]);if(Number.isFinite(date))return date;
+ }
+ return NaN;
+}
+function isNewArrival(p,now=Date.now()){
+ if(!p||p.status!=='published'||p.builtin)return false;
+ const date=newArrivalDate(p),age=now-date;
+ return Number.isFinite(date)&&age>=0&&age<30*24*60*60*1000;
+}
 function nextWorldNumber(rows=records()){return Math.max(12,...rows.filter(x=>x.group==='Worlds').map(x=>Number(x.worldNumber)||Number(String(x.slug||'').match(/world-(\d+)/)?.[1])||0))+1}
-global.VayenCatalog={KEY,BASE,FLAG,PREMIUM,WORLDS,seed,records,get,list,slug,nextWorldNumber,ready};
+global.VayenCatalog={KEY,BASE,FLAG,PREMIUM,WORLDS,seed,records,get,list,slug,nextWorldNumber,isNewArrival,ready};
 })(window);
