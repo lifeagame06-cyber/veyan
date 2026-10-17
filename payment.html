@@ -168,21 +168,48 @@
    </nav>
    © 2026 VAYEN · Digital products, thoughtfully made.
   </footer>
-  <script src="vayen-catalog.js">
-  </script>
+  <script src="vayen-firebase-config.js"></script>
+  <script src="vayen-catalog.js"></script>
   <script>
-   const params=new URLSearchParams(location.search);
-const productId=params.get('product')||'';
-const product=window.VayenCatalog?.get(productId);
-const money=n=>'₹'+Number(n).toLocaleString('en-IN');
-const valid=product&&Number.isFinite(Number(product.price))&&Number(product.price)>0;
-const qs=new URLSearchParams({product:productId}).toString();
-function fill(){document.querySelectorAll('[data-name]').forEach(e=>e.textContent=valid?product.name:'Product unavailable');document.querySelectorAll('[data-price]').forEach(e=>e.textContent=valid?money(product.price):'—');document.querySelectorAll('[data-category]').forEach(e=>e.textContent=valid?(product.category||'DIGITAL PRODUCT'):'DIGITAL PRODUCT');document.querySelectorAll('[data-back]').forEach(e=>e.href='product.html?product='+encodeURIComponent(productId));document.querySelectorAll('[data-payment]').forEach(e=>e.href='payment.html?'+qs)}
-fill();
-  </script>
-  <script>
-   document.getElementById('demoContinue').disabled=!valid;document.getElementById('demoContinue').onclick=()=>document.getElementById('demoActions').hidden=false;document.getElementById('testSuccess').href='success.html?'+qs;document.getElementById('testFailed').href='failed.html?'+qs;
- document.getElementById('testSuccess').addEventListener('click',function(){if(!valid)return;try{sessionStorage.setItem('vayenDemoPurchaseIntentV1',JSON.stringify({productId:productId,at:Date.now()}))}catch(e){}});
+  (async function () {
+    const params = new URLSearchParams(location.search);
+    const productId = params.get('product') || '';
+    const qs = new URLSearchParams({product:productId}).toString();
+    const money = n => '₹' + Number(n).toLocaleString('en-IN');
+    const button = document.getElementById('demoContinue');
+    const actions = document.getElementById('demoActions');
+    const success = document.getElementById('testSuccess');
+    const failed = document.getElementById('testFailed');
+    button.disabled = true;
+    button.onclick = () => { if (!button.disabled) actions.hidden = false; };
+    success.href = 'success.html?' + qs;
+    failed.href = 'failed.html?' + qs;
+    document.querySelectorAll('[data-back]').forEach(e => e.href = 'product.html?id=' + encodeURIComponent(productId));
+    function fill(product, valid, message) {
+      document.querySelectorAll('[data-name]').forEach(e => e.textContent = valid ? product.name : (message || 'Product unavailable'));
+      document.querySelectorAll('[data-price]').forEach(e => e.textContent = valid ? money(product.price) : '—');
+      document.querySelectorAll('[data-category]').forEach(e => e.textContent = valid ? (product.category || 'DIGITAL PRODUCT') : 'DIGITAL PRODUCT');
+      button.disabled = !valid;
+      if (!valid) actions.hidden = true;
+    }
+    fill(null, false, 'Loading product details…');
+    try {
+      if (!productId) throw new Error('Product ID missing');
+      const catalog = window.VayenCatalog;
+      if (!catalog) throw new Error('Catalog script missing');
+      if (catalog.ready) await catalog.ready;
+      const product = catalog.get(productId, false);
+      const valid = !!product && product.price !== null && product.price !== '' && Number.isFinite(Number(product.price)) && Number(product.price) > 0;
+      fill(product, valid);
+      success.addEventListener('click', function(event) {
+        if (!valid) { event.preventDefault(); return; }
+        try { sessionStorage.setItem('vayenDemoPurchaseIntentV1', JSON.stringify({productId:productId,at:Date.now()})); } catch(e) {}
+      });
+    } catch (error) {
+      console.error('VAYEN payment product load failed:', error);
+      fill(null, false, 'Product unavailable');
+    }
+  })();
   </script>
  </body>
 </html>
