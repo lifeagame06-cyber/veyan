@@ -854,7 +854,7 @@ else {
             const id = o.productId;
             if (o.userId !== user.uid || o.paymentStatus !== 'paid' ||
                 o.verificationStatus !== 'verified' ||
-                typeof id !== 'string' || orderSnap.id !== id) return null;
+                typeof id !== 'string' || !id.trim()) return null;
             return { slug: id, name: o.productName || o.name || id.replace(/-/g, ' ') };
           }).filter(Boolean);
           bridge.setPurchases(verified);
