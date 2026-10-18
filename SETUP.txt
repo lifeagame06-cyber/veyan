@@ -1,0 +1,36 @@
+VAYEN — ORDERS EMAIL INTEGRATION (TEST MODE)
+
+FILES
+1. orders.html — replace your current orders.html in GitHub Pages.
+2. vayen-send-email.ts — replace code in Supabase Edge Function named vayen-send-email.
+
+IMPORTANT: Both files are needed. Uploading orders.html alone will NOT enable email.
+
+SUPABASE EDGE FUNCTION
+1. Open Edge Functions > vayen-send-email > Code.
+2. Replace the old secret-password test code with vayen-send-email.ts and Deploy.
+3. In function settings, keep "Verify JWT with legacy secret" OFF. This code validates Firebase ID tokens itself.
+4. Existing Edge Function secrets needed:
+   RESEND_API_KEY
+   VAYEN_TEST_EMAIL
+   FIREBASE_PROJECT_ID
+   FIREBASE_SERVICE_ACCOUNT
+5. VAYEN_EMAIL_TEST_SECRET is only for the previous manual test function; this replacement does not use it.
+6. Never expose API keys or service-account JSON in GitHub or browser code.
+
+CURRENT RESTRICTIONS
+- TEST MODE ONLY. Resend onboarding@resend.dev can send to the Resend account's authorized test email.
+- The Firebase signed-in user's VERIFIED email must match VAYEN_TEST_EMAIL.
+- A server-side Firestore order with matching userId, productId, paymentStatus=paid, verificationStatus=verified is required.
+- Without such an order, Send to Email correctly rejects the request. No fake/demo purchase qualifies.
+- Customer email delivery is NOT live yet. Production requires domain verification, a verified sender, durable rate limiting and end-to-end paid-order tests.
+- The email links to the VAYEN library rather than sending an expiring signed PDF link.
+- Confirm that the library URL https://lifeagame06-cyber.github.io/veyan/library.html matches your deployed repository path before production.
+- The order check scans up to 2000 records; production can use a purpose-built indexed query.
+- No actual purchase or delivery test was performed by this package builder.
+
+DEPLOY IN ORDER
+1. Deploy the Edge Function replacement.
+2. Upload orders.html to GitHub.
+3. Test with a verified Firebase user and a genuine verified order (when one exists).
+4. When the domain and Razorpay are connected, complete production sender/rate-limit configuration.

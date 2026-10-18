@@ -111,6 +111,7 @@ const money=n=>'₹'+Number(n || 0).toLocaleString('en-IN');
 const localRecords = records.slice();
 // Public Edge Function endpoint only. Never place secret keys in frontend code.
 const EBOOK_FUNCTION_URL = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/vayen-read-ebook';
+const EMAIL_FUNCTION_URL = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/vayen-send-email';
 let currentFirebaseUser = null;
 let cloudRecords = [];
 let recentActive = false;
@@ -143,12 +144,6 @@ function showModal(type, title, description, detail) {
   modalAction.onclick = close;
 }
 async function open(type, o) {
-  if (type === 'email') {
-    showModal('email', 'Send to Email',
-      'Email delivery is being prepared. Your purchase and email address remain safe.',
-      o.email || currentFirebaseUser?.email || 'Account email unavailable');
-    return;
-  }
   if (!currentFirebaseUser) {
     showModal('download', 'Sign in required',
       'Please sign in to access your purchased products.', o.name);
@@ -158,6 +153,46 @@ async function open(type, o) {
       o.verificationStatus !== 'verified' || !o.productId) {
     showModal('download', 'Purchase confirmation pending',
       'This product is not available for download until your purchase is confirmed.', o.name);
+    return;
+  }
+  if (type === 'email') {
+    showModal('email', 'Sending your email',
+      'Checking your purchase and preparing your access email…',
+      currentFirebaseUser.email || 'Your account email');
+    modalAction.disabled = true;
+    try {
+      const token = await currentFirebaseUser.getIdToken();
+      const response = await fetch(EMAIL_FUNCTION_URL, {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ productId: o.productId }),
+        cache: 'no-store'
+      });
+      if (!response.ok) {
+        if (response.status === 403) {
+          throw new Error('Email delivery is not available for this account yet.');
+        }
+        if (response.status === 401) {
+          throw new Error('Please sign in again to send your email.');
+        }
+        if (response.status === 429) {
+          throw new Error('Please wait before requesting another email.');
+        }
+        throw new Error('We could not send your email right now. Please try again later.');
+      }
+      modalTitle.textContent = 'Email sent';
+      modalDesc.textContent = 'Your secure access instructions have been sent to your account email.';
+      modalDetail.textContent = currentFirebaseUser.email || '';
+    } catch (error) {
+      modalTitle.textContent = 'Email unavailable';
+      modalDesc.textContent = error instanceof Error ? error.message : 'Please try again later.';
+    }
+    modalAction.disabled = false;
+    modalAction.textContent = 'Close';
+    modalAction.onclick = close;
     return;
   }
   if (!EBOOK_FUNCTION_URL) {
