@@ -957,7 +957,14 @@ const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
 const product = params.get('product');
 const isProductLogin = params.get('from') === 'get' && !!product && /^[a-zA-Z0-9_-]{1,120}$/.test(product);
-const isPlanLogin = params.get('from') === 'plan' && ['discount-pass','surprise-box','shopping-pass'].includes(params.get('plan'));
+const allowedPlans = ['discount-pass', 'surprise-box', 'shopping-pass'];
+// Preserve the chosen plan across sign-in and Google redirect flows.
+const urlPlan = params.get('from') === 'plan' ? params.get('plan') : null;
+if (allowedPlans.includes(urlPlan)) {
+  sessionStorage.setItem('vayenPendingPlanCheckout', urlPlan);
+}
+const pendingPlan = sessionStorage.getItem('vayenPendingPlanCheckout');
+const isPlanLogin = allowedPlans.includes(urlPlan) || allowedPlans.includes(pendingPlan);
 if (isProductLogin) sessionStorage.setItem('vayenPendingProduct', product);
 else sessionStorage.removeItem('vayenPendingProduct');
 if (params.get('from') === 'get') {
@@ -1011,9 +1018,12 @@ function finish(user, created=false) {
   // Account-specific names are managed by vayen-auth-sync.js on Home/Profile.
   $('vayenAuthLoader').hidden=false;
   const next=isProductLogin?product:null;
-  const plan=isPlanLogin?params.get('plan'):null;
+  const plan=isPlanLogin?(allowedPlans.includes(urlPlan)?urlPlan:pendingPlan):null;
   const destination=next?'payment.html?product='+encodeURIComponent(next):plan?'plan-checkout.html?plan='+encodeURIComponent(plan):'index.html';
-  setTimeout(()=>location.href=destination,created?3000:2200);
+  setTimeout(() => {
+    if (plan) sessionStorage.removeItem('vayenPendingPlanCheckout');
+    location.href = destination;
+  }, created ? 3000 : 2200);
 }
 setMode('signin');
 if (!firebaseConfig.apiKey) {

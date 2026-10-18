@@ -1,6 +1,8 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Plan Checkout | VAYEN</title><style>
+/* Keep account-only checkout hidden until Firebase confirms the session. */
+body.vayen-auth-pending .wrap, body.vayen-auth-pending .foot { visibility:hidden; }
 :root{font-family:Arial,sans-serif;color:#2b2228}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 95% 0%,#ead2d5,transparent 45%),radial-gradient(ellipse at 0% 95%,#e5c8c6,transparent 55%),#f8f3ef}a{text-decoration:none;color:inherit}.top{display:flex;align-items:center;justify-content:space-between;max-width:1110px;margin:20px auto;padding:22px 30px;border:1px solid white;border-radius:20px;background:#fffcfae8;box-shadow:0 14px 38px #56333b0b}.brand{font-size:22px;letter-spacing:5px;font-weight:900}.back{font-size:13px;color:#7e6871}.wrap{width:min(1070px,calc(100% - 32px));margin:55px auto}.eyebrow{color:#9b637a;font-size:11px;font-weight:800;letter-spacing:2px}.heading{font-size:clamp(36px,5vw,57px);letter-spacing:-2px;margin:12px 0}.sub{font-size:14px;color:#7f7378;line-height:1.7}.grid{display:grid;grid-template-columns:1.35fr .85fr;gap:22px;margin-top:32px}.card{background:#fffdfb;border:1px solid #e9dfe0;border-radius:24px;padding:31px;box-shadow:0 16px 45px #4b303812}.label{font-size:11px;font-weight:800;letter-spacing:1.5px;color:#966a7b}.name{font-size:29px;letter-spacing:-1px;margin:17px 0 12px}.muted{font-size:13px;color:#81747b;line-height:1.7}.rule{height:1px;background:#eee5e5;margin:24px 0}.row{display:flex;justify-content:space-between;gap:14px;align-items:center;margin:15px 0;font-size:13px}.price{font-size:32px;font-weight:800}.button{width:100%;display:block;padding:17px 20px;border:0;border-radius:13px;background:#2b2029;color:white;font-size:13px;font-weight:800;text-align:center;cursor:pointer}.note{margin-top:17px;padding:14px 15px;background:#f9eff0;border:1px solid #eedde0;border-radius:12px;color:#7a4f60;font-size:12px;line-height:1.6}.feature{padding:9px 0;font-size:13px;color:#554951}.feature::before{content:'✓';color:#9c687e;font-weight:800;margin-right:10px}.hidden{display:none}.error{color:#a13d50}.foot{text-align:center;font-size:11px;color:#9b8c91;margin:40px 0}@media(max-width:700px){.top{margin:8px 10px;padding:17px}.wrap{margin:30px auto}.grid{grid-template-columns:1fr;gap:14px;margin-top:24px}.card{padding:22px}.heading{letter-spacing:-1px}}
-</style></head><body><header class="top"><a class="brand" href="index.html">VAYEN</a><a class="back" href="plans.html">← Back to Plans</a></header><main class="wrap"><span class="eyebrow">VAYEN / EXCLUSIVE ACCESS</span><h1 class="heading">Plan checkout<span style="color:#b27a8d">.</span></h1><p class="sub">Review your selected plan and payment details before proceeding.</p><div class="grid"><section class="card"><span class="label">SELECTED PLAN</span><h2 class="name" id="name">—</h2><p class="muted" id="description"></p><div class="rule"></div><div id="benefits"></div><div class="rule"></div><p class="muted">Signed-in account: <strong id="email"></strong></p><a class="back" href="plans.html">← Change plan</a></section><aside class="card"><span class="label">ORDER SUMMARY</span><div class="row"><span>Plan price</span><strong id="price">—</strong></div><div class="row"><span>Additional charges</span><strong>₹0</strong></div><div class="rule"></div><div class="row"><strong>Total payable</strong><strong class="price" id="total">—</strong></div><button class="button" id="pay" type="button">Continue to Payment →</button><div class="note" id="status">Checkout preview only. Real payment collection and plan activation require a verified payment gateway. No charge will be made.</div></aside></div></main><footer class="foot">© 2026 VAYEN · Digital products, thoughtfully made.</footer><script type="module" id="vayen-plan-firebase-checkout">
+</style></head><body class="vayen-auth-pending"><header class="top"><a class="brand" href="index.html">VAYEN</a><a class="back" href="plans.html">← Back to Plans</a></header><main class="wrap"><span class="eyebrow">VAYEN / EXCLUSIVE ACCESS</span><h1 class="heading">Plan checkout<span style="color:#b27a8d">.</span></h1><p class="sub">Review your selected plan and payment details before proceeding.</p><div class="grid"><section class="card"><span class="label">SELECTED PLAN</span><h2 class="name" id="name">—</h2><p class="muted" id="description"></p><div class="rule"></div><div id="benefits"></div><div class="rule"></div><p class="muted">Signed-in account: <strong id="email"></strong></p><a class="back" href="plans.html">← Change plan</a></section><aside class="card"><span class="label">ORDER SUMMARY</span><div class="row"><span>Plan price</span><strong id="price">—</strong></div><div class="row"><span>Additional charges</span><strong>₹0</strong></div><div class="rule"></div><div class="row"><strong>Total payable</strong><strong class="price" id="total">—</strong></div><button class="button" id="pay" type="button">Continue to Payment →</button><div class="note" id="status">Checkout preview only. Real payment collection and plan activation require a verified payment gateway. No charge will be made.</div></aside></div></main><footer class="foot">© 2026 VAYEN · Digital products, thoughtfully made.</footer><script type="module" id="vayen-plan-firebase-checkout">
 import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 
@@ -43,6 +45,7 @@ pay.style.cursor = 'not-allowed';
 pay.style.opacity = '.65';
 
 if (!plan) {
+    document.body.classList.remove('vayen-auth-pending');
     el('name').textContent = 'Plan unavailable';
     status.textContent = 'Please choose a valid plan from the Plans page.';
 } else {
@@ -63,15 +66,20 @@ if (!plan) {
         const auth = getAuth(app);
         onAuthStateChanged(auth, user => {
             if (!user) {
+                sessionStorage.setItem('vayenPendingPlanCheckout', id);
                 location.replace('login.html?from=plan&plan=' + encodeURIComponent(id));
                 return;
             }
+            document.body.classList.remove('vayen-auth-pending');
+            sessionStorage.removeItem('vayenPendingPlanCheckout');
             el('email').textContent = user.email || 'Signed in';
             status.textContent = 'Your plan summary is ready. Payment will be available when secure checkout is enabled. No charge has been made.';
         }, () => {
+            document.body.classList.remove('vayen-auth-pending');
             status.textContent = 'We could not verify your account. Please refresh and try again.';
         });
     } catch (error) {
+        document.body.classList.remove('vayen-auth-pending');
         status.textContent = 'We could not open your checkout. Please refresh and try again.';
     }
 }
