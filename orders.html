@@ -40,7 +40,7 @@
 <a class="orders-brand" href="index.html">
         VAYEN
     </a>
-<a class="orders-back" href="account.html">
+<a class="orders-back" href="profile.html">
         ← Account
     </a>
 </header>
@@ -106,9 +106,9 @@
 (function(){
 const list=document.getElementById('ordersList'),empty=document.getElementById('ordersEmpty'),count=document.getElementById('ordersCount');
 let session=null;try{session=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null')}catch(e){}
-let records=[];if(session&&session.id){try{const value=JSON.parse(localStorage.getItem('vayenDemoOrdersV1_'+String(session.id))||'[]');if(Array.isArray(value))records=value.filter(o=>o&&o.status==='demo')}catch(e){}}
+let records=[]; // Only verified cloud records appear in purchase history.
 const money=n=>'₹'+Number(n || 0).toLocaleString('en-IN');
-const localRecords = records.slice();
+const localRecords = []; // Legacy preview orders are excluded from real purchase history.
 // Public Edge Function endpoint only. Never place secret keys in frontend code.
 const EBOOK_FUNCTION_URL = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/vayen-read-ebook';
 const EMAIL_FUNCTION_URL = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/vayen-send-email';
@@ -341,7 +341,7 @@ if (!getApps().length) {
             status.textContent = '';
         }, error => {
             console.error('Unable to load orders:', error);
-            status.textContent = '';
+            status.textContent = 'We could not load your orders. Please refresh and try again.';
         });
     });
 }
