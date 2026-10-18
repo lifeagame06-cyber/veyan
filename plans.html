@@ -593,19 +593,19 @@
 <span>Account</span>
 </a>
 </nav>
-<script id="vayen-plan-session-routing-fix">(function(){
- const allowed=new Set(['discount-pass','surprise-box','shopping-pass']);
- function signedIn(){try{const s=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null');return !!(s?.id&&s?.email)}catch(e){return false}}
- document.querySelectorAll('.vp-get[data-vayen-plan]').forEach(link=>{
-   const plan=link.dataset.vayenPlan;
-   if(!allowed.has(plan))return;
-   link.href=signedIn()?'plan-checkout.html?plan='+encodeURIComponent(plan):'login.html?from=plan&plan='+encodeURIComponent(plan);
-   link.addEventListener('click',e=>{
-     e.preventDefault();
-     location.href=(signedIn()?'plan-checkout.html?plan=':'login.html?from=plan&plan=')+encodeURIComponent(plan);
-   });
- });
-})();</script><script id="vy-shopping-ten-second-highlight-js">(function(){
+<script id="vayen-plan-checkout-routing">
+(function () {
+    const allowed = new Set(['discount-pass', 'surprise-box', 'shopping-pass']);
+
+    document.querySelectorAll('.vp-get[data-vayen-plan]').forEach(link => {
+        const plan = link.dataset.vayenPlan;
+        if (!allowed.has(plan)) return;
+
+        // The checkout page checks Firebase Auth before showing account details.
+        link.href = 'plan-checkout.html?plan=' + encodeURIComponent(plan);
+    });
+})();
+</script><script id="vy-shopping-ten-second-highlight-js">(function(){
  if(new URLSearchParams(location.search).get('highlight')!=='shopping-pass')return;
  const card=document.querySelector('.vp-shopping');if(!card)return;
  card.classList.add('vy-highlight-shopping');
