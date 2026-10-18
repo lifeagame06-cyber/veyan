@@ -361,7 +361,8 @@ a {
 <script>
    (async function () {
     const params = new URLSearchParams(location.search);
-    const productId = params.get('product') || '';
+    const rawProductId = params.get('product') || '';
+    const productId = /^[a-zA-Z0-9_-]{1,120}$/.test(rawProductId) ? rawProductId : '';
     const money = value => '₹' + Number(value).toLocaleString('en-IN');
 
     document.querySelectorAll('[data-payment]').forEach(element => {

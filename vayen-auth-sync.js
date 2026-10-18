@@ -29,6 +29,7 @@ let ready = false;
 let profileLoading = false;
 let remoteNames = null;
 let auth, db;
+let authRevision = 0;
 
 function showStatus(message) {
   const el = $('vayenProfileEditStatus');
@@ -70,25 +71,29 @@ function namesFor(user) {
   return remoteNames || localNames(user);
 }
 
-async function loadProfile(user) {
+async function loadProfile(user, isCurrent) {
   const ref = doc(db, 'users', user.uid);
   const snap = await getDoc(ref);
   const fallback = localNames(user);
   // Sign-in method is obtained from the verified Firebase ID token.
   const token = await getIdTokenResult(user);
+  if (!isCurrent()) return;
   const email = user.email || '';
   const loginMethod = token.claims.firebase?.sign_in_provider || 'unknown';
   if (snap.exists()) {
     const data = snap.data();
-    remoteNames = {
+    const resolvedNames = {
       dearName: typeof data.dearName === 'string' && data.dearName.trim()
         ? data.dearName : fallback.dearName
     };
+    if (!isCurrent()) return;
+    remoteNames = resolvedNames;
     // Do not overwrite names or original account creation date.
     if (data.email !== email || data.loginMethod !== loginMethod) {
       await setDoc(ref, { email, loginMethod, updatedAt: serverTimestamp() }, { merge: true });
     }
   } else {
+    if (!isCurrent()) return;
     remoteNames = fallback;
     await setDoc(ref, {
       fullName: nameFor(user),
@@ -99,7 +104,7 @@ async function loadProfile(user) {
       updatedAt: serverTimestamp()
     });
   }
-  localStorage.setItem('vayenHeaderName:' + user.uid, remoteNames.dearName);
+  if (isCurrent()) localStorage.setItem('vayenHeaderName:' + user.uid, remoteNames.dearName);
 }
 
 async function saveFields(fields) {
@@ -263,7 +268,9 @@ if (!firebaseConfig.apiKey) {
     auth = getAuth(app);
     db = getFirestore(app);
     onAuthStateChanged(auth, async user => {
+      const revision = ++authRevision;
       currentUser = user;
+      ready = false;
       remoteNames = null;
       profileLoading = !!user;
       syncLegacy(user);
@@ -274,13 +281,14 @@ if (!firebaseConfig.apiKey) {
         return;
       }
       try {
-        await loadProfile(user);
+        await loadProfile(user, () => authRevision === revision && currentUser?.uid === user.uid);
       } catch (e) {
         console.error('Profile loading failed:', e);
+        if (authRevision !== revision || currentUser?.uid !== user.uid) return;
         showStatus('Unable to load your profile. Please refresh and try again.');
         remoteNames = localNames(user);
       }
-      if (currentUser?.uid !== user.uid) return;
+      if (authRevision !== revision || currentUser?.uid !== user.uid) return;
       profileLoading = false;
       syncHome(user);
       syncProfile(user);
@@ -288,7 +296,11 @@ if (!firebaseConfig.apiKey) {
       if (onProfile) document.documentElement.classList.add('vayen-profile-auth-verified');
     }, err => {
       console.error(err);
+      ++authRevision;
       currentUser = null;
+      remoteNames = null;
+      profileLoading = false;
+      clearLegacy();
       ready = true;
       syncHome(null);
       showStatus('Unable to verify your account. Please refresh and try again.');

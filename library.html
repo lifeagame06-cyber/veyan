@@ -386,7 +386,13 @@
 
     // Purchases must come from verified orders, not local browser data.
     function purchases() {
-        return verifiedPurchases.filter(item => item && typeof item.slug === "string" && item.slug.length > 0);
+         const unique = new Map();
+         for (const item of verifiedPurchases) {
+             if (item && typeof item.slug === 'string' && item.slug.trim()) {
+                 unique.set(item.slug, item);
+             }
+         }
+         return Array.from(unique.values());
     }
 
     function openModal(title, help, fields, action) {
@@ -542,7 +548,7 @@
                             <strong>${safe(label(item))}</strong>
                             <div class="price">Purchased</div>
                             <div class="product-foot">
-                                <a class="btn" href="product.html?id=${encodeURIComponent(item.slug)}">View Product →</a>
+                                <a class="btn" href="orders.html">Access in My Orders →</a>
                             </div>
                         </div>
                     </article>
@@ -820,9 +826,12 @@ else {
       const targetUid=uid;
       const data=JSON.parse(JSON.stringify(e.detail));
       writeQueue=writeQueue.catch(()=>{}).then(async()=>{
-        if(uid!==targetUid)return;
+         if(uid!==targetUid || auth.currentUser?.uid!==targetUid)return;
         await setDoc(doc(db,'libraries',targetUid),{saved:data.saved,folders:data.folders,updatedAt:serverTimestamp()},{merge:true});
-      }).catch(err=>{console.error('Library save failed:',err);info('Could not sync your latest changes. Please check your connection and refresh.');});
+       }).catch(err=>{
+         console.error('Library save failed:',err);
+         if(uid===targetUid) info('Could not sync your latest changes. Please check your connection and refresh.');
+       });
     });
     onAuthStateChanged(auth,async user=>{
       const token=++version;uid=null;bridge.reset();
