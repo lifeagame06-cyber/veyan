@@ -109,6 +109,9 @@ let session=null;try{session=JSON.parse(sessionStorage.getItem('vayenDemoLoginSe
 let records=[];if(session&&session.id){try{const value=JSON.parse(localStorage.getItem('vayenDemoOrdersV1_'+String(session.id))||'[]');if(Array.isArray(value))records=value.filter(o=>o&&o.status==='demo')}catch(e){}}
 const money=n=>'₹'+Number(n || 0).toLocaleString('en-IN');
 const localRecords = records.slice();
+// Public Edge Function endpoint only. Never place secret keys in frontend code.
+const EBOOK_FUNCTION_URL = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/vayen-read-ebook';
+let currentFirebaseUser = null;
 let cloudRecords = [];
 let recentActive = false;
 function refreshRecords() {
@@ -128,13 +131,101 @@ const safe=(s)=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&l
 const params=new URLSearchParams(location.search),highlight=params.get('highlight');
 const modal=document.getElementById('vyOrderModal'),modalTitle=document.getElementById('vyModalTitle'),modalDesc=document.getElementById('vyModalDescription'),modalDetail=document.getElementById('vyModalDetail'),modalAction=document.getElementById('vyModalAction'),modalIcon=document.getElementById('vyModalIcon');
 function close(){modal.hidden=true;document.body.style.overflow=''}
-function open(type,o){
- modal.hidden=false;document.body.style.overflow='hidden';modalIcon.textContent=type==='download'?'↓':'✉';
- modalTitle.textContent=type==='download'?'Download product':'Send to Email';
- modalDesc.textContent=type==='download'?'Downloads are not available for this order yet. Please check back when your product is ready.':'Email delivery is not available yet. Your account email is shown below for reference.';
- modalDetail.textContent=type==='download'?o.name+' · Order #'+o.id:(session&&session.email||o.email||'Account email unavailable');
- modalAction.textContent='Close';modalAction.onclick=close;
+function showModal(type, title, description, detail) {
+  modal.hidden = false;
+  document.body.style.overflow = 'hidden';
+  modalIcon.textContent = type === 'download' ? '↓' : '✉';
+  modalTitle.textContent = title;
+  modalDesc.textContent = description;
+  modalDetail.textContent = detail || '';
+  modalAction.textContent = 'Close';
+  modalAction.disabled = false;
+  modalAction.onclick = close;
 }
+async function open(type, o) {
+  if (type === 'email') {
+    showModal('email', 'Send to Email',
+      'Email delivery is being prepared. Your purchase and email address remain safe.',
+      o.email || currentFirebaseUser?.email || 'Account email unavailable');
+    return;
+  }
+  if (!currentFirebaseUser) {
+    showModal('download', 'Sign in required',
+      'Please sign in to access your purchased products.', o.name);
+    return;
+  }
+  if (o.source !== 'cloud' || o.paymentStatus !== 'paid' ||
+      o.verificationStatus !== 'verified' || !o.productId) {
+    showModal('download', 'Purchase confirmation pending',
+      'This product is not available for download until your purchase is confirmed.', o.name);
+    return;
+  }
+  if (!EBOOK_FUNCTION_URL) {
+    showModal('download', 'Download coming soon',
+      'Secure ebook access is being prepared. Please check back later.', o.name);
+    return;
+  }
+  showModal('download', 'Preparing your ebook',
+    'Checking your purchase and preparing secure access…', o.name);
+  modalAction.disabled = true;
+  try {
+    const token = await currentFirebaseUser.getIdToken();
+    const response = await fetch(EBOOK_FUNCTION_URL, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ productId: o.productId }),
+      cache: 'no-store'
+    });
+    if (!response.ok) {
+      if (response.status === 401 || response.status === 403) {
+        throw new Error('Your purchase could not be confirmed for this ebook.');
+      }
+      throw new Error('Your ebook is not ready yet. Please try again later.');
+    }
+    const result = await response.json();
+    const link = new URL(result.url);
+    if (link.protocol !== 'https:' || link.origin !== 'https://ajctjuyvdguzwcvesvio.supabase.co' || !link.pathname.startsWith('/storage/v1/object/sign/vayen-ebooks/')) {
+      throw new Error('Secure access is unavailable.');
+    }
+    modalTitle.textContent = 'Your ebook is ready';
+    modalDesc.textContent = 'This private download link is available for a short time.';
+    modalAction.disabled = false;
+    modalAction.textContent = 'Open ebook';
+    modalAction.onclick = () => window.open(link.href, '_blank', 'noopener,noreferrer');
+  } catch (error) {
+    modalTitle.textContent = 'Access unavailable';
+    modalDesc.textContent = error instanceof Error ? error.message : 'Please try again later.';
+    modalAction.textContent = 'Close';
+    modalAction.disabled = false;
+    modalAction.onclick = close;
+  }
+}
+
+// Developer-only negative authorization test: no order is created or modified.
+// Run in the browser console after configuring the public function endpoint:
+// await window.vayenTestEbookAccess('youtube-creator-system')
+window.vayenTestEbookAccess = async (productId = 'youtube-creator-system') => {
+    if (!EBOOK_FUNCTION_URL) return { error: 'Set EBOOK_FUNCTION_URL in orders.html first.' };
+    if (!currentFirebaseUser) return { error: 'Sign in to VAYEN first.' };
+    const response = await fetch(EBOOK_FUNCTION_URL, {
+        method: 'POST',
+        headers: {
+            Authorization: 'Bearer ' + await currentFirebaseUser.getIdToken(),
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ productId }),
+        cache: 'no-store'
+    });
+    // Never print the returned signed URL into logs.
+    return { status: response.status, allowed: response.ok };
+};
+
+window.addEventListener('vayen-orders-auth', event => {
+  currentFirebaseUser = event.detail || null;
+});
 document.getElementById('vyModalClose').onclick=close;modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close()});
 function render(recent){const shown=recent?records.filter(o=>Date.now()-new Date(o.createdAt).getTime()<30*86400000):records;
  list.innerHTML=shown.map(o=>`<article class="vy-demo-order" data-order="${safe(o.id)}"><div class="vy-order-art">V</div><div class="vy-order-info"><div class="vy-order-meta"><span class="vy-order-pill">ORDER</span><span class="vy-order-ready">Order details</span></div><h2>${safe(o.name)}</h2><p>${safe(o.category)} · #${safe(o.id)}</p><small>${safe(new Date(o.createdAt).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'}))}</small></div><strong class="vy-order-price">${money(o.price)}</strong><div class="vy-order-actions"><button type="button" data-action="download" data-id="${safe(o.id)}">↓ Download</button><button type="button" data-action="email" data-id="${safe(o.id)}">✉ Send to Email</button></div></article>`).join('');
@@ -170,6 +261,7 @@ if (!getApps().length) {
     let stopListening = null;
 
     onAuthStateChanged(auth, user => {
+        window.dispatchEvent(new CustomEvent('vayen-orders-auth', { detail: user }));
         if (stopListening) {
             stopListening();
             stopListening = null;
@@ -198,6 +290,10 @@ if (!getApps().length) {
                     category: String(data.category || 'DIGITAL PRODUCT'),
                     price: Number(data.price || 0),
                     status: String(data.status || 'record'),
+                    source: 'cloud',
+                    productId: typeof data.productId === 'string' ? data.productId : '',
+                    paymentStatus: String(data.paymentStatus || ''),
+                    verificationStatus: String(data.verificationStatus || ''),
                     email: String(data.email || user.email || ''),
                     createdAt: Number.isNaN(date.getTime())
                         ? new Date(0).toISOString()
