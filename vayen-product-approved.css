@@ -144,3 +144,10 @@ body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-prompt-result{border-co
 body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-prompt-result .ap-demo-eyebrow{color:#85e5cb!important}
 body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-prompt-result small{display:block;color:#aab9bb;font-size:10px;line-height:1.45;margin-top:8px}
 body.vayen-approved[data-ap-product="ai-prompt-box"] #ap-examples{scroll-margin-top:85px}
+
+/* Compact AI example: match the approved four-card row without tall stacked panels. */
+body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-prompt-compact{gap:6px;margin-top:8px}
+body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-prompt-compact>div{padding:8px 10px;border-radius:8px}
+body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-prompt-compact .ap-demo-eyebrow{font-size:9px;margin-bottom:3px}
+body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-prompt-compact p{font-size:12px!important;line-height:1.4!important}
+body.vayen-approved[data-ap-product="ai-prompt-box"] #ap-examples .ap-card-intro{margin-bottom:8px!important}
