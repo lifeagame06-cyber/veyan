@@ -511,6 +511,46 @@ body:has(.vayen-collection-final) {
 .vayen-collection-final .vc-world-list .vc-world-save-wrap > .vayen-save-heart:hover {transform:translateY(-50%) scale(1.06)}
 .vayen-collection-final .vc-world-list .vc-world-save-wrap > button[data-world]::after {right:43px}
 </style>
+<style id="vayen-product-covers-integration">
+/* VAYEN 16 product-cover integration — isolated to Collection */
+.vayen-collection-final .vc-card.vc-mid:has(.vc-cover-wrap) {
+    min-height: 0;
+    padding: 18px 20px 21px;
+    gap: 12px;
+}
+.vayen-collection-final .vc-mid .vc-cover-wrap {
+    width: 100%; aspect-ratio: 16 / 9;
+    border-radius: 15px; overflow: hidden;
+    background: #15121c; flex: none;
+    box-shadow: 0 8px 22px rgba(20, 15, 29, .12);
+}
+.vayen-collection-final .vc-mid .vc-cover {
+    display: block; width: 100%; height: 100%;
+    object-fit: contain; object-position: center;
+}
+.vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vc-copy { margin-top: 0; }
+.vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vc-copy h3 { font-size: clamp(22px, 2.4vw, 28px); margin: 6px 0; }
+.vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vc-bottom { margin-top: 6px; }
+.vayen-collection-final .vc-world-list button:has(.vc-world-cover) {
+    display: flex; flex-direction: column; gap: 9px;
+    padding: 9px 10px 13px; min-width: 0;
+    align-items: stretch; justify-content: flex-start;
+}
+.vayen-collection-final .vc-world-cover {
+    display: block; width: 100%; height: auto;
+    aspect-ratio: 16 / 9; object-fit: contain;
+    border-radius: 9px; background: #16121b;
+}
+.vayen-collection-final .vc-world-name {
+    display: block; min-width: 0; padding-right: 15px;
+    line-height: 1.35; font-weight: 700;
+}
+@media(max-width:768px) {
+    .vayen-collection-final .vc-mid:has(.vc-cover-wrap) { padding: 15px 16px 19px; }
+    .vayen-collection-final .vc-world-list button:has(.vc-world-cover) { padding: 8px 8px 12px; gap: 8px; }
+    .vayen-collection-final .vc-world-name { font-size: 10px; }
+}
+</style>
 </head>
 <body>
 <main class="vayen-collection-final">
@@ -630,6 +670,7 @@ body:has(.vayen-collection-final) {
          PREMIUM
         </span>
 </div>
+<div class="vc-cover-wrap"><img class="vc-cover" src="images/product-covers/animation-mastery.png" alt="Animation Mastery cover" loading="lazy" decoding="async"></div>
 <div class="vc-copy">
 <small>
          LEARN ANIMATION
@@ -659,6 +700,7 @@ body:has(.vayen-collection-final) {
          PREMIUM
         </span>
 </div>
+<div class="vc-cover-wrap"><img class="vc-cover" src="images/product-covers/social-media-tips.png" alt="Social Media Tips cover" loading="lazy" decoding="async"></div>
 <div class="vc-copy">
 <small>
          GROW YOUR PRESENCE
@@ -688,6 +730,7 @@ body:has(.vayen-collection-final) {
          PREMIUM
         </span>
 </div>
+<div class="vc-cover-wrap"><img class="vc-cover" src="images/product-covers/ai-prompt-box.png" alt="Ai Prompt Box cover" loading="lazy" decoding="async"></div>
 <div class="vc-copy">
 <small>
          3,000+ READY-TO-USE PROMPTS
@@ -717,6 +760,7 @@ body:has(.vayen-collection-final) {
          PREMIUM
         </span>
 </div>
+<div class="vc-cover-wrap"><img class="vc-cover" src="images/product-covers/build-your-own-ai.png" alt="Build Your Own Ai cover" loading="lazy" decoding="async"></div>
 <div class="vc-copy">
 <small>
          CREATE YOUR AI ASSISTANT
@@ -755,41 +799,53 @@ body:has(.vayen-collection-final) {
 </div>
 <div class="vc-world-list" id="collectionWorlds">
 <button data-world="01" type="button">
-        Reels Growth
-    </button>
+<img class="vc-world-cover" src="images/product-covers/reels-growth.png" alt="" loading="lazy" decoding="async">
+<span class="vc-world-name">Reels Growth</span>
+</button>
 <button data-world="02" type="button">
-        Web Creator
-    </button>
+<img class="vc-world-cover" src="images/product-covers/web-creator.png" alt="" loading="lazy" decoding="async">
+<span class="vc-world-name">Web Creator</span>
+</button>
 <button data-world="03" type="button">
-        YouTube Algorithm
-    </button>
+<img class="vc-world-cover" src="images/product-covers/youtube-algorithm.png" alt="" loading="lazy" decoding="async">
+<span class="vc-world-name">YouTube Algorithm</span>
+</button>
 <button data-world="04" type="button">
-        How to Earn from Social Media
-    </button>
+<img class="vc-world-cover" src="images/product-covers/earn-from-social-media.png" alt="" loading="lazy" decoding="async">
+<span class="vc-world-name">How to Earn from Social Media</span>
+</button>
 <button data-world="05" type="button">
-        Creator Studio
-    </button>
+<img class="vc-world-cover" src="images/product-covers/creator-studio.png" alt="" loading="lazy" decoding="async">
+<span class="vc-world-name">Creator Studio</span>
+</button>
 <button data-world="06" type="button">
-        Business Launch
-    </button>
+<img class="vc-world-cover" src="images/product-covers/business-launch.png" alt="" loading="lazy" decoding="async">
+<span class="vc-world-name">Business Launch</span>
+</button>
 <button data-world="07" type="button">
-        Content Strategy
-    </button>
+<img class="vc-world-cover" src="images/product-covers/content-strategy.png" alt="" loading="lazy" decoding="async">
+<span class="vc-world-name">Content Strategy</span>
+</button>
 <button data-world="08" type="button">
-        How to Design Thumbnails
-    </button>
+<img class="vc-world-cover" src="images/product-covers/design-thumbnails.png" alt="" loading="lazy" decoding="async">
+<span class="vc-world-name">How to Design Thumbnails</span>
+</button>
 <button data-world="09" type="button">
-        How to Edit Videos
-    </button>
+<img class="vc-world-cover" src="images/product-covers/edit-videos.png" alt="" loading="lazy" decoding="async">
+<span class="vc-world-name">How to Edit Videos</span>
+</button>
 <button data-world="10" type="button">
-        AI Automation
-    </button>
+<img class="vc-world-cover" src="images/product-covers/ai-automation.png" alt="" loading="lazy" decoding="async">
+<span class="vc-world-name">AI Automation</span>
+</button>
 <button data-world="11" type="button">
-        Seller &amp; Commerce
-    </button>
+<img class="vc-world-cover" src="images/product-covers/seller-commerce.png" alt="" loading="lazy" decoding="async">
+<span class="vc-world-name">Seller &amp; Commerce</span>
+</button>
 <button data-world="12" type="button">
-        Build Your Personal Brand
-    </button>
+<img class="vc-world-cover" src="images/product-covers/personal-brand.png" alt="" loading="lazy" decoding="async">
+<span class="vc-world-name">Build Your Personal Brand</span>
+</button>
 </div>
 </div>
 
@@ -865,7 +921,7 @@ for(const a of document.querySelectorAll('a[href*="product.html?id="]')){
 const worldIds=C.WORLDS;
 for(const button of document.querySelectorAll('#collectionWorlds button')){
   const i=Number(button.dataset.world)-1;const row=C.records().find(p=>(p.slug||p.id)===worldIds[i]);
-  if(!row || row.status!=='published')button.remove();else button.textContent=row.name;
+  if(!row || row.status!=='published')button.remove();else { const label=button.querySelector(".vc-world-name"); if(label) label.textContent=row.name; else button.textContent=row.name; }
 }
 const worldList=document.getElementById('collectionWorlds');
 if(worldList){for(const row of C.list('Worlds')){

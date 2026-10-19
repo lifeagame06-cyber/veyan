@@ -12209,3 +12209,43 @@ body.vayen-search-open{overflow:hidden}
   body.product-body .product-mobile-get { left: 0; right: 0; width: 100%; max-width: 100%; box-sizing: border-box; transform: none; padding-left: max(16px,env(safe-area-inset-left)); padding-right: max(16px,env(safe-area-inset-right)); }
   body.product-body .product-mobile-get > * { min-width: 0; }
 }
+
+
+/* VAYEN 16 product-cover integration — isolated to Collection */
+.vayen-collection-final .vc-card.vc-mid:has(.vc-cover-wrap) {
+    min-height: 0;
+    padding: 18px 20px 21px;
+    gap: 12px;
+}
+.vayen-collection-final .vc-mid .vc-cover-wrap {
+    width: 100%; aspect-ratio: 16 / 9;
+    border-radius: 15px; overflow: hidden;
+    background: #15121c; flex: none;
+    box-shadow: 0 8px 22px rgba(20, 15, 29, .12);
+}
+.vayen-collection-final .vc-mid .vc-cover {
+    display: block; width: 100%; height: 100%;
+    object-fit: contain; object-position: center;
+}
+.vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vc-copy { margin-top: 0; }
+.vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vc-copy h3 { font-size: clamp(22px, 2.4vw, 28px); margin: 6px 0; }
+.vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vc-bottom { margin-top: 6px; }
+.vayen-collection-final .vc-world-list button:has(.vc-world-cover) {
+    display: flex; flex-direction: column; gap: 9px;
+    padding: 9px 10px 13px; min-width: 0;
+    align-items: stretch; justify-content: flex-start;
+}
+.vayen-collection-final .vc-world-cover {
+    display: block; width: 100%; height: auto;
+    aspect-ratio: 16 / 9; object-fit: contain;
+    border-radius: 9px; background: #16121b;
+}
+.vayen-collection-final .vc-world-name {
+    display: block; min-width: 0; padding-right: 15px;
+    line-height: 1.35; font-weight: 700;
+}
+@media(max-width:768px) {
+    .vayen-collection-final .vc-mid:has(.vc-cover-wrap) { padding: 15px 16px 19px; }
+    .vayen-collection-final .vc-world-list button:has(.vc-world-cover) { padding: 8px 8px 12px; gap: 8px; }
+    .vayen-collection-final .vc-world-name { font-size: 10px; }
+}
