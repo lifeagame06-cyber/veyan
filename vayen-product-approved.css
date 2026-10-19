@@ -125,3 +125,7 @@ body.vayen-approved[data-ap-product="build-your-own-ai"] .ap-slide-art{backgroun
     padding-bottom: 120px !important;
   }
 }
+
+/* AI Prompt Box: distinct content emphasis, approved layout unchanged */
+body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-ai-count{display:inline-flex;align-items:center;margin:12px 0 4px;padding:8px 12px;border-radius:9px;border:1px solid rgba(167,139,250,.48);background:rgba(110,70,210,.17);color:#d9cbff;font-size:12px;font-weight:850;letter-spacing:.035em}
+body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-ai-use{color:#c8c4dc;font-size:13px;line-height:1.5;margin:7px 0 0}
