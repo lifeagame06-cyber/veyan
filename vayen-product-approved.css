@@ -26,3 +26,32 @@ body.vayen-approved .ap-cards{display:grid;grid-template-columns:1.03fr 1fr 1.17
 @media(max-width:750px){body.vayen-approved .ap-hero{grid-template-columns:1fr}body.vayen-approved .ap-cover{height:min(70vw,420px)}body.vayen-approved .ap-info{padding:16px}body.vayen-approved .ap-title{font-size:clamp(27px,7vw,40px)}body.vayen-approved .ap-price{font-size:25px;margin-top:24px}body.vayen-approved .ap-subtitle{font-size:13px}body.vayen-approved .ap-tabs{justify-content:flex-start}body.vayen-approved .ap-cards{grid-template-columns:1fr 1fr}body.vayen-approved .ap-more{grid-template-columns:1fr}body.vayen-approved .ap-thumb{height:65px}}
 @media(max-width:470px){body.vayen-approved .ap-heading{grid-template-columns:1fr}body.vayen-approved .ap-price{margin:8px 0 0}body.vayen-approved .ap-price small{text-align:left}body.vayen-approved .ap-cards{grid-template-columns:1fr}body.vayen-approved .ap-editions{grid-template-columns:1fr 1fr}body.vayen-approved .ap-edition{padding:8px;gap:6px}body.vayen-approved .ap-edition small{font-size:10px}body.vayen-approved .ap-actions{grid-template-columns:1fr 90px}body.vayen-approved .ap-benefits{grid-template-columns:1fr 1fr}}
 @media(prefers-reduced-motion:reduce){body.vayen-approved *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* VAYEN approved reference — interaction and legibility corrections */
+body.vayen-approved .ap-header-nav{display:flex;align-items:center;gap:32px;margin-right:auto;margin-left:clamp(25px,5vw,80px)}
+body.vayen-approved .ap-header-nav a,body.vayen-approved .ap-breadcrumb a{color:#e9e9f1;text-decoration:none;transition:color .2s ease}
+body.vayen-approved .ap-header-nav a:hover,body.vayen-approved .ap-breadcrumb a:hover{color:var(--ap-accent)}
+body.vayen-approved .ap-tabs a.active{border-color:var(--ap-accent);color:#fff}
+body.vayen-approved .ap-tabs a:first-child:not(.active){border-color:transparent}
+body.vayen-approved .ap-tabs a:hover{color:var(--ap-accent)}
+body.vayen-approved .ap-thumb.ap-cover-thumb span{display:none!important}
+body.vayen-approved .ap-thumb.ap-cover-thumb{background:radial-gradient(circle at 55% 35%,var(--ap-glow),transparent 70%),#17121b}
+body.vayen-approved .ap-slide-art b{font-size:35px;line-height:1.2}
+body.vayen-approved .ap-slide-art span{display:block;margin-top:8px;font-size:12px;max-width:180px;overflow-wrap:break-word}
+body.vayen-approved .ap-workflow-list{padding-left:22px;margin:10px 0 0;display:grid;gap:12px}
+body.vayen-approved .ap-workflow-list li{color:var(--ap-accent);padding-left:4px;font-size:13px}
+body.vayen-approved .ap-workflow-list strong{display:block;color:#fff;font-size:14px;margin-bottom:3px}
+body.vayen-approved .ap-workflow-list p{color:#cbd0d9;font-size:13px;line-height:1.55;margin:0}
+body.vayen-approved .ap-faq-item{border-bottom:1px solid #29313e;padding:11px 0;color:#fff}
+body.vayen-approved .ap-faq-item summary{cursor:pointer;font-size:13px;font-weight:700;line-height:1.5}
+body.vayen-approved .ap-faq-item summary:hover{color:var(--ap-accent)}
+body.vayen-approved .ap-faq-item p{padding-top:9px!important;color:#cbd0d9!important}
+body.vayen-approved [id^="ap-"]{scroll-margin-top:88px}
+body.vayen-approved .ap-info,body.vayen-approved .ap-cover,body.vayen-approved .ap-card{box-shadow:0 12px 35px rgba(0,0,0,.08)}
+body.vayen-approved .ap-buy,body.vayen-approved .ap-thumb,body.vayen-approved .ap-cover-arrow{transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+body.vayen-approved .ap-buy:hover,body.vayen-approved .ap-thumb:hover{transform:translateY(-2px)}
+body.vayen-approved .ap-cover-arrow:hover{transform:scale(1.08)}
+body.vayen-approved .ap-thumb:focus-visible,body.vayen-approved .ap-tabs a:focus-visible,body.vayen-approved .ap-header-nav a:focus-visible{outline:2px solid var(--ap-accent);outline-offset:3px}
+@media(max-width:750px){body.vayen-approved .ap-header-nav{margin-left:16px;gap:14px}body.vayen-approved .ap-header-nav a{font-size:12px}body.vayen-approved .product-brand{font-size:23px!important}}
+@media(max-width:430px){body.vayen-approved .ap-header-nav{gap:9px;margin-left:10px}body.vayen-approved .product-account{display:none!important}body.vayen-approved .ap-header-nav a{font-size:11px}}
+@media(prefers-reduced-motion:reduce){body.vayen-approved .ap-buy,body.vayen-approved .ap-thumb,body.vayen-approved .ap-cover-arrow{transition:none}}
