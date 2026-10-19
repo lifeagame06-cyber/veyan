@@ -55,3 +55,16 @@ body.vayen-approved .ap-thumb:focus-visible,body.vayen-approved .ap-tabs a:focus
 @media(max-width:750px){body.vayen-approved .ap-header-nav{margin-left:16px;gap:14px}body.vayen-approved .ap-header-nav a{font-size:12px}body.vayen-approved .product-brand{font-size:23px!important}}
 @media(max-width:430px){body.vayen-approved .ap-header-nav{gap:9px;margin-left:10px}body.vayen-approved .product-account{display:none!important}body.vayen-approved .ap-header-nav a{font-size:11px}}
 @media(prefers-reduced-motion:reduce){body.vayen-approved .ap-buy,body.vayen-approved .ap-thumb,body.vayen-approved .ap-cover-arrow{transition:none}}
+
+/* VAYEN v3 — small, reference-preserving polish */
+body.vayen-approved .ap-slider-top>span:nth-child(3){display:none!important}
+body.vayen-approved .ap-card-intro{font-size:13px!important;line-height:1.55!important;color:#aeb8c6!important;margin:3px 0 15px!important;max-width:38ch}
+body.vayen-approved .ap-card{transition:border-color .32s ease,box-shadow .32s ease,background-color .32s ease!important}
+body.vayen-approved .ap-card.ap-target-highlight,body.vayen-approved .ap-hero.ap-target-highlight{border-color:var(--ap-accent)!important;box-shadow:0 0 0 1px var(--ap-accent),0 0 28px var(--ap-glow)!important;background-color:#151a23!important}
+body.vayen-approved .ap-tabs a{transition:color .2s ease,border-color .2s ease,background-color .2s ease}
+body.vayen-approved .ap-tabs a.active{background:linear-gradient(0deg,var(--ap-glow),transparent 70%);border-bottom-color:var(--ap-accent)!important}
+body.vayen-approved .ap-workflow-list li{list-style-position:outside!important;padding-left:10px!important}
+body.vayen-approved .ap-workflow-list li::marker{font-weight:800;color:var(--ap-accent)}
+body.vayen-approved .ap-workflow-list strong{display:block!important;margin:0 0 6px!important}
+body.vayen-approved .ap-workflow-list p{display:block!important;margin:0!important;line-height:1.6!important}
+@media(max-width:750px){body.vayen-approved .ap-card-intro{max-width:none}body.vayen-approved [id^="ap-"]{scroll-margin-top:70px}}
