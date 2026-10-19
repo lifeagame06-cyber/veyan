@@ -93,3 +93,35 @@ body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-slide-art{background:li
 body.vayen-approved[data-ap-product="animation-mastery"] .ap-slide-art{background:linear-gradient(135deg,#352052,#191324)!important}
 body.vayen-approved[data-ap-product="build-your-own-ai"] .ap-slide-art{background:linear-gradient(135deg,#12433f,#0b1d2d)!important}
 @media(max-width:750px){body.vayen-approved .ap-workflow-list>li{grid-template-columns:30px minmax(0,1fr)!important;padding:10px!important}}
+
+/* VAYEN v4.1 — Mobile only: one purchase action, matching product theme. */
+@media (max-width: 768px) {
+  body.vayen-approved .ap-actions {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+  body.vayen-approved .ap-actions .ap-buy {
+    display: none !important;
+  }
+  body.vayen-approved .ap-actions .ap-save {
+    min-height: 42px;
+    width: 100%;
+    border-color: var(--ap-edge, #755b38);
+    color: var(--ap-accent, #ffbd66);
+  }
+  body.vayen-approved .product-mobile-get {
+    background: rgba(12, 15, 22, .96) !important;
+    border: 1px solid var(--ap-edge, #755b38) !important;
+    box-shadow: 0 -4px 28px rgba(0,0,0,.35), 0 0 18px var(--ap-glow, transparent) !important;
+    z-index: 1000 !important;
+  }
+  body.vayen-approved .product-mobile-get .product-get {
+    background: var(--ap-accent, #ffbd66) !important;
+    color: #111318 !important;
+    border: 0 !important;
+    font-weight: 850 !important;
+  }
+  body.vayen-approved .product-page {
+    padding-bottom: 120px !important;
+  }
+}
