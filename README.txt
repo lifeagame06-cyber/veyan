@@ -1,13 +1,12 @@
-VAYEN PWA INSTALL FIX
+VAYEN PRODUCT DETAIL — INSTALL
 
-1. Replace profile.html in your website root with the file from this ZIP.
-2. Ensure manifest.json is in the same website root.
-3. Confirm images/icon-192.png and images/icon-512.png actually exist and are valid PNG files.
-4. Confirm service-worker.js exists at the website root and registration works (already referenced by index.html).
-5. Publish to HTTPS and reload the live profile page.
+1. Back up your existing product.html.
+2. Copy product.html from this ZIP into your existing VAYEN website folder, replacing the old file.
+3. Keep style.css, vayen-catalog.js, vayen-firebase-config.js and your images/ folder in their existing places.
+4. Open through your local website server or GitHub Pages with a real product URL, e.g. product.html?id=vlogging-mastery.
 
-This adds the missing manifest reference to profile.html and preserves existing code.
-The install button already listens for Chrome's beforeinstallprompt event.
-Browsers only allow direct installation prompts when their eligibility criteria are met.
-No website can force the native prompt when the browser does not provide that event.
-If the prompt still does not appear, provide service-worker.js and both icon files for verification.
+The layout is dark, responsive, compact and themed by product. It keeps the current catalog and purchase navigation. Three preview tiles cycle automatically and are textual concept previews, not actual PDF screenshot images. Real product-specific preview imagery must be supplied to reproduce the image mockup exactly.
+
+The design has NO invented old prices: original/regular prices have not been verified. Discounts can only be displayed after real comparison prices are provided.
+
+Do not publish until you have checked all products, prices, mobile layout and checkout in your actual website environment.
