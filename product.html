@@ -235,6 +235,40 @@ body[data-vayen-product="build-your-own-ai"] .product-intro{background:linear-gr
 @media(max-width:650px){body.product-body .product-page{padding:12px 12px 88px!important}body.product-body .vayen-gallery{display:grid!important;grid-template-columns:1fr!important;height:auto!important}body.product-body .vayen-cover-wrap,body.product-body .vayen-cover-wrap .product-visual{min-height:310px!important;height:310px!important}body.product-body .vayen-thumbs{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}body.product-body .vayen-thumb{height:88px!important;padding:9px!important}body.product-body .vayen-thumb small{font-size:8px!important}body.product-body .vayen-thumb strong{font-size:11px!important}body.product-body .product-intro{padding:17px!important}body.product-body .product-detail-points{grid-template-columns:1fr 1fr!important}body.product-body .product-contents,body.product-body .product-included,body.product-body .product-preview,body.product-body .product-result,body.product-body .product-final,body.product-body .vayen-showcase{padding:18px!important}}
 @media(prefers-reduced-motion:reduce){body.product-body .vayen-auto-progress>span{transition:none!important}}
 </style>
+
+<style id="vayen-v6-actual-layout">
+/* The screenshot reference: one coherent hero, cover on left, changing lessons on right. */
+body.product-body .product-page{max-width:1370px!important;margin:0 auto!important}
+body.product-body .product-hero{display:grid!important;grid-template-columns:minmax(0,.88fr) minmax(0,1.22fr)!important;gap:16px!important;align-items:stretch!important}
+body.product-body .product-hero .vayen-gallery{height:auto!important;max-height:none!important;display:flex!important;flex-direction:column!important;gap:10px!important;min-width:0!important}
+body.product-body .vayen-cover-wrap{height:390px!important;min-height:0!important;flex:0 0 390px!important}
+body.product-body .vayen-cover-wrap .product-visual{height:100%!important;min-height:0!important;border-radius:17px!important}
+body.product-body .vayen-thumbs{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;flex-direction:row!important}
+body.product-body .vayen-thumb{height:79px!important;min-height:0!important;padding:10px!important;justify-content:center!important}
+body.product-body .vayen-thumb strong{font-size:12px!important;line-height:1.3!important}
+body.product-body .vayen-thumb small{font-size:9px!important}
+body.product-body .product-intro{display:flex!important;flex-direction:column!important;gap:10px!important;min-width:0!important;padding:22px!important;border-radius:17px!important}
+body.product-body .product-intro>.product-detail-points,body.product-body .product-intro>.product-extra-value,body.product-body .product-intro>.product-confidence{display:none!important}
+body.product-body .product-detail-title{font-size:clamp(27px,3.15vw,43px)!important;line-height:1.12!important;margin:0!important;letter-spacing:-.04em!important}
+body.product-body .product-category{margin:0!important;line-height:1.4!important}
+body.product-body .vayen-language-row{margin:2px 0 3px!important}
+body.product-body .product-intro>.vayen-auto-detail{display:flex!important;min-height:174px!important;flex:1 0 174px!important;max-height:230px!important;gap:9px!important;padding:18px!important;border-color:color-mix(in srgb,var(--v-accent) 42%,#252332)!important;background:linear-gradient(125deg,var(--v-glow),transparent 78%),#14141c!important}
+body.product-body .vayen-auto-detail h3{font-size:clamp(20px,2vw,27px)!important;line-height:1.22!important}
+body.product-body .vayen-auto-detail p{font-size:14px!important;line-height:1.55!important}
+body.product-body .product-quick-info{margin:0!important;padding:10px 0!important;gap:12px!important}
+body.product-body .product-purchase{margin:0!important;padding:7px 0!important}
+body.product-body .product-purchase-note{margin:0!important}
+body.product-body .product-contents,body.product-body .product-included,body.product-body .product-preview,body.product-body .product-result,body.product-body .product-final,body.product-body .vayen-showcase{padding:22px!important;margin-top:12px!important}
+body.product-body .product-contents-head h2,body.product-body .product-section-intro h2,body.product-body .product-preview-head h2{font-size:28px!important;line-height:1.2!important}
+body.product-body .product-contents-head h2 br,body.product-body .product-section-intro h2 br,body.product-body .product-preview-head h2 br{display:none!important}
+body.product-body .product-contents-head h2 em,body.product-body .product-section-intro h2 em,body.product-body .product-preview-head h2 em{margin-left:6px!important}
+body.product-body .product-preview-card>*,body.product-body .product-step>*,body.product-body .product-content-item>*{position:static!important;transform:none!important}
+body.product-body .product-preview-card h3,body.product-body .product-step h3{font-size:18px!important;line-height:1.35!important;margin:0 0 9px!important}
+body.product-body .product-preview-card>span,body.product-body .product-step>small{font-size:10px!important;line-height:1.4!important;margin:0 0 10px!important}
+body.product-body .product-preview-card p,body.product-body .product-step p{font-size:13px!important;line-height:1.6!important}
+@media(max-width:900px){body.product-body .product-hero{grid-template-columns:1fr!important}body.product-body .vayen-cover-wrap{height:330px!important;flex-basis:330px!important}body.product-body .product-intro>.vayen-auto-detail{max-height:none!important}}
+@media(max-width:650px){body.product-body .product-hero{gap:12px!important}body.product-body .vayen-cover-wrap{height:300px!important;flex-basis:300px!important}body.product-body .vayen-thumb{height:72px!important}body.product-body .product-intro{padding:17px!important}body.product-body .product-intro>.vayen-auto-detail{min-height:200px!important}body.product-body .product-contents-head h2,body.product-body .product-section-intro h2,body.product-body .product-preview-head h2{font-size:24px!important}}
+</style>
 </head>
 
 
@@ -1221,7 +1255,10 @@ function boot(){
  const progress=document.createElement('div');progress.className='vayen-auto-progress';const fill=document.createElement('span');progress.append(fill);
  const controls=document.createElement('div');controls.className='vayen-auto-controls';
  const prev=document.createElement('button'),next=document.createElement('button'),counter=document.createElement('span');prev.type=next.type='button';prev.textContent='←';next.textContent='→';prev.setAttribute('aria-label','Previous preview');next.setAttribute('aria-label','Next preview');counter.style.cssText='font-size:11px;color:#c9c2d1;margin-right:auto';controls.append(counter,prev,next);panel.append(small,heading,description,progress,controls);
- gallery.after(panel);
+ // The changing details belong inside the main product information card, not below the hero.
+ const introCard=document.querySelector('.product-intro');
+ const introTitle=introCard?.querySelector('.product-detail-title');
+ if(introTitle)introTitle.after(panel);else gallery.after(panel);
  // Place auto guide immediately below the hero on mobile, inside the right-hand card on desktop.
  const intro=document.querySelector('.product-intro');
  if(intro){const lang=document.createElement('div');lang.className='vayen-language-row';lang.innerHTML='<span>English PDF</span><span>Roman Hinglish PDF</span><span>Digital Guide</span>';const title=intro.querySelector('.product-detail-title');title?.after(lang);}
