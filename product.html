@@ -199,6 +199,42 @@ body.product-body .product-content-item{position:relative!important;height:auto!
 body.product-body .product-content-item h3,body.product-body .product-content-item p,body.product-body .product-content-item small{position:static!important;transform:none!important;inset:auto!important;height:auto!important;line-height:1.5!important}
 @media(max-width:800px){body.product-body .product-preview-grid{grid-template-columns:1fr!important}body.product-body .product-preview-card{min-height:0!important;padding:19px!important}body.product-body .product-preview-head h2,body.product-body .product-result h2{font-size:27px!important}}
 </style>
+
+<style id="vayen-v5-final-polish">
+/* Compact PC proportions; the original photo is a contained cover, not a full-screen image. */
+@media(min-width:1081px){body.product-body .product-page{max-width:1280px!important;padding:16px 22px 50px!important}body.product-body .product-hero{grid-template-columns:minmax(0,.98fr) minmax(0,1.18fr)!important;gap:14px!important;align-items:start!important}body.product-body .vayen-gallery{height:430px!important;max-height:430px!important}body.product-body .vayen-cover-wrap,body.product-body .vayen-cover-wrap .product-visual{min-height:430px!important;height:430px!important}body.product-body .product-intro{padding:20px 22px!important}body.product-body .product-detail-title{font-size:clamp(31px,3vw,43px)!important}body.product-body .product-detail-points{margin:12px 0!important}body.product-body .product-detail-points p{font-size:12px!important;padding:8px 9px 8px 27px!important}body.product-body .product-quick-info{margin-top:10px!important;padding:10px 0!important}}
+/* One automatic slide at a time: large readable text, no overlapping labels. */
+body.product-body .vayen-thumbs{display:flex!important;flex-direction:column!important;gap:9px!important;min-width:0!important}
+body.product-body .vayen-thumb{flex:1!important;min-height:0!important;position:relative!important;padding:14px!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:7px!important;overflow:hidden!important}
+body.product-body .vayen-thumb small,body.product-body .vayen-thumb strong{position:relative!important;z-index:1!important;display:block!important;margin:0!important;line-height:1.4!important;white-space:normal!important;transform:none!important}
+body.product-body .vayen-thumb small{font-size:10px!important}body.product-body .vayen-thumb strong{font-size:15px!important}body.product-body .vayen-thumb .vayen-mini{right:8px!important;top:8px!important;opacity:.12!important}
+body.product-body .vayen-auto-detail{position:relative!important;display:flex!important;flex-direction:column!important;justify-content:center!important;gap:12px!important;padding:19px 21px!important;border:1px solid #393445!important;border-radius:15px!important;background:radial-gradient(circle at 90% 10%,var(--v-glow),transparent 58%),#151521!important;min-height:158px!important;overflow:hidden!important}
+body.product-body .vayen-auto-detail small{font-size:11px!important;letter-spacing:.15em!important;font-weight:800!important;color:var(--v-accent)!important;line-height:1.4!important}
+body.product-body .vayen-auto-detail h3{position:static!important;margin:0!important;color:#fff!important;font-size:clamp(19px,2vw,25px)!important;line-height:1.22!important}
+body.product-body .vayen-auto-detail p{position:static!important;margin:0!important;color:#d5cfdd!important;font-size:13px!important;line-height:1.6!important}
+body.product-body .vayen-auto-progress{height:3px!important;background:#ffffff24!important;border-radius:8px!important;overflow:hidden!important;flex-shrink:0!important}
+body.product-body .vayen-auto-progress>span{display:block!important;width:0;height:100%;background:var(--v-accent)!important;transition:width 4.8s linear}
+body.product-body .vayen-auto-controls{display:flex!important;align-items:center!important;gap:8px!important;justify-content:flex-end!important}
+body.product-body .vayen-auto-controls button{cursor:pointer!important;background:#ffffff0b!important;color:white!important;border:1px solid #ffffff28!important;border-radius:9px!important;padding:7px 12px!important;font-size:13px!important}
+body.product-body .vayen-language-row{display:flex!important;gap:8px!important;flex-wrap:wrap!important;margin:12px 0!important}
+body.product-body .vayen-language-row span{display:inline-flex!important;align-items:center!important;padding:7px 11px!important;border-radius:9px!important;border:1px solid #ffffff27!important;background:#ffffff0a!important;color:#eee!important;font-size:12px!important;font-weight:650!important}
+body.product-body .product-contents,body.product-body .product-included,body.product-body .product-preview,body.product-body .product-result,body.product-body .product-final,body.product-body .vayen-showcase{margin-top:13px!important;padding:23px!important}
+body.product-body .product-preview-head,body.product-body .product-section-intro,body.product-body .product-contents-head{margin-bottom:15px!important}
+body.product-body .product-content-item,body.product-body .product-preview-card,body.product-body .product-step{padding:16px!important;min-height:0!important}
+body.product-body .product-preview-card>span,body.product-body .product-step>small{margin:0 0 10px!important}
+body.product-body .product-preview-card h3,body.product-body .product-step h3{margin:0 0 9px!important}
+body.product-body .product-preview-card p,body.product-body .product-step p{line-height:1.55!important}
+body.product-body .product-result{padding:22px!important}
+body.product-body .product-hero{scroll-margin-top:18px}
+body[data-vayen-product="vlogging-mastery"] .product-intro{background:linear-gradient(130deg,#1d1514,#0e1019)!important}
+body[data-vayen-product="youtube-creator-system"] .product-intro{background:linear-gradient(130deg,#201b13,#0c0e16)!important}
+body[data-vayen-product="ai-prompt-box"] .product-intro{background:linear-gradient(130deg,#1a122b,#0b0d19)!important}
+body[data-vayen-product="animation-mastery"] .product-intro{background:linear-gradient(130deg,#20132e,#0c0d18)!important}
+body[data-vayen-product="build-your-own-ai"] .product-intro{background:linear-gradient(130deg,#0f2626,#0b0e18)!important}
+@media(max-width:1080px){body.product-body .vayen-auto-detail{min-height:140px!important}}
+@media(max-width:650px){body.product-body .product-page{padding:12px 12px 88px!important}body.product-body .vayen-gallery{display:grid!important;grid-template-columns:1fr!important;height:auto!important}body.product-body .vayen-cover-wrap,body.product-body .vayen-cover-wrap .product-visual{min-height:310px!important;height:310px!important}body.product-body .vayen-thumbs{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}body.product-body .vayen-thumb{height:88px!important;padding:9px!important}body.product-body .vayen-thumb small{font-size:8px!important}body.product-body .vayen-thumb strong{font-size:11px!important}body.product-body .product-intro{padding:17px!important}body.product-body .product-detail-points{grid-template-columns:1fr 1fr!important}body.product-body .product-contents,body.product-body .product-included,body.product-body .product-preview,body.product-body .product-result,body.product-body .product-final,body.product-body .vayen-showcase{padding:18px!important}}
+@media(prefers-reduced-motion:reduce){body.product-body .vayen-auto-progress>span{transition:none!important}}
+</style>
 </head>
 
 
@@ -1167,6 +1203,39 @@ const example=document.createElement('article');example.className='vayen-sample'
 const vis=document.createElement('article');vis.className='vayen-sample vayen-sample-visual';const vi=document.createElement('div');vi.className='vayen-sample-visual-inner';vi.textContent=t[2];const note=document.createElement('span');note.textContent=id==='ai-prompt-box'?'IMAGE RESULT PREVIEW TO BE ADDED':'PRODUCT LEARNING PREVIEW';vi.append(note);vis.append(vi);sg.append(vis);
 nav.after(showcase);
 if(id==='ai-prompt-box'){const bonus=document.querySelector('.product-extra-value');if(bonus)bonus.textContent='+ 3,000+ ready-to-use AI prompts';const category=document.querySelector('.product-category');if(category)category.textContent='AI PROMPT BOX · 3,000+ READY-TO-USE PROMPTS';}
+})();
+</script>
+
+<script id="vayen-v5-guided-preview">
+(function(){
+'use strict';
+function boot(){
+ if(!document.body.classList.contains('vayen-product-ready')){setTimeout(boot,100);return;}
+ const gallery=document.querySelector('.vayen-gallery');if(!gallery||gallery.querySelector('.vayen-auto-detail'))return;
+ const params=new URLSearchParams(location.search),id=params.get('id')||params.get('product')||'ai-prompting';
+ const name=document.querySelector('.product-detail-title')?.textContent.trim()||'Digital Guide';
+ const parts=[...document.querySelectorAll('.product-content-item')].map(el=>({label:el.querySelector('small')?.textContent.trim()||'INSIDE',heading:el.querySelector('h3')?.textContent.trim()||'',description:el.querySelector('p')?.textContent.trim()||''}));
+ const slides=parts.length?parts:[{label:'LEARN',heading:name,description:'Explore the practical lessons included in this guide.'}];
+ const panel=document.createElement('section');panel.className='vayen-auto-detail';panel.setAttribute('aria-label','Automatic product detail preview');
+ const small=document.createElement('small'),heading=document.createElement('h3'),description=document.createElement('p');
+ const progress=document.createElement('div');progress.className='vayen-auto-progress';const fill=document.createElement('span');progress.append(fill);
+ const controls=document.createElement('div');controls.className='vayen-auto-controls';
+ const prev=document.createElement('button'),next=document.createElement('button'),counter=document.createElement('span');prev.type=next.type='button';prev.textContent='←';next.textContent='→';prev.setAttribute('aria-label','Previous preview');next.setAttribute('aria-label','Next preview');counter.style.cssText='font-size:11px;color:#c9c2d1;margin-right:auto';controls.append(counter,prev,next);panel.append(small,heading,description,progress,controls);
+ gallery.after(panel);
+ // Place auto guide immediately below the hero on mobile, inside the right-hand card on desktop.
+ const intro=document.querySelector('.product-intro');
+ if(intro){const lang=document.createElement('div');lang.className='vayen-language-row';lang.innerHTML='<span>English PDF</span><span>Roman Hinglish PDF</span><span>Digital Guide</span>';const title=intro.querySelector('.product-detail-title');title?.after(lang);}
+ const thumbButtons=[...gallery.querySelectorAll('.vayen-thumb')];
+ let active=0,timer=null;const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ function show(i){active=(i+slides.length)%slides.length;const slide=slides[active];small.textContent=String(active+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0')+' · '+slide.label;heading.textContent=slide.heading;description.textContent=slide.description;counter.textContent=(active+1)+' of '+slides.length;thumbButtons.forEach((b,j)=>b.classList.toggle('is-active',j===active%thumbButtons.length));fill.style.transition='none';fill.style.width='0%';requestAnimationFrame(()=>requestAnimationFrame(()=>{fill.style.transition=reduce?'none':'width 4.8s linear';fill.style.width=reduce?'100%':'100%'}));}
+ function start(){clearInterval(timer);if(!reduce)timer=setInterval(()=>{if(!document.hidden)show(active+1)},4800)}
+ prev.addEventListener('click',()=>{show(active-1);start()});next.addEventListener('click',()=>{show(active+1);start()});
+ thumbButtons.forEach((b,i)=>b.addEventListener('click',()=>{show(i);start()}));
+ let x=null;panel.addEventListener('touchstart',e=>{x=e.touches[0]?.clientX??null},{passive:true});panel.addEventListener('touchend',e=>{if(x===null)return;let dx=(e.changedTouches[0]?.clientX??x)-x;if(Math.abs(dx)>35){show(active+(dx<0?1:-1));start()}x=null},{passive:true});
+ panel.addEventListener('mouseenter',()=>clearInterval(timer));panel.addEventListener('mouseleave',start);show(0);start();
+ // Keep page compact: all long content remains accessible via the navigation below.
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 })();
 </script>
 </body>

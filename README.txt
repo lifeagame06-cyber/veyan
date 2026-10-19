@@ -1,1 +1,2 @@
-Replace only product.html in your existing VAYEN project folder. Keep style.css, vayen-catalog.js, vayen-firebase-config.js and images/ unchanged. Open via your existing local server or website.
+VAYEN Product Detail v5
+Replace only product.html in your existing VAYEN website folder. Keep existing style.css, vayen-catalog.js, vayen-firebase-config.js and images folder. Open via your site URL with ?id=vlogging-mastery (or another product slug). English + Roman Hinglish labels reflect the intended editions; confirm both editions exist for every live product before publishing. The automatic preview is text-based, not a claim that PDF screenshots are displayed. No unverified discount price is shown.
