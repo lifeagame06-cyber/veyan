@@ -164,3 +164,6 @@ body.vayen-approved .ap-cover.ap-portrait-cover img{width:100%;height:100%;objec
 body.vayen-approved .ap-cover.ap-portrait-cover .ap-cover-label,
 body.vayen-approved .ap-cover.ap-portrait-cover .ap-cover-bottom{display:none!important}
 body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-ai-use{margin-top:8px;max-width:720px}
+
+/* Full-size clear portrait cover only: no layout changes */
+body.vayen-approved .ap-cover.ap-portrait-cover>img{object-fit:cover!important;object-position:center!important}
