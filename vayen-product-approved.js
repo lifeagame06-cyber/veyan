@@ -34,7 +34,91 @@ const hero=el('section','ap-hero');hero.id='ap-overview';const media=el('div','a
 const info=el('section','ap-info');const heading=el('div','ap-heading'),headLeft=el('div');headLeft.append(el('span','ap-category',category),el('h1','ap-title',title),el('p','ap-subtitle',subtitle||'Explore practical, step-by-step guidance and clear examples.'));const priceBox=el('div','ap-price',price);if(coming)priceBox.append(el('small','','Coming soon'));heading.append(headLeft,priceBox);info.append(heading);
 if(id==='ai-prompt-box'){const badge=el('div','ap-ai-count','3,000+ READY-TO-USE PROMPTS · COPY • CUSTOMISE • GENERATE');headLeft.append(badge);const exampleNote=el('p','ap-ai-use','Not sure what to type into AI? Pick a ready-made prompt, add your topic, and generate your first draft.');headLeft.append(exampleNote);
 const usage=el('p','ap-ai-use','This is a ready-to-use prompt collection, not a course about writing prompts. Find a prompt → copy it → replace the [bracketed details] → paste it into your AI tool → review the result.');
-headLeft.append(usage)}const slides=contents.length?contents:points.slice(0,4).map((p,i)=>({tag:'STEP '+(i+1),title:p,desc:p}));const slider=el('section','ap-slider');slider.setAttribute('aria-label','Automatic learning topics');const top=el('div','ap-slider-top'),counter=el('span'),dots=el('div','ap-dots'),timerLabel=el('span','',''),pause=el('button','ap-pause','Ⅱ');pause.type='button';pause.setAttribute('aria-label','Pause automatic slides');top.append(counter,dots,pause);slider.append(top);const slideContent=el('div','ap-slide-content'),slideIcon=el('div','ap-slide-icon',theme[3]),slideText=el('div','ap-slide-text'),slideTitle=el('h2'),slideDesc=el('p'),art=el('div','ap-slide-art'),artText=el('div'),artSymbol=el('b','',theme[3]),artCaption=el('span');artText.append(artCaption);art.append(artText);slideText.append(slideTitle,slideDesc);slideContent.append(slideIcon,slideText,art);slider.append(slideContent);info.append(slider);
+headLeft.append(usage)}const productSlideTopics={
+'business-launch':[
+['Define Your Business Idea','Choose what you want to sell and the problem it solves.'],
+['Understand Your Customers','Identify who needs your product and why they would buy it.'],
+['Plan Pricing & Costs','Estimate expenses and choose a practical selling price.'],
+['Prepare Your Launch','Create a simple action plan to start reaching customers.']],
+'reels-growth':[
+['Plan Reels That Connect','Choose a clear topic and a strong opening hook.'],
+['Create Engaging Short Videos','Use simple storytelling, pacing and visuals.'],
+['Improve Reach & Retention','Understand why viewers watch, skip or share.'],
+['Review Your Performance','Use insights to improve your next reel.']],
+'web-creator':[
+['Plan Your Website','Decide its purpose, pages and content.'],
+['Build Your First Page','Arrange sections, text, images and navigation.'],
+['Make It Mobile Friendly','Create a layout that works across screen sizes.'],
+['Test & Publish','Check links and prepare your website to go live.']],
+'youtube-algorithm':[
+['Understand YouTube Discovery','Learn how viewers find videos through search and recommendations.'],
+['Improve Click-Through Rate','Make titles and thumbnails clear and appealing.'],
+['Keep Viewers Watching','Work on your hook, pacing and audience retention.'],
+['Use Analytics to Improve','Review impressions, watch time and audience response.']],
+'earn-from-social-media':[
+['Explore Earning Methods','Understand brand deals, affiliate links and digital products.'],
+['Build Audience Trust','Create content that helps a specific audience.'],
+['Choose Your Offer','Match monetization methods to your content.'],
+['Plan Your First Steps','Create a practical starting plan without income guarantees.']],
+'creator-studio':[
+['Set Up Your Content Workflow','Plan a repeatable process from idea to upload.'],
+['Record Better Content','Work with framing, lighting and clear audio.'],
+['Organize Your Editing','Keep footage, projects and exports easy to manage.'],
+['Publish Consistently','Use a realistic schedule and review results.']],
+'content-strategy':[
+['Choose Your Content Goals','Decide who you want to reach and what to share.'],
+['Build Content Pillars','Organize repeatable topics around your niche.'],
+['Create a Posting Plan','Balance useful ideas with a manageable schedule.'],
+['Measure What Works','Review results and refine your content plan.']],
+'design-thumbnails':[
+['Understand Thumbnail Basics','Use contrast, composition and a clear focal point.'],
+['Choose Text & Colors','Make key words readable even on small screens.'],
+['Build a Thumbnail Layout','Combine images, subject and text without clutter.'],
+['Review Before Publishing','Check readability and improve your design.']],
+'edit-videos':[
+['Organize Your Footage','Import clips and build a clean editing timeline.'],
+['Make Clean Cuts','Remove unnecessary pauses and improve pacing.'],
+['Add Audio & Visuals','Use music, titles and simple effects purposefully.'],
+['Export Your Video','Choose suitable settings and review the final result.']],
+'ai-automation':[
+['Spot Repetitive Tasks','Identify work that could benefit from automation.'],
+['Choose Useful AI Tools','Match tools to practical everyday workflows.'],
+['Build a Simple Workflow','Connect clear inputs, steps and outputs.'],
+['Review & Improve','Check AI results and refine your process.']],
+'seller-commerce':[
+['Choose What to Sell','Define your product and target buyer.'],
+['Set Up Product Listings','Write clear titles, descriptions and prices.'],
+['Understand Orders','Plan basic customer communication and fulfillment.'],
+['Build Customer Trust','Use transparent product details and support.']],
+'personal-brand':[
+['Define Your Identity','Decide what you want to be known for.'],
+['Understand Your Audience','Identify who you want to help or reach.'],
+['Create a Consistent Style','Align your message, visuals and content.'],
+['Grow Your Presence','Show your work and refine your positioning.']],
+'animation-mastery':[
+['Learn Animation Basics','Understand scenes, timing and movement.'],
+['Plan Your First Scene','Prepare simple characters and backgrounds.'],
+['Animate Step by Step','Use key poses and basic motion.'],
+['Review & Export','Improve timing and prepare the finished animation.']],
+'social-media-tips':[
+['Improve Your Profile','Make your bio and content focus clear.'],
+['Plan Useful Posts','Create ideas your audience will care about.'],
+['Build Engagement','Use meaningful captions and interaction.'],
+['Learn From Insights','Review reach and adjust your approach.']],
+'ai-prompt-box':[
+['Find a Ready-to-Use Prompt','Browse 3,000+ prompts and choose one for your task.'],
+['Copy & Customise','Replace the example details with your own topic or goal.'],
+['Paste Into an AI Tool','Use the completed prompt to generate a first result.'],
+['Review & Refine','Check the response and adjust the prompt as needed.']],
+'build-your-own-ai':[
+['Define Your AI Assistant','Choose the task and users it should support.'],
+['Plan Inputs & Outputs','Decide what information it receives and returns.'],
+['Build a Basic Workflow','Connect prompts, tools and simple logic.'],
+['Test & Improve','Check responses and refine the assistant.']]
+};
+const topicList=productSlideTopics[id];
+const slides=topicList?topicList.map(([title,desc],i)=>({tag:'TOPIC '+(i+1),title,desc})):(contents.length?contents:points.slice(0,4).map((p,i)=>({tag:'STEP '+(i+1),title:p,desc:p})));
+const slider=el('section','ap-slider');slider.setAttribute('aria-label','Automatic learning topics');const top=el('div','ap-slider-top'),counter=el('span'),dots=el('div','ap-dots'),timerLabel=el('span','',''),pause=el('button','ap-pause','Ⅱ');pause.type='button';pause.setAttribute('aria-label','Pause automatic slides');top.append(counter,dots,pause);slider.append(top);const slideContent=el('div','ap-slide-content'),slideIcon=el('div','ap-slide-icon',theme[3]),slideText=el('div','ap-slide-text'),slideTitle=el('h2'),slideDesc=el('p'),art=el('div','ap-slide-art'),artText=el('div'),artSymbol=el('b','',theme[3]),artCaption=el('span');artText.append(artCaption);art.append(artText);slideText.append(slideTitle,slideDesc);slideContent.append(slideIcon,slideText,art);slider.append(slideContent);info.append(slider);
 const benefits=el('div','ap-benefits');[['◉','Step-by-step guidance'],['▤','Easy-to-follow examples'],['∞','Practical workflow'],['✓','Learn at your pace']].forEach(([ico,label])=>{const b=el('div','ap-benefit');b.append(el('i','',ico),el('span','',label));benefits.append(b)});info.append(benefits);
 const actions=el('div','ap-actions');const buy=el('a','ap-buy',coming?'Coming Soon':'Get Now — '+price+' →');if(!coming&&buyHref)buy.href=buyHref;else buy.setAttribute('aria-disabled','true');const save=el('button','ap-save','♡ Save');save.type='button';save.addEventListener('click',()=>{if(window.VayenSaved){const saved=window.VayenSaved.toggle(id);save.textContent=saved?'♥ Saved':'♡ Save';save.setAttribute('aria-pressed',String(saved))}});if(window.VayenSaved){const saved=window.VayenSaved.get().includes(id);save.textContent=saved?'♥ Saved':'♡ Save';save.setAttribute('aria-pressed',String(saved))}actions.append(buy,save);info.append(actions);
 const editions=el('div','ap-editions');[['▤','English PDF','English edition'],['अ','Roman Hinglish PDF','Hindi in English letters']].forEach(([ico,label,desc])=>{const c=el('div','ap-edition'),text=el('div');text.append(el('b','',label),el('small','',desc));c.append(el('i','',ico),text);editions.append(c)});info.append(editions);hero.append(info);mainContent.append(hero);
@@ -63,7 +147,7 @@ example.append(ex);const perfect=card('Perfect For','♧','ap-audience');const a
 const more=el('div','ap-more'),workflow=el('section','ap-card'),faq=el('section','ap-card');workflow.id='ap-workflow';faq.id='ap-faq';workflow.append(el('h3','','How It Works'),el('p','ap-card-intro','Follow these steps in order, then come back whenever you need a quick reminder.'));const workflowList=el('ol','ap-workflow-list');steps.forEach((step,i)=>{const li=el('li');li.append(el('span','ap-step-number',String(i+1).padStart(2,'0')),el('div','ap-step-copy'));li.lastChild.append(el('strong','',step.title),el('p','',step.desc));workflowList.append(li)});if(!steps.length)workflowList.append(el('li','','Explore the learning topics and examples above.'));workflow.append(workflowList);faq.append(el('h3','','Frequently Asked Questions'));const questions=[['Is this a physical product?','No. This is a digital learning resource.'],['Which languages are shown?','English and Roman Hinglish (Hindi written using English letters).'],['Where do I access my purchase?',coming?'This product is not available for purchase yet.':'Open Your Library after your purchase to check the files available to you.']];questions.forEach(([q,a])=>{const detail=el('details','ap-faq-item');detail.append(el('summary','',q),el('p','',a));faq.append(detail)});more.append(workflow,faq);mainContent.append(more);
 main.replaceChildren(mainContent);
 let index=0,paused=false,interval;const dotEls=slides.map(()=>{const d=el('span');dots.append(d);return d});function render(i){index=(i+slides.length)%slides.length;const s=slides[index];counter.textContent=String(index+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');slideTitle.textContent=s.title;slideDesc.textContent=s.desc;artCaption.textContent=s.title;dotEls.forEach((d,j)=>d.classList.toggle('active',j===index));[...thumbs.children].forEach((b,j)=>b.classList.toggle('active',j===index%4))}function start(){clearInterval(interval);if(!paused&&!matchMedia('(prefers-reduced-motion: reduce)').matches)interval=setInterval(()=>{if(!document.hidden)render(index+1)},4500)}
-const thumbNames=['',...slides.slice(0,3).map(s=>s.title)];for(let i=0;i<4;i++){const b=el('button','ap-thumb');b.type='button';if(i===0&&coverSrc){const img=el('img');img.src=coverSrc;img.alt='';img.onerror=()=>{img.onerror=null;img.src='images/product-covers/'+id+'.png'};b.append(img)}if(i>0)b.append(el('span','',thumbNames[i]||'Preview'));else b.classList.add('ap-cover-thumb');b.setAttribute('aria-label','View '+(thumbNames[i]||'preview'));b.addEventListener('click',()=>{render(i);start()});thumbs.append(b)}
+const thumbNames=['',...slides.slice(1,4).map(s=>s.title)];for(let i=0;i<4;i++){const b=el('button','ap-thumb');b.type='button';if(i===0&&coverSrc){const img=el('img');img.src=coverSrc;img.alt='';img.onerror=()=>{img.onerror=null;img.src='images/product-covers/'+id+'.png'};b.append(img)}if(i>0)b.append(el('span','',thumbNames[i]||'Preview'));else b.classList.add('ap-cover-thumb');b.setAttribute('aria-label','View '+(thumbNames[i]||'preview'));b.addEventListener('click',()=>{render(i);start()});thumbs.append(b)}
 coverPrev.addEventListener('click',()=>{render(index-1);start()});coverNext.addEventListener('click',()=>{render(index+1);start()});pause.addEventListener('click',()=>{paused=!paused;pause.textContent=paused?'▶':'Ⅱ';pause.setAttribute('aria-label',paused?'Resume automatic slides':'Pause automatic slides');start()});let touch=null;slider.addEventListener('touchstart',e=>{touch=e.touches[0]?.clientX??null},{passive:true});slider.addEventListener('touchend',e=>{if(touch===null)return;const dx=(e.changedTouches[0]?.clientX??touch)-touch;if(Math.abs(dx)>40){render(index+(dx<0?1:-1));start()}touch=null},{passive:true});render(0);start();
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wait);else wait();
