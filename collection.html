@@ -551,122 +551,6 @@ body:has(.vayen-collection-final) {
     .vayen-collection-final .vc-world-name { font-size: 10px; }
 }
 </style>
-
-<style id="vayen-premium-compact-final">
-/* Scoped to the four premium cards. Flagship cards remain unchanged. */
-.vayen-collection-final .vc-card.vc-mid:has(.vc-cover-wrap){
-  min-height:0!important; padding:13px 14px 15px!important; gap:0!important;
-  border-radius:20px!important; border:1px solid rgba(130,100,140,.18)!important;
-  background:linear-gradient(145deg,#fffafc,#f1eaf1)!important;
-  box-shadow:0 9px 25px rgba(40,22,43,.08)!important;
-  transition:transform .22s ease,box-shadow .22s ease!important;
-}
-.vayen-collection-final .vc-card.vc-mid:has(.vc-cover-wrap):hover{
-  transform:translateY(-4px);box-shadow:0 17px 38px rgba(40,22,43,.16)!important;
-}
-.vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vc-top{
-  margin:0 45px 10px 3px!important; min-height:23px; align-items:center;
-  font-size:10px; font-weight:800; letter-spacing:1.25px; color:#6a4c63;
-}
-.vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vc-top span:last-child{
-  background:#2a1b2c;color:#fff5e8;padding:6px 10px;border-radius:99px;
-  font-size:9px;letter-spacing:.6px;white-space:nowrap;
-}
-.vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vc-cover-wrap{
-  width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;
-  border:1px solid rgba(255,255,255,.12);box-shadow:0 8px 20px rgba(20,10,28,.17);
-}
-.vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vc-cover{object-fit:cover;width:100%;height:100%;}
-.vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vc-copy{margin:12px 3px 8px!important;}
-.vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vc-copy small{
-  font-size:9px;letter-spacing:1.2px;font-weight:800;color:#9b607e;
-}
-.vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vc-copy h3{
-  font-size:clamp(20px,2vw,26px)!important;line-height:1.15!important;
-  letter-spacing:-.75px!important;margin:5px 0 6px!important;color:#241b29;
-}
-.vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vc-copy p{
-  font-size:12px!important;line-height:1.5!important;color:#706470;
-  max-width:none;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
-}
-.vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vc-bottom{
-  margin:4px 2px 0!important;padding-top:11px!important;border-top:1px solid #e1d6df;
-  align-items:center!important;
-}
-.vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vc-bottom strong{
-  font-size:23px!important;color:#2a1c2b;letter-spacing:-.5px;
-}
-.vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vc-bottom span{
-  display:inline-flex!important;align-items:center;justify-content:center;
-  padding:9px 13px!important;min-height:0!important;border:0!important;
-  border-radius:99px!important;background:#2b1d2e;color:white!important;
-  font-size:10px!important;font-weight:750;white-space:nowrap;
-}
-.vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vayen-save-heart{
-  top:11px!important;right:12px!important;width:35px!important;height:35px!important;
-}
-/* 12 worlds: balanced cards, readable title and clear action affordance. */
-.vayen-collection-final .vc-world-list{gap:13px!important;}
-.vayen-collection-final .vc-world-list .vc-world-save-wrap{
-  border-radius:16px;background:#fffdfc;box-shadow:0 5px 18px rgba(40,25,35,.055);
-}
-.vayen-collection-final .vc-world-list .vc-world-save-wrap > button[data-world]:has(.vc-world-cover){
-  display:flex!important;flex-direction:column!important;gap:9px!important;
-  width:100%;height:100%;padding:11px 44px 13px 11px!important;
-  border:1px solid #e7dfdf!important;border-radius:16px!important;
-  background:#fffdfc!important;text-align:left;transition:border-color .2s,box-shadow .2s,transform .2s;
-}
-.vayen-collection-final .vc-world-list .vc-world-save-wrap > button[data-world]:has(.vc-world-cover):hover{
-  border-color:#cba6b8!important;box-shadow:0 11px 26px rgba(70,34,58,.12);transform:translateY(-2px);
-}
-.vayen-collection-final .vc-world-cover{
-  width:100%!important;height:auto!important;aspect-ratio:16/9;object-fit:cover!important;
-  border-radius:9px!important;background:#12101c;
-}
-.vayen-collection-final .vc-world-name{
-  display:block!important;padding-right:0!important;color:#281f2a!important;
-  font-size:12px!important;line-height:1.35!important;font-weight:800!important;
-  letter-spacing:-.12px;overflow-wrap:break-word;
-}
-.vayen-collection-final .vc-world-list .vc-world-save-wrap > button[data-world]::after{
-  right:12px!important;top:43%!important;color:#995778!important;
-}
-.vayen-collection-final .vc-world-list .vc-world-save-wrap > .vayen-save-heart{
-  top:14px!important;right:15px!important;transform:none!important;
-  width:29px!important;height:29px!important;
-}
-.vayen-collection-final .vc-world-list .vc-world-save-wrap > .vayen-save-heart:hover{transform:scale(1.07)!important;}
-.vayen-collection-final .vc-worlds-head{position:relative;padding-bottom:10px;}
-.vayen-collection-final .vc-world-search{display:flex;align-items:center;gap:10px;max-width:330px;
-  margin:14px 0 18px auto;padding:12px 16px;border:1px solid #e5d9df;border-radius:99px;
-  background:#fffdfd;color:#927789;box-shadow:0 4px 15px rgba(50,27,39,.045);
-}
-.vayen-collection-final .vc-world-search input{width:100%;min-width:0;border:0;outline:0;background:transparent;
-  font:500 12px Arial,sans-serif;color:#2b2030;}
-.vayen-collection-final .vc-world-search:focus-within{border-color:#a36a89;box-shadow:0 0 0 3px rgba(163,106,137,.12);}
-@media(max-width:768px){
-  .vayen-collection-final .vc-card.vc-mid:has(.vc-cover-wrap){padding:12px!important;border-radius:18px!important;}
-  .vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vc-copy h3{font-size:23px!important;}
-  .vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vc-copy p{font-size:12px!important;}
-  .vayen-collection-final .vc-mid:has(.vc-cover-wrap) .vc-bottom span{font-size:10px!important;}
-  .vayen-collection-final .vc-world-search{margin:10px 0 18px;max-width:none;}
-  .vayen-collection-final .vc-world-list{gap:10px!important;}
-  .vayen-collection-final .vc-world-list .vc-world-save-wrap > button[data-world]:has(.vc-world-cover){
-    padding:8px 25px 11px 8px!important;gap:7px!important;
-  }
-  .vayen-collection-final .vc-world-name{font-size:11px!important;line-height:1.35!important;}
-  .vayen-collection-final .vc-world-list .vc-world-save-wrap > .vayen-save-heart{
-    width:24px!important;height:24px!important;right:7px!important;top:8px!important;
-  }
-  .vayen-collection-final .vc-world-list .vc-world-save-wrap > button[data-world]::after{
-    right:8px!important;top:48%!important;
-  }
-}
-@media(max-width:390px){
-  .vayen-collection-final .vc-world-list{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
-  .vayen-collection-final .vc-world-name{font-size:10px!important;}
-}
-</style>
 </head>
 <body>
 <main class="vayen-collection-final">
@@ -769,7 +653,7 @@ body:has(.vayen-collection-final) {
         02 / PREMIUM COLLECTION
        </span>
 <h2>
-        Premium Collection.
+        Built for what comes next.
        </h2>
 </div>
 <span class="vc-note">
@@ -782,7 +666,9 @@ body:has(.vayen-collection-final) {
 <span>
          VAYEN / 03
         </span>
-<span>✦ PREMIUM</span>
+<span>
+         PREMIUM
+        </span>
 </div>
 <div class="vc-cover-wrap"><img class="vc-cover" src="images/product-covers/animation-mastery.png" alt="Animation Mastery cover" loading="lazy" decoding="async"></div>
 <div class="vc-copy">
@@ -810,7 +696,9 @@ body:has(.vayen-collection-final) {
 <span>
          VAYEN / 04
         </span>
-<span>✦ PREMIUM</span>
+<span>
+         PREMIUM
+        </span>
 </div>
 <div class="vc-cover-wrap"><img class="vc-cover" src="images/product-covers/social-media-tips.png" alt="Social Media Tips cover" loading="lazy" decoding="async"></div>
 <div class="vc-copy">
@@ -838,7 +726,9 @@ body:has(.vayen-collection-final) {
 <span>
          VAYEN / 05
         </span>
-<span>✦ PREMIUM</span>
+<span>
+         PREMIUM
+        </span>
 </div>
 <div class="vc-cover-wrap"><img class="vc-cover" src="images/product-covers/ai-prompt-box.png" alt="Ai Prompt Box cover" loading="lazy" decoding="async"></div>
 <div class="vc-copy">
@@ -866,7 +756,9 @@ body:has(.vayen-collection-final) {
 <span>
          VAYEN / 06
         </span>
-<span>✦ PREMIUM</span>
+<span>
+         PREMIUM
+        </span>
 </div>
 <div class="vc-cover-wrap"><img class="vc-cover" src="images/product-covers/build-your-own-ai.png" alt="Build Your Own Ai cover" loading="lazy" decoding="async"></div>
 <div class="vc-copy">
@@ -899,13 +791,13 @@ body:has(.vayen-collection-final) {
        EXPLORE BY INTEREST
       </span>
 <h2>
-       Explore All Products.
+       12 worlds. One collection.
       </h2>
 <p>
-       Discover practical tools for creators, builders and entrepreneurs.
+       Choose a world to explore its product. All six featured products remain above.
       </p>
 </div>
-<div class="vc-world-search"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 5 5" stroke="currentColor" stroke-width="1.8" fill="none"/></svg><input id="vayenWorldSearch" type="search" placeholder="Search products..." aria-label="Search collection products" autocomplete="off"></div><div class="vc-world-list" id="collectionWorlds">
+<div class="vc-world-list" id="collectionWorlds">
 <button data-world="01" type="button">
 <img class="vc-world-cover" src="images/product-covers/reels-growth.png" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Reels Growth</span>
@@ -1251,24 +1143,6 @@ if (!firebaseConfig.apiKey) {
         console.error('VAYEN Firebase setup failed:', error);
     }
 }
-</script>
-<script>
-/* Search only filters product tiles; navigation and saved-heart listeners are untouched. */
-(function(){
-  const search=document.getElementById('vayenWorldSearch');
-  const list=document.getElementById('collectionWorlds');
-  if(!search||!list)return;
-  function filter(){
-    const query=search.value.trim().toLocaleLowerCase();
-    for(const child of list.children){
-      const label=child.querySelector('.vc-world-name')||child.querySelector('button[data-world]')||child;
-      child.hidden=!label.textContent.toLocaleLowerCase().includes(query);
-      if(child.hidden)child.style.display='none';else child.style.removeProperty('display');
-    }
-  }
-  search.addEventListener('input',filter);
-  new MutationObserver(filter).observe(list,{childList:true,subtree:false});
-})();
 </script>
 </body>
 </html>
