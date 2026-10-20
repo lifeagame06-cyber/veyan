@@ -167,3 +167,18 @@ body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-ai-use{margin-top:8px;m
 
 /* Full-size clear portrait cover only: no layout changes */
 body.vayen-approved .ap-cover.ap-portrait-cover>img{object-fit:cover!important;object-position:center!important}
+
+/* Surgical fix: keep the complete portrait artwork visible inside existing cover box. */
+body.vayen-approved .ap-cover.ap-portrait-cover > img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+body.vayen-approved .ap-thumb img {
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
+/* FINAL: no image crop, regardless of older cover overrides. */
+body.vayen-approved .ap-cover.ap-portrait-cover > img{object-fit:contain!important;object-position:center!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;}
