@@ -182,3 +182,29 @@ body.vayen-approved .ap-thumb img {
 
 /* FINAL: no image crop, regardless of older cover overrides. */
 body.vayen-approved .ap-cover.ap-portrait-cover > img{object-fit:contain!important;object-position:center!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;}
+
+/* FIX: keep the product-specific learning slider visible below the cover on all screens.
+   This affects visibility only; it does not change existing page layout or design. */
+body.vayen-approved .ap-info > .ap-slider {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  height: auto !important;
+  min-height: 170px !important;
+  max-height: none !important;
+  overflow: hidden;
+}
+body.vayen-approved .ap-info > .ap-slider .ap-slide-content {
+  display: grid !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+body.vayen-approved .ap-info > .ap-slider .ap-slider-top {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* AI Prompt Box only: keep the 3,000+ note compact so the slider stays in normal flow. */
+body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-ai-count{margin:7px 0 0!important;padding:6px 10px!important;font-size:11px!important}
+body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-ai-use{margin:4px 0 0!important;font-size:12px!important;line-height:1.45!important}
