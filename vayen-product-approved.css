@@ -151,3 +151,10 @@ body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-prompt-compact>div{padd
 body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-prompt-compact .ap-demo-eyebrow{font-size:9px;margin-bottom:3px}
 body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-prompt-compact p{font-size:12px!important;line-height:1.4!important}
 body.vayen-approved[data-ap-product="ai-prompt-box"] #ap-examples .ap-card-intro{margin-bottom:8px!important}
+
+/* Surgical image fit: original premium layout untouched. */
+body.vayen-approved .ap-cover img{object-fit:contain!important;object-position:center!important}
+body.vayen-approved .ap-thumb img{object-fit:contain!important;object-position:center!important}
+/* No placeholder product UI or transient heart before the approved layout is mounted. */
+body.product-body.vayen-product-ready:not(.vayen-approved) .product-page,body.product-body.vayen-product-ready:not(.vayen-approved) .product-mobile-get{visibility:hidden!important}
+body.vayen-approved .vayen-save-heart{display:none!important}
