@@ -1,5 +1,5 @@
-VAYEN Collection product-cover integration
-Replace collection.html and style.css; upload images/product-covers/ folder maintaining its path.
-12 small Collection tiles + 4 premium cards. Two expensive flagship cards untouched.
-Prices and links retain existing catalog behavior (AI Prompt Box ₹599 from live catalog).
-Other JS and project files remain unchanged.
+VAYEN Premium Polish
+Replace collection.html and product.html in the website root.
+Keep existing style.css and images/product-covers/ as they are.
+The 2 flagship cards are not restyled.
+Product page entry opacity animation was removed to prevent perceived flash.
