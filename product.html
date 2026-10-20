@@ -380,6 +380,57 @@ body.product-body .vayen-no-video-note{font-size:12px;color:#aaa6b5;margin-top:8
 @media(max-width:900px){body.product-body .product-hero{grid-template-columns:1fr!important}}
 @media(max-width:650px){body.product-body .product-page{padding:14px 12px 100px!important}body.product-body .product-hero{gap:14px!important}body.product-body .vayen-cover-wrap{border-radius:15px!important}body.product-body .product-intro{padding:20px!important}body.product-body .product-detail-title{font-size:34px!important}body.product-body .product-purchase,body.product-body .product-final-action a.product-get{display:none!important}body.product-body .vayen-clarity{grid-template-columns:1fr!important}body.product-body .product-detail-points{grid-template-columns:1fr 1fr!important}body.product-body .product-contents,body.product-body .product-included,body.product-body .product-preview,body.product-body .product-result,body.product-body .product-final{padding:19px!important}}
 </style>
+<style id="vayen-final-detail-css">
+
+/* VAYEN FINAL DETAIL DESIGN — clear, responsive, product-first */
+body.product-body{background:#080a10!important;color:#f6f5f9!important}
+body.product-body .product-page{max-width:1380px!important;padding:32px 24px 110px!important}
+body.product-body .product-hero{display:grid!important;grid-template-columns:minmax(0,1.04fr) minmax(0,1fr)!important;gap:24px!important;align-items:stretch!important}
+body.product-body .vayen-gallery{display:block!important;width:100%!important;height:auto!important;max-height:none!important;min-width:0!important}
+body.product-body .vayen-cover-wrap{width:100%!important;aspect-ratio:16/9!important;height:auto!important;min-height:0!important;overflow:hidden!important;border:1px solid #393345!important;border-radius:23px!important;background:#080b17!important;box-shadow:0 22px 60px #0005!important}
+body.product-body .vayen-cover-wrap .product-visual.vayen-custom-product-cover{width:100%!important;height:100%!important;min-height:0!important;aspect-ratio:auto!important;background-size:contain!important;background-position:center!important;background-repeat:no-repeat!important;padding:0!important}
+body.product-body .vayen-cover-wrap .product-visual.vayen-custom-product-cover .product-cover-content,body.product-body .vayen-cover-wrap .product-visual.vayen-custom-product-cover .product-visual-top,body.product-body .vayen-cover-wrap .product-visual.vayen-custom-product-cover .product-visual-bottom{display:none!important}
+body.product-body .vayen-cover-wrap .product-visual.vayen-custom-product-cover::after{display:none!important}
+body.product-body .vayen-gallery .vayen-thumbs,body.product-body .vayen-gallery .vayen-cover-count,body.product-body .vayen-auto-detail,body.product-body .vayen-language-row,body.product-body .vayen-section-nav,body.product-body .vayen-showcase{display:none!important}
+body.product-body .product-intro{padding:clamp(25px,3.3vw,46px)!important;border-radius:23px!important;background:linear-gradient(155deg,#15131e,#0d0e16)!important;border:1px solid #34303f!important;display:flex!important;flex-direction:column!important;justify-content:center!important;min-height:0!important}
+body.product-body .product-detail-title{font-size:clamp(37px,3.4vw,55px)!important;line-height:1.06!important;margin:13px 0 12px!important}
+body.product-body .vayen-clear-subtitle{font-size:16px;line-height:1.65;color:#c9c5d1;margin-bottom:17px;max-width:560px}
+body.product-body .product-detail-points{display:none!important}
+body.product-body .product-extra-value{font-size:13px!important;margin:0 0 14px!important}
+body.product-body .product-confidence{display:none!important}
+body.product-body .product-quick-info{margin:10px 0 0!important;padding:17px 0!important;gap:12px!important}
+body.product-body .product-purchase{margin-top:17px!important;display:flex!important;align-items:center!important}
+body.product-body .product-purchase-note{margin-top:12px!important;font-size:12px!important}
+body.product-body .vayen-value-row{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:7px!important;margin-top:15px!important}
+body.product-body .vayen-value-row div{font-size:11px!important;padding:11px 6px!important}
+body.product-body .vayen-detail-below{margin-top:24px;display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+body.product-body .vayen-detail-panel{background:#11131c;border:1px solid #2c2c3b;border-radius:21px;padding:28px;min-width:0}
+body.product-body .vayen-detail-panel h2{font-size:clamp(22px,2.2vw,30px);color:white;letter-spacing:-.035em;margin:0 0 9px}
+body.product-body .vayen-detail-panel>p{font-size:13px;line-height:1.65;color:#bdb9c9;margin:0 0 18px}
+body.product-body .vayen-learn-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;list-style:none;padding:0;margin:0}
+body.product-body .vayen-learn-list li{display:flex;align-items:flex-start;gap:10px;background:#1b1b28;border:1px solid #2e2d3c;border-radius:12px;padding:14px;font-size:13px;line-height:1.5;color:#f0edf4}
+body.product-body .vayen-learn-list li::before{content:'✓';font-weight:900;color:var(--v-accent,#f77fbb)}
+body.product-body .vayen-detail-facts{display:grid;gap:10px}
+body.product-body .vayen-detail-fact{padding:14px;border-radius:12px;background:#1b1b28;border:1px solid #302e3e}
+body.product-body .vayen-detail-fact strong{display:block;font-size:13px;color:#fff;margin-bottom:5px}
+body.product-body .vayen-detail-fact span{font-size:12px;line-height:1.5;color:#bdb9c9}
+body.product-body .product-contents,body.product-body .product-included,body.product-body .product-preview,body.product-body .product-result,body.product-body .product-final{margin-top:20px!important;border-radius:21px!important;padding:clamp(22px,3vw,36px)!important}
+body.product-body .product-content-list{gap:12px!important}
+body.product-body .product-content-item{min-width:0!important}
+body.product-body .vayen-faq{margin-top:20px;border:1px solid #2c2c3b;background:#11131c;border-radius:21px;padding:28px}
+body.product-body .vayen-faq h2{color:white;font-size:27px;margin-bottom:18px}
+body.product-body .vayen-faq details{border-top:1px solid #33303e;padding:16px 2px;color:#eee}
+body.product-body .vayen-faq summary{cursor:pointer;font-weight:700;font-size:14px;list-style:none;display:flex;justify-content:space-between;gap:10px}
+body.product-body .vayen-faq summary::after{content:'+';color:var(--v-accent,#f77fbb);font-size:20px}
+body.product-body .vayen-faq details[open] summary::after{content:'−'}
+body.product-body .vayen-faq details p{margin-top:10px;font-size:13px;line-height:1.7;color:#bdb9c9}
+body.product-body .product-preview .product-preview-head h2{font-size:clamp(25px,3vw,35px)!important}
+body.product-body .product-mobile-get{z-index:100!important}
+@media(min-width:1001px){body.product-body .vayen-gallery{display:flex!important;align-items:center!important;justify-content:center!important;align-self:stretch!important;background:linear-gradient(135deg,#171321,#0c0d17);border:1px solid #29283a;border-radius:23px;padding:15px!important}body.product-body .vayen-cover-wrap{flex:1;max-width:100%}}
+@media(max-width:1000px){body.product-body .product-hero{grid-template-columns:1fr!important}body.product-body .vayen-gallery{max-height:none!important}body.product-body .product-intro{min-height:0!important}}
+@media(max-width:700px){body.product-body .product-page{padding:14px 12px 112px!important}body.product-body .product-hero{gap:13px!important}body.product-body .vayen-cover-wrap{border-radius:15px!important}body.product-body .product-intro{padding:21px!important}body.product-body .product-detail-title{font-size:34px!important}body.product-body .vayen-clear-subtitle{font-size:14px}body.product-body .product-purchase,body.product-body .product-final-action a.product-get{display:none!important}body.product-body .vayen-detail-below{grid-template-columns:1fr!important;gap:13px}body.product-body .vayen-detail-panel{padding:20px}body.product-body .vayen-learn-list{grid-template-columns:1fr!important}body.product-body .vayen-faq{padding:20px}body.product-body .vayen-value-row{grid-template-columns:repeat(3,1fr)!important}}
+
+</style>
 </head>
 
 
@@ -1375,41 +1426,7 @@ if(id==='ai-prompt-box'){const bonus=document.querySelector('.product-extra-valu
 })();
 </script>
 
-<script id="vayen-v5-guided-preview">
-(function(){
-'use strict';
-function boot(){
- if(!document.body.classList.contains('vayen-product-ready')){setTimeout(boot,100);return;}
- const gallery=document.querySelector('.vayen-gallery');if(!gallery||gallery.querySelector('.vayen-auto-detail'))return;
- const params=new URLSearchParams(location.search),id=params.get('id')||params.get('product')||'ai-prompting';
- const name=document.querySelector('.product-detail-title')?.textContent.trim()||'Digital Guide';
- const parts=[...document.querySelectorAll('.product-content-item')].map(el=>({label:el.querySelector('small')?.textContent.trim()||'INSIDE',heading:el.querySelector('h3')?.textContent.trim()||'',description:el.querySelector('p')?.textContent.trim()||''}));
- const slides=parts.length?parts:[{label:'LEARN',heading:name,description:'Explore the practical lessons included in this guide.'}];
- const panel=document.createElement('section');panel.className='vayen-auto-detail';panel.setAttribute('aria-label','Automatic product detail preview');
- const small=document.createElement('small'),heading=document.createElement('h3'),description=document.createElement('p');
- const progress=document.createElement('div');progress.className='vayen-auto-progress';const fill=document.createElement('span');progress.append(fill);
- const controls=document.createElement('div');controls.className='vayen-auto-controls';
- const prev=document.createElement('button'),next=document.createElement('button'),counter=document.createElement('span');prev.type=next.type='button';prev.textContent='←';next.textContent='→';prev.setAttribute('aria-label','Previous preview');next.setAttribute('aria-label','Next preview');counter.style.cssText='font-size:11px;color:#c9c2d1;margin-right:auto';controls.append(counter,prev,next);panel.append(small,heading,description,progress,controls);
- // The changing details belong inside the main product information card, not below the hero.
- const introCard=document.querySelector('.product-intro');
- const introTitle=introCard?.querySelector('.product-detail-title');
- if(introTitle)introTitle.after(panel);else gallery.after(panel);
- // Place auto guide immediately below the hero on mobile, inside the right-hand card on desktop.
- const intro=document.querySelector('.product-intro');
- if(intro){const lang=document.createElement('div');lang.className='vayen-language-row';lang.innerHTML='<span>English PDF</span><span>Roman Hinglish PDF</span><span>Digital Guide</span>';const title=intro.querySelector('.product-detail-title');title?.after(lang);}
- const thumbButtons=[...gallery.querySelectorAll('.vayen-thumb')];
- let active=0,timer=null;const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
- function show(i){active=(i+slides.length)%slides.length;const slide=slides[active];small.textContent=String(active+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0')+' · '+slide.label;heading.textContent=slide.heading;description.textContent=slide.description;counter.textContent=(active+1)+' of '+slides.length;thumbButtons.forEach((b,j)=>b.classList.toggle('is-active',j===active%thumbButtons.length));fill.style.transition='none';fill.style.width='0%';requestAnimationFrame(()=>requestAnimationFrame(()=>{fill.style.transition=reduce?'none':'width 4.8s linear';fill.style.width=reduce?'100%':'100%'}));}
- function start(){clearInterval(timer);if(!reduce)timer=setInterval(()=>{if(!document.hidden)show(active+1)},4800)}
- prev.addEventListener('click',()=>{show(active-1);start()});next.addEventListener('click',()=>{show(active+1);start()});
- thumbButtons.forEach((b,i)=>b.addEventListener('click',()=>{show(i);start()}));
- let x=null;panel.addEventListener('touchstart',e=>{x=e.touches[0]?.clientX??null},{passive:true});panel.addEventListener('touchend',e=>{if(x===null)return;let dx=(e.changedTouches[0]?.clientX??x)-x;if(Math.abs(dx)>35){show(active+(dx<0?1:-1));start()}x=null},{passive:true});
- panel.addEventListener('mouseenter',()=>clearInterval(timer));panel.addEventListener('mouseleave',start);show(0);start();
- // Keep page compact: all long content remains accessible via the navigation below.
-}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
-})();
-</script>
+
 
 <script id="vayen-approved-clarity-details">
 (function () {
@@ -1457,6 +1474,45 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
+})();
+</script>
+
+<script id="vayen-final-detail-experience">
+(function(){
+  'use strict';
+  function init(){
+    if(!document.body.classList.contains('vayen-product-ready')){setTimeout(init,90);return;}
+    const hero=document.querySelector('.product-hero');
+    if(!hero||document.querySelector('.vayen-detail-below'))return;
+    const title=document.querySelector('.product-detail-title');
+    const subtitle=document.querySelector('.product-cover-content p');
+    if(title&&subtitle){const p=document.createElement('p');p.className='vayen-clear-subtitle';p.textContent=subtitle.textContent.trim();title.after(p);}
+    const points=[...document.querySelectorAll('.product-detail-points p')].map(p=>p.textContent.trim()).filter(Boolean).slice(0,6);
+    const section=document.createElement('section');section.className='vayen-detail-below';
+    const learn=document.createElement('article');learn.className='vayen-detail-panel';
+    const lh=document.createElement('h2');lh.textContent="What You'll Learn";
+    const lp=document.createElement('p');lp.textContent='Clear, practical topics covered in this product.';
+    const ul=document.createElement('ul');ul.className='vayen-learn-list';
+    points.forEach(t=>{const li=document.createElement('li');li.textContent=t;ul.append(li)});
+    learn.append(lh,lp,ul);
+    const info=document.createElement('article');info.className='vayen-detail-panel';
+    const ih=document.createElement('h2');ih.textContent='Before You Buy';
+    const ip=document.createElement('p');ip.textContent='A quick look at who this is for and how to access it.';
+    const facts=document.createElement('div');facts.className='vayen-detail-facts';
+    const audience=document.querySelector('.product-quick-info > div:nth-child(3) strong')?.textContent.trim()||'Learners';
+    [['Made for',audience],['Format','Digital product'],['Access','Open your purchased product from Your Library']].forEach(([a,b])=>{const d=document.createElement('div');d.className='vayen-detail-fact';const st=document.createElement('strong');st.textContent=a;const sp=document.createElement('span');sp.textContent=b;d.append(st,sp);facts.append(d)});
+    info.append(ih,ip,facts);section.append(learn,info);hero.after(section);
+    // Preview cards describe topics; they are not playable videos.
+    document.querySelectorAll('.product-preview-head h2').forEach(el=>{if(/preview/i.test(el.textContent))el.textContent='Explore the Topics';});
+    const faq=document.createElement('section');faq.className='vayen-faq';const fh=document.createElement('h2');fh.textContent='Frequently Asked Questions';faq.append(fh);
+    const items=[['What will I learn?', 'See the What You’ll Learn and What’s Inside sections above for the topics covered by this product.'],['How do I access my purchase?', 'After a successful purchase, open Your Library in your VAYEN account to access the product.'],['Is this a physical product?', 'No. This is a digital product; nothing is shipped to your address.'],['Can I check what is included before buying?', 'Yes. Review the What’s Inside and learning sections on this page before you purchase.']];
+    items.forEach(([q,a])=>{const d=document.createElement('details');const sm=document.createElement('summary');sm.textContent=q;const p=document.createElement('p');p.textContent=a;d.append(sm,p);faq.append(d)});
+    const final=document.querySelector('.product-final');if(final)final.before(faq);else document.querySelector('.product-page')?.append(faq);
+    // Correct AI Prompt Box marketing text; authoritative price continues to come from catalog.
+    const id=new URLSearchParams(location.search).get('id')||new URLSearchParams(location.search).get('product');
+    if(id==='ai-prompt-box'){const v=document.querySelector('.product-extra-value');if(v)v.textContent='3,000+ ready-to-use AI prompts';}
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
 </body>
