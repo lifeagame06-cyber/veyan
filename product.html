@@ -269,6 +269,20 @@ body.product-body .product-preview-card p,body.product-body .product-step p{font
 @media(max-width:900px){body.product-body .product-hero{grid-template-columns:1fr!important}body.product-body .vayen-cover-wrap{height:330px!important;flex-basis:330px!important}body.product-body .product-intro>.vayen-auto-detail{max-height:none!important}}
 @media(max-width:650px){body.product-body .product-hero{gap:12px!important}body.product-body .vayen-cover-wrap{height:300px!important;flex-basis:300px!important}body.product-body .vayen-thumb{height:72px!important}body.product-body .product-intro{padding:17px!important}body.product-body .product-intro>.vayen-auto-detail{min-height:200px!important}body.product-body .product-contents-head h2,body.product-body .product-section-intro h2,body.product-body .product-preview-head h2{font-size:24px!important}}
 </style>
+<style id="vayen-custom-cover-clean-display">
+/* The 16 storefront covers already contain their own brand, title and description. */
+.product-visual.vayen-custom-product-cover .product-visual-top,
+.product-visual.vayen-custom-product-cover .product-cover-content,
+.product-visual.vayen-custom-product-cover .product-visual-bottom {
+    display: none !important;
+}
+.product-visual.vayen-custom-product-cover {
+    background-color: #080b17 !important;
+    background-size: contain !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+}
+</style>
 </head>
 
 
@@ -1073,11 +1087,31 @@ const visual = document.querySelector(".product-visual");
 
 const coverImages = {
     "youtube-creator-system": "images/youtube.png",
-    "vlogging-mastery": "images/vlogging.png"
+    "vlogging-mastery": "images/vlogging.png",
+    "animation-mastery": "images/product-covers/animation-mastery.png",
+    "social-media-tips": "images/product-covers/social-media-tips.png",
+    "ai-prompt-box": "images/product-covers/ai-prompt-box.png",
+    "build-your-own-ai": "images/product-covers/build-your-own-ai.png",
+    "reels-growth": "images/product-covers/reels-growth.png",
+    "web-creator": "images/product-covers/web-creator.png",
+    "youtube-algorithm": "images/product-covers/youtube-algorithm.png",
+    "earn-from-social-media": "images/product-covers/earn-from-social-media.png",
+    "creator-studio": "images/product-covers/creator-studio.png",
+    "business-launch": "images/product-covers/business-launch.png",
+    "content-strategy": "images/product-covers/content-strategy.png",
+    "design-thumbnails": "images/product-covers/design-thumbnails.png",
+    "edit-videos": "images/product-covers/edit-videos.png",
+    "ai-automation": "images/product-covers/ai-automation.png",
+    "seller-commerce": "images/product-covers/seller-commerce.png",
+    "personal-brand": "images/product-covers/personal-brand.png"
 };
 
 if (coverImages[productId]) {
-visual.classList.add("flagship-photo-cover");
+if (productId === "vlogging-mastery" || productId === "youtube-creator-system") {
+    visual.classList.add("flagship-photo-cover");
+} else {
+    visual.classList.add("vayen-custom-product-cover");
+}
 const coverTop = visual.querySelector(".product-visual-top small");
 const coverBottom = visual.querySelector(
     ".product-visual-bottom span:first-child"
@@ -1092,9 +1126,13 @@ if (productId === "youtube-creator-system") {
     coverTop.textContent = "VAYEN / YOUTUBE";
     coverBottom.textContent = "CREATE · GROW · BUILD YOUR CHANNEL";
 }
-    visual.style.background =
-        `linear-gradient(to top, rgba(0,0,0,.45), rgba(0,0,0,.05)),
-         url("${coverImages[productId]}") center/cover no-repeat`;
+    if (visual.classList.contains("vayen-custom-product-cover")) {
+        visual.style.background = `#080b17 url("${coverImages[productId]}") center / contain no-repeat`;
+    } else {
+        visual.style.background =
+            `linear-gradient(to top, rgba(0,0,0,.45), rgba(0,0,0,.05)),
+             url("${coverImages[productId]}") center/cover no-repeat`;
+    }
 } else if (VayenCatalog.records().find(p=>(p.slug||p.id)===productId)?.image) {
     const img=VayenCatalog.records().find(p=>(p.slug||p.id)===productId).image;
     if (/^(https?:\/\/|images\/)[^"'<>]*$/i.test(img)) visual.style.background='linear-gradient(to top,rgba(0,0,0,.3),rgba(0,0,0,.02)), url("'+img+'") center/cover no-repeat';
