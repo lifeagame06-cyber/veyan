@@ -283,6 +283,73 @@ body.product-body .product-preview-card p,body.product-body .product-step p{font
     background-repeat: no-repeat !important;
 }
 </style>
+
+<style id="vayen-full-detail-cover-fix">
+/* Detail cover: use the complete 16:9 artwork as the visual itself, not
+   as a small image centered inside a tall placeholder. */
+body.product-body .product-visual.vayen-custom-product-cover {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 16 / 9 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background-size: 100% 100% !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+}
+body.product-body .product-visual.vayen-custom-product-cover::after {
+    display: none !important;
+}
+@media (max-width: 768px) {
+    body.product-body .product-visual.vayen-custom-product-cover {
+        height: auto !important;
+        min-height: 0 !important;
+        aspect-ratio: 16 / 9 !important;
+    }
+}
+</style>
+<style id="vayen-detail-full-artwork-premium-layout">
+/* Only the sixteen illustrated products: fill the main artwork panel while
+   retaining the original premium gallery, thumbnails and all detail sections. */
+@media (min-width: 1081px) {
+  body.product-body .vayen-cover-wrap:has(.vayen-custom-product-cover) {
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 16 / 9 !important;
+    align-self: start !important;
+  }
+  body.product-body .vayen-gallery:has(.vayen-custom-product-cover) {
+    align-items: start !important;
+  }
+}
+body.product-body .vayen-cover-wrap .product-visual.vayen-custom-product-cover {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  background-size: contain !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+body.product-body .vayen-cover-wrap:has(.vayen-custom-product-cover) {
+  background: #080b17 !important;
+}
+@media (max-width: 1080px) {
+  body.product-body .vayen-cover-wrap:has(.vayen-custom-product-cover) {
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 16 / 9 !important;
+  }
+  body.product-body .vayen-gallery:has(.vayen-custom-product-cover) {
+    height: auto !important;
+    max-height: none !important;
+  }
+}
+</style>
 </head>
 
 
@@ -1127,7 +1194,7 @@ if (productId === "youtube-creator-system") {
     coverBottom.textContent = "CREATE · GROW · BUILD YOUR CHANNEL";
 }
     if (visual.classList.contains("vayen-custom-product-cover")) {
-        visual.style.background = `#080b17 url("${coverImages[productId]}") center / contain no-repeat`;
+        visual.style.background = `#080b17 url("${coverImages[productId]}") center / 100% 100% no-repeat`;
     } else {
         visual.style.background =
             `linear-gradient(to top, rgba(0,0,0,.45), rgba(0,0,0,.05)),
