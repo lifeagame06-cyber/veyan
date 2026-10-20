@@ -158,3 +158,9 @@ body.vayen-approved .ap-thumb img{object-fit:contain!important;object-position:c
 /* No placeholder product UI or transient heart before the approved layout is mounted. */
 body.product-body.vayen-product-ready:not(.vayen-approved) .product-page,body.product-body.vayen-product-ready:not(.vayen-approved) .product-mobile-get{visibility:hidden!important}
 body.vayen-approved .vayen-save-heart{display:none!important}
+
+/* Portrait cover fix only — layout, controls and cards unchanged. */
+body.vayen-approved .ap-cover.ap-portrait-cover img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+body.vayen-approved .ap-cover.ap-portrait-cover .ap-cover-label,
+body.vayen-approved .ap-cover.ap-portrait-cover .ap-cover-bottom{display:none!important}
+body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-ai-use{margin-top:8px;max-width:720px}
