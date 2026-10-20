@@ -1,14 +1,90 @@
 <!DOCTYPE html>
-
 <html lang="en">
+
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Product — VAYEN</title>
-<link href="style.css" rel="stylesheet"/>
+    <meta charset="UTF-8">
 
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
+    <title>Product — VAYEN</title>
 
+    <link rel="stylesheet" href="style.css">
+<style>
+/* FLAGSHIP PRODUCT COVERS — READABLE TEXT */
+
+.product-visual.flagship-photo-cover {
+    color: #ffffff;
+}
+
+.product-visual.flagship-photo-cover .product-cover-content h2 {
+    color: #ffffff;
+    text-shadow: 0 3px 18px rgba(0,0,0,.45);
+}
+
+.product-visual.flagship-photo-cover .product-cover-content p {
+    color: rgba(255,255,255,.92);
+    text-shadow: 0 2px 8px rgba(0,0,0,.6);
+}
+
+.product-visual.flagship-photo-cover .product-visual-top,
+.product-visual.flagship-photo-cover .product-visual-bottom,
+.product-visual.flagship-photo-cover .product-visual-top span,
+.product-visual.flagship-photo-cover .product-visual-top small,
+.product-visual.flagship-photo-cover .product-visual-bottom span {
+    color: rgba(255,255,255,.95);
+    text-shadow: 0 2px 8px rgba(0,0,0,.65);
+}
+</style>
+<style>
+/* FLAGSHIP COVER — ORIGINAL CLEAN LOOK */
+
+.product-visual.flagship-photo-cover .product-cover-content {
+    display: none;
+}
+
+.product-visual.flagship-photo-cover .product-visual-top {
+    justify-content: flex-start;
+    padding-right: 250px;
+}
+.product-visual.flagship-photo-cover .product-visual-top span {
+    display: none;
+}
+
+.product-visual.flagship-photo-cover .product-visual-top small {
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px rgba(0,0,0,.6);
+}
+
+.product-visual.flagship-photo-cover .product-visual-bottom {
+    justify-content: center;
+}
+
+.product-visual.flagship-photo-cover .product-visual-bottom span:first-child {
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-align: center;
+    text-shadow: 0 2px 8px rgba(0,0,0,.7);
+}
+
+.product-visual.flagship-photo-cover .product-visual-bottom span:last-child {
+    display: none;
+}
+</style>
+<style>
+body {
+    transition: opacity 0.22s ease;
+}
+
+body.page-leaving {
+    opacity: 0;
+}
+</style>
 <style id="vayen-saved-heart-styles">
 .vayen-save-heart{position:absolute;right:15px;top:15px;z-index:5;display:grid;place-items:center;width:39px;height:39px;padding:0;border:1px solid rgba(190,155,166,.42);border-radius:50%;background:rgba(255,250,250,.96);color:#765763;cursor:pointer;box-shadow:0 4px 15px rgba(34,18,26,.12);transition:background .2s,color .2s,transform .2s; -webkit-tap-highlight-color:transparent}
 .vayen-save-heart:hover{transform:scale(1.08)}.vayen-save-heart.is-saved{background:#fff0f5;color:#bf4777;border-color:#dca6ba}.vayen-save-heart.is-saved svg{fill:currentColor}.vayen-save-heart:focus-visible{outline:2px solid #9d3e65;outline-offset:3px}
@@ -18,437 +94,713 @@
 /* Keep placeholder product content invisible until the selected product is rendered. */
 body.product-body:not(.vayen-product-ready) .product-page,
 body.product-body:not(.vayen-product-ready) .product-mobile-get { visibility: hidden; }
+</style><style id="vayen-luxe-detail-v1">
+:root{color-scheme:dark}body.product-body{background:#080910!important;color:#f7f6fa!important;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif!important}body.product-body::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 22% 10%,var(--v-glow,rgba(218,69,160,.12)),transparent 43%);z-index:0}.product-header{position:relative;z-index:4!important;background:#0b0b12!important;border-bottom:1px solid #262330!important;padding:18px max(4%,24px)!important}.product-brand{color:#fff!important;letter-spacing:.19em!important;font-weight:900!important}.product-back,.product-account{color:#d9d3e3!important}.product-page{position:relative;z-index:1;max-width:1460px!important;margin:auto!important;padding:32px 26px 90px!important}.product-hero{display:grid!important;grid-template-columns:minmax(0,1.03fr) minmax(0,1fr)!important;gap:28px!important;align-items:stretch!important}.vayen-gallery{display:grid;grid-template-columns:minmax(0,1.34fr) minmax(0,.86fr);gap:12px;min-width:0}.vayen-cover-wrap{min-width:0;position:relative;overflow:hidden;border-radius:17px;border:1px solid #393041;background:linear-gradient(145deg,#21172a,#080911);min-height:480px}.vayen-cover-wrap .product-visual{height:100%!important;min-height:480px!important;width:100%!important;border-radius:0!important;box-shadow:none!important}.vayen-cover-wrap .product-visual:not(.flagship-photo-cover){background:radial-gradient(circle at 76% 25%,var(--v-glow,rgba(212,68,161,.45)),transparent 42%),linear-gradient(150deg,#2a1833,#080a16)!important}.vayen-cover-wrap .product-visual:not(.flagship-photo-cover) .product-cover-content{display:block!important}.vayen-cover-wrap .product-cover-content h2{font-size:clamp(30px,3.2vw,54px)!important;color:white!important;text-shadow:0 4px 30px #000!important}.vayen-cover-wrap .product-cover-content p{color:#e5dcea!important}.vayen-cover-wrap .product-visual-top,.vayen-cover-wrap .product-visual-bottom{color:white!important}.vayen-cover-wrap .product-visual-top span,.vayen-cover-wrap .product-visual-bottom span{color:white!important}.vayen-cover-wrap .product-visual::after{content:"";position:absolute;inset:8%;border:1px solid rgba(255,255,255,.14);border-radius:14px;pointer-events:none}.vayen-cover-count{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.08em;padding:9px 12px;border:1px solid #ffffff52;border-radius:30px;background:#090914bb;color:#fff;white-space:nowrap;z-index:2}.vayen-thumbs{display:grid;grid-template-rows:repeat(3,1fr);gap:12px;min-height:0}.vayen-thumb{position:relative;min-height:0;overflow:hidden;border-radius:14px;border:1px solid #373242;background:linear-gradient(130deg,#1b1729,#10121e);color:#fff;padding:16px;text-align:left;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;transition:border-color .3s,transform .3s,box-shadow .3s}.vayen-thumb.is-active{border-color:var(--v-accent,#f05ca9);box-shadow:0 0 0 1px var(--v-accent,#f05ca9),0 0 25px var(--v-glow,rgba(240,92,169,.16))}.vayen-thumb:hover{transform:translateY(-2px)}.vayen-thumb small{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--v-accent,#ff7cb9)}.vayen-thumb strong{font-size:clamp(13px,1.15vw,18px);line-height:1.25;max-width:95%;text-wrap:balance}.vayen-thumb .vayen-mini{display:block;position:absolute;right:-12px;top:22%;font-size:64px;opacity:.22;filter:drop-shadow(0 0 22px var(--v-accent,#e95ca9))}.product-intro{background:linear-gradient(145deg,#10111a,#0b0c14)!important;border:1px solid #292836!important;border-radius:18px!important;padding:clamp(24px,3vw,42px)!important;min-width:0}.product-category{color:var(--v-accent,#fa68b2)!important;font-weight:800!important;letter-spacing:.14em!important}.product-detail-title{color:#fff!important;font-size:clamp(35px,4vw,61px)!important;letter-spacing:-.045em!important;line-height:1.06!important;margin:18px 0 14px!important}.vayen-tagline{font-size:clamp(18px,1.8vw,25px);color:#ded8e4;margin:0 0 16px}.vayen-tagline b{color:var(--v-accent,#f96eac)}.product-detail-points{display:grid!important;grid-template-columns:1fr 1fr;gap:10px!important;margin:24px 0!important}.product-detail-points p{border:1px solid #2d2c3a;border-radius:12px;background:#171721;padding:13px 13px 13px 30px!important;margin:0!important;color:#e5dfeb!important;font-size:13px!important;line-height:1.5!important;position:relative}.product-detail-points p:before{content:'✓';position:absolute;left:11px;color:var(--v-accent,#ff70b5);font-weight:800}.product-extra-value{color:var(--v-accent,#fa74bc)!important;background:#ffffff08!important;border:1px solid #ffffff18;border-radius:12px;padding:13px!important;font-weight:700!important}.product-confidence{color:#bfb6ca!important}.product-quick-info{border-top:1px solid #2b2934!important;border-bottom:1px solid #2b2934!important;padding:19px 0!important;margin-top:24px!important}.product-quick-info span,.product-price span{color:#9995a7!important}.product-quick-info strong{color:#fff!important}.product-purchase{display:flex!important;align-items:center!important;gap:22px!important;margin-top:26px!important}.product-price strong{color:#fff!important;font-size:clamp(28px,2.7vw,40px)!important}.product-get{background:var(--v-accent,#ec509f)!important;color:#100812!important;border:0!important;border-radius:11px!important;box-shadow:0 9px 28px var(--v-glow,rgba(235,80,150,.2));font-weight:800!important;transition:transform .25s,box-shadow .25s!important}.product-get:hover{transform:translateY(-2px);box-shadow:0 14px 34px var(--v-glow,rgba(235,80,150,.3))}.vayen-price-compare{display:flex;align-items:center;gap:9px;margin-top:6px;font-size:12px;color:#a5a0af;flex-wrap:wrap}.vayen-price-compare del{color:#85808f}.vayen-discount{color:#fff;background:#7d315d;padding:4px 8px;border-radius:18px;font-weight:750}.vayen-value-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.vayen-value-row div{padding:12px 10px;border:1px solid #2d2b37;border-radius:12px;background:#14141e;text-align:center;font-size:11px;color:#b9b3c1}.vayen-value-row b{display:block;color:var(--v-accent,#ff80bc);font-size:16px;margin-bottom:4px}.product-purchase-note{color:#aaa3b3!important}.product-contents,.product-included,.product-preview,.product-result,.product-final{background:#10111a!important;color:#f7f4fa!important;border:1px solid #292936!important;border-radius:18px!important;margin-top:26px!important;padding:clamp(24px,3.4vw,46px)!important}.product-contents h2,.product-included h2,.product-preview h2,.product-result h2,.product-final h2{color:#fff!important}.product-contents em,.product-included em,.product-preview em,.product-result em{color:var(--v-accent,#f56daf)!important}.product-contents p,.product-included p,.product-preview p,.product-result p{color:#bbb5c6!important}.product-content-item,.product-step,.product-preview-card{background:#171822!important;border:1px solid #2c2b39!important;border-radius:13px!important;color:#eee!important}.product-content-item h3,.product-step h3,.product-preview-card h3{color:#fff!important}.product-content-item small,.product-step small,.product-preview-card span{color:var(--v-accent,#f56daf)!important}.vayen-section-nav{margin-top:20px;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;border:1px solid #302c3b;background:#11121b;border-radius:12px;padding:9px}.vayen-section-nav a{flex:1;text-align:center;color:#d8d2df;text-decoration:none;white-space:nowrap;padding:10px 8px;border-radius:8px;font-size:13px}.vayen-section-nav a:hover{background:#292232;color:#fff}.vayen-section-nav+section{margin-top:18px!important}.vayen-showcase{margin-top:26px;padding:clamp(22px,3vw,40px);border:1px solid #2c2b3a;border-radius:18px;background:linear-gradient(135deg,#171321,#10111a)}.vayen-showcase h2{color:#fff;font-size:clamp(26px,3vw,39px);margin:8px 0 12px}.vayen-showcase>p{color:#c7bfce;max-width:730px}.vayen-showcase-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:23px}.vayen-sample{padding:22px;border:1px solid #373144;border-radius:13px;background:#0d1019;min-height:210px}.vayen-sample small{color:var(--v-accent,#fa75b6);letter-spacing:.1em;font-weight:800}.vayen-sample h3{color:white;font-size:21px;margin:15px 0}.vayen-sample p{color:#d2cbd8;line-height:1.65}.vayen-sample button{background:transparent;border:1px solid var(--v-accent,#fa75b6);border-radius:9px;color:var(--v-accent,#fa75b6);padding:10px 14px;cursor:pointer}.vayen-sample-visual{display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 60% 30%,var(--v-glow,rgba(255,80,170,.2)),transparent 55%),#0d1019}.vayen-sample-visual-inner{font-size:clamp(45px,6vw,90px);text-align:center}.vayen-sample-visual-inner span{display:block;font-size:12px;letter-spacing:.12em;color:#c7bfce;margin-top:14px}.product-final strong{color:#fff!important}.product-mobile-get{background:#10111a!important;border-top:1px solid #3d3444!important;color:#fff!important}.product-mobile-get strong{color:#fff!important}@media(max-width:1000px){.product-hero{grid-template-columns:1fr!important}.vayen-cover-wrap,.vayen-cover-wrap .product-visual{min-height:410px!important}.vayen-gallery{max-height:530px}}@media(max-width:650px){.product-page{padding:16px 13px 100px!important}.product-hero{gap:14px!important}.vayen-gallery{grid-template-columns:1fr!important;max-height:none}.vayen-cover-wrap,.vayen-cover-wrap .product-visual{min-height:365px!important}.vayen-thumbs{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:none;gap:7px}.vayen-thumb{min-height:116px;padding:10px}.vayen-thumb strong{font-size:12px}.vayen-thumb .vayen-mini{font-size:38px;right:0;top:37%}.product-intro{padding:21px!important}.product-detail-points{grid-template-columns:1fr 1fr;gap:7px!important}.product-detail-points p{font-size:12px!important;padding:11px 8px 11px 26px!important}.product-purchase{gap:12px!important}.vayen-value-row{gap:5px}.vayen-value-row div{padding:10px 5px;font-size:10px}.vayen-section-nav a{flex:none}.vayen-showcase-grid{grid-template-columns:1fr}.product-contents,.product-included,.product-preview,.product-result,.product-final{padding:21px!important}.vayen-gallery .vayen-cover-count{font-size:9px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 </style>
 
-
-
-
-
-
-
-
-
-
-<style id="vayen-locked-premium-design">
-:root{color-scheme:dark}*{box-sizing:border-box}html{scroll-behavior:smooth}body.product-body{margin:0;background:#060a13!important;color:#f6f8ff!important;font-family:Inter,Segoe UI,Arial,sans-serif!important;transition:none!important}body.product-body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 7% 10%,var(--v-glow,rgba(44,136,240,.12)),transparent 43%);z-index:-1}.product-header{display:flex!important;justify-content:space-between;align-items:center;background:#090e19!important;border-bottom:1px solid #1c2b3f!important;padding:17px max(3%,20px)!important}.product-brand{color:#fff!important;font-size:22px!important;font-weight:900!important;letter-spacing:.16em!important;text-decoration:none!important}.product-header-actions{display:flex;gap:22px}.product-back,.product-account{color:#d6e5f4!important;text-decoration:none!important;font-size:13px}.product-page{max-width:1450px!important;margin:auto!important;padding:24px clamp(14px,3vw,40px) 90px!important}.product-page>section:not(.product-hero):not(.vx-section){display:none!important}.product-hero{display:grid!important;grid-template-columns:minmax(0,1.12fr) minmax(0,.9fr)!important;gap:24px!important;align-items:start!important}.vx-left,.vx-right{min-width:0}.vx-cover{position:relative;aspect-ratio:16/9;overflow:hidden;border:1px solid color-mix(in srgb,var(--v-accent) 50%,#27324d);border-radius:18px;background:#0b1122;box-shadow:0 20px 65px #0008,0 0 30px var(--v-glow)}.vx-cover img{width:100%;height:100%;object-fit:contain;display:block}.vx-cover-fallback{height:100%;display:flex;flex-direction:column;justify-content:center;padding:10%;background:linear-gradient(135deg,#13182c,#090e18);gap:16px}.vx-cover-fallback small{color:var(--v-accent);letter-spacing:.2em;font-weight:900}.vx-cover-fallback strong{font-size:clamp(32px,4vw,58px);line-height:1.1}.vx-cover-fallback span{color:#d3dbe7}.vx-under-cover{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:13px 2px 0;color:#a5b6ce;font-size:12px}.vx-pill{display:inline-flex;align-items:center;gap:7px;border:1px solid #2a3b55;border-radius:100px;padding:8px 12px;background:#101b2c;color:#d6eaff;font-size:12px}.vx-right{padding:10px 0}.vx-eyebrow{display:inline-flex;padding:8px 13px;background:color-mix(in srgb,var(--v-accent) 15%,#0b1220);color:var(--v-accent);border:1px solid color-mix(in srgb,var(--v-accent) 38%,#27324a);border-radius:30px;font-size:11px;font-weight:900;letter-spacing:.12em}.vx-title{font-size:clamp(36px,4vw,62px)!important;letter-spacing:-.045em;line-height:1.07;margin:18px 0 14px;color:#fff}.vx-title em{color:var(--v-accent);font-style:normal}.vx-sub{font-size:16px;color:#cad5e5;line-height:1.65;margin:0 0 20px}.vx-chips{display:flex;flex-wrap:wrap;gap:9px}.vx-chips span{display:inline-flex;gap:7px;align-items:center;background:#101a2b;border:1px solid #22334b;border-radius:11px;padding:11px 13px;font-size:12px;color:#dbe7f4}.vx-chips b{color:var(--v-accent)}.vx-price-card{display:flex;align-items:center;justify-content:space-between;gap:16px;background:linear-gradient(110deg,#111b2c,#101629);border:1px solid color-mix(in srgb,var(--v-accent) 40%,#243148);border-radius:16px;padding:21px;margin-top:22px;box-shadow:0 15px 45px #0004}.vx-price-card small{display:block;color:#aabbd0;font-size:11px;margin-bottom:5px}.vx-price-card strong{display:block;color:#fff;font-size:35px;letter-spacing:-.04em}.vx-buy{display:inline-flex;align-items:center;justify-content:center;min-height:51px;padding:12px 28px;border-radius:12px;background:var(--v-accent);color:#06101b!important;font-size:14px;font-weight:900;text-decoration:none;white-space:nowrap}.vx-buy[aria-disabled=true]{opacity:.55;pointer-events:none}.vx-assurance{display:flex;flex-wrap:wrap;gap:14px;margin:13px 0 0;color:#9eafc4;font-size:12px}.vx-assurance span:before{content:'✓';color:var(--v-accent);margin-right:6px}.vx-section{margin-top:23px!important;background:linear-gradient(130deg,#0f1727,#0b1321)!important;border:1px solid #26354b;border-radius:20px;padding:clamp(20px,2.6vw,31px);color:#eef5ff}.vx-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:20px}.vx-heading{display:flex;gap:12px;align-items:center;margin:0 0 19px;font-size:24px;font-weight:850;letter-spacing:-.02em;color:#fff}.vx-icon{width:38px;height:38px;display:grid;place-items:center;flex-shrink:0;border-radius:12px;color:var(--v-accent);background:color-mix(in srgb,var(--v-accent) 14%,#121a2b);font-size:19px}.vx-list{display:grid;grid-template-columns:1fr 1fr;gap:11px}.vx-item{padding:15px;background:#152137;border:1px solid #283b55;border-radius:13px;min-width:0}.vx-item strong{display:block;color:#f6f9ff;font-size:14px;line-height:1.4}.vx-item p{color:#aabbd1;font-size:12px;line-height:1.55;margin:7px 0 0}.vx-item strong:before{content:'✓';color:var(--v-accent);margin-right:8px}.vx-about{color:#c0d0e3;font-size:14px;line-height:1.75;margin:0 0 16px}.vx-bullets{padding:0;list-style:none;margin:0;display:grid;gap:10px}.vx-bullets li{padding-left:23px;position:relative;color:#d7e4f2;font-size:13px;line-height:1.5}.vx-bullets li:before{content:'✦';position:absolute;left:0;color:var(--v-accent)}.vx-three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.vx-info{padding:20px;border-radius:15px;border:1px solid #2a3d55;background:#131e31}.vx-info small{font-size:11px;color:var(--v-accent);letter-spacing:.1em;font-weight:800}.vx-info h3{color:#fff;font-size:17px;margin:12px 0 7px}.vx-info p{color:#b5c6d9;font-size:13px;line-height:1.65;margin:0}.vx-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.vx-step{padding:17px;border-radius:14px;background:#142137;border:1px solid #293b53}.vx-step b{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:50%;background:color-mix(in srgb,var(--v-accent) 22%,#101929);color:var(--v-accent);margin-bottom:12px}.vx-step h3{font-size:16px;margin:0 0 8px}.vx-step p{font-size:12px;line-height:1.6;color:#afc0d4;margin:0}.vx-faq details{border-bottom:1px solid #293b51;padding:17px 2px}.vx-faq details:first-child{border-top:1px solid #293b51}.vx-faq summary{cursor:pointer;display:flex;justify-content:space-between;gap:12px;font-weight:750;font-size:14px;list-style:none}.vx-faq summary:after{content:'+';font-size:20px;color:var(--v-accent)}.vx-faq details[open] summary:after{content:'−'}.vx-faq p{font-size:13px;line-height:1.7;color:#b8c8dc;margin:12px 0 0}.vx-bottom{display:flex;align-items:center;justify-content:space-between;gap:16px}.vx-bottom strong{font-size:20px}.product-mobile-get{z-index:100!important;background:#0a1425!important;border-top:1px solid #2d4661!important;color:#fff!important}.product-mobile-get strong{color:#fff!important}.product-mobile-get .product-get{background:var(--v-accent)!important;color:#07111e!important;border-radius:11px!important}.product-mobile-get small{color:#a9bdd1!important}body.product-body .product-page .vayen-save-heart{z-index:10}@media(max-width:950px){.product-hero{grid-template-columns:1fr!important}.vx-grid{grid-template-columns:1fr}.vx-right{padding:0}.vx-title{font-size:44px!important}}@media(max-width:650px){.product-page{padding:14px 12px 110px!important}.product-hero{gap:13px!important}.vx-cover{border-radius:14px}.vx-right{padding:6px 3px}.vx-title{font-size:35px!important;margin:12px 0!important}.vx-sub{font-size:14px}.vx-chips{gap:6px}.vx-chips span{font-size:11px;padding:9px}.vx-price-card,.vx-bottom .vx-buy{display:none!important}.vx-assurance{margin:16px 0}.vx-section{padding:18px!important;margin-top:13px!important;border-radius:15px}.vx-heading{font-size:20px}.vx-list{grid-template-columns:1fr}.vx-three{grid-template-columns:1fr}.vx-steps{grid-template-columns:1fr}.vx-under-cover{font-size:11px}.vx-bottom{display:block}.vx-bottom strong{font-size:17px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+<style id="vayen-compact-editorial-v2">
+/* VAYEN: compact editorial storefront, responsive and product-specific */
+body.product-body{background:radial-gradient(ellipse at 8% 3%,var(--v-glow),transparent 34%),#090a10!important}
+.product-page{max-width:1500px!important;padding:20px clamp(12px,2.2vw,32px) 65px!important}
+.product-hero{grid-template-columns:minmax(0,1.08fr) minmax(0,1.12fr)!important;gap:16px!important;align-items:stretch!important}
+.vayen-gallery{grid-template-columns:minmax(0,1.27fr) minmax(0,.73fr)!important;gap:10px!important;max-height:545px!important}
+.vayen-cover-wrap{min-height:0!important;height:100%!important;border-radius:15px!important}
+.vayen-cover-wrap .product-visual{height:100%!important;min-height:0!important;aspect-ratio:auto!important}
+.vayen-cover-wrap .product-visual::after{inset:4%!important}
+.vayen-thumbs{gap:10px!important}
+.vayen-thumb{padding:13px!important;border-radius:12px!important;min-height:0!important;background:radial-gradient(ellipse at 85% 35%,var(--v-glow),transparent 65%),#11111b!important}
+.vayen-thumb strong{font-size:clamp(12px,1.05vw,17px)!important;line-height:1.35!important}
+.vayen-thumb small{font-size:9px!important}
+.product-intro{padding:clamp(18px,2.1vw,30px)!important;border-radius:15px!important;display:flex!important;flex-direction:column!important;justify-content:center!important}
+.product-category{font-size:10px!important}
+.product-detail-title{font-size:clamp(30px,3.5vw,52px)!important;margin:12px 0 7px!important}
+.vayen-tagline{font-size:clamp(13px,1.1vw,17px)!important;margin:0 0 8px!important;line-height:1.5!important}
+.product-detail-points{margin:12px 0!important;gap:7px!important}
+.product-detail-points p{font-size:clamp(11px,.83vw,13px)!important;line-height:1.36!important;padding:9px 9px 9px 25px!important;border-radius:9px!important}
+.product-detail-points p:before{left:8px!important}
+.product-extra-value{font-size:12px!important;padding:9px 12px!important}
+.product-confidence{font-size:12px!important;line-height:1.5!important;margin:9px 0!important}
+.product-quick-info{margin-top:9px!important;padding:9px 0!important}
+.product-quick-info span{font-size:9px!important}.product-quick-info strong{font-size:12px!important}
+.product-purchase{margin-top:12px!important;gap:14px!important}
+.product-price strong{font-size:31px!important}
+.product-get{min-height:43px!important;padding:10px 24px!important}
+.vayen-value-row{margin-top:10px!important}.vayen-value-row div{padding:9px 6px!important}
+.product-purchase-note{margin:7px 0 0!important;font-size:11px!important}
+.vayen-section-nav{margin-top:14px!important}
+.vayen-showcase,.product-contents,.product-included,.product-preview,.product-result,.product-final{margin-top:14px!important;padding:clamp(17px,2.1vw,28px)!important;border-radius:14px!important}
+.vayen-showcase h2,.product-contents h2,.product-included h2,.product-preview h2,.product-result h2,.product-final h2{font-size:clamp(23px,2.2vw,32px)!important;line-height:1.2!important}
+.vayen-showcase-grid{margin-top:13px!important;gap:11px!important}.vayen-sample{min-height:160px!important;padding:16px!important}
+.product-contents-head,.product-section-intro,.product-preview-head{margin-bottom:17px!important}
+.product-content-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+.product-content-item{padding:15px!important;min-height:0!important;display:grid!important;grid-template-columns:35px minmax(0,1fr)!important;column-gap:10px!important;align-items:start!important}
+.product-content-item>span{grid-row:1 / 3!important;font-size:18px!important}.product-content-item p{grid-column:2!important;margin-top:5px!important;font-size:12px!important}
+.product-content-item h3{font-size:15px!important;margin:3px 0!important}
+.product-steps{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:10px!important}
+.product-step{padding:17px!important;min-height:0!important}.product-step h3{font-size:19px!important;line-height:1.25!important}.product-step p{font-size:12px!important}
+.product-preview-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important}
+.product-preview-card{padding:17px!important;min-height:0!important}.product-preview-card h3{font-size:19px!important}.product-preview-card p{font-size:12px!important}
+.product-result{text-align:center!important}.product-result p{max-width:750px!important;margin-left:auto!important;margin-right:auto!important}
+.product-final{display:flex!important;align-items:center!important;justify-content:space-between!important}
+.product-hero,.vayen-showcase,.product-contents,.product-included,.product-preview,.product-result{animation:none!important}
+@keyframes vayen-arrive{from{opacity:.35;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+body[data-vayen-product="youtube-creator-system"] .vayen-cover-wrap{box-shadow:0 0 36px #a87e3824}
+body[data-vayen-product="vlogging-mastery"] .vayen-cover-wrap{box-shadow:0 0 36px #f0804524}
+body[data-vayen-product="ai-prompt-box"] .vayen-cover-wrap{box-shadow:0 0 40px #a74df52b}
+body[data-vayen-product="ai-prompt-box"] .vayen-thumb{background:radial-gradient(circle at 70% 25%,#5531b455,transparent 70%),#11111b!important}
+body[data-vayen-product="build-your-own-ai"] .vayen-thumb{background:radial-gradient(circle at 70% 25%,#168d8555,transparent 70%),#11111b!important}
+@media(max-width:1080px){.product-hero{grid-template-columns:1fr!important}.vayen-gallery{height:470px!important;max-height:none!important}.product-intro{display:block!important}.product-steps{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:650px){.product-page{padding:12px 11px 90px!important}.vayen-gallery{height:auto!important;max-height:none!important;grid-template-columns:1fr!important}.vayen-cover-wrap{height:370px!important}.vayen-thumbs{grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-rows:none!important}.vayen-thumb{height:103px!important;padding:10px!important}.vayen-thumb strong{font-size:11px!important}.product-intro{padding:19px!important}.product-detail-title{font-size:35px!important}.product-detail-points{grid-template-columns:1fr 1fr!important}.product-content-list,.product-steps{grid-template-columns:1fr 1fr!important}.product-content-item{display:block!important}.product-content-item p{font-size:11px!important}.product-preview-grid{grid-template-columns:1fr!important}.product-final{flex-wrap:wrap!important;gap:16px!important}}
+@media(max-width:390px){.product-detail-points{grid-template-columns:1fr!important}.product-content-list,.product-steps{grid-template-columns:1fr!important}}
+@media(prefers-reduced-motion:reduce){.product-hero,.vayen-showcase,.product-contents,.product-included,.product-preview,.product-result{animation:none!important}}
 </style>
-<style id="vayen-one-screen-dashboard">
-/* Approved dark/neon theme, organized into a single desktop viewport. */
-html:has(body.vd-built),body.product-body.vd-built{height:100%;overflow:hidden!important}
-body.product-body.vd-built{display:flex!important;flex-direction:column!important}
-body.product-body.vd-built .product-header{flex:0 0 auto!important;padding:11px 3%!important}
-body.product-body.vd-built .product-page{flex:1 1 auto!important;min-height:0!important;width:100%!important;max-width:1600px!important;padding:12px 18px!important;overflow:hidden!important}
-body.product-body.vd-built .product-page>section,
-body.product-body.vd-built .product-page>.vx-section,
-body.product-body.vd-built .product-page>.product-hero{display:none!important}
-body.product-body.vd-built .vd-dashboard{height:100%;min-height:0;display:grid;grid-template-rows:minmax(0,1.03fr) minmax(0,1fr);gap:12px;color:#f5f8ff}
-.vd-top{display:grid;grid-template-columns:minmax(0,1.04fr) minmax(0,1fr);gap:14px;min-height:0}
-.vd-visual,.vd-info,.vd-panel{border:1px solid #273650;background:linear-gradient(145deg,#10192b,#090f1b);border-radius:17px;min-width:0;min-height:0;overflow:hidden}
-.vd-visual{display:grid;place-items:center;padding:12px;background:radial-gradient(circle at 70% 20%,var(--v-glow),transparent 60%),#090e1c}
-.vd-visual img{width:100%;height:100%;object-fit:contain;display:block;border-radius:10px}
-.vd-fallback{font-size:clamp(27px,4vw,54px);font-weight:850;text-align:center;color:var(--v-accent);padding:20px}
-.vd-info{padding:clamp(15px,2vw,30px);display:flex;flex-direction:column;justify-content:center;gap:clamp(8px,1.1vh,14px)}
-.vd-kicker{color:var(--v-accent);font-size:11px;letter-spacing:.12em;font-weight:850}
-.vd-title{color:#fff;font-size:clamp(27px,3.4vw,52px);letter-spacing:-.045em;line-height:1.08;margin:0}
-.vd-subtitle{font-size:clamp(12px,1.12vw,16px);color:#d2deee;line-height:1.45;margin:0}
-.vd-badges{display:flex;gap:7px;flex-wrap:wrap}
-.vd-badges span{border:1px solid #2b4260;border-radius:8px;padding:7px 10px;background:#14233a;color:#cfe1f3;font-size:11px}
-.vd-price{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 16px;border-radius:12px;background:linear-gradient(110deg,#15243d,#101a2e);border:1px solid color-mix(in srgb,var(--v-accent) 45%,#25354c)}
-.vd-price small{display:block;font-size:10px;letter-spacing:.1em;color:#a8bad2}
-.vd-price strong{font-size:clamp(23px,2.3vw,34px);color:white}
-.vd-get{background:var(--v-accent)!important;color:#08101c!important;text-decoration:none;display:inline-grid;place-items:center;border-radius:10px;padding:12px 24px;font-size:13px;font-weight:850}
-.vd-note{font-size:11px;color:#9eb1ca;margin:0;line-height:1.35}
-.vd-panels{display:grid;grid-template-columns:1.13fr 1.05fr .82fr .9fr;gap:12px;min-height:0}
-.vd-panel{padding:clamp(12px,1.45vw,21px);overflow:hidden}
-.vd-panel-heading{display:flex;align-items:center;gap:9px;font-size:clamp(15px,1.3vw,19px);margin:0 0 13px;color:#fff;line-height:1.2}
-.vd-symbol{width:29px;height:29px;border-radius:9px;display:grid;place-items:center;color:var(--v-accent);background:color-mix(in srgb,var(--v-accent) 14%,#111c30);flex-shrink:0}
-.vd-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.vd-list li{font-size:clamp(11px,.87vw,13px);color:#e0e9f6;line-height:1.35;padding:7px 8px 7px 24px;position:relative;background:#152239;border:1px solid #253952;border-radius:8px}
-.vd-list li:before{content:'✓';position:absolute;left:8px;color:var(--v-accent);font-weight:900}
-.vd-inside-list{display:grid;gap:8px}
-.vd-inside-item{background:#152239;border:1px solid #253952;border-radius:9px;padding:9px 10px}
-.vd-inside-item strong{display:block;font-size:12px;color:white;line-height:1.3}
-.vd-inside-item p{font-size:11px;color:#b2c4db;line-height:1.35;margin:3px 0 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.vd-how-list{display:grid;gap:10px}
-.vd-how-item{display:flex;align-items:center;gap:9px;color:#d8e4f3;font-size:12px;line-height:1.4}
-.vd-how-item b{display:grid;place-items:center;flex:0 0 31px;height:31px;border-radius:50%;background:#182b46;color:var(--v-accent);border:1px solid #304765}
-.vd-faq-list details{border-bottom:1px solid #2c3d55;padding:10px 0;color:#e7effa}
-.vd-faq-list summary{font-size:12px;line-height:1.35;font-weight:700;cursor:pointer}
-.vd-faq-list p{font-size:11px;color:#b4c7dd;line-height:1.4;margin:7px 0 0}
-body.product-body.vd-built .product-mobile-get{z-index:100!important}
-@media(min-width:901px) and (max-height:710px){
- body.product-body.vd-built .vd-dashboard{grid-template-rows:minmax(0,1fr) minmax(0,.93fr)}
- .vd-panel{padding:11px}.vd-panel-heading{margin-bottom:7px}.vd-list{gap:5px}.vd-list li{padding-top:5px;padding-bottom:5px}.vd-inside-list{gap:5px}.vd-inside-item{padding:6px 8px}
+<style id="vayen-final-density-v3">
+/* Approved dark storefront proportions; compact without sacrificing readability. */
+@media(min-width:1081px){
+.product-page{max-width:1480px!important;padding-top:16px!important}
+.product-hero{grid-template-columns:minmax(0,1.02fr) minmax(0,1.18fr)!important;gap:14px!important}
+.vayen-gallery{height:505px!important;max-height:505px!important}
+.product-intro{padding:22px 25px!important}
+.product-detail-title{font-size:clamp(33px,3.15vw,49px)!important;margin:8px 0!important}
+.product-detail-points{margin:12px 0!important;gap:7px!important}
+.product-detail-points p{padding:9px 10px 9px 27px!important;font-size:12px!important;line-height:1.38!important}
+.product-confidence{margin:8px 0!important;font-size:12px!important}
+.product-quick-info{margin-top:12px!important;padding:11px 0!important}
+.product-purchase{margin-top:14px!important}
+.vayen-value-row{margin-top:10px!important}
 }
-@media(max-width:900px){
- body.product-body.vd-built .product-page{padding:10px!important}
- body.product-body.vd-built .vd-dashboard{grid-template-rows:minmax(0,1fr) minmax(0,1fr)}
- .vd-top{grid-template-columns:1fr 1fr}.vd-panels{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
- .vd-panel{padding:12px}
-}
-@media(max-width:650px){
- body.product-body.vd-built .product-header{padding:9px 13px!important}
- body.product-body.vd-built .product-page{padding:8px 9px 76px!important}
- body.product-body.vd-built .vd-dashboard{grid-template-rows:auto minmax(0,1fr);gap:8px}
- .vd-top{grid-template-columns:1fr;gap:7px}
- .vd-visual{height:min(24vh,190px);padding:5px;border-radius:12px}
- .vd-info{padding:10px 12px;gap:5px;border-radius:12px}
- .vd-kicker{font-size:9px}
- .vd-title{font-size:clamp(21px,5.3vw,29px)}
- .vd-subtitle{font-size:11px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
- .vd-badges span{font-size:9px;padding:4px 6px}
- .vd-price,.vd-note{display:none!important}
- .vd-panels{display:flex;flex-direction:column;gap:7px;overflow:auto;min-height:0;scrollbar-width:thin}
- .vd-panel{flex:0 0 auto;padding:11px 12px;border-radius:12px}
- .vd-panel-heading{font-size:15px;margin-bottom:8px}
- .vd-symbol{width:25px;height:25px}
- .vd-list{grid-template-columns:1fr 1fr;gap:5px}
- .vd-list li{font-size:10px;padding:6px 5px 6px 19px}
- .vd-list li:before{left:6px}
- .vd-inside-list{grid-template-columns:1fr 1fr;gap:5px}
- .vd-inside-item{padding:7px}
- .vd-inside-item strong{font-size:11px}
- .vd-inside-item p{font-size:10px}
- .vd-how-list{grid-template-columns:repeat(3,1fr);gap:6px}
- .vd-how-item{flex-direction:column;text-align:center;font-size:10px;gap:5px}
- .vd-faq-list details{padding:8px 0}
-}
+.vayen-thumb{transition:transform .32s ease,border-color .32s ease,box-shadow .32s ease,opacity .32s ease!important}
+.vayen-thumb.is-active{transform:translateY(-1px);opacity:1}
+.product-content-item,.product-step,.product-preview-card{transition:border-color .24s ease,transform .24s ease!important}
+.product-content-item:hover,.product-step:hover,.product-preview-card:hover{transform:translateY(-2px);border-color:var(--v-accent,#f26bac)!important}
+@media(max-width:650px){.product-detail-title{font-size:34px!important}.vayen-gallery{height:auto!important}.product-hero{gap:12px!important}}
 </style>
 
+<style id="vayen-typography-overlap-fix-v4">
+/* Isolate premium typography from legacy style.css positioning rules. */
+body.product-body .product-preview-head,body.product-body .product-section-intro,body.product-body .product-contents-head{display:block!important;position:relative!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;margin:0 0 24px!important;padding:0!important;text-align:left!important}
+body.product-body .product-preview-head>*,body.product-body .product-section-intro>*,body.product-body .product-contents-head>*{position:static!important;float:none!important;transform:none!important;inset:auto!important;display:block!important;width:auto!important;max-width:100%!important;height:auto!important;min-height:0!important;clear:both!important}
+body.product-body .product-preview-head>span,body.product-body .product-section-intro>span,body.product-body .product-contents-head span,body.product-body .product-result>span{position:static!important;display:block!important;font-size:11px!important;letter-spacing:.17em!important;line-height:1.5!important;margin:0 0 12px!important;color:var(--v-accent,#f478ae)!important}
+body.product-body .product-preview-head h2,body.product-body .product-section-intro h2,body.product-body .product-contents-head h2,body.product-body .product-result h2{position:static!important;transform:none!important;inset:auto!important;display:block!important;clear:both!important;width:auto!important;max-width:100%!important;height:auto!important;margin:0 0 14px!important;padding:0!important;font-size:clamp(25px,2.6vw,38px)!important;line-height:1.25!important;letter-spacing:-.025em!important;white-space:normal!important;overflow:visible!important}
+body.product-body .product-preview-head h2 em,body.product-body .product-section-intro h2 em,body.product-body .product-contents-head h2 em,body.product-body .product-result h2 em{position:static!important;display:inline!important;font-size:inherit!important;line-height:inherit!important;letter-spacing:inherit!important;transform:none!important;margin:0!important;padding:0!important}
+body.product-body .product-preview-head p,body.product-body .product-section-intro p,body.product-body .product-contents-head p{position:static!important;display:block!important;clear:both!important;width:auto!important;max-width:640px!important;margin:0!important;padding:0!important;font-size:14px!important;line-height:1.7!important;color:#c5c0cd!important}
+body.product-body .product-preview-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;align-items:stretch!important;gap:14px!important}
+body.product-body .product-preview-card,body.product-body .product-step{display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;position:relative!important;overflow:visible!important;height:auto!important;min-height:165px!important;max-height:none!important;padding:20px!important;text-align:left!important}
+body.product-body .product-preview-card>*,body.product-body .product-step>*{position:static!important;float:none!important;transform:none!important;inset:auto!important;display:block!important;width:auto!important;max-width:100%!important;height:auto!important;min-height:0!important;clear:both!important;white-space:normal!important}
+body.product-body .product-preview-card>span,body.product-body .product-step>small{order:0!important;font-size:11px!important;letter-spacing:.1em!important;line-height:1.4!important;margin:0 0 14px!important;font-weight:800!important}
+body.product-body .product-preview-card h3,body.product-body .product-step h3{order:1!important;font-size:clamp(17px,1.5vw,21px)!important;line-height:1.3!important;letter-spacing:-.02em!important;margin:0 0 12px!important;padding:0!important;font-weight:750!important}
+body.product-body .product-preview-card p,body.product-body .product-step p{order:2!important;font-size:13px!important;line-height:1.65!important;margin:0!important;padding:0!important;color:#c5c0cd!important}
+body.product-body .product-step>span{font-size:12px!important;line-height:1.5!important;margin:0 0 8px!important}
+body.product-body .product-result{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;min-height:0!important;height:auto!important;padding:32px 24px!important;gap:0!important;text-align:center!important}
+body.product-body .product-result>*,body.product-body .product-result h2,body.product-body .product-result p{position:static!important;transform:none!important;inset:auto!important;height:auto!important;max-height:none!important;clear:both!important}
+body.product-body .product-result h2{max-width:900px!important;text-align:center!important;margin:0 auto 16px!important}
+body.product-body .product-result p{font-size:14px!important;line-height:1.7!important;margin:0 auto!important;max-width:750px!important}
+body.product-body .product-content-item{position:relative!important;height:auto!important;min-height:0!important}
+body.product-body .product-content-item h3,body.product-body .product-content-item p,body.product-body .product-content-item small{position:static!important;transform:none!important;inset:auto!important;height:auto!important;line-height:1.5!important}
+@media(max-width:800px){body.product-body .product-preview-grid{grid-template-columns:1fr!important}body.product-body .product-preview-card{min-height:0!important;padding:19px!important}body.product-body .product-preview-head h2,body.product-body .product-result h2{font-size:27px!important}}
+</style>
+
+<style id="vayen-v5-final-polish">
+/* Compact PC proportions; the original photo is a contained cover, not a full-screen image. */
+@media(min-width:1081px){body.product-body .product-page{max-width:1280px!important;padding:16px 22px 50px!important}body.product-body .product-hero{grid-template-columns:minmax(0,.98fr) minmax(0,1.18fr)!important;gap:14px!important;align-items:start!important}body.product-body .vayen-gallery{height:430px!important;max-height:430px!important}body.product-body .vayen-cover-wrap,body.product-body .vayen-cover-wrap .product-visual{min-height:430px!important;height:430px!important}body.product-body .product-intro{padding:20px 22px!important}body.product-body .product-detail-title{font-size:clamp(31px,3vw,43px)!important}body.product-body .product-detail-points{margin:12px 0!important}body.product-body .product-detail-points p{font-size:12px!important;padding:8px 9px 8px 27px!important}body.product-body .product-quick-info{margin-top:10px!important;padding:10px 0!important}}
+/* One automatic slide at a time: large readable text, no overlapping labels. */
+body.product-body .vayen-thumbs{display:flex!important;flex-direction:column!important;gap:9px!important;min-width:0!important}
+body.product-body .vayen-thumb{flex:1!important;min-height:0!important;position:relative!important;padding:14px!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:7px!important;overflow:hidden!important}
+body.product-body .vayen-thumb small,body.product-body .vayen-thumb strong{position:relative!important;z-index:1!important;display:block!important;margin:0!important;line-height:1.4!important;white-space:normal!important;transform:none!important}
+body.product-body .vayen-thumb small{font-size:10px!important}body.product-body .vayen-thumb strong{font-size:15px!important}body.product-body .vayen-thumb .vayen-mini{right:8px!important;top:8px!important;opacity:.12!important}
+body.product-body .vayen-auto-detail{position:relative!important;display:flex!important;flex-direction:column!important;justify-content:center!important;gap:12px!important;padding:19px 21px!important;border:1px solid #393445!important;border-radius:15px!important;background:radial-gradient(circle at 90% 10%,var(--v-glow),transparent 58%),#151521!important;min-height:158px!important;overflow:hidden!important}
+body.product-body .vayen-auto-detail small{font-size:11px!important;letter-spacing:.15em!important;font-weight:800!important;color:var(--v-accent)!important;line-height:1.4!important}
+body.product-body .vayen-auto-detail h3{position:static!important;margin:0!important;color:#fff!important;font-size:clamp(19px,2vw,25px)!important;line-height:1.22!important}
+body.product-body .vayen-auto-detail p{position:static!important;margin:0!important;color:#d5cfdd!important;font-size:13px!important;line-height:1.6!important}
+body.product-body .vayen-auto-progress{height:3px!important;background:#ffffff24!important;border-radius:8px!important;overflow:hidden!important;flex-shrink:0!important}
+body.product-body .vayen-auto-progress>span{display:block!important;width:0;height:100%;background:var(--v-accent)!important;transition:width 4.8s linear}
+body.product-body .vayen-auto-controls{display:flex!important;align-items:center!important;gap:8px!important;justify-content:flex-end!important}
+body.product-body .vayen-auto-controls button{cursor:pointer!important;background:#ffffff0b!important;color:white!important;border:1px solid #ffffff28!important;border-radius:9px!important;padding:7px 12px!important;font-size:13px!important}
+body.product-body .vayen-language-row{display:flex!important;gap:8px!important;flex-wrap:wrap!important;margin:12px 0!important}
+body.product-body .vayen-language-row span{display:inline-flex!important;align-items:center!important;padding:7px 11px!important;border-radius:9px!important;border:1px solid #ffffff27!important;background:#ffffff0a!important;color:#eee!important;font-size:12px!important;font-weight:650!important}
+body.product-body .product-contents,body.product-body .product-included,body.product-body .product-preview,body.product-body .product-result,body.product-body .product-final,body.product-body .vayen-showcase{margin-top:13px!important;padding:23px!important}
+body.product-body .product-preview-head,body.product-body .product-section-intro,body.product-body .product-contents-head{margin-bottom:15px!important}
+body.product-body .product-content-item,body.product-body .product-preview-card,body.product-body .product-step{padding:16px!important;min-height:0!important}
+body.product-body .product-preview-card>span,body.product-body .product-step>small{margin:0 0 10px!important}
+body.product-body .product-preview-card h3,body.product-body .product-step h3{margin:0 0 9px!important}
+body.product-body .product-preview-card p,body.product-body .product-step p{line-height:1.55!important}
+body.product-body .product-result{padding:22px!important}
+body.product-body .product-hero{scroll-margin-top:18px}
+body[data-vayen-product="vlogging-mastery"] .product-intro{background:linear-gradient(130deg,#1d1514,#0e1019)!important}
+body[data-vayen-product="youtube-creator-system"] .product-intro{background:linear-gradient(130deg,#201b13,#0c0e16)!important}
+body[data-vayen-product="ai-prompt-box"] .product-intro{background:linear-gradient(130deg,#1a122b,#0b0d19)!important}
+body[data-vayen-product="animation-mastery"] .product-intro{background:linear-gradient(130deg,#20132e,#0c0d18)!important}
+body[data-vayen-product="build-your-own-ai"] .product-intro{background:linear-gradient(130deg,#0f2626,#0b0e18)!important}
+@media(max-width:1080px){body.product-body .vayen-auto-detail{min-height:140px!important}}
+@media(max-width:650px){body.product-body .product-page{padding:12px 12px 88px!important}body.product-body .vayen-gallery{display:grid!important;grid-template-columns:1fr!important;height:auto!important}body.product-body .vayen-cover-wrap,body.product-body .vayen-cover-wrap .product-visual{min-height:310px!important;height:310px!important}body.product-body .vayen-thumbs{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}body.product-body .vayen-thumb{height:88px!important;padding:9px!important}body.product-body .vayen-thumb small{font-size:8px!important}body.product-body .vayen-thumb strong{font-size:11px!important}body.product-body .product-intro{padding:17px!important}body.product-body .product-detail-points{grid-template-columns:1fr 1fr!important}body.product-body .product-contents,body.product-body .product-included,body.product-body .product-preview,body.product-body .product-result,body.product-body .product-final,body.product-body .vayen-showcase{padding:18px!important}}
+@media(prefers-reduced-motion:reduce){body.product-body .vayen-auto-progress>span{transition:none!important}}
+</style>
+
+<style id="vayen-v6-actual-layout">
+/* The screenshot reference: one coherent hero, cover on left, changing lessons on right. */
+body.product-body .product-page{max-width:1370px!important;margin:0 auto!important}
+body.product-body .product-hero{display:grid!important;grid-template-columns:minmax(0,.88fr) minmax(0,1.22fr)!important;gap:16px!important;align-items:stretch!important}
+body.product-body .product-hero .vayen-gallery{height:auto!important;max-height:none!important;display:flex!important;flex-direction:column!important;gap:10px!important;min-width:0!important}
+body.product-body .vayen-cover-wrap{height:390px!important;min-height:0!important;flex:0 0 390px!important}
+body.product-body .vayen-cover-wrap .product-visual{height:100%!important;min-height:0!important;border-radius:17px!important}
+body.product-body .vayen-thumbs{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;flex-direction:row!important}
+body.product-body .vayen-thumb{height:79px!important;min-height:0!important;padding:10px!important;justify-content:center!important}
+body.product-body .vayen-thumb strong{font-size:12px!important;line-height:1.3!important}
+body.product-body .vayen-thumb small{font-size:9px!important}
+body.product-body .product-intro{display:flex!important;flex-direction:column!important;gap:10px!important;min-width:0!important;padding:22px!important;border-radius:17px!important}
+body.product-body .product-intro>.product-detail-points,body.product-body .product-intro>.product-extra-value,body.product-body .product-intro>.product-confidence{display:none!important}
+body.product-body .product-detail-title{font-size:clamp(27px,3.15vw,43px)!important;line-height:1.12!important;margin:0!important;letter-spacing:-.04em!important}
+body.product-body .product-category{margin:0!important;line-height:1.4!important}
+body.product-body .vayen-language-row{margin:2px 0 3px!important}
+body.product-body .product-intro>.vayen-auto-detail{display:flex!important;min-height:174px!important;flex:1 0 174px!important;max-height:230px!important;gap:9px!important;padding:18px!important;border-color:color-mix(in srgb,var(--v-accent) 42%,#252332)!important;background:linear-gradient(125deg,var(--v-glow),transparent 78%),#14141c!important}
+body.product-body .vayen-auto-detail h3{font-size:clamp(20px,2vw,27px)!important;line-height:1.22!important}
+body.product-body .vayen-auto-detail p{font-size:14px!important;line-height:1.55!important}
+body.product-body .product-quick-info{margin:0!important;padding:10px 0!important;gap:12px!important}
+body.product-body .product-purchase{margin:0!important;padding:7px 0!important}
+body.product-body .product-purchase-note{margin:0!important}
+body.product-body .product-contents,body.product-body .product-included,body.product-body .product-preview,body.product-body .product-result,body.product-body .product-final,body.product-body .vayen-showcase{padding:22px!important;margin-top:12px!important}
+body.product-body .product-contents-head h2,body.product-body .product-section-intro h2,body.product-body .product-preview-head h2{font-size:28px!important;line-height:1.2!important}
+body.product-body .product-contents-head h2 br,body.product-body .product-section-intro h2 br,body.product-body .product-preview-head h2 br{display:none!important}
+body.product-body .product-contents-head h2 em,body.product-body .product-section-intro h2 em,body.product-body .product-preview-head h2 em{margin-left:6px!important}
+body.product-body .product-preview-card>*,body.product-body .product-step>*,body.product-body .product-content-item>*{position:static!important;transform:none!important}
+body.product-body .product-preview-card h3,body.product-body .product-step h3{font-size:18px!important;line-height:1.35!important;margin:0 0 9px!important}
+body.product-body .product-preview-card>span,body.product-body .product-step>small{font-size:10px!important;line-height:1.4!important;margin:0 0 10px!important}
+body.product-body .product-preview-card p,body.product-body .product-step p{font-size:13px!important;line-height:1.6!important}
+@media(max-width:900px){body.product-body .product-hero{grid-template-columns:1fr!important}body.product-body .vayen-cover-wrap{height:330px!important;flex-basis:330px!important}body.product-body .product-intro>.vayen-auto-detail{max-height:none!important}}
+@media(max-width:650px){body.product-body .product-hero{gap:12px!important}body.product-body .vayen-cover-wrap{height:300px!important;flex-basis:300px!important}body.product-body .vayen-thumb{height:72px!important}body.product-body .product-intro{padding:17px!important}body.product-body .product-intro>.vayen-auto-detail{min-height:200px!important}body.product-body .product-contents-head h2,body.product-body .product-section-intro h2,body.product-body .product-preview-head h2{font-size:24px!important}}
+</style>
 </head>
+
+
 <body class="product-body" style="visibility:hidden;background:#080910">
+
+
 <!-- HEADER -->
+
 <header class="product-header">
-<a class="product-brand" href="index.html">
+
+    <a href="index.html" class="product-brand">
         VAYEN
     </a>
-<div class="product-header-actions">
-<a class="product-back" href="collection.html">
+
+
+    <div class="product-header-actions">
+
+       <a href="collection.html" class="product-back">
     ← Back
 </a>
-<a class="product-account" href="account.html">
+        <a href="account.html" class="product-account">
             Account
         </a>
-</div>
+
+    </div>
+
 </header>
+
+
+
 <main class="product-page">
-<!-- PRODUCT HERO -->
-<section class="product-hero">
-<!-- VISUAL -->
-<div class="product-visual">
-<div class="product-visual-top">
-<span>
+
+
+    <!-- PRODUCT HERO -->
+
+    <section class="product-hero">
+
+
+        <!-- VISUAL -->
+
+        <div class="product-visual">
+
+            <div class="product-visual-top">
+
+                <span>
                     CREATOR STUDIO
                 </span>
-<small>
+
+                <small>
                     VAYEN / 001
                 </small>
-</div>
-<div class="product-cover-content">
-<h2>
-                    Creator<br/>
+
+            </div>
+
+
+            <div class="product-cover-content">
+
+               
+                <h2>
+                    Creator<br>
                     Launch Kit
                 </h2>
-<p>
+
+                <p>
                     Build it properly.
                 </p>
-</div>
-<div class="product-visual-bottom">
-<span>
+
+            </div>
+
+
+            <div class="product-visual-bottom">
+
+                <span>
                     DIGITAL PRODUCT
                 </span>
-<span>
+
+                <span>
                     2026
                 </span>
-</div>
-</div>
-<!-- INFORMATION -->
-<div class="product-intro">
-<span class="product-category">
+
+            </div>
+
+        </div>
+
+
+
+        <!-- INFORMATION -->
+
+        <div class="product-intro">
+
+            <span class="product-category">
                 CREATOR STUDIO · COMPLETE SYSTEM
             </span>
-<h1 class="product-detail-title">
+
+
+          <h1 class="product-detail-title">
     AI Prompting
 </h1>
+
+
 <div class="product-detail-points">
-<p>Learn how to talk to AI clearly.</p>
-<p>Get better answers with better prompts.</p>
-<p>Turn simple ideas into useful prompts.</p>
-<p>Learn from real examples.</p>
-<p>Fix prompts when results are not good.</p>
-<p>Create prompts for work and content.</p>
-<p>Build your own prompts when you need them.</p>
+
+    <p>Learn how to talk to AI clearly.</p>
+
+    <p>Get better answers with better prompts.</p>
+
+    <p>Turn simple ideas into useful prompts.</p>
+
+    <p>Learn from real examples.</p>
+
+    <p>Fix prompts when results are not good.</p>
+
+    <p>Create prompts for work and content.</p>
+
+    <p>Build your own prompts when you need them.</p>
+
 </div>
+
+
 <div class="product-extra-value">
-<span>+</span>
+    <span>+</span>
     300 ready-to-use prompts included
 </div>
+
+
 <p class="product-confidence">
     By the end, you'll know how to create
     better prompts on your own.
 </p>
-<!-- QUICK INFO -->
-<div class="product-quick-info">
-<div>
-<span>FORMAT</span>
-<strong>Digital</strong>
-</div>
-<div>
-<span>ACCESS</span>
-<strong>Your Library</strong>
-</div>
-<div>
-<span>MADE FOR</span>
-<strong>Creators</strong>
-</div>
-</div>
-<!-- PURCHASE -->
-<div class="product-purchase">
-<div class="product-price">
-<span>ONE-TIME</span>
-<strong>
+
+            <!-- QUICK INFO -->
+
+            <div class="product-quick-info">
+
+                <div>
+                    <span>FORMAT</span>
+                    <strong>Digital</strong>
+                </div>
+
+                <div>
+                    <span>ACCESS</span>
+                    <strong>Your Library</strong>
+                </div>
+
+                <div>
+                    <span>MADE FOR</span>
+                    <strong>Creators</strong>
+                </div>
+
+            </div>
+
+
+            <!-- PURCHASE -->
+
+            <div class="product-purchase">
+
+                <div class="product-price">
+
+                    <span>ONE-TIME</span>
+
+                    <strong>
                         ₹499
                     </strong>
-</div>
-<a class="product-get" href="login.html?from=get&amp;product=ai-prompting" id="productGet">
+
+                </div>
+
+<a href="login.html?from=get&product=ai-prompting"
+   class="product-get"
+   id="productGet">
 
     Get
 
     <span>→</span>
+
 </a>
-</div>
-<p class="product-purchase-note">
+            </div>
+
+
+            <p class="product-purchase-note">
                 See everything included before you get it.
             </p>
-</div>
-</section>
+
+        </div>
+
+    </section>
+
+
 <!-- EXACT CONTENTS -->
+
 <section class="product-contents">
-<div class="product-contents-head">
-<div>
-<span>WHAT'S INSIDE</span>
-<h2>
-                Everything included.<br/>
-<em>Nothing vague.</em>
-</h2>
-</div>
-<p>
+
+    <div class="product-contents-head">
+
+        <div>
+            <span>WHAT'S INSIDE</span>
+
+            <h2>
+                Everything included.<br>
+                <em>Nothing vague.</em>
+            </h2>
+        </div>
+
+        <p>
             Know exactly what you're getting
             before you make it yours.
         </p>
-</div>
-<div class="product-content-list">
-<div class="product-content-item">
-<span>01</span>
-<div>
-<small>LEARN</small>
-<h3>Prompt basics</h3>
-</div>
-<p>
+
+    </div>
+
+
+   <div class="product-content-list">
+
+    <div class="product-content-item">
+        <span>01</span>
+
+        <div>
+            <small>LEARN</small>
+            <h3>Prompt basics</h3>
+        </div>
+
+        <p>
             Learn what makes a prompt clear
             and why AI gives better answers.
         </p>
-</div>
-<div class="product-content-item">
-<span>02</span>
-<div>
-<small>METHOD</small>
-<h3>Better prompt methods</h3>
-</div>
-<p>
+    </div>
+
+
+    <div class="product-content-item">
+        <span>02</span>
+
+        <div>
+            <small>METHOD</small>
+            <h3>Better prompt methods</h3>
+        </div>
+
+        <p>
             Simple ways to turn your idea
             into a useful and clear prompt.
         </p>
-</div>
-<div class="product-content-item">
-<span>03</span>
-<div>
-<small>EXAMPLES</small>
-<h3>Real prompt examples</h3>
-</div>
-<p>
+    </div>
+
+
+    <div class="product-content-item">
+        <span>03</span>
+
+        <div>
+            <small>EXAMPLES</small>
+            <h3>Real prompt examples</h3>
+        </div>
+
+        <p>
             See good prompts, weak prompts
             and how to make them better.
         </p>
-</div>
-<div class="product-content-item">
-<span>04</span>
-<div>
-<small>READY TO USE</small>
-<h3>300+ ready prompts</h3>
-</div>
-<p>
+    </div>
+
+
+    <div class="product-content-item">
+        <span>04</span>
+
+        <div>
+            <small>READY TO USE</small>
+            <h3>300+ ready prompts</h3>
+        </div>
+
+        <p>
             Ready prompts for content, ideas,
             work, planning and everyday tasks.
         </p>
-</div>
+    </div>
+
 </div>
 </section>
+
+
 <!-- WHAT YOU GET -->
-<section class="product-included">
-<div class="product-section-intro">
-<span>
+    <section class="product-included">
+
+        <div class="product-section-intro">
+
+            <span>
                 INSIDE THE PRODUCT
             </span>
-<h2>
-                Not pieces.<br/>
-<em>A complete path.</em>
-</h2>
-<p>
+
+            <h2>
+                Not pieces.<br>
+                <em>A complete path.</em>
+            </h2>
+
+            <p>
                 Each part is designed to take you
                 naturally into the next one.
             </p>
-</div>
+
+        </div>
+
 <div class="product-steps">
-<article class="product-step">
-<span>01</span>
-<small>LEARN</small>
-<h3>
-            Know what<br/>
+
+
+    <article class="product-step">
+
+        <span>01</span>
+
+        <small>LEARN</small>
+
+        <h3>
+            Know what<br>
             to ask.
         </h3>
-<p>
+
+        <p>
             Learn what AI needs
             to understand your request.
         </p>
-</article>
-<article class="product-step">
-<span>02</span>
-<small>SEE</small>
-<h3>
-            See better<br/>
+
+    </article>
+
+
+    <article class="product-step">
+
+        <span>02</span>
+
+        <small>SEE</small>
+
+        <h3>
+            See better<br>
             prompts.
         </h3>
-<p>
+
+        <p>
             Compare simple examples
             and see what works better.
         </p>
-</article>
-<article class="product-step">
-<span>03</span>
-<small>TRY</small>
-<h3>
-            Build your<br/>
+
+    </article>
+
+
+    <article class="product-step">
+
+        <span>03</span>
+
+        <small>TRY</small>
+
+        <h3>
+            Build your<br>
             own prompts.
         </h3>
-<p>
+
+        <p>
             Use easy methods to turn
             your ideas into clear prompts.
         </p>
-</article>
-<article class="product-step">
-<span>04</span>
-<small>USE</small>
-<h3>
-            Use AI with<br/>
+
+    </article>
+
+
+    <article class="product-step">
+
+        <span>04</span>
+
+        <small>USE</small>
+
+        <h3>
+            Use AI with<br>
             confidence.
         </h3>
-<p>
+
+        <p>
             Create better prompts yourself
             whenever you need them.
         </p>
-</article>
+
+    </article>
+
+
 </div>
-</section>
+       
+   </section>
+
+
 <!-- PRODUCT PREVIEW -->
+
 <section class="product-preview">
-<div class="product-preview-head">
-<span>SEE BEFORE YOU GET IT</span>
-<h2>
-            A look<br/>
-<em>inside.</em>
-</h2>
-<p>
+
+    <div class="product-preview-head">
+
+        <span>SEE BEFORE YOU GET IT</span>
+
+        <h2>
+            A look<br>
+            <em>inside.</em>
+        </h2>
+
+        <p>
             See a few real examples from
             the product before you make it yours.
         </p>
-</div>
-<div class="product-preview-grid">
-<div class="product-preview-card">
-<span>01 · LEARN</span>
-<h3>
-                How a better<br/>
+
+    </div>
+
+
+    <div class="product-preview-grid">
+
+        <div class="product-preview-card">
+            <span>01 · LEARN</span>
+
+            <h3>
+                How a better<br>
                 prompt works.
             </h3>
-<p>
+
+            <p>
                 See how small changes can make
                 an AI request clearer.
             </p>
-</div>
-<div class="product-preview-card">
-<span>02 · EXAMPLE</span>
-<h3>
-                Weak prompt.<br/>
+        </div>
+
+
+        <div class="product-preview-card">
+            <span>02 · EXAMPLE</span>
+
+            <h3>
+                Weak prompt.<br>
                 Better prompt.
             </h3>
-<p>
+
+            <p>
                 Compare both and understand
                 what makes the difference.
             </p>
-</div>
-<div class="product-preview-card">
-<span>03 · READY PROMPTS</span>
-<h3>
-                A peek at the<br/>
+        </div>
+
+
+        <div class="product-preview-card">
+            <span>03 · READY PROMPTS</span>
+
+            <h3>
+                A peek at the<br>
                 300+ collection.
             </h3>
-<p>
+
+            <p>
                 Preview some ready prompts
                 included with the product.
             </p>
-</div>
-</div>
+        </div>
+
+    </div>
+
 </section>
+
+
 <!-- RESULT -->
 <section class="product-result">
-<span>
+
+    <span>
         WHAT YOU TAKE WITH YOU
     </span>
-<h2>
-        Don't just copy prompts.<br/>
-<em>Know how to create them.</em>
-</h2>
-<p>
+
+    <h2>
+        Don't just copy prompts.<br>
+        <em>Know how to create them.</em>
+    </h2>
+
+    <p>
         After going through this product,
         you'll understand how to write clearer prompts,
         improve weak ones and create useful prompts
         for your own needs.
     </p>
+
 </section>
+
+
+
 <!-- FINAL GET -->
+
 <section class="product-final">
-<div>
-<span>
+
+    <div>
+
+        <span>
             READY WHEN YOU ARE
         </span>
-<h2>
+
+        <h2>
              Make it yours.
         </h2>
-</div>
-<div class="product-final-action">
-<strong>
+
+    </div>
+
+
+    <div class="product-final-action">
+
+        <strong>
             ₹499
         </strong>
-<a class="product-get" href="login.html?from=get&amp;product=ai-prompting">
+
+       <a href="login.html?from=get&product=ai-prompting"
+   class="product-get">
 
     Get
     <span>→</span>
+
 </a>
-</div>
+    </div>
+
 </section>
+    </section>
+
 
 </main>
+
+
+
 <!-- MOBILE GET BAR -->
+
 <div class="product-mobile-get">
-<div>
-<small>ONE-TIME</small>
-<strong>₹499</strong>
-</div>
-<a class="product-get" href="login.html?from=get&amp;product=ai-prompting" id="productGet">
+
+    <div>
+        <small>ONE-TIME</small>
+        <strong>₹499</strong>
+    </div>
+
+   <a href="login.html?from=get&product=ai-prompting"
+   class="product-get"
+   id="productGet">
 
     Get
 
     <span>→</span>
+
 </a>
 </div>
 <script src="vayen-firebase-config.js"></script>
@@ -721,31 +1073,11 @@ const visual = document.querySelector(".product-visual");
 
 const coverImages = {
     "youtube-creator-system": "images/youtube.png",
-    "vlogging-mastery": "images/vlogging.png",
-    "animation-mastery": "images/product-covers/animation-mastery.png",
-    "social-media-tips": "images/product-covers/social-media-tips.png",
-    "ai-prompt-box": "images/product-covers/ai-prompt-box.png",
-    "build-your-own-ai": "images/product-covers/build-your-own-ai.png",
-    "reels-growth": "images/product-covers/reels-growth.png",
-    "web-creator": "images/product-covers/web-creator.png",
-    "youtube-algorithm": "images/product-covers/youtube-algorithm.png",
-    "earn-from-social-media": "images/product-covers/earn-from-social-media.png",
-    "creator-studio": "images/product-covers/creator-studio.png",
-    "business-launch": "images/product-covers/business-launch.png",
-    "content-strategy": "images/product-covers/content-strategy.png",
-    "design-thumbnails": "images/product-covers/design-thumbnails.png",
-    "edit-videos": "images/product-covers/edit-videos.png",
-    "ai-automation": "images/product-covers/ai-automation.png",
-    "seller-commerce": "images/product-covers/seller-commerce.png",
-    "personal-brand": "images/product-covers/personal-brand.png"
+    "vlogging-mastery": "images/vlogging.png"
 };
 
 if (coverImages[productId]) {
-if (productId === "vlogging-mastery" || productId === "youtube-creator-system") {
-    visual.classList.add("flagship-photo-cover");
-} else {
-    visual.classList.add("vayen-custom-product-cover");
-}
+visual.classList.add("flagship-photo-cover");
 const coverTop = visual.querySelector(".product-visual-top small");
 const coverBottom = visual.querySelector(
     ".product-visual-bottom span:first-child"
@@ -760,13 +1092,9 @@ if (productId === "youtube-creator-system") {
     coverTop.textContent = "VAYEN / YOUTUBE";
     coverBottom.textContent = "CREATE · GROW · BUILD YOUR CHANNEL";
 }
-    if (visual.classList.contains("vayen-custom-product-cover")) {
-        visual.style.background = `#080b17 url("${coverImages[productId]}") center / 100% 100% no-repeat`;
-    } else {
-        visual.style.background =
-            `linear-gradient(to top, rgba(0,0,0,.45), rgba(0,0,0,.05)),
-             url("${coverImages[productId]}") center/cover no-repeat`;
-    }
+    visual.style.background =
+        `linear-gradient(to top, rgba(0,0,0,.45), rgba(0,0,0,.05)),
+         url("${coverImages[productId]}") center/cover no-repeat`;
 } else if (VayenCatalog.records().find(p=>(p.slug||p.id)===productId)?.image) {
     const img=VayenCatalog.records().find(p=>(p.slug||p.id)===productId).image;
     if (/^(https?:\/\/|images\/)[^"'<>]*$/i.test(img)) visual.style.background='linear-gradient(to top,rgba(0,0,0,.3),rgba(0,0,0,.02)), url("'+img+'") center/cover no-repeat';
@@ -780,6 +1108,7 @@ if (productId === "youtube-creator-system") {
  document.body.style.visibility = "visible";
 })();
 </script>
+
 <script>
 document.querySelectorAll(
     'a.product-get[href*="login.html"], a.product-get[href*="payment.html"]'
@@ -860,139 +1189,91 @@ window.VayenSaved={get,toggle,heart,sync,user};window.addEventListener('vayen-sa
 })();
 </script>
 
-
-
-<script>
+<script id="vayen-luxe-detail-engine">
 (function(){
 'use strict';
-const themes={
-'youtube-creator-system':['#e7bd6b','rgba(218,159,61,.13)'],'vlogging-mastery':['#ffa979','rgba(250,133,73,.13)'],
-'animation-mastery':['#c5a0ff','rgba(159,88,238,.14)'],'social-media-tips':['#ff75bf','rgba(255,82,167,.14)'],
-'ai-prompt-box':['#b88aff','rgba(153,90,239,.14)'],'build-your-own-ai':['#60e5cf','rgba(49,213,188,.14)'],
-'reels-growth':['#ff78b5','rgba(244,83,164,.14)'],'web-creator':['#49baff','rgba(49,154,251,.14)'],
-'youtube-algorithm':['#ff727b','rgba(248,80,92,.14)'],'earn-from-social-media':['#60e0a2','rgba(56,204,138,.14)'],
-'creator-studio':['#bb90ff','rgba(152,92,235,.14)'],'business-launch':['#efc477','rgba(233,178,67,.14)'],
-'content-strategy':['#66e3d3','rgba(49,204,186,.14)'],'design-thumbnails':['#ffd264','rgba(238,192,61,.14)'],
-'edit-videos':['#a39bff','rgba(139,115,248,.14)'],'ai-automation':['#73c7ff','rgba(63,162,243,.14)'],
-'seller-commerce':['#71e5b4','rgba(65,203,145,.14)'],'personal-brand':['#f3ad80','rgba(236,141,80,.14)']};
-const covers={
-'youtube-creator-system':'images/youtube.png','vlogging-mastery':'images/vlogging.png',
-'animation-mastery':'images/product-covers/animation-mastery.png','social-media-tips':'images/product-covers/social-media-tips.png',
-'ai-prompt-box':'images/product-covers/ai-prompt-box.png','build-your-own-ai':'images/product-covers/build-your-own-ai.png',
-'reels-growth':'images/product-covers/reels-growth.png','web-creator':'images/product-covers/web-creator.png',
-'youtube-algorithm':'images/product-covers/youtube-algorithm.png','earn-from-social-media':'images/product-covers/earn-from-social-media.png',
-'creator-studio':'images/product-covers/creator-studio.png','business-launch':'images/product-covers/business-launch.png',
-'content-strategy':'images/product-covers/content-strategy.png','design-thumbnails':'images/product-covers/design-thumbnails.png',
-'edit-videos':'images/product-covers/edit-videos.png','ai-automation':'images/product-covers/ai-automation.png',
-'seller-commerce':'images/product-covers/seller-commerce.png','personal-brand':'images/product-covers/personal-brand.png'};
 const id=new URLSearchParams(location.search).get('id')||new URLSearchParams(location.search).get('product')||'ai-prompting';
-const t=themes[id]||['#78baff','rgba(69,157,246,.12)'];
+const themes={
+'youtube-creator-system':['#e4bc6d','rgba(214,167,67,.23)','🎬'],'vlogging-mastery':['#ffae76','rgba(241,121,52,.25)','📹'],
+'animation-mastery':['#c69bff','rgba(144,73,233,.24)','🎞️'],'social-media-tips':['#ff839c','rgba(239,88,118,.24)','📱'],
+'ai-prompt-box':['#ff72bb','rgba(202,61,186,.27)','✨'],'build-your-own-ai':['#67e4d0','rgba(48,185,176,.24)','🤖'],
+'reels-growth':['#f38dba','rgba(237,95,147,.23)','🎥'],'web-creator':['#88c7ff','rgba(79,143,225,.22)','🌐'],
+'youtube-algorithm':['#ff8585','rgba(230,76,76,.22)','▶️'],'earn-from-social-media':['#8ae4bb','rgba(72,198,139,.22)','💰'],
+'creator-studio':['#e9b88b','rgba(221,150,82,.22)','🎙️'],'business-launch':['#efc778','rgba(215,163,74,.22)','🚀'],
+'content-strategy':['#ac9dff','rgba(132,112,231,.22)','🗓️'],'design-thumbnails':['#f5a4dc','rgba(217,95,177,.22)','🎨'],
+'edit-videos':['#88c6ff','rgba(90,149,235,.22)','🎬'],'ai-automation':['#7be0dd','rgba(65,186,192,.22)','⚡'],
+'seller-commerce':['#efb978','rgba(214,143,72,.22)','🛍️'],'personal-brand':['#d7a3ff','rgba(159,91,212,.22)','🌟']
+};
+document.body.dataset.vayenProduct=id;
+const t=themes[id]||['#ef8cc1','rgba(233,90,156,.24)','📚'];
 document.body.style.setProperty('--v-accent',t[0]);document.body.style.setProperty('--v-glow',t[1]);
-function el(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!=null)n.textContent=text;return n}
-function section(title,icon){const s=el('section','vx-section');const h=el('h2','vx-heading');h.append(el('span','vx-icon',icon),document.createTextNode(title));s.append(h);return s}
-
-function init(){
-  if (!document.body.classList.contains('vayen-product-ready')) return;
-  if (document.querySelector('.vd-dashboard')) return;
-  const page = document.querySelector('.product-page');
-  const hero = document.querySelector('.product-hero');
-  if (!page || !hero) return;
-  const read = selector => document.querySelector(selector)?.textContent.trim() || '';
-  const name = read('.product-detail-title') || 'Digital Product';
-  const category = read('.product-category') || 'VAYEN COLLECTION';
-  const subtitle = read('.product-cover-content p') || '';
-  const audience = read('.product-quick-info > div:nth-child(3) strong') || 'Creators & learners';
-  const price = read('.product-price strong');
-  const buy = document.querySelector('.product-purchase .product-get');
-  const points = [...document.querySelectorAll('.product-detail-points p')]
-    .map(x=>x.textContent.trim()).filter(Boolean);
-  const contents = [...document.querySelectorAll('.product-content-item')]
-    .map(x=>({title:x.querySelector('h3')?.textContent.trim()||'',desc:x.querySelector('p')?.textContent.trim()||''}))
-    .filter(x=>x.title);
-  const steps = [...document.querySelectorAll('.product-step')]
-    .map(x=>({title:x.querySelector('h3')?.textContent.trim()||'',desc:x.querySelector('p')?.textContent.trim()||''}))
-    .filter(x=>x.title);
-
-  const dashboard = el('div','vd-dashboard');
-  const top = el('div','vd-top');
-  const visual = el('div','vd-visual');
-  if (covers[id]) {
-    const img = el('img');
-    img.src = covers[id]; img.alt = name + ' product cover';
-    img.onerror = function(){
-      this.remove();
-      visual.append(el('div','vd-fallback',name));
-    };
-    visual.append(img);
-  } else visual.append(el('div','vd-fallback',name));
-  const info = el('div','vd-info');
-  info.append(el('span','vd-kicker',category),el('h1','vd-title',name));
-  if(subtitle) info.append(el('p','vd-subtitle',subtitle));
-  const badges = el('div','vd-badges');
-  ['◈ Digital product','✓ Your Library',audience].forEach(t=>badges.append(el('span','',t)));
-  info.append(badges);
-  const pricebar = el('div','vd-price');
-  const pricecopy=el('div'); pricecopy.append(el('small','','ONE-TIME'),el('strong','',price));
-  pricebar.append(pricecopy);
-  if(buy) {const b=buy.cloneNode(true);b.className='vd-get product-get';b.textContent='Get Now →';pricebar.append(b);}
-  info.append(pricebar);
-  const note=el('p','vd-note','Review what is included before purchasing. Access through Your Library.');
-  info.append(note);
-  top.append(visual,info);
-  dashboard.append(top);
-
-  const panelGrid=el('div','vd-panels');
-  function panel(title,icon,cls){
-    const p=el('section','vd-panel '+cls);
-    const heading=el('h2','vd-panel-heading');
-    heading.append(el('span','vd-symbol',icon),document.createTextNode(title));
-    p.append(heading);
-    panelGrid.append(p);
-    return p;
-  }
-  const learning=panel("What You'll Learn",'✦','vd-learn');
-  const learningList=el('ul','vd-list');
-  (points.length?points:contents.map(x=>x.title)).slice(0,6).forEach(p=>learningList.append(el('li','',p)));
-  learning.append(learningList);
-
-  const included=panel("What's Inside",'▣','vd-included');
-  const insideList=el('div','vd-inside-list');
-  contents.slice(0,4).forEach(item=>{
-    const entry=el('div','vd-inside-item');
-    entry.append(el('strong','',item.title),el('p','',item.desc));
-    insideList.append(entry);
-  });
-  if(!contents.length) insideList.append(el('p','', 'See the product description for included topics.'));
-  included.append(insideList);
-
-  const how=panel('How It Works','↗','vd-how');
-  const howList=el('div','vd-how-list');
-  [['01','Choose & purchase'],['02','Open Your Library'],['03','Access your product']].forEach(([num,label])=>{
-    const entry=el('div','vd-how-item');entry.append(el('b','',num),el('span','',label));howList.append(entry);
-  });
-  how.append(howList);
-  const faq=panel('Quick Answers','?','vd-faq');
-  const faqList=el('div','vd-faq-list');
-  [
-    ['What will I get?',contents.length ? 'The topics shown in What’s Inside are part of this product.' : 'Check the product description before purchasing.'],
-    ['How do I access it?','After a successful purchase, open Your Library in your VAYEN account.']
-  ].forEach(([q,a])=>{
-    const details=el('details');details.append(el('summary','',q),el('p','',a));faqList.append(details);
-  });
-  faq.append(faqList);
-  dashboard.append(panelGrid);
-  page.prepend(dashboard);
-  document.body.classList.add('vd-built');
-}
-function awaitProduct(){
-  if(document.body.classList.contains('vayen-product-ready')){init();return;}
-  const observer=new MutationObserver(()=>{
-    if(document.body.classList.contains('vayen-product-ready')){observer.disconnect();init();}
-  });
-  observer.observe(document.body,{attributes:true,attributeFilter:['class']});
-}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',awaitProduct);
-else awaitProduct();
+const hero=document.querySelector('.product-hero'),cover=document.querySelector('.product-visual'),intro=document.querySelector('.product-intro');
+if(!hero||!cover||!intro||!document.body.classList.contains('vayen-product-ready'))return;
+const title=(document.querySelector('.product-detail-title')?.textContent||'Digital Guide').trim();
+const tagline=document.createElement('p');tagline.className='vayen-tagline';tagline.textContent='A practical digital learning resource, designed around '+title+'.';
+intro.querySelector('.product-detail-title').after(tagline);
+const gallery=document.createElement('div');gallery.className='vayen-gallery';
+const wrap=document.createElement('div');wrap.className='vayen-cover-wrap';cover.before(gallery);gallery.append(wrap);wrap.append(cover);
+const count=document.createElement('div');count.className='vayen-cover-count';count.textContent=id==='ai-prompt-box'?'3,000+ READY-TO-USE PROMPTS':'VAYEN · DIGITAL EDITION';wrap.append(count);
+const points=[...document.querySelectorAll('.product-content-item h3')].map(x=>x.textContent.trim());
+const labels=[points[0]||'Explore the guide',points[1]||'See practical methods',points[2]||'Learn with examples'];
+const icons=['✦','◈',t[2]];
+const thumbs=document.createElement('div');thumbs.className='vayen-thumbs';gallery.append(thumbs);
+labels.forEach((label,i)=>{const b=document.createElement('button');b.type='button';b.className='vayen-thumb'+(i===0?' is-active':'');b.innerHTML='<small>0'+(i+1)+' · PRODUCT PREVIEW</small><span class="vayen-mini" aria-hidden="true">'+icons[i]+'</span><strong></strong>';b.querySelector('strong').textContent=label;thumbs.append(b);});
+let active=0;const buttons=[...thumbs.children];const choose=i=>{active=i;buttons.forEach((b,j)=>b.classList.toggle('is-active',j===i));};buttons.forEach((b,i)=>b.addEventListener('click',()=>choose(i)));
+let timer;const start=()=>{if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;timer=setInterval(()=>{if(!document.hidden)choose((active+1)%buttons.length)},4300)};start();gallery.addEventListener('mouseenter',()=>clearInterval(timer));gallery.addEventListener('mouseleave',()=>{clearInterval(timer);start()});
+let touchX=null;gallery.addEventListener('touchstart',e=>{touchX=e.touches[0]?.clientX??null},{passive:true});gallery.addEventListener('touchend',e=>{if(touchX===null)return;const dx=(e.changedTouches[0]?.clientX??touchX)-touchX;if(Math.abs(dx)>35)choose((active+(dx<0?1:buttons.length-1))%buttons.length);touchX=null},{passive:true});
+const values=document.createElement('div');values.className='vayen-value-row';[['◈','Product-specific guide'],['✓','One-time purchase'],['↗','Library access']].forEach(([icon,label])=>{const item=document.createElement('div');const bold=document.createElement('b');bold.textContent=icon;item.append(bold,document.createTextNode(label));values.append(item)});intro.querySelector('.product-purchase-note')?.after(values);
+// Comparison prices are OPTIONAL merchandising values, not verified past selling prices.
+// Populate from approved regular prices only; no fabricated strikethrough price or discount.
+const approvedRegularPrices={};
+const priceEl=intro.querySelector('.product-price');const current=Number((priceEl?.querySelector('strong')?.textContent||'').replace(/[^0-9]/g,''));const regular=approvedRegularPrices[id];
+if(regular&&current&&regular>current){const discount=Math.round((regular-current)/regular*100);const row=document.createElement('div');row.className='vayen-price-compare';row.innerHTML='<span>Regular price</span> <del></del> <span class="vayen-discount"></span>';row.querySelector('del').textContent='₹'+regular.toLocaleString('en-IN');row.querySelector('.vayen-discount').textContent=discount+'% OFF';priceEl.append(row)}
+const nav=document.createElement('nav');nav.className='vayen-section-nav';nav.setAttribute('aria-label','Product details');
+[['Overview','.product-hero'],["What's Inside",'.product-contents'],['Learning Path','.product-included'],['Examples','.product-preview'],['Who It’s For','.product-result']].forEach(([label,selector],i)=>{const el=document.querySelector(selector);if(!el)return;el.id='vayen-detail-'+i;const a=document.createElement('a');a.href='#'+el.id;a.textContent=label;nav.append(a)});hero.after(nav);
+const showcase=document.createElement('section');showcase.className='vayen-showcase';const sh=document.createElement('h2');sh.textContent=id==='ai-prompt-box'?'Example prompt & visual result':'Explore a practical example';const sp=document.createElement('p');sp.textContent=id==='ai-prompt-box'?'Copy a sample prompt and try it with a compatible AI image tool. You can upload your own photo where supported.':'A preview of the kind of practical learning covered in this product.';showcase.append(sh,sp);
+const sg=document.createElement('div');sg.className='vayen-showcase-grid';showcase.append(sg);
+const example=document.createElement('article');example.className='vayen-sample';const small=document.createElement('small');small.textContent=id==='ai-prompt-box'?'COPY & TRY · SAMPLE PROMPT':'INSIDE THE GUIDE';const eh=document.createElement('h3');eh.textContent=id==='ai-prompt-box'?'Cinematic portrait transformation':labels[0];const ep=document.createElement('p');const prompt='Transform my uploaded photo into a cinematic portrait with dramatic blue-orange lighting, realistic facial details and a dark studio background. Preserve my facial identity.';ep.textContent=id==='ai-prompt-box'?prompt:(document.querySelector('.product-content-item p')?.textContent||'Explore clear, practical guidance for this topic.').trim();example.append(small,eh,ep);if(id==='ai-prompt-box'){const copy=document.createElement('button');copy.type='button';copy.textContent='Copy sample prompt';copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(prompt);copy.textContent='Copied ✓'}catch(e){copy.textContent='Select and copy the prompt'}});example.append(copy)}sg.append(example);
+const vis=document.createElement('article');vis.className='vayen-sample vayen-sample-visual';const vi=document.createElement('div');vi.className='vayen-sample-visual-inner';vi.textContent=t[2];const note=document.createElement('span');note.textContent=id==='ai-prompt-box'?'IMAGE RESULT PREVIEW TO BE ADDED':'PRODUCT LEARNING PREVIEW';vi.append(note);vis.append(vi);sg.append(vis);
+nav.after(showcase);
+if(id==='ai-prompt-box'){const bonus=document.querySelector('.product-extra-value');if(bonus)bonus.textContent='+ 3,000+ ready-to-use AI prompts';const category=document.querySelector('.product-category');if(category)category.textContent='AI PROMPT BOX · 3,000+ READY-TO-USE PROMPTS';}
 })();
-</script></body>
+</script>
+
+<script id="vayen-v5-guided-preview">
+(function(){
+'use strict';
+function boot(){
+ if(!document.body.classList.contains('vayen-product-ready')){setTimeout(boot,100);return;}
+ const gallery=document.querySelector('.vayen-gallery');if(!gallery||gallery.querySelector('.vayen-auto-detail'))return;
+ const params=new URLSearchParams(location.search),id=params.get('id')||params.get('product')||'ai-prompting';
+ const name=document.querySelector('.product-detail-title')?.textContent.trim()||'Digital Guide';
+ const parts=[...document.querySelectorAll('.product-content-item')].map(el=>({label:el.querySelector('small')?.textContent.trim()||'INSIDE',heading:el.querySelector('h3')?.textContent.trim()||'',description:el.querySelector('p')?.textContent.trim()||''}));
+ const slides=parts.length?parts:[{label:'LEARN',heading:name,description:'Explore the practical lessons included in this guide.'}];
+ const panel=document.createElement('section');panel.className='vayen-auto-detail';panel.setAttribute('aria-label','Automatic product detail preview');
+ const small=document.createElement('small'),heading=document.createElement('h3'),description=document.createElement('p');
+ const progress=document.createElement('div');progress.className='vayen-auto-progress';const fill=document.createElement('span');progress.append(fill);
+ const controls=document.createElement('div');controls.className='vayen-auto-controls';
+ const prev=document.createElement('button'),next=document.createElement('button'),counter=document.createElement('span');prev.type=next.type='button';prev.textContent='←';next.textContent='→';prev.setAttribute('aria-label','Previous preview');next.setAttribute('aria-label','Next preview');counter.style.cssText='font-size:11px;color:#c9c2d1;margin-right:auto';controls.append(counter,prev,next);panel.append(small,heading,description,progress,controls);
+ // The changing details belong inside the main product information card, not below the hero.
+ const introCard=document.querySelector('.product-intro');
+ const introTitle=introCard?.querySelector('.product-detail-title');
+ if(introTitle)introTitle.after(panel);else gallery.after(panel);
+ // Place auto guide immediately below the hero on mobile, inside the right-hand card on desktop.
+ const intro=document.querySelector('.product-intro');
+ if(intro){const lang=document.createElement('div');lang.className='vayen-language-row';lang.innerHTML='<span>English PDF</span><span>Roman Hinglish PDF</span><span>Digital Guide</span>';const title=intro.querySelector('.product-detail-title');title?.after(lang);}
+ const thumbButtons=[...gallery.querySelectorAll('.vayen-thumb')];
+ let active=0,timer=null;const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ function show(i){active=(i+slides.length)%slides.length;const slide=slides[active];small.textContent=String(active+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0')+' · '+slide.label;heading.textContent=slide.heading;description.textContent=slide.description;counter.textContent=(active+1)+' of '+slides.length;thumbButtons.forEach((b,j)=>b.classList.toggle('is-active',j===active%thumbButtons.length));fill.style.transition='none';fill.style.width='0%';requestAnimationFrame(()=>requestAnimationFrame(()=>{fill.style.transition=reduce?'none':'width 4.8s linear';fill.style.width=reduce?'100%':'100%'}));}
+ function start(){clearInterval(timer);if(!reduce)timer=setInterval(()=>{if(!document.hidden)show(active+1)},4800)}
+ prev.addEventListener('click',()=>{show(active-1);start()});next.addEventListener('click',()=>{show(active+1);start()});
+ thumbButtons.forEach((b,i)=>b.addEventListener('click',()=>{show(i);start()}));
+ let x=null;panel.addEventListener('touchstart',e=>{x=e.touches[0]?.clientX??null},{passive:true});panel.addEventListener('touchend',e=>{if(x===null)return;let dx=(e.changedTouches[0]?.clientX??x)-x;if(Math.abs(dx)>35){show(active+(dx<0?1:-1));start()}x=null},{passive:true});
+ panel.addEventListener('mouseenter',()=>clearInterval(timer));panel.addEventListener('mouseleave',start);show(0);start();
+ // Keep page compact: all long content remains accessible via the navigation below.
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
+</script>
+</body>
 </html>
