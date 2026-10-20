@@ -94,86 +94,342 @@ body.page-leaving {
 /* Keep placeholder product content invisible until the selected product is rendered. */
 body.product-body:not(.vayen-product-ready) .product-page,
 body.product-body:not(.vayen-product-ready) .product-mobile-get { visibility: hidden; }
+</style><style id="vayen-luxe-detail-v1">
+:root{color-scheme:dark}body.product-body{background:#080910!important;color:#f7f6fa!important;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif!important}body.product-body::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 22% 10%,var(--v-glow,rgba(218,69,160,.12)),transparent 43%);z-index:0}.product-header{position:relative;z-index:4!important;background:#0b0b12!important;border-bottom:1px solid #262330!important;padding:18px max(4%,24px)!important}.product-brand{color:#fff!important;letter-spacing:.19em!important;font-weight:900!important}.product-back,.product-account{color:#d9d3e3!important}.product-page{position:relative;z-index:1;max-width:1460px!important;margin:auto!important;padding:32px 26px 90px!important}.product-hero{display:grid!important;grid-template-columns:minmax(0,1.03fr) minmax(0,1fr)!important;gap:28px!important;align-items:stretch!important}.vayen-gallery{display:grid;grid-template-columns:minmax(0,1.34fr) minmax(0,.86fr);gap:12px;min-width:0}.vayen-cover-wrap{min-width:0;position:relative;overflow:hidden;border-radius:17px;border:1px solid #393041;background:linear-gradient(145deg,#21172a,#080911);min-height:480px}.vayen-cover-wrap .product-visual{height:100%!important;min-height:480px!important;width:100%!important;border-radius:0!important;box-shadow:none!important}.vayen-cover-wrap .product-visual:not(.flagship-photo-cover){background:radial-gradient(circle at 76% 25%,var(--v-glow,rgba(212,68,161,.45)),transparent 42%),linear-gradient(150deg,#2a1833,#080a16)!important}.vayen-cover-wrap .product-visual:not(.flagship-photo-cover) .product-cover-content{display:block!important}.vayen-cover-wrap .product-cover-content h2{font-size:clamp(30px,3.2vw,54px)!important;color:white!important;text-shadow:0 4px 30px #000!important}.vayen-cover-wrap .product-cover-content p{color:#e5dcea!important}.vayen-cover-wrap .product-visual-top,.vayen-cover-wrap .product-visual-bottom{color:white!important}.vayen-cover-wrap .product-visual-top span,.vayen-cover-wrap .product-visual-bottom span{color:white!important}.vayen-cover-wrap .product-visual::after{content:"";position:absolute;inset:8%;border:1px solid rgba(255,255,255,.14);border-radius:14px;pointer-events:none}.vayen-cover-count{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.08em;padding:9px 12px;border:1px solid #ffffff52;border-radius:30px;background:#090914bb;color:#fff;white-space:nowrap;z-index:2}.vayen-thumbs{display:grid;grid-template-rows:repeat(3,1fr);gap:12px;min-height:0}.vayen-thumb{position:relative;min-height:0;overflow:hidden;border-radius:14px;border:1px solid #373242;background:linear-gradient(130deg,#1b1729,#10121e);color:#fff;padding:16px;text-align:left;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;transition:border-color .3s,transform .3s,box-shadow .3s}.vayen-thumb.is-active{border-color:var(--v-accent,#f05ca9);box-shadow:0 0 0 1px var(--v-accent,#f05ca9),0 0 25px var(--v-glow,rgba(240,92,169,.16))}.vayen-thumb:hover{transform:translateY(-2px)}.vayen-thumb small{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--v-accent,#ff7cb9)}.vayen-thumb strong{font-size:clamp(13px,1.15vw,18px);line-height:1.25;max-width:95%;text-wrap:balance}.vayen-thumb .vayen-mini{display:block;position:absolute;right:-12px;top:22%;font-size:64px;opacity:.22;filter:drop-shadow(0 0 22px var(--v-accent,#e95ca9))}.product-intro{background:linear-gradient(145deg,#10111a,#0b0c14)!important;border:1px solid #292836!important;border-radius:18px!important;padding:clamp(24px,3vw,42px)!important;min-width:0}.product-category{color:var(--v-accent,#fa68b2)!important;font-weight:800!important;letter-spacing:.14em!important}.product-detail-title{color:#fff!important;font-size:clamp(35px,4vw,61px)!important;letter-spacing:-.045em!important;line-height:1.06!important;margin:18px 0 14px!important}.vayen-tagline{font-size:clamp(18px,1.8vw,25px);color:#ded8e4;margin:0 0 16px}.vayen-tagline b{color:var(--v-accent,#f96eac)}.product-detail-points{display:grid!important;grid-template-columns:1fr 1fr;gap:10px!important;margin:24px 0!important}.product-detail-points p{border:1px solid #2d2c3a;border-radius:12px;background:#171721;padding:13px 13px 13px 30px!important;margin:0!important;color:#e5dfeb!important;font-size:13px!important;line-height:1.5!important;position:relative}.product-detail-points p:before{content:'✓';position:absolute;left:11px;color:var(--v-accent,#ff70b5);font-weight:800}.product-extra-value{color:var(--v-accent,#fa74bc)!important;background:#ffffff08!important;border:1px solid #ffffff18;border-radius:12px;padding:13px!important;font-weight:700!important}.product-confidence{color:#bfb6ca!important}.product-quick-info{border-top:1px solid #2b2934!important;border-bottom:1px solid #2b2934!important;padding:19px 0!important;margin-top:24px!important}.product-quick-info span,.product-price span{color:#9995a7!important}.product-quick-info strong{color:#fff!important}.product-purchase{display:flex!important;align-items:center!important;gap:22px!important;margin-top:26px!important}.product-price strong{color:#fff!important;font-size:clamp(28px,2.7vw,40px)!important}.product-get{background:var(--v-accent,#ec509f)!important;color:#100812!important;border:0!important;border-radius:11px!important;box-shadow:0 9px 28px var(--v-glow,rgba(235,80,150,.2));font-weight:800!important;transition:transform .25s,box-shadow .25s!important}.product-get:hover{transform:translateY(-2px);box-shadow:0 14px 34px var(--v-glow,rgba(235,80,150,.3))}.vayen-price-compare{display:flex;align-items:center;gap:9px;margin-top:6px;font-size:12px;color:#a5a0af;flex-wrap:wrap}.vayen-price-compare del{color:#85808f}.vayen-discount{color:#fff;background:#7d315d;padding:4px 8px;border-radius:18px;font-weight:750}.vayen-value-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.vayen-value-row div{padding:12px 10px;border:1px solid #2d2b37;border-radius:12px;background:#14141e;text-align:center;font-size:11px;color:#b9b3c1}.vayen-value-row b{display:block;color:var(--v-accent,#ff80bc);font-size:16px;margin-bottom:4px}.product-purchase-note{color:#aaa3b3!important}.product-contents,.product-included,.product-preview,.product-result,.product-final{background:#10111a!important;color:#f7f4fa!important;border:1px solid #292936!important;border-radius:18px!important;margin-top:26px!important;padding:clamp(24px,3.4vw,46px)!important}.product-contents h2,.product-included h2,.product-preview h2,.product-result h2,.product-final h2{color:#fff!important}.product-contents em,.product-included em,.product-preview em,.product-result em{color:var(--v-accent,#f56daf)!important}.product-contents p,.product-included p,.product-preview p,.product-result p{color:#bbb5c6!important}.product-content-item,.product-step,.product-preview-card{background:#171822!important;border:1px solid #2c2b39!important;border-radius:13px!important;color:#eee!important}.product-content-item h3,.product-step h3,.product-preview-card h3{color:#fff!important}.product-content-item small,.product-step small,.product-preview-card span{color:var(--v-accent,#f56daf)!important}.vayen-section-nav{margin-top:20px;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;border:1px solid #302c3b;background:#11121b;border-radius:12px;padding:9px}.vayen-section-nav a{flex:1;text-align:center;color:#d8d2df;text-decoration:none;white-space:nowrap;padding:10px 8px;border-radius:8px;font-size:13px}.vayen-section-nav a:hover{background:#292232;color:#fff}.vayen-section-nav+section{margin-top:18px!important}.vayen-showcase{margin-top:26px;padding:clamp(22px,3vw,40px);border:1px solid #2c2b3a;border-radius:18px;background:linear-gradient(135deg,#171321,#10111a)}.vayen-showcase h2{color:#fff;font-size:clamp(26px,3vw,39px);margin:8px 0 12px}.vayen-showcase>p{color:#c7bfce;max-width:730px}.vayen-showcase-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:23px}.vayen-sample{padding:22px;border:1px solid #373144;border-radius:13px;background:#0d1019;min-height:210px}.vayen-sample small{color:var(--v-accent,#fa75b6);letter-spacing:.1em;font-weight:800}.vayen-sample h3{color:white;font-size:21px;margin:15px 0}.vayen-sample p{color:#d2cbd8;line-height:1.65}.vayen-sample button{background:transparent;border:1px solid var(--v-accent,#fa75b6);border-radius:9px;color:var(--v-accent,#fa75b6);padding:10px 14px;cursor:pointer}.vayen-sample-visual{display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 60% 30%,var(--v-glow,rgba(255,80,170,.2)),transparent 55%),#0d1019}.vayen-sample-visual-inner{font-size:clamp(45px,6vw,90px);text-align:center}.vayen-sample-visual-inner span{display:block;font-size:12px;letter-spacing:.12em;color:#c7bfce;margin-top:14px}.product-final strong{color:#fff!important}.product-mobile-get{background:#10111a!important;border-top:1px solid #3d3444!important;color:#fff!important}.product-mobile-get strong{color:#fff!important}@media(max-width:1000px){.product-hero{grid-template-columns:1fr!important}.vayen-cover-wrap,.vayen-cover-wrap .product-visual{min-height:410px!important}.vayen-gallery{max-height:530px}}@media(max-width:650px){.product-page{padding:16px 13px 100px!important}.product-hero{gap:14px!important}.vayen-gallery{grid-template-columns:1fr!important;max-height:none}.vayen-cover-wrap,.vayen-cover-wrap .product-visual{min-height:365px!important}.vayen-thumbs{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:none;gap:7px}.vayen-thumb{min-height:116px;padding:10px}.vayen-thumb strong{font-size:12px}.vayen-thumb .vayen-mini{font-size:38px;right:0;top:37%}.product-intro{padding:21px!important}.product-detail-points{grid-template-columns:1fr 1fr;gap:7px!important}.product-detail-points p{font-size:12px!important;padding:11px 8px 11px 26px!important}.product-purchase{gap:12px!important}.vayen-value-row{gap:5px}.vayen-value-row div{padding:10px 5px;font-size:10px}.vayen-section-nav a{flex:none}.vayen-showcase-grid{grid-template-columns:1fr}.product-contents,.product-included,.product-preview,.product-result,.product-final{padding:21px!important}.vayen-gallery .vayen-cover-count{font-size:9px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 </style>
 
+<style id="vayen-compact-editorial-v2">
+/* VAYEN: compact editorial storefront, responsive and product-specific */
+body.product-body{background:radial-gradient(ellipse at 8% 3%,var(--v-glow),transparent 34%),#090a10!important}
+.product-page{max-width:1500px!important;padding:20px clamp(12px,2.2vw,32px) 65px!important}
+.product-hero{grid-template-columns:minmax(0,1.08fr) minmax(0,1.12fr)!important;gap:16px!important;align-items:stretch!important}
+.vayen-gallery{grid-template-columns:minmax(0,1.27fr) minmax(0,.73fr)!important;gap:10px!important;max-height:545px!important}
+.vayen-cover-wrap{min-height:0!important;height:100%!important;border-radius:15px!important}
+.vayen-cover-wrap .product-visual{height:100%!important;min-height:0!important;aspect-ratio:auto!important}
+.vayen-cover-wrap .product-visual::after{inset:4%!important}
+.vayen-thumbs{gap:10px!important}
+.vayen-thumb{padding:13px!important;border-radius:12px!important;min-height:0!important;background:radial-gradient(ellipse at 85% 35%,var(--v-glow),transparent 65%),#11111b!important}
+.vayen-thumb strong{font-size:clamp(12px,1.05vw,17px)!important;line-height:1.35!important}
+.vayen-thumb small{font-size:9px!important}
+.product-intro{padding:clamp(18px,2.1vw,30px)!important;border-radius:15px!important;display:flex!important;flex-direction:column!important;justify-content:center!important}
+.product-category{font-size:10px!important}
+.product-detail-title{font-size:clamp(30px,3.5vw,52px)!important;margin:12px 0 7px!important}
+.vayen-tagline{font-size:clamp(13px,1.1vw,17px)!important;margin:0 0 8px!important;line-height:1.5!important}
+.product-detail-points{margin:12px 0!important;gap:7px!important}
+.product-detail-points p{font-size:clamp(11px,.83vw,13px)!important;line-height:1.36!important;padding:9px 9px 9px 25px!important;border-radius:9px!important}
+.product-detail-points p:before{left:8px!important}
+.product-extra-value{font-size:12px!important;padding:9px 12px!important}
+.product-confidence{font-size:12px!important;line-height:1.5!important;margin:9px 0!important}
+.product-quick-info{margin-top:9px!important;padding:9px 0!important}
+.product-quick-info span{font-size:9px!important}.product-quick-info strong{font-size:12px!important}
+.product-purchase{margin-top:12px!important;gap:14px!important}
+.product-price strong{font-size:31px!important}
+.product-get{min-height:43px!important;padding:10px 24px!important}
+.vayen-value-row{margin-top:10px!important}.vayen-value-row div{padding:9px 6px!important}
+.product-purchase-note{margin:7px 0 0!important;font-size:11px!important}
+.vayen-section-nav{margin-top:14px!important}
+.vayen-showcase,.product-contents,.product-included,.product-preview,.product-result,.product-final{margin-top:14px!important;padding:clamp(17px,2.1vw,28px)!important;border-radius:14px!important}
+.vayen-showcase h2,.product-contents h2,.product-included h2,.product-preview h2,.product-result h2,.product-final h2{font-size:clamp(23px,2.2vw,32px)!important;line-height:1.2!important}
+.vayen-showcase-grid{margin-top:13px!important;gap:11px!important}.vayen-sample{min-height:160px!important;padding:16px!important}
+.product-contents-head,.product-section-intro,.product-preview-head{margin-bottom:17px!important}
+.product-content-list{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}
+.product-content-item{padding:15px!important;min-height:0!important;display:grid!important;grid-template-columns:35px minmax(0,1fr)!important;column-gap:10px!important;align-items:start!important}
+.product-content-item>span{grid-row:1 / 3!important;font-size:18px!important}.product-content-item p{grid-column:2!important;margin-top:5px!important;font-size:12px!important}
+.product-content-item h3{font-size:15px!important;margin:3px 0!important}
+.product-steps{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:10px!important}
+.product-step{padding:17px!important;min-height:0!important}.product-step h3{font-size:19px!important;line-height:1.25!important}.product-step p{font-size:12px!important}
+.product-preview-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important}
+.product-preview-card{padding:17px!important;min-height:0!important}.product-preview-card h3{font-size:19px!important}.product-preview-card p{font-size:12px!important}
+.product-result{text-align:center!important}.product-result p{max-width:750px!important;margin-left:auto!important;margin-right:auto!important}
+.product-final{display:flex!important;align-items:center!important;justify-content:space-between!important}
+.product-hero,.vayen-showcase,.product-contents,.product-included,.product-preview,.product-result{animation:none!important}
+@keyframes vayen-arrive{from{opacity:.35;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+body[data-vayen-product="youtube-creator-system"] .vayen-cover-wrap{box-shadow:0 0 36px #a87e3824}
+body[data-vayen-product="vlogging-mastery"] .vayen-cover-wrap{box-shadow:0 0 36px #f0804524}
+body[data-vayen-product="ai-prompt-box"] .vayen-cover-wrap{box-shadow:0 0 40px #a74df52b}
+body[data-vayen-product="ai-prompt-box"] .vayen-thumb{background:radial-gradient(circle at 70% 25%,#5531b455,transparent 70%),#11111b!important}
+body[data-vayen-product="build-your-own-ai"] .vayen-thumb{background:radial-gradient(circle at 70% 25%,#168d8555,transparent 70%),#11111b!important}
+@media(max-width:1080px){.product-hero{grid-template-columns:1fr!important}.vayen-gallery{height:470px!important;max-height:none!important}.product-intro{display:block!important}.product-steps{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:650px){.product-page{padding:12px 11px 90px!important}.vayen-gallery{height:auto!important;max-height:none!important;grid-template-columns:1fr!important}.vayen-cover-wrap{height:370px!important}.vayen-thumbs{grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-rows:none!important}.vayen-thumb{height:103px!important;padding:10px!important}.vayen-thumb strong{font-size:11px!important}.product-intro{padding:19px!important}.product-detail-title{font-size:35px!important}.product-detail-points{grid-template-columns:1fr 1fr!important}.product-content-list,.product-steps{grid-template-columns:1fr 1fr!important}.product-content-item{display:block!important}.product-content-item p{font-size:11px!important}.product-preview-grid{grid-template-columns:1fr!important}.product-final{flex-wrap:wrap!important;gap:16px!important}}
+@media(max-width:390px){.product-detail-points{grid-template-columns:1fr!important}.product-content-list,.product-steps{grid-template-columns:1fr!important}}
+@media(prefers-reduced-motion:reduce){.product-hero,.vayen-showcase,.product-contents,.product-included,.product-preview,.product-result{animation:none!important}}
+</style>
+<style id="vayen-final-density-v3">
+/* Approved dark storefront proportions; compact without sacrificing readability. */
+@media(min-width:1081px){
+.product-page{max-width:1480px!important;padding-top:16px!important}
+.product-hero{grid-template-columns:minmax(0,1.02fr) minmax(0,1.18fr)!important;gap:14px!important}
+.vayen-gallery{height:505px!important;max-height:505px!important}
+.product-intro{padding:22px 25px!important}
+.product-detail-title{font-size:clamp(33px,3.15vw,49px)!important;margin:8px 0!important}
+.product-detail-points{margin:12px 0!important;gap:7px!important}
+.product-detail-points p{padding:9px 10px 9px 27px!important;font-size:12px!important;line-height:1.38!important}
+.product-confidence{margin:8px 0!important;font-size:12px!important}
+.product-quick-info{margin-top:12px!important;padding:11px 0!important}
+.product-purchase{margin-top:14px!important}
+.vayen-value-row{margin-top:10px!important}
+}
+.vayen-thumb{transition:transform .32s ease,border-color .32s ease,box-shadow .32s ease,opacity .32s ease!important}
+.vayen-thumb.is-active{transform:translateY(-1px);opacity:1}
+.product-content-item,.product-step,.product-preview-card{transition:border-color .24s ease,transform .24s ease!important}
+.product-content-item:hover,.product-step:hover,.product-preview-card:hover{transform:translateY(-2px);border-color:var(--v-accent,#f26bac)!important}
+@media(max-width:650px){.product-detail-title{font-size:34px!important}.vayen-gallery{height:auto!important}.product-hero{gap:12px!important}}
+</style>
 
+<style id="vayen-typography-overlap-fix-v4">
+/* Isolate premium typography from legacy style.css positioning rules. */
+body.product-body .product-preview-head,body.product-body .product-section-intro,body.product-body .product-contents-head{display:block!important;position:relative!important;height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;margin:0 0 24px!important;padding:0!important;text-align:left!important}
+body.product-body .product-preview-head>*,body.product-body .product-section-intro>*,body.product-body .product-contents-head>*{position:static!important;float:none!important;transform:none!important;inset:auto!important;display:block!important;width:auto!important;max-width:100%!important;height:auto!important;min-height:0!important;clear:both!important}
+body.product-body .product-preview-head>span,body.product-body .product-section-intro>span,body.product-body .product-contents-head span,body.product-body .product-result>span{position:static!important;display:block!important;font-size:11px!important;letter-spacing:.17em!important;line-height:1.5!important;margin:0 0 12px!important;color:var(--v-accent,#f478ae)!important}
+body.product-body .product-preview-head h2,body.product-body .product-section-intro h2,body.product-body .product-contents-head h2,body.product-body .product-result h2{position:static!important;transform:none!important;inset:auto!important;display:block!important;clear:both!important;width:auto!important;max-width:100%!important;height:auto!important;margin:0 0 14px!important;padding:0!important;font-size:clamp(25px,2.6vw,38px)!important;line-height:1.25!important;letter-spacing:-.025em!important;white-space:normal!important;overflow:visible!important}
+body.product-body .product-preview-head h2 em,body.product-body .product-section-intro h2 em,body.product-body .product-contents-head h2 em,body.product-body .product-result h2 em{position:static!important;display:inline!important;font-size:inherit!important;line-height:inherit!important;letter-spacing:inherit!important;transform:none!important;margin:0!important;padding:0!important}
+body.product-body .product-preview-head p,body.product-body .product-section-intro p,body.product-body .product-contents-head p{position:static!important;display:block!important;clear:both!important;width:auto!important;max-width:640px!important;margin:0!important;padding:0!important;font-size:14px!important;line-height:1.7!important;color:#c5c0cd!important}
+body.product-body .product-preview-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;align-items:stretch!important;gap:14px!important}
+body.product-body .product-preview-card,body.product-body .product-step{display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;position:relative!important;overflow:visible!important;height:auto!important;min-height:165px!important;max-height:none!important;padding:20px!important;text-align:left!important}
+body.product-body .product-preview-card>*,body.product-body .product-step>*{position:static!important;float:none!important;transform:none!important;inset:auto!important;display:block!important;width:auto!important;max-width:100%!important;height:auto!important;min-height:0!important;clear:both!important;white-space:normal!important}
+body.product-body .product-preview-card>span,body.product-body .product-step>small{order:0!important;font-size:11px!important;letter-spacing:.1em!important;line-height:1.4!important;margin:0 0 14px!important;font-weight:800!important}
+body.product-body .product-preview-card h3,body.product-body .product-step h3{order:1!important;font-size:clamp(17px,1.5vw,21px)!important;line-height:1.3!important;letter-spacing:-.02em!important;margin:0 0 12px!important;padding:0!important;font-weight:750!important}
+body.product-body .product-preview-card p,body.product-body .product-step p{order:2!important;font-size:13px!important;line-height:1.65!important;margin:0!important;padding:0!important;color:#c5c0cd!important}
+body.product-body .product-step>span{font-size:12px!important;line-height:1.5!important;margin:0 0 8px!important}
+body.product-body .product-result{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;min-height:0!important;height:auto!important;padding:32px 24px!important;gap:0!important;text-align:center!important}
+body.product-body .product-result>*,body.product-body .product-result h2,body.product-body .product-result p{position:static!important;transform:none!important;inset:auto!important;height:auto!important;max-height:none!important;clear:both!important}
+body.product-body .product-result h2{max-width:900px!important;text-align:center!important;margin:0 auto 16px!important}
+body.product-body .product-result p{font-size:14px!important;line-height:1.7!important;margin:0 auto!important;max-width:750px!important}
+body.product-body .product-content-item{position:relative!important;height:auto!important;min-height:0!important}
+body.product-body .product-content-item h3,body.product-body .product-content-item p,body.product-body .product-content-item small{position:static!important;transform:none!important;inset:auto!important;height:auto!important;line-height:1.5!important}
+@media(max-width:800px){body.product-body .product-preview-grid{grid-template-columns:1fr!important}body.product-body .product-preview-card{min-height:0!important;padding:19px!important}body.product-body .product-preview-head h2,body.product-body .product-result h2{font-size:27px!important}}
+</style>
 
+<style id="vayen-v5-final-polish">
+/* Compact PC proportions; the original photo is a contained cover, not a full-screen image. */
+@media(min-width:1081px){body.product-body .product-page{max-width:1280px!important;padding:16px 22px 50px!important}body.product-body .product-hero{grid-template-columns:minmax(0,.98fr) minmax(0,1.18fr)!important;gap:14px!important;align-items:start!important}body.product-body .vayen-gallery{height:430px!important;max-height:430px!important}body.product-body .vayen-cover-wrap,body.product-body .vayen-cover-wrap .product-visual{min-height:430px!important;height:430px!important}body.product-body .product-intro{padding:20px 22px!important}body.product-body .product-detail-title{font-size:clamp(31px,3vw,43px)!important}body.product-body .product-detail-points{margin:12px 0!important}body.product-body .product-detail-points p{font-size:12px!important;padding:8px 9px 8px 27px!important}body.product-body .product-quick-info{margin-top:10px!important;padding:10px 0!important}}
+/* One automatic slide at a time: large readable text, no overlapping labels. */
+body.product-body .vayen-thumbs{display:flex!important;flex-direction:column!important;gap:9px!important;min-width:0!important}
+body.product-body .vayen-thumb{flex:1!important;min-height:0!important;position:relative!important;padding:14px!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:7px!important;overflow:hidden!important}
+body.product-body .vayen-thumb small,body.product-body .vayen-thumb strong{position:relative!important;z-index:1!important;display:block!important;margin:0!important;line-height:1.4!important;white-space:normal!important;transform:none!important}
+body.product-body .vayen-thumb small{font-size:10px!important}body.product-body .vayen-thumb strong{font-size:15px!important}body.product-body .vayen-thumb .vayen-mini{right:8px!important;top:8px!important;opacity:.12!important}
+body.product-body .vayen-auto-detail{position:relative!important;display:flex!important;flex-direction:column!important;justify-content:center!important;gap:12px!important;padding:19px 21px!important;border:1px solid #393445!important;border-radius:15px!important;background:radial-gradient(circle at 90% 10%,var(--v-glow),transparent 58%),#151521!important;min-height:158px!important;overflow:hidden!important}
+body.product-body .vayen-auto-detail small{font-size:11px!important;letter-spacing:.15em!important;font-weight:800!important;color:var(--v-accent)!important;line-height:1.4!important}
+body.product-body .vayen-auto-detail h3{position:static!important;margin:0!important;color:#fff!important;font-size:clamp(19px,2vw,25px)!important;line-height:1.22!important}
+body.product-body .vayen-auto-detail p{position:static!important;margin:0!important;color:#d5cfdd!important;font-size:13px!important;line-height:1.6!important}
+body.product-body .vayen-auto-progress{height:3px!important;background:#ffffff24!important;border-radius:8px!important;overflow:hidden!important;flex-shrink:0!important}
+body.product-body .vayen-auto-progress>span{display:block!important;width:0;height:100%;background:var(--v-accent)!important;transition:width 4.8s linear}
+body.product-body .vayen-auto-controls{display:flex!important;align-items:center!important;gap:8px!important;justify-content:flex-end!important}
+body.product-body .vayen-auto-controls button{cursor:pointer!important;background:#ffffff0b!important;color:white!important;border:1px solid #ffffff28!important;border-radius:9px!important;padding:7px 12px!important;font-size:13px!important}
+body.product-body .vayen-language-row{display:flex!important;gap:8px!important;flex-wrap:wrap!important;margin:12px 0!important}
+body.product-body .vayen-language-row span{display:inline-flex!important;align-items:center!important;padding:7px 11px!important;border-radius:9px!important;border:1px solid #ffffff27!important;background:#ffffff0a!important;color:#eee!important;font-size:12px!important;font-weight:650!important}
+body.product-body .product-contents,body.product-body .product-included,body.product-body .product-preview,body.product-body .product-result,body.product-body .product-final,body.product-body .vayen-showcase{margin-top:13px!important;padding:23px!important}
+body.product-body .product-preview-head,body.product-body .product-section-intro,body.product-body .product-contents-head{margin-bottom:15px!important}
+body.product-body .product-content-item,body.product-body .product-preview-card,body.product-body .product-step{padding:16px!important;min-height:0!important}
+body.product-body .product-preview-card>span,body.product-body .product-step>small{margin:0 0 10px!important}
+body.product-body .product-preview-card h3,body.product-body .product-step h3{margin:0 0 9px!important}
+body.product-body .product-preview-card p,body.product-body .product-step p{line-height:1.55!important}
+body.product-body .product-result{padding:22px!important}
+body.product-body .product-hero{scroll-margin-top:18px}
+body[data-vayen-product="vlogging-mastery"] .product-intro{background:linear-gradient(130deg,#1d1514,#0e1019)!important}
+body[data-vayen-product="youtube-creator-system"] .product-intro{background:linear-gradient(130deg,#201b13,#0c0e16)!important}
+body[data-vayen-product="ai-prompt-box"] .product-intro{background:linear-gradient(130deg,#1a122b,#0b0d19)!important}
+body[data-vayen-product="animation-mastery"] .product-intro{background:linear-gradient(130deg,#20132e,#0c0d18)!important}
+body[data-vayen-product="build-your-own-ai"] .product-intro{background:linear-gradient(130deg,#0f2626,#0b0e18)!important}
+@media(max-width:1080px){body.product-body .vayen-auto-detail{min-height:140px!important}}
+@media(max-width:650px){body.product-body .product-page{padding:12px 12px 88px!important}body.product-body .vayen-gallery{display:grid!important;grid-template-columns:1fr!important;height:auto!important}body.product-body .vayen-cover-wrap,body.product-body .vayen-cover-wrap .product-visual{min-height:310px!important;height:310px!important}body.product-body .vayen-thumbs{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}body.product-body .vayen-thumb{height:88px!important;padding:9px!important}body.product-body .vayen-thumb small{font-size:8px!important}body.product-body .vayen-thumb strong{font-size:11px!important}body.product-body .product-intro{padding:17px!important}body.product-body .product-detail-points{grid-template-columns:1fr 1fr!important}body.product-body .product-contents,body.product-body .product-included,body.product-body .product-preview,body.product-body .product-result,body.product-body .product-final,body.product-body .vayen-showcase{padding:18px!important}}
+@media(prefers-reduced-motion:reduce){body.product-body .vayen-auto-progress>span{transition:none!important}}
+</style>
 
+<style id="vayen-v6-actual-layout">
+/* The screenshot reference: one coherent hero, cover on left, changing lessons on right. */
+body.product-body .product-page{max-width:1370px!important;margin:0 auto!important}
+body.product-body .product-hero{display:grid!important;grid-template-columns:minmax(0,.88fr) minmax(0,1.22fr)!important;gap:16px!important;align-items:stretch!important}
+body.product-body .product-hero .vayen-gallery{height:auto!important;max-height:none!important;display:flex!important;flex-direction:column!important;gap:10px!important;min-width:0!important}
+body.product-body .vayen-cover-wrap{height:390px!important;min-height:0!important;flex:0 0 390px!important}
+body.product-body .vayen-cover-wrap .product-visual{height:100%!important;min-height:0!important;border-radius:17px!important}
+body.product-body .vayen-thumbs{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;flex-direction:row!important}
+body.product-body .vayen-thumb{height:79px!important;min-height:0!important;padding:10px!important;justify-content:center!important}
+body.product-body .vayen-thumb strong{font-size:12px!important;line-height:1.3!important}
+body.product-body .vayen-thumb small{font-size:9px!important}
+body.product-body .product-intro{display:flex!important;flex-direction:column!important;gap:10px!important;min-width:0!important;padding:22px!important;border-radius:17px!important}
+body.product-body .product-intro>.product-detail-points,body.product-body .product-intro>.product-extra-value,body.product-body .product-intro>.product-confidence{display:none!important}
+body.product-body .product-detail-title{font-size:clamp(27px,3.15vw,43px)!important;line-height:1.12!important;margin:0!important;letter-spacing:-.04em!important}
+body.product-body .product-category{margin:0!important;line-height:1.4!important}
+body.product-body .vayen-language-row{margin:2px 0 3px!important}
+body.product-body .product-intro>.vayen-auto-detail{display:flex!important;min-height:174px!important;flex:1 0 174px!important;max-height:230px!important;gap:9px!important;padding:18px!important;border-color:color-mix(in srgb,var(--v-accent) 42%,#252332)!important;background:linear-gradient(125deg,var(--v-glow),transparent 78%),#14141c!important}
+body.product-body .vayen-auto-detail h3{font-size:clamp(20px,2vw,27px)!important;line-height:1.22!important}
+body.product-body .vayen-auto-detail p{font-size:14px!important;line-height:1.55!important}
+body.product-body .product-quick-info{margin:0!important;padding:10px 0!important;gap:12px!important}
+body.product-body .product-purchase{margin:0!important;padding:7px 0!important}
+body.product-body .product-purchase-note{margin:0!important}
+body.product-body .product-contents,body.product-body .product-included,body.product-body .product-preview,body.product-body .product-result,body.product-body .product-final,body.product-body .vayen-showcase{padding:22px!important;margin-top:12px!important}
+body.product-body .product-contents-head h2,body.product-body .product-section-intro h2,body.product-body .product-preview-head h2{font-size:28px!important;line-height:1.2!important}
+body.product-body .product-contents-head h2 br,body.product-body .product-section-intro h2 br,body.product-body .product-preview-head h2 br{display:none!important}
+body.product-body .product-contents-head h2 em,body.product-body .product-section-intro h2 em,body.product-body .product-preview-head h2 em{margin-left:6px!important}
+body.product-body .product-preview-card>*,body.product-body .product-step>*,body.product-body .product-content-item>*{position:static!important;transform:none!important}
+body.product-body .product-preview-card h3,body.product-body .product-step h3{font-size:18px!important;line-height:1.35!important;margin:0 0 9px!important}
+body.product-body .product-preview-card>span,body.product-body .product-step>small{font-size:10px!important;line-height:1.4!important;margin:0 0 10px!important}
+body.product-body .product-preview-card p,body.product-body .product-step p{font-size:13px!important;line-height:1.6!important}
+@media(max-width:900px){body.product-body .product-hero{grid-template-columns:1fr!important}body.product-body .vayen-cover-wrap{height:330px!important;flex-basis:330px!important}body.product-body .product-intro>.vayen-auto-detail{max-height:none!important}}
+@media(max-width:650px){body.product-body .product-hero{gap:12px!important}body.product-body .vayen-cover-wrap{height:300px!important;flex-basis:300px!important}body.product-body .vayen-thumb{height:72px!important}body.product-body .product-intro{padding:17px!important}body.product-body .product-intro>.vayen-auto-detail{min-height:200px!important}body.product-body .product-contents-head h2,body.product-body .product-section-intro h2,body.product-body .product-preview-head h2{font-size:24px!important}}
+</style>
+<style id="vayen-custom-cover-clean-display">
+/* The 16 storefront covers already contain their own brand, title and description. */
+.product-visual.vayen-custom-product-cover .product-visual-top,
+.product-visual.vayen-custom-product-cover .product-cover-content,
+.product-visual.vayen-custom-product-cover .product-visual-bottom {
+    display: none !important;
+}
+.product-visual.vayen-custom-product-cover {
+    background-color: #080b17 !important;
+    background-size: contain !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+}
+</style>
 
+<style id="vayen-full-detail-cover-fix">
+/* Detail cover: use the complete 16:9 artwork as the visual itself, not
+   as a small image centered inside a tall placeholder. */
+body.product-body .product-visual.vayen-custom-product-cover {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 16 / 9 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background-size: 100% 100% !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+}
+body.product-body .product-visual.vayen-custom-product-cover::after {
+    display: none !important;
+}
+@media (max-width: 768px) {
+    body.product-body .product-visual.vayen-custom-product-cover {
+        height: auto !important;
+        min-height: 0 !important;
+        aspect-ratio: 16 / 9 !important;
+    }
+}
+</style>
+<style id="vayen-detail-full-artwork-premium-layout">
+/* Only the sixteen illustrated products: fill the main artwork panel while
+   retaining the original premium gallery, thumbnails and all detail sections. */
+@media (min-width: 1081px) {
+  body.product-body .vayen-cover-wrap:has(.vayen-custom-product-cover) {
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 16 / 9 !important;
+    align-self: start !important;
+  }
+  body.product-body .vayen-gallery:has(.vayen-custom-product-cover) {
+    align-items: start !important;
+  }
+}
+body.product-body .vayen-cover-wrap .product-visual.vayen-custom-product-cover {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  background-size: contain !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+body.product-body .vayen-cover-wrap:has(.vayen-custom-product-cover) {
+  background: #080b17 !important;
+}
+@media (max-width: 1080px) {
+  body.product-body .vayen-cover-wrap:has(.vayen-custom-product-cover) {
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 16 / 9 !important;
+  }
+  body.product-body .vayen-gallery:has(.vayen-custom-product-cover) {
+    height: auto !important;
+    max-height: none !important;
+  }
+}
+</style>
 
+<style id="vayen-approved-simple-premium-20261020">
+/* Simple, readable premium product details; no fake video or carousel. */
+body.product-body .product-page{max-width:1320px!important;padding:26px 24px 90px!important}
+body.product-body .product-hero{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)!important;gap:24px!important;align-items:start!important}
+body.product-body .vayen-gallery{display:block!important;height:auto!important;max-height:none!important}
+body.product-body .vayen-cover-wrap{width:100%!important;height:auto!important;min-height:0!important;aspect-ratio:16/9!important;flex-basis:auto!important;overflow:hidden!important;background:#080b17!important;border:1px solid #34293e!important;border-radius:22px!important}
+body.product-body .vayen-cover-wrap .product-visual.vayen-custom-product-cover{width:100%!important;height:100%!important;min-height:0!important;aspect-ratio:auto!important;background-size:100% 100%!important;background-position:center!important;padding:0!important;border-radius:0!important}
+body.product-body .vayen-gallery .vayen-thumbs,body.product-body .vayen-gallery .vayen-cover-count,body.product-body .vayen-auto-detail,body.product-body .vayen-section-nav,body.product-body .vayen-showcase{display:none!important}
+body.product-body .product-intro{background:linear-gradient(140deg,#11121d,#0b0c14)!important;border:1px solid #2a2736!important;border-radius:22px!important;padding:30px!important}
+body.product-body .product-detail-title{font-size:clamp(34px,3.6vw,53px)!important;line-height:1.08!important;margin:12px 0!important}
+body.product-body .product-detail-points{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important;margin:16px 0!important}
+body.product-body .product-detail-points p{font-size:12px!important;line-height:1.45!important}
+body.product-body .product-quick-info{margin:18px 0 0!important;padding:15px 0!important}
+body.product-body .product-purchase{margin-top:18px!important}
+body.product-body .product-get{padding:16px 32px!important;border-radius:13px!important}
+body.product-body .product-contents,body.product-body .product-included,body.product-body .product-preview,body.product-body .product-result,body.product-body .product-final{margin-top:18px!important;border-radius:20px!important}
+body.product-body .product-preview .product-preview-head h2{font-size:30px!important}
+body.product-body .vayen-clarity{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+body.product-body .vayen-clarity article{background:#12141e;border:1px solid #2c2b3b;border-radius:16px;padding:20px}
+body.product-body .vayen-clarity h2{font-size:20px;color:#fff;margin-bottom:12px}
+body.product-body .vayen-clarity p,body.product-body .vayen-clarity li{font-size:13px;color:#c8c4d0;line-height:1.65}
+body.product-body .vayen-clarity ul{padding-left:18px}
+body.product-body .vayen-clarity li{margin:6px 0}
+body.product-body .vayen-clarity b{color:#fff}
+body.product-body .vayen-clarity .vayen-accent{color:var(--v-accent,#f77ab5)}
+body.product-body .vayen-no-video-note{font-size:12px;color:#aaa6b5;margin-top:8px}
+@media(max-width:900px){body.product-body .product-hero{grid-template-columns:1fr!important}}
+@media(max-width:650px){body.product-body .product-page{padding:14px 12px 100px!important}body.product-body .product-hero{gap:14px!important}body.product-body .vayen-cover-wrap{border-radius:15px!important}body.product-body .product-intro{padding:20px!important}body.product-body .product-detail-title{font-size:34px!important}body.product-body .product-purchase,body.product-body .product-final-action a.product-get{display:none!important}body.product-body .vayen-clarity{grid-template-columns:1fr!important}body.product-body .product-detail-points{grid-template-columns:1fr 1fr!important}body.product-body .product-contents,body.product-body .product-included,body.product-body .product-preview,body.product-body .product-result,body.product-body .product-final{padding:19px!important}}
+</style>
+<style id="vayen-final-detail-css">
 
+/* VAYEN FINAL DETAIL DESIGN — clear, responsive, product-first */
+body.product-body{background:#080a10!important;color:#f6f5f9!important}
+body.product-body .product-page{max-width:1380px!important;padding:32px 24px 110px!important}
+body.product-body .product-hero{display:grid!important;grid-template-columns:minmax(0,1.04fr) minmax(0,1fr)!important;gap:24px!important;align-items:stretch!important}
+body.product-body .vayen-gallery{display:block!important;width:100%!important;height:auto!important;max-height:none!important;min-width:0!important}
+body.product-body .vayen-cover-wrap{width:100%!important;aspect-ratio:16/9!important;height:auto!important;min-height:0!important;overflow:hidden!important;border:1px solid #393345!important;border-radius:23px!important;background:#080b17!important;box-shadow:0 22px 60px #0005!important}
+body.product-body .vayen-cover-wrap .product-visual.vayen-custom-product-cover{width:100%!important;height:100%!important;min-height:0!important;aspect-ratio:auto!important;background-size:contain!important;background-position:center!important;background-repeat:no-repeat!important;padding:0!important}
+body.product-body .vayen-cover-wrap .product-visual.vayen-custom-product-cover .product-cover-content,body.product-body .vayen-cover-wrap .product-visual.vayen-custom-product-cover .product-visual-top,body.product-body .vayen-cover-wrap .product-visual.vayen-custom-product-cover .product-visual-bottom{display:none!important}
+body.product-body .vayen-cover-wrap .product-visual.vayen-custom-product-cover::after{display:none!important}
+body.product-body .vayen-gallery .vayen-thumbs,body.product-body .vayen-gallery .vayen-cover-count,body.product-body .vayen-auto-detail,body.product-body .vayen-language-row,body.product-body .vayen-section-nav,body.product-body .vayen-showcase{display:none!important}
+body.product-body .product-intro{padding:clamp(25px,3.3vw,46px)!important;border-radius:23px!important;background:linear-gradient(155deg,#15131e,#0d0e16)!important;border:1px solid #34303f!important;display:flex!important;flex-direction:column!important;justify-content:center!important;min-height:0!important}
+body.product-body .product-detail-title{font-size:clamp(37px,3.4vw,55px)!important;line-height:1.06!important;margin:13px 0 12px!important}
+body.product-body .vayen-clear-subtitle{font-size:16px;line-height:1.65;color:#c9c5d1;margin-bottom:17px;max-width:560px}
+body.product-body .product-detail-points{display:none!important}
+body.product-body .product-extra-value{font-size:13px!important;margin:0 0 14px!important}
+body.product-body .product-confidence{display:none!important}
+body.product-body .product-quick-info{margin:10px 0 0!important;padding:17px 0!important;gap:12px!important}
+body.product-body .product-purchase{margin-top:17px!important;display:flex!important;align-items:center!important}
+body.product-body .product-purchase-note{margin-top:12px!important;font-size:12px!important}
+body.product-body .vayen-value-row{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:7px!important;margin-top:15px!important}
+body.product-body .vayen-value-row div{font-size:11px!important;padding:11px 6px!important}
+body.product-body .vayen-detail-below{margin-top:24px;display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+body.product-body .vayen-detail-panel{background:#11131c;border:1px solid #2c2c3b;border-radius:21px;padding:28px;min-width:0}
+body.product-body .vayen-detail-panel h2{font-size:clamp(22px,2.2vw,30px);color:white;letter-spacing:-.035em;margin:0 0 9px}
+body.product-body .vayen-detail-panel>p{font-size:13px;line-height:1.65;color:#bdb9c9;margin:0 0 18px}
+body.product-body .vayen-learn-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;list-style:none;padding:0;margin:0}
+body.product-body .vayen-learn-list li{display:flex;align-items:flex-start;gap:10px;background:#1b1b28;border:1px solid #2e2d3c;border-radius:12px;padding:14px;font-size:13px;line-height:1.5;color:#f0edf4}
+body.product-body .vayen-learn-list li::before{content:'✓';font-weight:900;color:var(--v-accent,#f77fbb)}
+body.product-body .vayen-detail-facts{display:grid;gap:10px}
+body.product-body .vayen-detail-fact{padding:14px;border-radius:12px;background:#1b1b28;border:1px solid #302e3e}
+body.product-body .vayen-detail-fact strong{display:block;font-size:13px;color:#fff;margin-bottom:5px}
+body.product-body .vayen-detail-fact span{font-size:12px;line-height:1.5;color:#bdb9c9}
+body.product-body .product-contents,body.product-body .product-included,body.product-body .product-preview,body.product-body .product-result,body.product-body .product-final{margin-top:20px!important;border-radius:21px!important;padding:clamp(22px,3vw,36px)!important}
+body.product-body .product-content-list{gap:12px!important}
+body.product-body .product-content-item{min-width:0!important}
+body.product-body .vayen-faq{margin-top:20px;border:1px solid #2c2c3b;background:#11131c;border-radius:21px;padding:28px}
+body.product-body .vayen-faq h2{color:white;font-size:27px;margin-bottom:18px}
+body.product-body .vayen-faq details{border-top:1px solid #33303e;padding:16px 2px;color:#eee}
+body.product-body .vayen-faq summary{cursor:pointer;font-weight:700;font-size:14px;list-style:none;display:flex;justify-content:space-between;gap:10px}
+body.product-body .vayen-faq summary::after{content:'+';color:var(--v-accent,#f77fbb);font-size:20px}
+body.product-body .vayen-faq details[open] summary::after{content:'−'}
+body.product-body .vayen-faq details p{margin-top:10px;font-size:13px;line-height:1.7;color:#bdb9c9}
+body.product-body .product-preview .product-preview-head h2{font-size:clamp(25px,3vw,35px)!important}
+body.product-body .product-mobile-get{z-index:100!important}
+@media(min-width:1001px){body.product-body .vayen-gallery{display:flex!important;align-items:center!important;justify-content:center!important;align-self:stretch!important;background:linear-gradient(135deg,#171321,#0c0d17);border:1px solid #29283a;border-radius:23px;padding:15px!important}body.product-body .vayen-cover-wrap{flex:1;max-width:100%}}
+@media(max-width:1000px){body.product-body .product-hero{grid-template-columns:1fr!important}body.product-body .vayen-gallery{max-height:none!important}body.product-body .product-intro{min-height:0!important}}
+@media(max-width:700px){body.product-body .product-page{padding:14px 12px 112px!important}body.product-body .product-hero{gap:13px!important}body.product-body .vayen-cover-wrap{border-radius:15px!important}body.product-body .product-intro{padding:21px!important}body.product-body .product-detail-title{font-size:34px!important}body.product-body .vayen-clear-subtitle{font-size:14px}body.product-body .product-purchase,body.product-body .product-final-action a.product-get{display:none!important}body.product-body .vayen-detail-below{grid-template-columns:1fr!important;gap:13px}body.product-body .vayen-detail-panel{padding:20px}body.product-body .vayen-learn-list{grid-template-columns:1fr!important}body.product-body .vayen-faq{padding:20px}body.product-body .vayen-value-row{grid-template-columns:repeat(3,1fr)!important}}
 
-
-
-<style id="vayen-approved-reference-layout">
-:root{color-scheme:dark}
-body.product-body{background:#040b16!important;color:#edf6ff!important;font-family:Inter,"Segoe UI",Arial,sans-serif!important;min-height:100vh}
-.product-header{background:#050d19!important;border-bottom:1px solid #1a334f!important;position:relative;z-index:5;padding:12px max(2%,18px)!important}
-.product-brand{color:#fff!important;font-weight:900!important;letter-spacing:.12em!important}
-.product-back,.product-account{color:#d3e8ff!important}
-body.product-body .product-page{width:100%!important;max-width:1530px!important;margin:auto!important;padding:12px 18px 24px!important}
-body.product-body .product-hero{display:grid!important;grid-template-columns:minmax(0,1.35fr) minmax(0,.9fr)!important;gap:18px!important;align-items:stretch!important}
-.vr-gallery{min-width:0}
-.vr-cover{aspect-ratio:16/9;position:relative;border-radius:17px;overflow:hidden;border:1px solid color-mix(in srgb,var(--v-accent) 50%,#203550);background:#081326;box-shadow:0 8px 35px #0008}
-.vr-cover img{display:block;width:100%;height:100%;object-fit:contain}
-.vr-cover .product-visual{width:100%!important;height:100%!important;min-height:0!important;position:absolute!important;inset:0!important;border-radius:0!important}
-.vr-cover .product-visual.vr-image{background-size:contain!important;background-repeat:no-repeat!important;background-position:center!important}
-.vr-cover .product-visual.vr-image .product-cover-content,.vr-cover .product-visual.vr-image .product-visual-top,.vr-cover .product-visual.vr-image .product-visual-bottom{display:none!important}
-.vr-cover .product-visual.flagship-photo-cover{background-size:cover!important}
-.vr-arrow{position:absolute;top:50%;transform:translateY(-50%);width:39px;height:39px;border-radius:50%;border:1px solid #ffffff66;background:#061327dd;color:white;font-size:26px;cursor:pointer;z-index:3}
-.vr-arrow.prev{left:9px}.vr-arrow.next{right:9px}
-.vr-counter{position:absolute;bottom:10px;right:12px;padding:6px 10px;border-radius:20px;background:#041022cc;color:#fff;font-size:11px;z-index:3}
-.vr-caption{position:absolute;bottom:0;left:0;right:0;padding:30px 18px 12px;background:linear-gradient(transparent,#020b1eea);color:#fff;pointer-events:none;max-width:82%}
-.vr-caption b{display:block;font-size:14px}.vr-caption span{display:block;font-size:11px;color:#c7d8ed;margin-top:3px}
-.vr-thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:9px}
-.vr-thumb{cursor:pointer;min-width:0;text-align:left;padding:10px;border:1px solid #213c5b;border-radius:10px;background:linear-gradient(140deg,#10233e,#09182b);color:#f3f9ff;min-height:64px}
-.vr-thumb.is-active{border-color:var(--v-accent);box-shadow:0 0 0 1px var(--v-accent)}
-.vr-thumb small{display:block;color:var(--v-accent);font-size:9px;margin-bottom:5px;letter-spacing:.07em}
-.vr-thumb strong{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:11px;line-height:1.3}
-.vr-progress{height:2px;background:#1c3452;margin-top:8px;border-radius:2px;overflow:hidden}
-.vr-progress span{display:block;height:100%;background:var(--v-accent);width:0}
-body.product-body .product-intro{background:transparent!important;border:0!important;padding:8px 4px!important;display:flex!important;flex-direction:column!important;justify-content:center!important;gap:11px!important;min-width:0}
-body.product-body .product-category{font-size:10px!important;font-weight:800!important;letter-spacing:.14em!important;color:var(--v-accent)!important}
-body.product-body .product-detail-title{color:#fff!important;font-size:clamp(32px,3.4vw,54px)!important;line-height:1.05!important;margin:0!important}
-.vr-subtitle{color:#c7d8eb;font-size:14px;line-height:1.5;margin:0}
-body.product-body .product-detail-points,body.product-body .product-extra-value,body.product-body .product-confidence{display:none!important}
-.vr-meta{display:flex;flex-wrap:wrap;gap:7px}
-.vr-meta span{background:#102640;border:1px solid #224365;border-radius:9px;color:#c9e4ff;padding:7px 9px;font-size:11px}
-.vr-price-panel{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid #16436a;background:linear-gradient(125deg,#071a31,#092541);border-radius:14px;padding:15px}
-.vr-price-panel small{display:block;color:#b4c9df;font-size:10px;margin-bottom:5px}
-.vr-price-panel strong{font-size:clamp(25px,2.7vw,37px);color:#fff}
-.vr-price-panel .product-get{background:var(--v-accent)!important;color:#061322!important;padding:14px 23px!important;border-radius:11px!important;white-space:nowrap;font-weight:850!important}
-.vr-trust{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
-.vr-trust span{border:1px solid #1d3857;background:#091c30;padding:10px 5px;text-align:center;border-radius:10px;color:#c7dcef;font-size:11px;line-height:1.4}
-.vr-trust b{display:block;color:var(--v-accent);font-size:18px}
-body.product-body .product-quick-info,body.product-body .product-purchase,body.product-body .product-purchase-note{display:none!important}
-.vr-grid{display:grid;grid-template-columns:1.2fr 1.05fr .95fr;gap:12px;margin-top:13px}
-.vr-panel{min-width:0;background:linear-gradient(140deg,#08192d,#051222);border:1px solid #183956;border-radius:14px;padding:17px}
-.vr-panel h2{color:#fff;font-size:18px;margin:0 0 11px;letter-spacing:-.02em}
-.vr-learn{display:grid;gap:7px;list-style:none;padding:0;margin:0}
-.vr-learn li{display:flex;align-items:center;gap:10px;background:#0d2541;border:1px solid #1b3b5a;border-radius:9px;padding:9px;color:#f2f8ff;font-size:12px;line-height:1.35}
-.vr-icon{display:grid;place-items:center;flex:0 0 27px;height:27px;background:color-mix(in srgb,var(--v-accent) 25%,#072345);color:var(--v-accent);border-radius:7px;font-size:14px;font-weight:900}
-.vr-included{display:grid;gap:7px}
-.vr-included article{padding:10px;border-radius:9px;border:1px solid #1b3b5a;background:#0d2541}
-.vr-included strong{display:block;color:#fff;font-size:12px}
-.vr-included p{font-size:11px;color:#bed2e7;margin:4px 0 0;line-height:1.4}
-.vr-about{font-size:12px;line-height:1.65;color:#c6d9eb}
-.vr-about ul{padding-left:18px;margin:10px 0 0}
-.vr-about li{margin:4px 0}
-.vr-about li::marker{color:var(--v-accent)}
-.vr-bottom{display:grid;grid-template-columns:1.2fr 1fr;gap:12px;margin-top:12px}
-.vr-how{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
-.vr-how div{padding:8px 5px;color:#d1e2f4;font-size:11px}
-.vr-how b{display:grid;place-items:center;margin:0 auto 7px;width:37px;height:37px;border-radius:50%;background:#143d68;color:var(--v-accent);font-size:19px}
-.vr-how strong{display:block;color:white;font-size:12px;margin-bottom:4px}
-.vr-faq details{border-bottom:1px solid #1c3855;padding:9px 0}
-.vr-faq summary{cursor:pointer;color:#f2f7ff;font-size:12px}
-.vr-faq p{color:#bcd0e5;font-size:11px;line-height:1.55;margin:7px 0}
-body.product-body.vr-ready .product-page>.product-contents,body.product-body.vr-ready .product-page>.product-included,body.product-body.vr-ready .product-page>.product-preview,body.product-body.vr-ready .product-page>.product-result,body.product-body.vr-ready .product-page>.product-final{display:none!important}
-body.product-body .product-mobile-get{background:#07192d!important;border-top:1px solid #234462!important;z-index:100!important}
-@media(min-width:1000px){body.product-body.vr-ready .product-page{padding-top:10px!important;padding-bottom:15px!important}.vr-panel{padding:13px}.vr-learn{gap:5px}.vr-learn li{padding:7px}.vr-included{gap:5px}.vr-included article{padding:8px}}
-@media(max-width:850px){body.product-body .product-hero{grid-template-columns:1fr!important}.vr-grid{grid-template-columns:1fr 1fr}.vr-about-panel{grid-column:1/-1}}
-@media(max-width:650px){body.product-body .product-page{padding:10px 11px 90px!important}.vr-cover{border-radius:12px}.vr-caption{padding:20px 12px 8px}.vr-caption b{font-size:12px}.vr-thumbs{gap:5px}.vr-thumb{padding:7px;min-height:60px}.vr-thumb strong{font-size:9px}.vr-thumb small{font-size:8px}body.product-body .product-intro{padding:8px 0!important;gap:8px!important}body.product-body .product-detail-title{font-size:32px!important}.vr-price-panel{display:none}.vr-grid,.vr-bottom{grid-template-columns:1fr;gap:9px}.vr-about-panel{grid-column:auto}.vr-panel{padding:14px}.vr-learn{grid-template-columns:1fr 1fr}.vr-learn li{font-size:11px}.vr-trust span{font-size:10px}.vr-faq details{padding:11px 0}}
 </style>
 </head>
 
@@ -979,11 +1235,31 @@ const visual = document.querySelector(".product-visual");
 
 const coverImages = {
     "youtube-creator-system": "images/youtube.png",
-    "vlogging-mastery": "images/vlogging.png"
+    "vlogging-mastery": "images/vlogging.png",
+    "animation-mastery": "images/product-covers/animation-mastery.png",
+    "social-media-tips": "images/product-covers/social-media-tips.png",
+    "ai-prompt-box": "images/product-covers/ai-prompt-box.png",
+    "build-your-own-ai": "images/product-covers/build-your-own-ai.png",
+    "reels-growth": "images/product-covers/reels-growth.png",
+    "web-creator": "images/product-covers/web-creator.png",
+    "youtube-algorithm": "images/product-covers/youtube-algorithm.png",
+    "earn-from-social-media": "images/product-covers/earn-from-social-media.png",
+    "creator-studio": "images/product-covers/creator-studio.png",
+    "business-launch": "images/product-covers/business-launch.png",
+    "content-strategy": "images/product-covers/content-strategy.png",
+    "design-thumbnails": "images/product-covers/design-thumbnails.png",
+    "edit-videos": "images/product-covers/edit-videos.png",
+    "ai-automation": "images/product-covers/ai-automation.png",
+    "seller-commerce": "images/product-covers/seller-commerce.png",
+    "personal-brand": "images/product-covers/personal-brand.png"
 };
 
 if (coverImages[productId]) {
-visual.classList.add("flagship-photo-cover");
+if (productId === "vlogging-mastery" || productId === "youtube-creator-system") {
+    visual.classList.add("flagship-photo-cover");
+} else {
+    visual.classList.add("vayen-custom-product-cover");
+}
 const coverTop = visual.querySelector(".product-visual-top small");
 const coverBottom = visual.querySelector(
     ".product-visual-bottom span:first-child"
@@ -998,9 +1274,13 @@ if (productId === "youtube-creator-system") {
     coverTop.textContent = "VAYEN / YOUTUBE";
     coverBottom.textContent = "CREATE · GROW · BUILD YOUR CHANNEL";
 }
-    visual.style.background =
-        `linear-gradient(to top, rgba(0,0,0,.45), rgba(0,0,0,.05)),
-         url("${coverImages[productId]}") center/cover no-repeat`;
+    if (visual.classList.contains("vayen-custom-product-cover")) {
+        visual.style.background = `#080b17 url("${coverImages[productId]}") center / 100% 100% no-repeat`;
+    } else {
+        visual.style.background =
+            `linear-gradient(to top, rgba(0,0,0,.45), rgba(0,0,0,.05)),
+             url("${coverImages[productId]}") center/cover no-repeat`;
+    }
 } else if (VayenCatalog.records().find(p=>(p.slug||p.id)===productId)?.image) {
     const img=VayenCatalog.records().find(p=>(p.slug||p.id)===productId).image;
     if (/^(https?:\/\/|images\/)[^"'<>]*$/i.test(img)) visual.style.background='linear-gradient(to top,rgba(0,0,0,.3),rgba(0,0,0,.02)), url("'+img+'") center/cover no-repeat';
@@ -1095,85 +1375,144 @@ window.VayenSaved={get,toggle,heart,sync,user};window.addEventListener('vayen-sa
 })();
 </script>
 
-
-
-
-
-<script id="vayen-approved-reference-engine">
+<script id="vayen-luxe-detail-engine">
 (function(){
 'use strict';
-const params=new URLSearchParams(location.search);
-const id=params.get('id')||params.get('product')||'ai-prompting';
-const theme={
-'youtube-creator-system':'#e4bc6d','vlogging-mastery':'#ffae76',
-'animation-mastery':'#c69bff','social-media-tips':'#ff839c',
-'ai-prompt-box':'#ff72bb','build-your-own-ai':'#67e4d0',
-'reels-growth':'#f38dba','web-creator':'#19c4ff',
-'youtube-algorithm':'#ff8585','earn-from-social-media':'#8ae4bb',
-'creator-studio':'#e9b88b','business-launch':'#efc778',
-'content-strategy':'#ac9dff','design-thumbnails':'#f5a4dc',
-'edit-videos':'#88c6ff','ai-automation':'#7be0dd',
-'seller-commerce':'#efb978','personal-brand':'#d7a3ff'
+const id=new URLSearchParams(location.search).get('id')||new URLSearchParams(location.search).get('product')||'ai-prompting';
+const themes={
+'youtube-creator-system':['#e4bc6d','rgba(214,167,67,.23)','🎬'],'vlogging-mastery':['#ffae76','rgba(241,121,52,.25)','📹'],
+'animation-mastery':['#c69bff','rgba(144,73,233,.24)','🎞️'],'social-media-tips':['#ff839c','rgba(239,88,118,.24)','📱'],
+'ai-prompt-box':['#ff72bb','rgba(202,61,186,.27)','✨'],'build-your-own-ai':['#67e4d0','rgba(48,185,176,.24)','🤖'],
+'reels-growth':['#f38dba','rgba(237,95,147,.23)','🎥'],'web-creator':['#88c7ff','rgba(79,143,225,.22)','🌐'],
+'youtube-algorithm':['#ff8585','rgba(230,76,76,.22)','▶️'],'earn-from-social-media':['#8ae4bb','rgba(72,198,139,.22)','💰'],
+'creator-studio':['#e9b88b','rgba(221,150,82,.22)','🎙️'],'business-launch':['#efc778','rgba(215,163,74,.22)','🚀'],
+'content-strategy':['#ac9dff','rgba(132,112,231,.22)','🗓️'],'design-thumbnails':['#f5a4dc','rgba(217,95,177,.22)','🎨'],
+'edit-videos':['#88c6ff','rgba(90,149,235,.22)','🎬'],'ai-automation':['#7be0dd','rgba(65,186,192,.22)','⚡'],
+'seller-commerce':['#efb978','rgba(214,143,72,.22)','🛍️'],'personal-brand':['#d7a3ff','rgba(159,91,212,.22)','🌟']
 };
-document.body.style.setProperty('--v-accent',theme[id]||'#85baff');
-function el(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e;}
-function start(){
- if(!document.body.classList.contains('vayen-product-ready'))return;
- if(document.querySelector('.vr-gallery'))return;
- const hero=document.querySelector('.product-hero'),visual=hero?.querySelector('.product-visual'),intro=hero?.querySelector('.product-intro');
- if(!hero||!visual||!intro)return;
- const title=document.querySelector('.product-detail-title')?.textContent.trim()||'Digital Product';
- const subtitle=document.querySelector('.product-cover-content p')?.textContent.trim()||'';
- const points=[...document.querySelectorAll('.product-detail-points p')].map(x=>x.textContent.trim()).filter(Boolean);
- const contents=[...document.querySelectorAll('.product-content-item')].map(x=>({heading:x.querySelector('h3')?.textContent.trim()||'',desc:x.querySelector('p')?.textContent.trim()||''})).filter(x=>x.heading);
- const price=document.querySelector('.product-price strong')?.textContent.trim()||'';
- const get=document.querySelector('.product-purchase a.product-get');
- const gallery=el('div','vr-gallery'),cover=el('div','vr-cover'),thumbs=el('div','vr-thumbs');
- visual.before(gallery);gallery.append(cover);cover.append(visual);
- const catalog=window.VayenCatalog?.records?.().find(p=>(p.slug||p.id)===id);
- const imageUrl=(id==='youtube-creator-system'?'images/youtube.png':id==='vlogging-mastery'?'images/vlogging.png':catalog?.image||'');
- if(imageUrl && id!=='youtube-creator-system' && id!=='vlogging-mastery'){
-    visual.classList.add('vr-image');
-    visual.style.backgroundImage='url("'+String(imageUrl).replace(/["\\]/g,'')+'")';
-    visual.style.backgroundPosition='center';
-    visual.style.backgroundSize='contain';
-    visual.style.backgroundRepeat='no-repeat';
- }
- const slides=contents.length?contents.slice(0,4):[{heading:title,desc:subtitle}];
- const caption=el('div','vr-caption');const capTitle=el('b'),capDesc=el('span');caption.append(capTitle,capDesc);
- const prev=el('button','vr-arrow prev','‹'),next=el('button','vr-arrow next','›');
- prev.type=next.type='button';prev.setAttribute('aria-label','Previous product detail');next.setAttribute('aria-label','Next product detail');
- const counter=el('span','vr-counter');cover.append(caption,prev,next,counter);
- gallery.append(thumbs);
- const progress=el('div','vr-progress');const bar=el('span');progress.append(bar);gallery.append(progress);
- let index=0,timer;
- slides.forEach((slide,i)=>{const b=el('button','vr-thumb');b.type='button';b.append(el('small','','0'+(i+1)+' · PREVIEW'),el('strong','',slide.heading));b.addEventListener('click',()=>{show(i);run()});thumbs.append(b)});
- function show(i){index=(i+slides.length)%slides.length;const item=slides[index];capTitle.textContent=item.heading;capDesc.textContent=item.desc;counter.textContent=(index+1)+' / '+slides.length;[...thumbs.children].forEach((b,j)=>b.classList.toggle('is-active',j===index));bar.style.transition='none';bar.style.width='0%';requestAnimationFrame(()=>requestAnimationFrame(()=>{bar.style.transition='width 5s linear';bar.style.width='100%'}));}
- function run(){clearInterval(timer);if(!matchMedia('(prefers-reduced-motion: reduce)').matches)timer=setInterval(()=>{if(!document.hidden)show(index+1)},5000)}
- prev.addEventListener('click',()=>{show(index-1);run()});next.addEventListener('click',()=>{show(index+1);run()});
- let touchX=null;cover.addEventListener('touchstart',e=>{touchX=e.touches[0]?.clientX??null},{passive:true});cover.addEventListener('touchend',e=>{if(touchX===null)return;const d=(e.changedTouches[0]?.clientX??touchX)-touchX;if(Math.abs(d)>35){show(index+(d<0?1:-1));run()}touchX=null},{passive:true});
- show(0);run();
- intro.querySelector('.product-detail-title')?.after(el('p','vr-subtitle',subtitle));
- const meta=el('div','vr-meta');
- ['Digital product','Your Library',document.querySelector('.product-quick-info > div:nth-child(3) strong')?.textContent.trim()||'Creators'].forEach(t=>meta.append(el('span','',t)));
- intro.append(meta);
- const purchase=el('div','vr-price-panel');const left=el('div');left.append(el('small','','ONE-TIME PAYMENT'),el('strong','',price));purchase.append(left);
- if(get){const link=get.cloneNode(true);link.removeAttribute('id');link.textContent='Get Now →';purchase.append(link);}
- intro.append(purchase);
- const trust=el('div','vr-trust');[['⚡','Digital access'],['▣','Your Library'],['✓','Learn at your pace']].forEach(([ico,txt])=>{const span=el('span');span.append(el('b','',ico),document.createTextNode(txt));trust.append(span)});intro.append(trust);
- const grid=el('div','vr-grid');
- function panel(heading,cls){const section=el('section','vr-panel '+(cls||''));section.append(el('h2','',heading));grid.append(section);return section;}
- const learn=panel("What You'll Learn");const list=el('ul','vr-learn');(points.length?points:contents.map(c=>c.heading)).slice(0,5).forEach((p,i)=>{const li=el('li');li.append(el('span','vr-icon',String(i+1)),el('span','',p));list.append(li)});learn.append(list);
- const inside=panel("What's Included");const insideList=el('div','vr-included');contents.forEach(c=>{const a=el('article');a.append(el('strong','',c.heading),el('p','',c.desc));insideList.append(a)});inside.append(insideList);
- const about=panel('About This Product','vr-about-panel');const body=el('div','vr-about');body.append(el('p','',subtitle||title));const bullets=el('ul');[...points.slice(0,3)].forEach(p=>bullets.append(el('li','',p)));body.append(bullets);about.append(body);
- const bottom=el('div','vr-bottom');const how=el('section','vr-panel');how.append(el('h2','','How It Works'));const steps=el('div','vr-how');
- [['🛒','1. Purchase','Complete your purchase'],['▣','2. Access','Open Your Library'],['▶','3. Learn','Explore your product']].forEach(([icon,title,desc])=>{const item=el('div');item.append(el('b','',icon),el('strong','',title),el('span','',desc));steps.append(item)});how.append(steps);bottom.append(how);
- const faq=el('section','vr-panel vr-faq');faq.append(el('h2','','FAQ'));
- [['How do I access this product?','After purchase, open Your Library in your VAYEN account.'],['What does this product cover?',contents.map(c=>c.heading).join(', ')+'.'],['Is this a physical product?','No. This is a digital product.']].forEach(([q,a])=>{const d=el('details');d.append(el('summary','',q),el('p','',a));faq.append(d)});bottom.append(faq);
- hero.after(grid,bottom);document.body.classList.add('vr-ready');
-}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{const mo=new MutationObserver(()=>{if(document.body.classList.contains('vayen-product-ready')){mo.disconnect();start()}});mo.observe(document.body,{attributes:true,attributeFilter:['class']});start()});
-else {const mo=new MutationObserver(()=>{if(document.body.classList.contains('vayen-product-ready')){mo.disconnect();start()}});mo.observe(document.body,{attributes:true,attributeFilter:['class']});start()}
+document.body.dataset.vayenProduct=id;
+const t=themes[id]||['#ef8cc1','rgba(233,90,156,.24)','📚'];
+document.body.style.setProperty('--v-accent',t[0]);document.body.style.setProperty('--v-glow',t[1]);
+const hero=document.querySelector('.product-hero'),cover=document.querySelector('.product-visual'),intro=document.querySelector('.product-intro');
+if(!hero||!cover||!intro||!document.body.classList.contains('vayen-product-ready'))return;
+const title=(document.querySelector('.product-detail-title')?.textContent||'Digital Guide').trim();
+const tagline=document.createElement('p');tagline.className='vayen-tagline';tagline.textContent='A practical digital learning resource, designed around '+title+'.';
+intro.querySelector('.product-detail-title').after(tagline);
+const gallery=document.createElement('div');gallery.className='vayen-gallery';
+const wrap=document.createElement('div');wrap.className='vayen-cover-wrap';cover.before(gallery);gallery.append(wrap);wrap.append(cover);
+const count=document.createElement('div');count.className='vayen-cover-count';count.textContent=id==='ai-prompt-box'?'3,000+ READY-TO-USE PROMPTS':'VAYEN · DIGITAL EDITION';wrap.append(count);
+const points=[...document.querySelectorAll('.product-content-item h3')].map(x=>x.textContent.trim());
+const labels=[points[0]||'Explore the guide',points[1]||'See practical methods',points[2]||'Learn with examples'];
+const icons=['✦','◈',t[2]];
+const thumbs=document.createElement('div');thumbs.className='vayen-thumbs';gallery.append(thumbs);
+labels.forEach((label,i)=>{const b=document.createElement('button');b.type='button';b.className='vayen-thumb'+(i===0?' is-active':'');b.innerHTML='<small>0'+(i+1)+' · PRODUCT PREVIEW</small><span class="vayen-mini" aria-hidden="true">'+icons[i]+'</span><strong></strong>';b.querySelector('strong').textContent=label;thumbs.append(b);});
+let active=0;const buttons=[...thumbs.children];const choose=i=>{active=i;buttons.forEach((b,j)=>b.classList.toggle('is-active',j===i));};buttons.forEach((b,i)=>b.addEventListener('click',()=>choose(i)));
+let timer;const start=()=>{if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;timer=setInterval(()=>{if(!document.hidden)choose((active+1)%buttons.length)},4300)};start();gallery.addEventListener('mouseenter',()=>clearInterval(timer));gallery.addEventListener('mouseleave',()=>{clearInterval(timer);start()});
+let touchX=null;gallery.addEventListener('touchstart',e=>{touchX=e.touches[0]?.clientX??null},{passive:true});gallery.addEventListener('touchend',e=>{if(touchX===null)return;const dx=(e.changedTouches[0]?.clientX??touchX)-touchX;if(Math.abs(dx)>35)choose((active+(dx<0?1:buttons.length-1))%buttons.length);touchX=null},{passive:true});
+const values=document.createElement('div');values.className='vayen-value-row';[['◈','Product-specific guide'],['✓','One-time purchase'],['↗','Library access']].forEach(([icon,label])=>{const item=document.createElement('div');const bold=document.createElement('b');bold.textContent=icon;item.append(bold,document.createTextNode(label));values.append(item)});intro.querySelector('.product-purchase-note')?.after(values);
+// Comparison prices are OPTIONAL merchandising values, not verified past selling prices.
+// Populate from approved regular prices only; no fabricated strikethrough price or discount.
+const approvedRegularPrices={};
+const priceEl=intro.querySelector('.product-price');const current=Number((priceEl?.querySelector('strong')?.textContent||'').replace(/[^0-9]/g,''));const regular=approvedRegularPrices[id];
+if(regular&&current&&regular>current){const discount=Math.round((regular-current)/regular*100);const row=document.createElement('div');row.className='vayen-price-compare';row.innerHTML='<span>Regular price</span> <del></del> <span class="vayen-discount"></span>';row.querySelector('del').textContent='₹'+regular.toLocaleString('en-IN');row.querySelector('.vayen-discount').textContent=discount+'% OFF';priceEl.append(row)}
+const nav=document.createElement('nav');nav.className='vayen-section-nav';nav.setAttribute('aria-label','Product details');
+[['Overview','.product-hero'],["What's Inside",'.product-contents'],['Learning Path','.product-included'],['Examples','.product-preview'],['Who It’s For','.product-result']].forEach(([label,selector],i)=>{const el=document.querySelector(selector);if(!el)return;el.id='vayen-detail-'+i;const a=document.createElement('a');a.href='#'+el.id;a.textContent=label;nav.append(a)});hero.after(nav);
+const showcase=document.createElement('section');showcase.className='vayen-showcase';const sh=document.createElement('h2');sh.textContent=id==='ai-prompt-box'?'Example prompt & visual result':'Explore a practical example';const sp=document.createElement('p');sp.textContent=id==='ai-prompt-box'?'Copy a sample prompt and try it with a compatible AI image tool. You can upload your own photo where supported.':'A preview of the kind of practical learning covered in this product.';showcase.append(sh,sp);
+const sg=document.createElement('div');sg.className='vayen-showcase-grid';showcase.append(sg);
+const example=document.createElement('article');example.className='vayen-sample';const small=document.createElement('small');small.textContent=id==='ai-prompt-box'?'COPY & TRY · SAMPLE PROMPT':'INSIDE THE GUIDE';const eh=document.createElement('h3');eh.textContent=id==='ai-prompt-box'?'Cinematic portrait transformation':labels[0];const ep=document.createElement('p');const prompt='Transform my uploaded photo into a cinematic portrait with dramatic blue-orange lighting, realistic facial details and a dark studio background. Preserve my facial identity.';ep.textContent=id==='ai-prompt-box'?prompt:(document.querySelector('.product-content-item p')?.textContent||'Explore clear, practical guidance for this topic.').trim();example.append(small,eh,ep);if(id==='ai-prompt-box'){const copy=document.createElement('button');copy.type='button';copy.textContent='Copy sample prompt';copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(prompt);copy.textContent='Copied ✓'}catch(e){copy.textContent='Select and copy the prompt'}});example.append(copy)}sg.append(example);
+const vis=document.createElement('article');vis.className='vayen-sample vayen-sample-visual';const vi=document.createElement('div');vi.className='vayen-sample-visual-inner';vi.textContent=t[2];const note=document.createElement('span');note.textContent=id==='ai-prompt-box'?'IMAGE RESULT PREVIEW TO BE ADDED':'PRODUCT LEARNING PREVIEW';vi.append(note);vis.append(vi);sg.append(vis);
+nav.after(showcase);
+if(id==='ai-prompt-box'){const bonus=document.querySelector('.product-extra-value');if(bonus)bonus.textContent='+ 3,000+ ready-to-use AI prompts';const category=document.querySelector('.product-category');if(category)category.textContent='AI PROMPT BOX · 3,000+ READY-TO-USE PROMPTS';}
+})();
+</script>
+
+
+
+<script id="vayen-approved-clarity-details">
+(function () {
+  function init() {
+    if (!document.body.classList.contains('vayen-product-ready')) {
+      window.setTimeout(init, 120);
+      return;
+    }
+    const hero = document.querySelector('.product-hero');
+    if (!hero || document.querySelector('.vayen-clarity')) return;
+    const title = document.querySelector('.product-detail-title')?.textContent.trim() || 'This product';
+    const audience = document.querySelector('.product-quick-info > div:nth-child(3) strong')?.textContent.trim() || 'Learners';
+    const contents = Array.from(document.querySelectorAll('.product-content-item')).slice(0, 4);
+    const section = document.createElement('section');
+    section.className = 'vayen-clarity';
+    const learn = document.createElement('article');
+    const h1 = document.createElement('h2');
+    h1.textContent = 'What you will explore';
+    const list = document.createElement('ul');
+    contents.forEach(function (item) {
+      const li = document.createElement('li');
+      const strong = document.createElement('b');
+      strong.textContent = item.querySelector('h3')?.textContent.trim() || 'Practical guidance';
+      const desc = item.querySelector('p')?.textContent.trim();
+      li.append(strong);
+      if (desc) li.append(document.createTextNode(' — ' + desc));
+      list.append(li);
+    });
+    learn.append(h1, list);
+    const info = document.createElement('article');
+    const h2 = document.createElement('h2');
+    h2.textContent = 'Before you buy';
+    const p = document.createElement('p');
+    p.textContent = title + ' is intended for ' + audience.toLowerCase() + '. Review the included topics below to see if it fits your needs.';
+    const how = document.createElement('p');
+    how.style.marginTop = '12px';
+    how.innerHTML = '<b>How it works</b> — Choose Get, complete your purchase, and open your digital product from Your Library.';
+    info.append(h2, p, how);
+    section.append(learn, info);
+    hero.after(section);
+    // A sample lesson is not a playable video; don't imply one exists.
+    document.querySelectorAll('.product-preview-head h2').forEach(function (el) {
+      if (/preview/i.test(el.textContent)) el.textContent = 'Inside the Product';
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+<script id="vayen-final-detail-experience">
+(function(){
+  'use strict';
+  function init(){
+    if(!document.body.classList.contains('vayen-product-ready')){setTimeout(init,90);return;}
+    const hero=document.querySelector('.product-hero');
+    if(!hero||document.querySelector('.vayen-detail-below'))return;
+    const title=document.querySelector('.product-detail-title');
+    const subtitle=document.querySelector('.product-cover-content p');
+    if(title&&subtitle){const p=document.createElement('p');p.className='vayen-clear-subtitle';p.textContent=subtitle.textContent.trim();title.after(p);}
+    const points=[...document.querySelectorAll('.product-detail-points p')].map(p=>p.textContent.trim()).filter(Boolean).slice(0,6);
+    const section=document.createElement('section');section.className='vayen-detail-below';
+    const learn=document.createElement('article');learn.className='vayen-detail-panel';
+    const lh=document.createElement('h2');lh.textContent="What You'll Learn";
+    const lp=document.createElement('p');lp.textContent='Clear, practical topics covered in this product.';
+    const ul=document.createElement('ul');ul.className='vayen-learn-list';
+    points.forEach(t=>{const li=document.createElement('li');li.textContent=t;ul.append(li)});
+    learn.append(lh,lp,ul);
+    const info=document.createElement('article');info.className='vayen-detail-panel';
+    const ih=document.createElement('h2');ih.textContent='Before You Buy';
+    const ip=document.createElement('p');ip.textContent='A quick look at who this is for and how to access it.';
+    const facts=document.createElement('div');facts.className='vayen-detail-facts';
+    const audience=document.querySelector('.product-quick-info > div:nth-child(3) strong')?.textContent.trim()||'Learners';
+    [['Made for',audience],['Format','Digital product'],['Access','Open your purchased product from Your Library']].forEach(([a,b])=>{const d=document.createElement('div');d.className='vayen-detail-fact';const st=document.createElement('strong');st.textContent=a;const sp=document.createElement('span');sp.textContent=b;d.append(st,sp);facts.append(d)});
+    info.append(ih,ip,facts);section.append(learn,info);hero.after(section);
+    // Preview cards describe topics; they are not playable videos.
+    document.querySelectorAll('.product-preview-head h2').forEach(el=>{if(/preview/i.test(el.textContent))el.textContent='Explore the Topics';});
+    const faq=document.createElement('section');faq.className='vayen-faq';const fh=document.createElement('h2');fh.textContent='Frequently Asked Questions';faq.append(fh);
+    const items=[['What will I learn?', 'See the What You’ll Learn and What’s Inside sections above for the topics covered by this product.'],['How do I access my purchase?', 'After a successful purchase, open Your Library in your VAYEN account to access the product.'],['Is this a physical product?', 'No. This is a digital product; nothing is shipped to your address.'],['Can I check what is included before buying?', 'Yes. Review the What’s Inside and learning sections on this page before you purchase.']];
+    items.forEach(([q,a])=>{const d=document.createElement('details');const sm=document.createElement('summary');sm.textContent=q;const p=document.createElement('p');p.textContent=a;d.append(sm,p);faq.append(d)});
+    const final=document.querySelector('.product-final');if(final)final.before(faq);else document.querySelector('.product-page')?.append(faq);
+    // Correct AI Prompt Box marketing text; authoritative price continues to come from catalog.
+    const id=new URLSearchParams(location.search).get('id')||new URLSearchParams(location.search).get('product');
+    if(id==='ai-prompt-box'){const v=document.querySelector('.product-extra-value');if(v)v.textContent='3,000+ ready-to-use AI prompts';}
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
 </body>
