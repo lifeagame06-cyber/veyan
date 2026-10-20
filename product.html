@@ -350,6 +350,36 @@ body.product-body .vayen-cover-wrap:has(.vayen-custom-product-cover) {
   }
 }
 </style>
+
+<style id="vayen-approved-simple-premium-20261020">
+/* Simple, readable premium product details; no fake video or carousel. */
+body.product-body .product-page{max-width:1320px!important;padding:26px 24px 90px!important}
+body.product-body .product-hero{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr)!important;gap:24px!important;align-items:start!important}
+body.product-body .vayen-gallery{display:block!important;height:auto!important;max-height:none!important}
+body.product-body .vayen-cover-wrap{width:100%!important;height:auto!important;min-height:0!important;aspect-ratio:16/9!important;flex-basis:auto!important;overflow:hidden!important;background:#080b17!important;border:1px solid #34293e!important;border-radius:22px!important}
+body.product-body .vayen-cover-wrap .product-visual.vayen-custom-product-cover{width:100%!important;height:100%!important;min-height:0!important;aspect-ratio:auto!important;background-size:100% 100%!important;background-position:center!important;padding:0!important;border-radius:0!important}
+body.product-body .vayen-gallery .vayen-thumbs,body.product-body .vayen-gallery .vayen-cover-count,body.product-body .vayen-auto-detail,body.product-body .vayen-section-nav,body.product-body .vayen-showcase{display:none!important}
+body.product-body .product-intro{background:linear-gradient(140deg,#11121d,#0b0c14)!important;border:1px solid #2a2736!important;border-radius:22px!important;padding:30px!important}
+body.product-body .product-detail-title{font-size:clamp(34px,3.6vw,53px)!important;line-height:1.08!important;margin:12px 0!important}
+body.product-body .product-detail-points{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important;margin:16px 0!important}
+body.product-body .product-detail-points p{font-size:12px!important;line-height:1.45!important}
+body.product-body .product-quick-info{margin:18px 0 0!important;padding:15px 0!important}
+body.product-body .product-purchase{margin-top:18px!important}
+body.product-body .product-get{padding:16px 32px!important;border-radius:13px!important}
+body.product-body .product-contents,body.product-body .product-included,body.product-body .product-preview,body.product-body .product-result,body.product-body .product-final{margin-top:18px!important;border-radius:20px!important}
+body.product-body .product-preview .product-preview-head h2{font-size:30px!important}
+body.product-body .vayen-clarity{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+body.product-body .vayen-clarity article{background:#12141e;border:1px solid #2c2b3b;border-radius:16px;padding:20px}
+body.product-body .vayen-clarity h2{font-size:20px;color:#fff;margin-bottom:12px}
+body.product-body .vayen-clarity p,body.product-body .vayen-clarity li{font-size:13px;color:#c8c4d0;line-height:1.65}
+body.product-body .vayen-clarity ul{padding-left:18px}
+body.product-body .vayen-clarity li{margin:6px 0}
+body.product-body .vayen-clarity b{color:#fff}
+body.product-body .vayen-clarity .vayen-accent{color:var(--v-accent,#f77ab5)}
+body.product-body .vayen-no-video-note{font-size:12px;color:#aaa6b5;margin-top:8px}
+@media(max-width:900px){body.product-body .product-hero{grid-template-columns:1fr!important}}
+@media(max-width:650px){body.product-body .product-page{padding:14px 12px 100px!important}body.product-body .product-hero{gap:14px!important}body.product-body .vayen-cover-wrap{border-radius:15px!important}body.product-body .product-intro{padding:20px!important}body.product-body .product-detail-title{font-size:34px!important}body.product-body .product-purchase,body.product-body .product-final-action a.product-get{display:none!important}body.product-body .vayen-clarity{grid-template-columns:1fr!important}body.product-body .product-detail-points{grid-template-columns:1fr 1fr!important}body.product-body .product-contents,body.product-body .product-included,body.product-body .product-preview,body.product-body .product-result,body.product-body .product-final{padding:19px!important}}
+</style>
 </head>
 
 
@@ -1378,6 +1408,55 @@ function boot(){
  // Keep page compact: all long content remains accessible via the navigation below.
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+})();
+</script>
+
+<script id="vayen-approved-clarity-details">
+(function () {
+  function init() {
+    if (!document.body.classList.contains('vayen-product-ready')) {
+      window.setTimeout(init, 120);
+      return;
+    }
+    const hero = document.querySelector('.product-hero');
+    if (!hero || document.querySelector('.vayen-clarity')) return;
+    const title = document.querySelector('.product-detail-title')?.textContent.trim() || 'This product';
+    const audience = document.querySelector('.product-quick-info > div:nth-child(3) strong')?.textContent.trim() || 'Learners';
+    const contents = Array.from(document.querySelectorAll('.product-content-item')).slice(0, 4);
+    const section = document.createElement('section');
+    section.className = 'vayen-clarity';
+    const learn = document.createElement('article');
+    const h1 = document.createElement('h2');
+    h1.textContent = 'What you will explore';
+    const list = document.createElement('ul');
+    contents.forEach(function (item) {
+      const li = document.createElement('li');
+      const strong = document.createElement('b');
+      strong.textContent = item.querySelector('h3')?.textContent.trim() || 'Practical guidance';
+      const desc = item.querySelector('p')?.textContent.trim();
+      li.append(strong);
+      if (desc) li.append(document.createTextNode(' — ' + desc));
+      list.append(li);
+    });
+    learn.append(h1, list);
+    const info = document.createElement('article');
+    const h2 = document.createElement('h2');
+    h2.textContent = 'Before you buy';
+    const p = document.createElement('p');
+    p.textContent = title + ' is intended for ' + audience.toLowerCase() + '. Review the included topics below to see if it fits your needs.';
+    const how = document.createElement('p');
+    how.style.marginTop = '12px';
+    how.innerHTML = '<b>How it works</b> — Choose Get, complete your purchase, and open your digital product from Your Library.';
+    info.append(h2, p, how);
+    section.append(learn, info);
+    hero.after(section);
+    // A sample lesson is not a playable video; don't imply one exists.
+    document.querySelectorAll('.product-preview-head h2').forEach(function (el) {
+      if (/preview/i.test(el.textContent)) el.textContent = 'Inside the Product';
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 })();
 </script>
 </body>
