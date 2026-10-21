@@ -147,6 +147,7 @@ const DOWNLOAD_FUNCTION_URL = 'https://ajctjuyvdguzwcvesvio.supabase.co/function
 let currentFirebaseUser = null;
 let cloudRecords = [];
 let recentActive = false;
+let highlightShown = false;
 function refreshRecords() {
     const byId = new Map();
     localRecords.forEach(order => byId.set(String(order.id), order));
@@ -351,13 +352,14 @@ function render(recent) {
     count.textContent = String(shown.length);
     empty.style.display = shown.length ? 'none' : '';
 
-    if (highlight && !recent) {
+    if (highlight && !recent && !highlightShown) {
         const item = Array.from(list.querySelectorAll('[data-order]'))
             .find(el => el.dataset.order === highlight);
         if (item) {
+            highlightShown = true;
             item.classList.add('vy-order-highlight');
             requestAnimationFrame(() => item.scrollIntoView({behavior:'smooth', block:'center'}));
-            setTimeout(() => item.classList.remove('vy-order-highlight'), 10000);
+            setTimeout(() => item.classList.remove('vy-order-highlight'), 5000);
         }
     }
 }

@@ -129,7 +129,22 @@
 .vy-download-message{min-height:22px;font-size:12px;line-height:1.6;color:#805267;margin:16px 0 0}
 @media(max-width:480px){.vy-order-actions{gap:8px}.vy-order-actions button{font-size:12px;padding:10px 12px;flex:0 1 auto}.vy-download-dialog{padding:30px 15px 20px}.vy-download-options{gap:8px}.vy-download-options button{padding:12px 6px;min-height:108px}.vy-download-options strong{font-size:20px}.vy-download-options span{font-size:10px}}
 
-.library-ebook-actions{display:flex;flex-wrap:wrap;gap:8px}.library-ebook-actions .btn{flex:1;min-width:100px;text-align:center}.library-download-btn{border:1px solid #d8bdc7;background:#fff8f9;cursor:pointer}.library-ebook-kind{font-size:12px;color:#8b5068;font-weight:700;margin:7px 0 12px}
+.library-order-link{border:1px solid #e4cbd4;background:#fffaf9;white-space:nowrap}.library-ebook-actions{display:flex;flex-wrap:wrap;gap:8px}.library-ebook-actions .btn{flex:1;min-width:100px;text-align:center}.library-download-btn{border:1px solid #d8bdc7;background:#fff8f9;cursor:pointer}.library-ebook-kind{font-size:12px;color:#8b5068;font-weight:700;margin:7px 0 12px}
+.vy-download-overlay[hidden]{display:none!important}
+.vy-download-overlay{position:fixed;inset:0;z-index:10050;display:flex;align-items:center;justify-content:center;background:rgba(31,20,32,.62);backdrop-filter:blur(5px);padding:16px}
+.vy-download-dialog{position:relative;width:min(100%,490px);max-height:calc(100dvh - 32px);overflow:auto;background:#fffaf9;border:1px solid #eadfe1;border-radius:22px;box-shadow:0 24px 80px #1f142044;padding:32px 24px 24px;text-align:center;color:#402631}
+.vy-download-close{position:absolute;right:14px;top:12px;background:none;border:0;color:#755b67;font-size:26px;cursor:pointer;padding:4px 10px}
+.vy-download-eyebrow{font-size:10px;letter-spacing:2px;font-weight:800;color:#986079}
+.vy-download-dialog h2{font:normal 29px Georgia,serif;margin:10px 0 8px}
+.vy-download-book{font-size:13px;color:#88777e;margin:0 0 23px}
+.vy-download-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.vy-download-options button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;min-height:112px;background:#fcf7f7;border:1px solid #eadfe1;border-radius:15px;color:#402631;padding:16px 8px;cursor:pointer}
+.vy-download-options button:hover:not(:disabled),.vy-download-options button:focus-visible{border-color:#963d61;outline:2px solid #963d61;outline-offset:1px}
+.vy-download-options button:disabled{opacity:.5;cursor:wait}
+.vy-download-options strong{font:normal 23px Georgia,serif}
+.vy-download-options span{font-size:11px;color:#88777e}
+.vy-download-message{min-height:22px;font-size:12px;line-height:1.6;color:#805267;margin:16px 0 0}
+@media(max-width:480px){.vy-order-actions{gap:8px}.vy-order-actions button{font-size:12px;padding:10px 12px;flex:0 1 auto}.vy-download-dialog{padding:30px 15px 20px}.vy-download-options{gap:8px}.vy-download-options button{padding:12px 6px;min-height:108px}.vy-download-options strong{font-size:20px}.vy-download-options span{font-size:10px}}
 </style>
  </head>
  <body>
@@ -200,7 +215,7 @@
        …
       </strong>
       <small>
-       My Ebooks
+       My Products
       </small>
      </div>
     </div>
@@ -224,7 +239,7 @@
       Saved
      </button>
      <button class="tab" data-tab="purchased">
-      My Ebooks
+      My Products
      </button>
      <button class="tab" data-tab="collections">
       Collections
@@ -539,7 +554,7 @@
         $('#createBtn').classList.toggle('hidden', tab !== 'collections');
         const titles = {
             saved: 'Saved Products',
-            purchased: 'My Ebooks',
+            purchased: 'My Products',
             collections: 'My Collections'
         };
         const subtitles = {
@@ -567,9 +582,11 @@
                         <div class="cover"><span>${safe(label(item))}</span></div>
                         <div class="product-info">
                             <strong>${safe(label(item))}</strong>
-                            <div class="price">Purchased</div>
+                            <div class="price">${item.kind === 'gift' ? 'Gifted by VAYEN 🎁' : 'Purchased · Verified'}</div>
                             <div class="product-foot">
                                 <a class="btn" href="reader.html?product=${encodeURIComponent(item.slug)}">Read Ebook →</a>
+                                <button class="btn library-download-btn" type="button" data-library-download="${safe(item.slug)}">Download PDF ↓</button>
+                                <a class="btn library-order-link" href="orders.html?highlight=${encodeURIComponent(item.orderId)}" aria-label="View order for ${safe(label(item))}">View Order ↗</a>
                             </div>
                         </div>
                     </article>
@@ -645,6 +662,13 @@
     });
 
     $('#content').addEventListener('click', event => {
+        const download = event.target.closest('[data-library-download]');
+        if (download) {
+            const item = purchases().find(p => p.slug === download.dataset.libraryDownload);
+            if (item) window.dispatchEvent(new CustomEvent('vayen-library-download', { detail: item }));
+            return;
+        }
+
         if (!libraryReady) return;
 
         const back = event.target.closest('[data-back-collections]');
@@ -890,9 +914,10 @@ else {
              if ((o.userId && o.userId !== user.uid) || o.paymentStatus !== 'paid' ||
                 o.verificationStatus !== 'verified' ||
                 typeof id !== 'string' || !id.trim()) return null;
-            return { slug: id, name: o.productName || o.name || id.replace(/-/g, ' '), kind: 'purchase' };
+            return { slug: id, name: o.productName || o.name || id.replace(/-/g, ' '), kind: 'purchase', orderId: orderSnap.id };
           }).filter(Boolean);
-          bridge.setPurchases(verified);
+          paidEbooks = verified;
+          publishEbooks();
         }, orderError => {
           console.error('Unable to load verified orders:', orderError);
           if (token === version) info('Saved products loaded, but purchases could not be checked.');
@@ -906,7 +931,7 @@ else {
                  !gift.productId.trim()) return [];
              const title = window.VayenCatalog?.BASE?.[gift.productId]?.name ||
                  gift.productId.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-             return [{ slug: gift.productId, name: title, kind: 'gift' }];
+             return [{ slug: gift.productId, name: title, kind: 'gift', orderId: 'gift-' + giftSnap.id }];
            });
            publishEbooks();
          }, giftError => {
@@ -920,6 +945,19 @@ info('Your saved products and collections are synced to your VAYEN account.');
 }
   </script>
  
+<div class="vy-download-overlay" id="vyDownloadOverlay" hidden>
+  <section class="vy-download-dialog" role="dialog" aria-modal="true" aria-labelledby="vyDownloadHeading">
+    <button class="vy-download-close" id="vyDownloadClose" type="button" aria-label="Close download options">×</button>
+    <div class="vy-download-eyebrow">VAYEN DIGITAL LIBRARY</div>
+    <h2 id="vyDownloadHeading">Choose Your Edition</h2>
+    <p class="vy-download-book" id="vyDownloadTitle"></p>
+    <div class="vy-download-options">
+      <button type="button" data-download-language="english"><strong>English</strong><span>Download PDF ↓</span></button>
+      <button type="button" data-download-language="hinglish"><strong>Hinglish</strong><span>Download PDF ↓</span></button>
+    </div>
+    <p class="vy-download-message" id="vyDownloadMessage" role="status"></p>
+  </section>
+</div>
 <script type="module" id="vayen-library-secure-download">
 import { getApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
 import { getAuth } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
