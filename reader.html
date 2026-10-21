@@ -61,7 +61,7 @@ const controlIds=['prev','next','zoomOut','zoomIn','fit','full','focus','pageInp
 try{const t=localStorage.getItem('vayenReaderTheme');if(['light','sepia','dark'].includes(t)){$('theme').value=t;document.body.dataset.theme=t}}catch{}
 function refresh(){const count=pdf?.numPages||0;$('pageInput').value=count?pageNumber:0;$('pageInput').max=count||1;$('pageTotal').textContent='/ '+count;$('zoomLabel').textContent=Math.round(scale*100)+'%';for(const id of controlIds)$(id).disabled=!pdf;$('prev').disabled=!pdf||pageNumber<=1;$('next').disabled=!pdf||pageNumber>=count;$('progressBar').style.width=count?(pageNumber/count*100)+'%':'0%'}
 async function render(){if(!pdf)return;const doc=pdf,num=pageNumber,seq=++renderSeq;try{if(task){task.cancel();try{await task.promise}catch{}}const page=await doc.getPage(num);if(seq!==renderSeq||doc!==pdf)return;const pixelRatio=Math.min(window.devicePixelRatio||1,2),view=page.getViewport({scale:scale*pixelRatio});canvas.width=Math.floor(view.width);canvas.height=Math.floor(view.height);canvas.style.width=(view.width/pixelRatio)+'px';canvas.style.height=(view.height/pixelRatio)+'px';task=page.render({canvasContext:ctx,viewport:view});await task.promise;if(seq!==renderSeq||doc!==pdf)return;try{localStorage.setItem('vayenReaderPage:'+documentKey,String(num))}catch{}$('status').textContent='Page '+num+' of '+doc.numPages+' · Your progress is saved on this device.';$('viewport').scrollTop=0}catch(err){if(err?.name!=='RenderingCancelledException'){console.error(err);$('status').textContent='Unable to display this page.'}}finally{if(seq===renderSeq){task=null;refresh()}}}
-async function openFile(file){if(!file)return;if(file.type!=='application/pdf'&&!file.name.toLowerCase().endsWith('.pdf')){$('status').textContent='Please choose a PDF file.';return}const token=++generation;++renderSeq;if(task)task.cancel();pdf=null;refresh();$('status').textContent='Opening your PDF…';try{const data=await file.arrayBuffer(),opened=await pdfjsLib.getDocument({data:new Uint8Array(data)}).promise;if(token!==generation){await opened.destroy();return}pdf=opened;documentKey=[file.name,file.size,file.lastModified].join(':');let last=1;try{last=Number(localStorage.getItem('vayenReaderPage:'+documentKey))||1}catch{}pageNumber=Math.min(Math.max(1,last),pdf.numPages);scale=1;$('empty').hidden=true;canvas.hidden=false;$('subtitle').textContent=file.name;refresh();await fitWidth()}catch(err){console.error(err);$('status').textContent='Could not open this PDF. Please check the file and try again.'}}
+async function openFile(file){if(!file)return;++editionRequest;setEditionBusy(false);if(requestedProduct)$('editionOverlay').hidden=true;if(file.type!=='application/pdf'&&!file.name.toLowerCase().endsWith('.pdf')){$('status').textContent='Please choose a PDF file.';return}const token=++generation;++renderSeq;if(task)task.cancel();pdf=null;refresh();$('status').textContent='Opening your PDF…';try{const data=await file.arrayBuffer(),opened=await pdfjsLib.getDocument({data:new Uint8Array(data)}).promise;if(token!==generation){await opened.destroy();return}pdf=opened;documentKey=[file.name,file.size,file.lastModified].join(':');let last=1;try{last=Number(localStorage.getItem('vayenReaderPage:'+documentKey))||1}catch{}pageNumber=Math.min(Math.max(1,last),pdf.numPages);scale=1;$('empty').hidden=true;canvas.hidden=false;$('subtitle').textContent=file.name;refresh();await fitWidth()}catch(err){console.error(err);$('status').textContent='Could not open this PDF. Please check the file and try again.'}}
 let editionRequest = 0;
 function showEditionPicker(message = '') {
   if (!requestedProduct) return;
@@ -90,10 +90,14 @@ async function openPurchasedPdf(productId, language) {
     };
     const app = getApps().length ? getApp() : initializeApp(config);
     const user = await new Promise(resolve => {
-      const unsubscribe = onAuthStateChanged(getAuth(app), u => {
-        unsubscribe();
+      let unsubscribe = null;
+      unsubscribe = onAuthStateChanged(getAuth(app), u => {
+        if (unsubscribe) unsubscribe();
         resolve(u);
-      }, () => resolve(null));
+      }, () => {
+        if (unsubscribe) unsubscribe();
+        resolve(null);
+      });
     });
     if (requestId !== editionRequest) return;
     if (!user) {
@@ -102,6 +106,7 @@ async function openPurchasedPdf(productId, language) {
       return;
     }
     const token = await user.getIdToken();
+    if (requestId !== editionRequest) return;
     const response = await fetch(FUNCTION_URL, {
       method: 'POST',
       headers: {
@@ -127,8 +132,15 @@ async function openPurchasedPdf(productId, language) {
     }
     const pdfResponse = await fetch(result.url, { cache: 'no-store' });
     if (!pdfResponse.ok) throw new Error('PDF download failed');
+    const maxPdfBytes = 60 * 1024 * 1024;
+    const contentLength = Number(pdfResponse.headers.get('content-length'));
+    if (contentLength > maxPdfBytes) {
+      await pdfResponse.body?.cancel();
+      throw new Error('PDF too large');
+    }
     const data = new Uint8Array(await pdfResponse.arrayBuffer());
-    if (data.length > 60 * 1024 * 1024) throw new Error('PDF too large');
+    if (data.length > maxPdfBytes) throw new Error('PDF too large');
+    if (requestId !== editionRequest) return;
     const opened = await pdfjsLib.getDocument({ data }).promise;
     if (requestId !== editionRequest) {
       await opened.destroy();
@@ -171,7 +183,7 @@ for (const button of document.querySelectorAll('[data-edition]')) {
     if (requestedProduct) openPurchasedPdf(requestedProduct, button.dataset.edition);
   });
 }
-$('changeLanguage').addEventListener('click', () => showEditionPicker());
+$('changeLanguage').addEventListener('click', () => { ++editionRequest; setEditionBusy(false); showEditionPicker(); });
 async function fitWidth(){if(!pdf)return;const current=pdf,number=pageNumber,page=await current.getPage(number);if(current!==pdf||number!==pageNumber)return;const width=page.getViewport({scale:1}).width;scale=Math.max(.35,Math.min(3,($('viewport').clientWidth-42)/width));render()}
 function go(n){if(!pdf)return;const next=Math.min(pdf.numPages,Math.max(1,Math.floor(n)));if(next!==pageNumber){pageNumber=next;refresh();render()}}
 $('pdfFile').addEventListener('change',e=>openFile(e.target.files?.[0]));$('prev').onclick=()=>go(pageNumber-1);$('next').onclick=()=>go(pageNumber+1);$('pageInput').addEventListener('change',e=>go(Number(e.target.value)||pageNumber));$('zoomIn').onclick=()=>{scale=Math.min(3,scale+.15);render()};$('zoomOut').onclick=()=>{scale=Math.max(.35,scale-.15);render()};$('fit').onclick=fitWidth;$('theme').onchange=e=>{document.body.dataset.theme=e.target.value;try{localStorage.setItem('vayenReaderTheme',e.target.value)}catch{}};
