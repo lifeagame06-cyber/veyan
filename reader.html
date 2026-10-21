@@ -15,6 +15,8 @@ body[data-theme=dark]{background:radial-gradient(ellipse 25% 45% at 0% 58%,#3627
 
 /* Purchased ebook edition selection */
 .edition-button{display:none}
+.download-button{display:none}
+.download-button:disabled{opacity:.55}
 .edition-overlay[hidden]{display:none!important}
 .edition-overlay{position:fixed;inset:0;z-index:30;background:#1f1420a8;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
 .edition-dialog{width:min(100%,510px);background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:30px 24px;text-align:center;box-shadow:0 20px 65px #0003}
@@ -30,7 +32,7 @@ body[data-theme=dark]{background:radial-gradient(ellipse 25% 45% at 0% 58%,#3627
 @media(max-width:430px){.edition-dialog{padding:25px 16px}.edition-choices{gap:8px}.edition-choice{padding:19px 7px}.edition-choice strong{font-size:19px}}
 </style></head><body data-theme="light"><header><a class="brand" href="index.html">VAYEN</a><a href="library.html">← My Library</a></header>
 <main class="shell"><div class="topline"><div><div class="eyebrow">THE READING LOUNGE</div><h1>Read at your pace.</h1><div class="sub" id="subtitle">A calm space for your next great read.</div></div><div><label class="btn primary" for="pdfFile">＋ Open PDF</label><input class="file-input" type="file" id="pdfFile" accept="application/pdf,.pdf"></div></div>
-<div class="toolbar" aria-label="PDF reading controls"><button class="btn edition-button" id="changeLanguage" type="button">Change Language</button><button class="btn" id="prev" disabled>← Prev</button><input id="pageInput" class="page-number" type="number" min="1" value="0" aria-label="Go to page" disabled><span id="pageTotal" class="page-total">/ 0</span><button class="btn" id="next" disabled>Next →</button><span class="separator"></span><button class="btn" id="zoomOut" disabled>−</button><span class="zoom" id="zoomLabel">100%</span><button class="btn" id="zoomIn" disabled>＋</button><button class="btn" id="fit" disabled>Fit width</button><span class="separator"></span><label class="brightness-control" title="Adjust PDF page brightness"><span>☀ Brightness</span><input id="brightness" type="range" min="60" max="130" value="100" step="5" aria-label="PDF brightness"><output id="brightnessValue" for="brightness">100%</output></label><select id="theme" aria-label="Reading background"><option value="light">☀ Light</option><option value="sepia">☕ Sepia</option><option value="dark">☾ Dark</option></select><button class="btn" id="focus" disabled>Focus mode</button><button class="btn" id="full" disabled>Full screen</button></div>
+<div class="toolbar" aria-label="PDF reading controls"><button class="btn edition-button" id="changeLanguage" type="button">Change Language</button><button class="btn primary download-button" id="downloadPdf" type="button" disabled>↓ Download PDF</button><button class="btn" id="prev" disabled>← Prev</button><input id="pageInput" class="page-number" type="number" min="1" value="0" aria-label="Go to page" disabled><span id="pageTotal" class="page-total">/ 0</span><button class="btn" id="next" disabled>Next →</button><span class="separator"></span><button class="btn" id="zoomOut" disabled>−</button><span class="zoom" id="zoomLabel">100%</span><button class="btn" id="zoomIn" disabled>＋</button><button class="btn" id="fit" disabled>Fit width</button><span class="separator"></span><label class="brightness-control" title="Adjust PDF page brightness"><span>☀ Brightness</span><input id="brightness" type="range" min="60" max="130" value="100" step="5" aria-label="PDF brightness"><output id="brightnessValue" for="brightness">100%</output></label><select id="theme" aria-label="Reading background"><option value="light">☀ Light</option><option value="sepia">☕ Sepia</option><option value="dark">☾ Dark</option></select><button class="btn" id="focus" disabled>Focus mode</button><button class="btn" id="full" disabled>Full screen</button></div>
 <div class="progress" aria-label="Reading progress"><div id="progressBar"></div></div><div class="viewport" id="viewport"><div class="empty" id="empty"><h2>Your reading space awaits.</h2><p>Choose a PDF from your device and settle in.<br>Pick up where you left off whenever you return.</p><label class="btn" for="pdfFile">Choose a PDF →</label></div><div class="paper"><canvas id="page" hidden></canvas></div></div><div class="statusbar"><span id="status" role="status">PDF files selected here stay on your device.</span><span id="hint">← → Pages &nbsp; · &nbsp; + − Zoom &nbsp; · &nbsp; Esc Exit focus</span></div></main><button class="btn focus-exit" id="exitFocus">Exit focus ✕</button>
 <div class="edition-overlay" id="editionOverlay" hidden>
   <section class="edition-dialog" role="dialog" aria-modal="true" aria-labelledby="editionHeading">
@@ -50,6 +52,17 @@ import * as pdfjsLib from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';
 const $=id=>document.getElementById(id),canvas=$('page'),ctx=canvas.getContext('2d');
 let pdf=null,pageNumber=1,scale=1,documentKey='',generation=0,task=null,renderSeq=0;
+let authorizedPdfBytes=null, authorizedPdfName='';
+function clearDownload(){authorizedPdfBytes=null;authorizedPdfName='';$('downloadPdf').disabled=true;$('downloadPdf').style.display='none'}
+$('downloadPdf').addEventListener('click',()=>{
+  if(!authorizedPdfBytes || !authorizedPdfName)return;
+  const blob=new Blob([authorizedPdfBytes],{type:'application/pdf'});
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement('a');
+  link.href=url;link.download=authorizedPdfName;document.body.appendChild(link);link.click();link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),60000);
+  $('status').textContent='Your PDF download has started.';
+});
 const brightness=$('brightness'),brightnessValue=$('brightnessValue');
 function setBrightness(value){const n=Math.min(130,Math.max(60,Number(value)||100));brightness.value=String(n);brightnessValue.textContent=n+'%';document.documentElement.style.setProperty('--reading-brightness',String(n/100));try{localStorage.setItem('vayenReaderBrightness',String(n))}catch{}}
 try{setBrightness(localStorage.getItem('vayenReaderBrightness')||100)}catch{setBrightness(100)}
@@ -61,7 +74,7 @@ const controlIds=['prev','next','zoomOut','zoomIn','fit','full','focus','pageInp
 try{const t=localStorage.getItem('vayenReaderTheme');if(['light','sepia','dark'].includes(t)){$('theme').value=t;document.body.dataset.theme=t}}catch{}
 function refresh(){const count=pdf?.numPages||0;$('pageInput').value=count?pageNumber:0;$('pageInput').max=count||1;$('pageTotal').textContent='/ '+count;$('zoomLabel').textContent=Math.round(scale*100)+'%';for(const id of controlIds)$(id).disabled=!pdf;$('prev').disabled=!pdf||pageNumber<=1;$('next').disabled=!pdf||pageNumber>=count;$('progressBar').style.width=count?(pageNumber/count*100)+'%':'0%'}
 async function render(){if(!pdf)return;const doc=pdf,num=pageNumber,seq=++renderSeq;try{if(task){task.cancel();try{await task.promise}catch{}}const page=await doc.getPage(num);if(seq!==renderSeq||doc!==pdf)return;const pixelRatio=Math.min(window.devicePixelRatio||1,2),view=page.getViewport({scale:scale*pixelRatio});canvas.width=Math.floor(view.width);canvas.height=Math.floor(view.height);canvas.style.width=(view.width/pixelRatio)+'px';canvas.style.height=(view.height/pixelRatio)+'px';task=page.render({canvasContext:ctx,viewport:view});await task.promise;if(seq!==renderSeq||doc!==pdf)return;try{localStorage.setItem('vayenReaderPage:'+documentKey,String(num))}catch{}$('status').textContent='Page '+num+' of '+doc.numPages+' · Your progress is saved on this device.';$('viewport').scrollTop=0}catch(err){if(err?.name!=='RenderingCancelledException'){console.error(err);$('status').textContent='Unable to display this page.'}}finally{if(seq===renderSeq){task=null;refresh()}}}
-async function openFile(file){if(!file)return;++editionRequest;setEditionBusy(false);if(requestedProduct)$('editionOverlay').hidden=true;if(file.type!=='application/pdf'&&!file.name.toLowerCase().endsWith('.pdf')){$('status').textContent='Please choose a PDF file.';return}const token=++generation;++renderSeq;if(task)task.cancel();pdf=null;refresh();$('status').textContent='Opening your PDF…';try{const data=await file.arrayBuffer(),opened=await pdfjsLib.getDocument({data:new Uint8Array(data)}).promise;if(token!==generation){await opened.destroy();return}pdf=opened;documentKey=[file.name,file.size,file.lastModified].join(':');let last=1;try{last=Number(localStorage.getItem('vayenReaderPage:'+documentKey))||1}catch{}pageNumber=Math.min(Math.max(1,last),pdf.numPages);scale=1;$('empty').hidden=true;canvas.hidden=false;$('subtitle').textContent=file.name;refresh();await fitWidth()}catch(err){console.error(err);$('status').textContent='Could not open this PDF. Please check the file and try again.'}}
+async function openFile(file){if(!file)return;clearDownload();++editionRequest;setEditionBusy(false);if(requestedProduct)$('editionOverlay').hidden=true;if(file.type!=='application/pdf'&&!file.name.toLowerCase().endsWith('.pdf')){$('status').textContent='Please choose a PDF file.';return}const token=++generation;++renderSeq;if(task)task.cancel();pdf=null;refresh();$('status').textContent='Opening your PDF…';try{const data=await file.arrayBuffer(),opened=await pdfjsLib.getDocument({data:new Uint8Array(data)}).promise;if(token!==generation){await opened.destroy();return}pdf=opened;documentKey=[file.name,file.size,file.lastModified].join(':');let last=1;try{last=Number(localStorage.getItem('vayenReaderPage:'+documentKey))||1}catch{}pageNumber=Math.min(Math.max(1,last),pdf.numPages);scale=1;$('empty').hidden=true;canvas.hidden=false;$('subtitle').textContent=file.name;refresh();await fitWidth()}catch(err){console.error(err);$('status').textContent='Could not open this PDF. Please check the file and try again.'}}
 let editionRequest = 0;
 function showEditionPicker(message = '') {
   if (!requestedProduct) return;
@@ -76,6 +89,7 @@ function setEditionBusy(busy) {
 }
 async function openPurchasedPdf(productId, language) {
   const requestId = ++editionRequest;
+  clearDownload();
   setEditionBusy(true);
   $('editionFeedback').textContent = 'Preparing your reading experience…';
   $('status').textContent = 'Checking your library access…';
@@ -141,6 +155,9 @@ async function openPurchasedPdf(productId, language) {
     const data = new Uint8Array(await pdfResponse.arrayBuffer());
     if (data.length > maxPdfBytes) throw new Error('PDF too large');
     if (requestId !== editionRequest) return;
+    // PDF.js may transfer the input buffer to its worker. Retain a separate
+    // authorized copy for offline download only after access is verified.
+    const downloadBytes = data.slice();
     const opened = await pdfjsLib.getDocument({ data }).promise;
     if (requestId !== editionRequest) {
       await opened.destroy();
@@ -166,6 +183,10 @@ async function openPurchasedPdf(productId, language) {
     $('subtitle').textContent = productId.replace(/-/g, ' ') + ' · ' + (language === 'english' ? 'English' : 'Hinglish');
     $('editionOverlay').hidden = true;
     $('changeLanguage').style.display = 'inline-block';
+    authorizedPdfBytes=downloadBytes;
+    authorizedPdfName='VAYEN-'+productId.replace(/[^a-z0-9-]/gi,'-')+'-'+language+'.pdf';
+    $('downloadPdf').disabled=false;
+    $('downloadPdf').style.display='inline-block';
     refresh();
     await fitWidth();
   } catch (error) {
@@ -183,7 +204,7 @@ for (const button of document.querySelectorAll('[data-edition]')) {
     if (requestedProduct) openPurchasedPdf(requestedProduct, button.dataset.edition);
   });
 }
-$('changeLanguage').addEventListener('click', () => { ++editionRequest; setEditionBusy(false); showEditionPicker(); });
+$('changeLanguage').addEventListener('click', () => { clearDownload(); ++editionRequest; setEditionBusy(false); showEditionPicker(); });
 async function fitWidth(){if(!pdf)return;const current=pdf,number=pageNumber,page=await current.getPage(number);if(current!==pdf||number!==pageNumber)return;const width=page.getViewport({scale:1}).width;scale=Math.max(.35,Math.min(3,($('viewport').clientWidth-42)/width));render()}
 function go(n){if(!pdf)return;const next=Math.min(pdf.numPages,Math.max(1,Math.floor(n)));if(next!==pageNumber){pageNumber=next;refresh();render()}}
 $('pdfFile').addEventListener('change',e=>openFile(e.target.files?.[0]));$('prev').onclick=()=>go(pageNumber-1);$('next').onclick=()=>go(pageNumber+1);$('pageInput').addEventListener('change',e=>go(Number(e.target.value)||pageNumber));$('zoomIn').onclick=()=>{scale=Math.min(3,scale+.15);render()};$('zoomOut').onclick=()=>{scale=Math.max(.35,scale-.15);render()};$('fit').onclick=fitWidth;$('theme').onchange=e=>{document.body.dataset.theme=e.target.value;try{localStorage.setItem('vayenReaderTheme',e.target.value)}catch{}};
