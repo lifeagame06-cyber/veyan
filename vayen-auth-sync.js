@@ -27,6 +27,7 @@ const onProfile = !!$('vayenIdentityInput');
 let currentUser = null;
 let ready = false;
 let profileLoading = false;
+let profileLoadFailed = false;
 let remoteNames = null;
 let auth, db;
 let authRevision = 0;
@@ -173,34 +174,54 @@ function bindProfile() {
 
   $('vayenSaveIdentity')?.addEventListener('click', async () => {
     if (!currentUser || profileLoading) {
-      return showStatus('Your profile is loading. Please wait a moment.');
+      return showStatus(profileLoadFailed ? 'Account details are temporarily unavailable. Please refresh and try again.' : 'Your profile is loading. Please wait a moment.');
     }
     const name = $('vayenIdentityInput').value.trim().replace(/\s+/g, ' ');
     if (name.length < 2) return showStatus('Please enter your full name.');
+    const user = currentUser;
+    const revision = authRevision;
     try {
-      await updateProfile(currentUser, { displayName: name });
-      await saveFields({ fullName: name });
-      syncLegacy(currentUser);
-      syncProfile(currentUser);
-      showStatus('✓ Changes saved successfully.');
+      await updateProfile(user, { displayName: name });
+      if (authRevision !== revision || currentUser?.uid !== user.uid) return;
+      syncLegacy(user);
+      syncProfile(user);
+      try {
+        await saveFields({ fullName: name });
+        if (authRevision === revision && currentUser?.uid === user.uid) {
+          showStatus('✓ Changes saved successfully.');
+        }
+      } catch (syncError) {
+        console.error('VAYEN account name sync failed:', syncError);
+        if (authRevision === revision && currentUser?.uid === user.uid) {
+          showStatus('Your name was updated, but account syncing is incomplete. Please tap Save again.');
+        }
+      }
     } catch (e) {
       console.error(e);
-      showStatus('Unable to save changes. Please try again.');
+      if (authRevision === revision && currentUser?.uid === user.uid) {
+        showStatus('Unable to save changes. Please try again.');
+      }
     }
   });
 
   $('vayenSaveHeader')?.addEventListener('click', async () => {
     if (!currentUser || profileLoading) {
-      return showStatus('Your profile is loading. Please wait a moment.');
+      return showStatus(profileLoadFailed ? 'Account details are temporarily unavailable. Please refresh and try again.' : 'Your profile is loading. Please wait a moment.');
     }
     const name = $('vayenHeaderInput').value.trim().replace(/\s+/g, ' ');
     if (name.length < 2) return showStatus('Please enter at least 2 characters.');
+    const uid = currentUser.uid;
+    const revision = authRevision;
     try {
       await saveFields({ dearName: name });
-      showStatus('✓ Changes saved successfully.');
+      if (authRevision === revision && currentUser?.uid === uid) {
+        showStatus('✓ Changes saved successfully.');
+      }
     } catch (e) {
       console.error(e);
-      showStatus('Unable to save changes. Please try again.');
+      if (authRevision === revision && currentUser?.uid === uid) {
+        showStatus('Unable to save changes. Please try again.');
+      }
     }
   });
 
@@ -270,9 +291,11 @@ if (!firebaseConfig.apiKey) {
     onAuthStateChanged(auth, async user => {
       const revision = ++authRevision;
       currentUser = user;
+      if (onProfile) document.documentElement.classList.remove('vayen-profile-auth-verified');
       ready = false;
       remoteNames = null;
       profileLoading = !!user;
+      profileLoadFailed = false;
       syncLegacy(user);
       if (!user) {
         ready = true;
@@ -285,8 +308,9 @@ if (!firebaseConfig.apiKey) {
       } catch (e) {
         console.error('Profile loading failed:', e);
         if (authRevision !== revision || currentUser?.uid !== user.uid) return;
-        showStatus('Unable to load your profile. Please refresh and try again.');
+        showStatus('Some account details could not be loaded. Please refresh and try again.');
         remoteNames = localNames(user);
+        profileLoadFailed = true;
       }
       if (authRevision !== revision || currentUser?.uid !== user.uid) return;
       profileLoading = false;
@@ -300,6 +324,7 @@ if (!firebaseConfig.apiKey) {
       currentUser = null;
       remoteNames = null;
       profileLoading = false;
+      profileLoadFailed = false;
       clearLegacy();
       ready = true;
       syncHome(null);
