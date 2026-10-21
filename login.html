@@ -1020,8 +1020,11 @@ function finish(user, created=false) {
   const next=isProductLogin?product:null;
   const plan=isPlanLogin?(allowedPlans.includes(urlPlan)?urlPlan:pendingPlan):null;
   const destination=next?'payment.html?product='+encodeURIComponent(next):plan?'plan-checkout.html?plan='+encodeURIComponent(plan):'index.html';
-  if (plan) sessionStorage.removeItem('vayenPendingPlanCheckout');
-  location.href = destination;
+  // Keep the approved premium transition visible after successful sign-in.
+  window.setTimeout(() => {
+    if (plan) sessionStorage.removeItem('vayenPendingPlanCheckout');
+    location.href = destination;
+  }, created ? 3000 : 2200);
 }
 setMode('signin');
 if (!firebaseConfig.apiKey) {
