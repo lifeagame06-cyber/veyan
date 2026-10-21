@@ -854,14 +854,15 @@ else {
           if(token!==version)return;
         }
         uid=user.uid;
-        await bridge.init(uid,data);
-        // Read verified purchases live. Never trust browser-side purchase flags.
+         await bridge.init(uid,data);
+         if (token !== version || auth.currentUser?.uid !== user.uid) return;
+         // Read verified purchases live. Never trust browser-side purchase flags.
         stopOrders = onSnapshot(collection(db, 'users', user.uid, 'orders'), snapshot => {
           if (token !== version) return;
           const verified = snapshot.docs.map(orderSnap => {
             const o = orderSnap.data();
             const id = o.productId;
-            if (o.userId !== user.uid || o.paymentStatus !== 'paid' ||
+             if ((o.userId && o.userId !== user.uid) || o.paymentStatus !== 'paid' ||
                 o.verificationStatus !== 'verified' ||
                 typeof id !== 'string' || !id.trim()) return null;
             return { slug: id, name: o.productName || o.name || id.replace(/-/g, ' ') };
