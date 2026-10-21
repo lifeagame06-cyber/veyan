@@ -33,7 +33,26 @@
  nav.vayen-mobile-nav .mobile-nav-item.active .mobile-nav-icon{color:#963d61!important}
  nav.vayen-mobile-nav .mobile-nav-item:focus-visible{outline:2px solid #963d61;outline-offset:1px}
 }
-</style></head>
+</style><style id="vayen-order-download-styles">
+.vy-order-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.vy-order-actions button{max-width:100%;white-space:normal;min-height:42px}
+.vy-download-overlay[hidden]{display:none!important}
+.vy-download-overlay{position:fixed;inset:0;z-index:10050;display:flex;align-items:center;justify-content:center;background:rgba(31,20,32,.62);backdrop-filter:blur(5px);padding:16px}
+.vy-download-dialog{position:relative;width:min(100%,490px);max-height:calc(100dvh - 32px);overflow:auto;background:#fffaf9;border:1px solid #eadfe1;border-radius:22px;box-shadow:0 24px 80px #1f142044;padding:32px 24px 24px;text-align:center;color:#402631}
+.vy-download-close{position:absolute;right:14px;top:12px;background:none;border:0;color:#755b67;font-size:26px;cursor:pointer;padding:4px 10px}
+.vy-download-eyebrow{font-size:10px;letter-spacing:2px;font-weight:800;color:#986079}
+.vy-download-dialog h2{font:normal 29px Georgia,serif;margin:10px 0 8px}
+.vy-download-book{font-size:13px;color:#88777e;margin:0 0 23px}
+.vy-download-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.vy-download-options button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;min-height:112px;background:#fcf7f7;border:1px solid #eadfe1;border-radius:15px;color:#402631;padding:16px 8px;cursor:pointer}
+.vy-download-options button:hover:not(:disabled),.vy-download-options button:focus-visible{border-color:#963d61;outline:2px solid #963d61;outline-offset:1px}
+.vy-download-options button:disabled{opacity:.5;cursor:wait}
+.vy-download-options strong{font:normal 23px Georgia,serif}
+.vy-download-options span{font-size:11px;color:#88777e}
+.vy-download-message{min-height:22px;font-size:12px;line-height:1.6;color:#805267;margin:16px 0 0}
+@media(max-width:480px){.vy-order-actions{gap:8px}.vy-order-actions button{font-size:12px;padding:10px 12px;flex:0 1 auto}.vy-download-dialog{padding:30px 15px 20px}.vy-download-options{gap:8px}.vy-download-options button{padding:12px 6px;min-height:108px}.vy-download-options strong{font-size:20px}.vy-download-options span{font-size:10px}}
+</style>
+</head>
 <body class="orders-body">
 <!-- HEADER -->
 <header class="orders-header">
@@ -102,7 +121,20 @@
 </main>
 <!-- MOBILE BOTTOM NAV -->
 
-<nav aria-label="Mobile main navigation" class="vayen-mobile-nav"><a class="mobile-nav-item" href="index.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-7H9v7H3z"></path></svg></span><span>Home</span></a><a class="mobile-nav-item" href="collection.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM9 4v16M5 10h14"></path></svg></span><span>Collection</span></a><a class="mobile-nav-item" href="library.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg></span><span>Library</span></a><a aria-current="page" class="mobile-nav-item active" href="orders.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 3h14v18l-3-2-4 2-4-2-3 2zM8 8h8M8 12h8"></path></svg></span><span>Orders</span></a><a class="mobile-nav-item" href="profile.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 21c.8-4.5 3.1-6.5 7-6.5s6.2 2 7 6.5"></path></svg></span><span>Account</span></a></nav><div id="vyOrderModal" class="vy-order-modal" hidden><div class="vy-order-dialog" role="dialog" aria-modal="true" aria-labelledby="vyModalTitle"><button class="vy-modal-close" type="button" id="vyModalClose" aria-label="Close">×</button><div class="vy-modal-icon" id="vyModalIcon">↓</div><h2 id="vyModalTitle">Your product</h2><p id="vyModalDescription"></p><div id="vyModalDetail" class="vy-modal-detail"></div><button type="button" class="vy-modal-primary" id="vyModalAction">Close</button></div></div><script id="vy-demo-order-flow">
+<nav aria-label="Mobile main navigation" class="vayen-mobile-nav"><a class="mobile-nav-item" href="index.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-7H9v7H3z"></path></svg></span><span>Home</span></a><a class="mobile-nav-item" href="collection.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM9 4v16M5 10h14"></path></svg></span><span>Collection</span></a><a class="mobile-nav-item" href="library.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg></span><span>Library</span></a><a aria-current="page" class="mobile-nav-item active" href="orders.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 3h14v18l-3-2-4 2-4-2-3 2zM8 8h8M8 12h8"></path></svg></span><span>Orders</span></a><a class="mobile-nav-item" href="profile.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 21c.8-4.5 3.1-6.5 7-6.5s6.2 2 7 6.5"></path></svg></span><span>Account</span></a></nav><div id="vyOrderModal" class="vy-order-modal" hidden><div class="vy-order-dialog" role="dialog" aria-modal="true" aria-labelledby="vyModalTitle"><button class="vy-modal-close" type="button" id="vyModalClose" aria-label="Close">×</button><div class="vy-modal-icon" id="vyModalIcon">↓</div><h2 id="vyModalTitle">Your product</h2><p id="vyModalDescription"></p><div id="vyModalDetail" class="vy-modal-detail"></div><button type="button" class="vy-modal-primary" id="vyModalAction">Close</button></div></div><div class="vy-download-overlay" id="vyDownloadOverlay" hidden>
+  <section class="vy-download-dialog" role="dialog" aria-modal="true" aria-labelledby="vyDownloadHeading">
+    <button class="vy-download-close" id="vyDownloadClose" type="button" aria-label="Close download options">×</button>
+    <div class="vy-download-eyebrow">VAYEN EBOOK COLLECTION</div>
+    <h2 id="vyDownloadHeading">Choose your edition</h2>
+    <p id="vyDownloadTitle" class="vy-download-book"></p>
+    <div class="vy-download-options">
+      <button type="button" data-download-language="english"><strong>English</strong><span>Download PDF ↓</span></button>
+      <button type="button" data-download-language="hinglish"><strong>Hinglish</strong><span>Hindi + English · Download PDF ↓</span></button>
+    </div>
+    <p class="vy-download-message" id="vyDownloadMessage" role="status" aria-live="polite"></p>
+  </section>
+</div>
+<script id="vy-demo-order-flow">
 (function(){
 const list=document.getElementById('ordersList'),empty=document.getElementById('ordersEmpty'),count=document.getElementById('ordersCount');
 let session=null;try{session=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null')}catch(e){}
@@ -111,7 +143,7 @@ const money=n=>'₹'+Number(n || 0).toLocaleString('en-IN');
 const localRecords = []; // Legacy preview orders are excluded from real purchase history.
 // Public Edge Function endpoint only. Never place secret keys in frontend code.
 const EBOOK_FUNCTION_URL = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/smart-handler';
-const EMAIL_FUNCTION_URL = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/vayen-send-email';
+const DOWNLOAD_FUNCTION_URL = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/smart-handler';
 let currentFirebaseUser = null;
 let cloudRecords = [];
 let recentActive = false;
@@ -143,69 +175,111 @@ function showModal(type, title, description, detail) {
   modalAction.disabled = false;
   modalAction.onclick = close;
 }
-async function open(type, o) {
-  if (!currentFirebaseUser) {
-    showModal('download', 'Sign in required',
-      'Please sign in to access your purchased products.', o.name);
-    return;
-  }
-  // Claimed gifts and verified purchases are both valid entitlements.
-  // The Reader independently verifies access on the trusted backend.
-  if (!canAccess(o)) {
-    showModal('download', 'Purchase confirmation pending',
-      'This product is not available for download until your purchase is confirmed.', o.name);
-    return;
-  }
-  if (type === 'email' && o.kind === 'gift') {
-     showModal('email', 'Your VAYEN gift',
-       'Your gifted ebook is ready to read in your account.', o.name);
-     return;
-   }
-
-   if (type === 'email') {
-    showModal('email', 'Sending your email',
-      'Checking your purchase and preparing your access email…',
-      currentFirebaseUser.email || 'Your account email');
-    modalAction.disabled = true;
+const downloadOverlay = document.getElementById('vyDownloadOverlay');
+const downloadMessage = document.getElementById('vyDownloadMessage');
+const downloadTitle = document.getElementById('vyDownloadTitle');
+const downloadChoices = [...downloadOverlay.querySelectorAll('[data-download-language]')];
+let selectedDownload = null;
+let downloading = false;
+function closeDownload() {
+    if (downloading) return;
+    downloadOverlay.hidden = true;
+    selectedDownload = null;
+    downloadMessage.textContent = '';
+}
+document.getElementById('vyDownloadClose').addEventListener('click', closeDownload);
+downloadOverlay.addEventListener('click', event => {
+    if (event.target === downloadOverlay) closeDownload();
+});
+document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !downloadOverlay.hidden) closeDownload();
+});
+function downloadError(status) {
+    if (status === 401) return 'Please sign in again to download your ebook.';
+    if (status === 403) return 'This ebook is not available in your account.';
+    if (status === 429) return 'Please wait a moment before trying again.';
+    return 'Download could not be started. Please try again.';
+}
+async function downloadEdition(language) {
+    if (!selectedDownload || downloading || !currentFirebaseUser) return;
+    const item = selectedDownload;
+    if (!canAccess(item)) return;
+    downloading = true;
+    downloadChoices.forEach(button => button.disabled = true);
+    downloadMessage.textContent = 'Preparing your secure download…';
+    let blobUrl = null;
     try {
-      const token = await currentFirebaseUser.getIdToken();
-      const response = await fetch(EMAIL_FUNCTION_URL, {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer ' + token,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ productId: o.productId }),
-        cache: 'no-store'
-      });
-      if (!response.ok) {
-        if (response.status === 403) {
-          throw new Error('Email delivery is not available for this account yet.');
+        const token = await currentFirebaseUser.getIdToken();
+        const response = await fetch(DOWNLOAD_FUNCTION_URL, {
+            method: 'POST',
+            headers: {
+                Authorization: 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ productId: item.productId, language }),
+            cache: 'no-store'
+        });
+        if (!response.ok) throw new Error(downloadError(response.status));
+        const result = await response.json();
+        if (typeof result.url !== 'string' || !result.url.startsWith('https://')) {
+            throw new Error('Download could not be prepared. Please try again.');
         }
-        if (response.status === 401) {
-          throw new Error('Please sign in again to send your email.');
+        const pdfResponse = await fetch(result.url, { cache: 'no-store' });
+        if (!pdfResponse.ok) throw new Error('Download could not be completed. Please try again.');
+        const maxBytes = 60 * 1024 * 1024;
+        const length = Number(pdfResponse.headers.get('content-length'));
+        if (length > maxBytes) {
+            await pdfResponse.body?.cancel();
+            throw new Error('This file is too large to download here.');
         }
-        if (response.status === 429) {
-          throw new Error('Please wait before requesting another email.');
+        const bytes = await pdfResponse.arrayBuffer();
+        if (bytes.byteLength > maxBytes) throw new Error('This file is too large to download here.');
+        const signature = new Uint8Array(bytes.slice(0, 5));
+        if (String.fromCharCode(...signature) !== '%PDF-') {
+            throw new Error('The ebook file is unavailable. Please try again later.');
         }
-        throw new Error('We could not send your email right now. Please try again later.');
-      }
-      modalTitle.textContent = 'Email sent';
-      modalDesc.textContent = 'Your secure access instructions have been sent to your account email.';
-      modalDetail.textContent = currentFirebaseUser.email || '';
+        const blob = new Blob([bytes], { type: 'application/pdf' });
+        blobUrl = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = blobUrl;
+        anchor.download = item.productId + '-' + language + '.pdf';
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+        downloadMessage.textContent = 'Your download has started. You can choose another language too.';
     } catch (error) {
-      modalTitle.textContent = 'Email unavailable';
-      modalDesc.textContent = error instanceof Error ? error.message : 'Please try again later.';
+        console.error('VAYEN ebook download failed:', error);
+        downloadMessage.textContent = error instanceof Error ? error.message : 'Please try again.';
+    } finally {
+        if (blobUrl) setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
+        downloading = false;
+        downloadChoices.forEach(button => button.disabled = false);
     }
-    modalAction.disabled = false;
-    modalAction.textContent = 'Close';
-    modalAction.onclick = close;
-    return;
-  }
-   // The Reader requests the ebook from the secure backend itself.
-   // Never expose a signed storage link from the Orders page.
-   window.location.href = 'reader.html?product=' + encodeURIComponent(o.productId);
-
+}
+downloadChoices.forEach(button => button.addEventListener('click', () => {
+    downloadEdition(button.dataset.downloadLanguage);
+}));
+async function open(type, o) {
+    if (!currentFirebaseUser) {
+        showModal('download', 'Sign in required',
+            'Please sign in to access your ebooks.', o.name);
+        return;
+    }
+    if (!canAccess(o)) {
+        showModal('download', 'Access not available',
+            'Your ebook access is not confirmed yet.', o.name);
+        return;
+    }
+    if (type === 'download') {
+        selectedDownload = o;
+        downloadTitle.textContent = o.name;
+        downloadMessage.textContent = '';
+        downloadOverlay.hidden = false;
+        return;
+    }
+    if (type === 'read') {
+        window.location.href = 'reader.html?product=' + encodeURIComponent(o.productId);
+    }
 }
 
 // Developer-only negative authorization test: no order is created or modified.
@@ -253,7 +327,7 @@ function render(recent) {
             (verified ? 'Purchase confirmed' : 'Purchase confirmation pending');
         const actions = verified ? `
             <button type="button" data-action="read" data-id="${safe(o.id)}">Read Ebook →</button>
-            ${gifted ? '' : `<button type="button" data-action="email" data-id="${safe(o.id)}">✉ Send to Email</button>`}
+            <button type="button" data-action="download" data-id="${safe(o.id)}">↓ Download PDF</button>
         ` : `<span class="vy-order-ready">Purchase confirmation pending</span>`;
 
         return `
