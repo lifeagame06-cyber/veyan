@@ -1016,7 +1016,18 @@ function finish(user, created=false) {
   localStorage.setItem('vayenDemoCurrentCustomerV1',JSON.stringify(account));
   sessionStorage.setItem('vayenAuthFlash',created?'Account created successfully!':'Welcome back!');
   // Account-specific names are managed by vayen-auth-sync.js on Home/Profile.
-  $('vayenAuthLoader').hidden=false;
+  // Show the premium transition above every page layer before navigation.
+  const loader = $('vayenAuthLoader');
+  if (loader) {
+    document.body.appendChild(loader);
+    loader.hidden = false;
+    loader.removeAttribute('hidden');
+    loader.style.setProperty('display', 'flex', 'important');
+    loader.style.setProperty('visibility', 'visible', 'important');
+    loader.style.setProperty('opacity', '1', 'important');
+    loader.style.setProperty('z-index', '2147483647', 'important');
+  }
+
   const next=isProductLogin?product:null;
   const plan=isPlanLogin?(allowedPlans.includes(urlPlan)?urlPlan:pendingPlan):null;
   const destination=next?'payment.html?product='+encodeURIComponent(next):plan?'plan-checkout.html?plan='+encodeURIComponent(plan):'index.html';
