@@ -195,48 +195,10 @@ async function open(type, o) {
     modalAction.onclick = close;
     return;
   }
-  if (!EBOOK_FUNCTION_URL) {
-    showModal('download', 'Download coming soon',
-      'Secure ebook access is being prepared. Please check back later.', o.name);
-    return;
-  }
-  showModal('download', 'Preparing your ebook',
-    'Checking your purchase and preparing secure access…', o.name);
-  modalAction.disabled = true;
-  try {
-    const token = await currentFirebaseUser.getIdToken();
-    const response = await fetch(EBOOK_FUNCTION_URL, {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Bearer ' + token,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ productId: o.productId }),
-      cache: 'no-store'
-    });
-    if (!response.ok) {
-      if (response.status === 401 || response.status === 403) {
-        throw new Error('Your purchase could not be confirmed for this ebook.');
-      }
-      throw new Error('Your ebook is not ready yet. Please try again later.');
-    }
-    const result = await response.json();
-    const link = new URL(result.url);
-    if (link.protocol !== 'https:' || link.origin !== 'https://ajctjuyvdguzwcvesvio.supabase.co' || !link.pathname.startsWith('/storage/v1/object/sign/vayen-ebooks/')) {
-      throw new Error('Secure access is unavailable.');
-    }
-    modalTitle.textContent = 'Your ebook is ready';
-    modalDesc.textContent = 'This private download link is available for a short time.';
-    modalAction.disabled = false;
-    modalAction.textContent = 'Open ebook';
-    modalAction.onclick = () => window.open(link.href, '_blank', 'noopener,noreferrer');
-  } catch (error) {
-    modalTitle.textContent = 'Access unavailable';
-    modalDesc.textContent = error instanceof Error ? error.message : 'Please try again later.';
-    modalAction.textContent = 'Close';
-    modalAction.disabled = false;
-    modalAction.onclick = close;
-  }
+   // The Reader requests the ebook from the secure backend itself.
+   // Never expose a signed storage link from the Orders page.
+   window.location.href = 'reader.html?product=' + encodeURIComponent(o.productId);
+
 }
 
 // Developer-only negative authorization test: no order is created or modified.
