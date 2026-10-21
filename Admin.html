@@ -241,6 +241,8 @@ const message = $('adminAccessMessage');
 const signIn = $('adminAccessLogin');
 const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let authorized=false, firestore=null, records=[];
+let adminAuthVersion=0;
+let activeAdminUid=null;
 // Firebase product management. Catalog document IDs are product slugs.
 async function refreshProducts(){
   if(!authorized||!firestore)return;
@@ -251,11 +253,13 @@ async function refreshProducts(){
   }catch(error){console.error('Product load failed:',error);alert('Unable to load products: '+error.message);}
 }
 async function saveProduct(rec){
-  if(!authorized||!firestore)throw Error('Admin access required');
+  if(!authorized||!firestore||!activeAdminUid)throw Error('Admin access required');
+  const ownerUid=activeAdminUid;
   const slug=String(rec.slug||'').trim();
   if(!slug || slug.includes('/') || slug==='.' || slug==='..' || /[\\#?\[\]]/.test(slug))throw Error('Invalid product slug');
   const ref=doc(firestore,'products',slug);
   const old=await getDoc(ref);
+  if(!authorized||activeAdminUid!==ownerUid)throw Error('Admin session changed');
   if(old.exists() && old.data().id && old.data().id!==rec.id)throw Error('Product slug already belongs to another product');
   // Keep the original first-publication date across edits, hiding and republishing.
   // Legacy published products without a date are NOT falsely marked as new.
@@ -317,7 +321,7 @@ document.getElementById('importProducts').addEventListener('click',async()=>{
   finally{button.disabled=false;button.textContent='Import original catalog';}
 });
 
-function blocked(text,showLogin=false){authorized=false;records=[];cloudOrders=[];window.VayenAdminProducts.save=async()=>{throw Error('Admin access required')};gate.style.display='grid';message.textContent=text;signIn.style.display=showLogin?'inline-block':'none';}
+function blocked(text,showLogin=false){authorized=false;activeAdminUid=null;records=[];cloudOrders=[];window.VayenAdminProducts.save=async()=>{throw Error('Admin access required')};gate.style.display='grid';message.textContent=text;signIn.style.display=showLogin?'inline-block':'none';}
 function dateLabel(value){
   if(!value)return '—';
   const d=typeof value.toDate==='function'?value.toDate():new Date(value);
@@ -401,20 +405,35 @@ else{
     const app=getApps().length?getApp():initializeApp(firebaseConfig);
     const auth=getAuth(app);
     firestore=getFirestore(app);
-    onAuthStateChanged(auth,async user=>{
-      if(!user){blocked('Please sign in with your authorized admin account.',true);return;}
-      blocked('Verifying admin role...');
-      try{
-        const admin=await getDoc(doc(firestore,'admins',user.uid));
-        if(!admin.exists()||admin.data().role!=='admin'){
-          blocked('Access denied. This Firebase account is not an authorized VAYEN admin.');return;
+    onAuthStateChanged(auth, async user => {
+      const checkVersion = ++adminAuthVersion;
+      blocked(user ? 'Verifying admin access...' : 'Please sign in with your authorized admin account.', !user);
+      if (!user) return;
+
+      try {
+        const admin = await getDoc(doc(firestore, 'admins', user.uid));
+        // Never reopen the workspace for a previous account or a stale verification.
+        if (checkVersion !== adminAuthVersion || auth.currentUser?.uid !== user.uid) return;
+        if (!admin.exists() || admin.data().role !== 'admin') {
+          blocked('This account does not have VAYEN admin access.');
+          return;
         }
-        authorized=true;
-        window.VayenAdminProducts.save=saveProduct;
-        gate.style.display='none';
-        await Promise.all([refreshCustomers(),refreshProducts(),refreshSupportTickets()]);
-      }catch(error){console.error('Admin verification failed:',error);blocked('Admin verification failed. Check your Firestore rules and connection.');}
-    },error=>{console.error(error);blocked('Unable to verify Firebase sign-in.',true)});
+
+        activeAdminUid = user.uid;
+        authorized = true;
+        window.VayenAdminProducts.save = saveProduct;
+        gate.style.display = 'none';
+        await Promise.all([refreshCustomers(), refreshProducts(), refreshSupportTickets()]);
+      } catch (error) {
+        if (checkVersion !== adminAuthVersion || auth.currentUser?.uid !== user.uid) return;
+        console.error('Admin verification failed:', error);
+        blocked('Unable to verify admin access. Please refresh and try again.');
+      }
+    }, error => {
+      ++adminAuthVersion;
+      console.error(error);
+      blocked('Unable to verify your sign-in. Please try again.', true);
+    });
   }catch(error){console.error(error);blocked('Firebase initialization failed. Check the web API key.');}
 }
 </script>
