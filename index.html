@@ -845,6 +845,7 @@ document.querySelectorAll(".purpose-item").forEach(function (item) {
 <script>
 (function(){
  const C=window.VayenCatalog;if(!C)return;
+ function applyCatalog() {
  const bySlug=new Map(C.records().map(p=>[p.slug||p.id,p]));
  document.querySelectorAll('a[href*="product.html?id="]').forEach(a=>{
   const id=new URL(a.href,location.href).searchParams.get('id'),p=bySlug.get(id);
@@ -875,7 +876,16 @@ if (count) {
     }).catch(() => {
         // Firebase unavailable: original heading remains visible.
     });
-}})();
+ }
+ } // End catalog DOM update
+ if (C.ready && typeof C.ready.then === 'function') {
+   C.ready.then(applyCatalog).catch(() => {
+     // Keep original homepage product cards when catalog is unavailable.
+   });
+ } else {
+   applyCatalog();
+ }
+})();
 </script>
 <!-- VAYEN Search Dialog -->
 <div aria-hidden="true" class="vayen-search-overlay" id="vayenSearchOverlay">
@@ -997,13 +1007,18 @@ if ("serviceWorker" in navigator) {
 .vg-lid{position:absolute;z-index:2;bottom:110px;width:132px;height:27px;border-radius:7px;background:linear-gradient(135deg,#ba6489,#753252);transition:transform .75s cubic-bezier(.2,.7,.2,1)}
 .vg-lid:after{content:"";position:absolute;left:54px;width:24px;height:100%;background:#f4dfb1}
 .vg-bow{position:absolute;z-index:3;bottom:133px;color:#b78c4b;font-size:43px;line-height:1;transition:transform .75s ease}
-.vg-present.vg-open .vg-lid{transform:translateY(-60px) rotate(-15deg)}
-.vg-present.vg-open .vg-bow{transform:translateY(-65px) rotate(-15deg)}
+.vg-present.vg-open .vg-lid{animation:vg-lid-fly .85s ease-in-out forwards}
+@keyframes vg-lid-fly{0%{opacity:1;transform:translateY(0) rotate(0)}55%{opacity:1;transform:translateY(-72px) rotate(-20deg)}100%{opacity:0;transform:translate(90px,-110px) rotate(38deg)}}
+.vg-present.vg-open .vg-bow{animation:vg-bow-fly .8s ease forwards}
+@keyframes vg-bow-fly{to{opacity:0;transform:translate(65px,-105px) rotate(35deg)}}
+.vg-present.vg-open .vg-box{animation:vg-box-open .95s ease forwards}
+@keyframes vg-box-open{0%,45%{transform:scale(1);opacity:1}100%{transform:scale(.78) translateY(14px);opacity:.5}}
+.vg-panel.vg-claimed .vg-product{animation:vg-reveal .6s .4s both}
+@keyframes vg-reveal{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .vg-product{font:700 18px/1.4 Georgia,serif;color:#4b2939;margin:8px 0}
 .vg-reason{font:normal 13px/1.6 Arial,sans-serif;color:#826672;max-width:380px;margin:8px auto 22px;overflow-wrap:anywhere}
 .vg-action{width:min(100%,300px);min-height:48px;border:0;border-radius:13px;background:#64354e;color:#fff;font:700 13px Arial,sans-serif;letter-spacing:.35px;cursor:pointer;box-shadow:0 10px 25px #5d2e4933;transition:transform .2s,background .2s}
 .vg-action:hover{background:#854361;transform:translateY(-2px)}.vg-action:disabled{opacity:.65;cursor:wait;transform:none}
-.vg-secondary{display:block;margin:16px auto 0;border:0;background:transparent;color:#876978;text-decoration:underline;text-underline-offset:4px;font:12px Arial,sans-serif;cursor:pointer}
 .vg-error{min-height:18px;color:#9e3854;font:12px/1.5 Arial,sans-serif;margin:11px 0 0}
 .vg-confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
 .vg-confetti i{position:absolute;top:-20px;width:9px;height:16px;background:var(--c);left:var(--x);transform:rotate(var(--r));animation:vg-fall 2.5s ease-in forwards;animation-delay:var(--d)}
@@ -1023,7 +1038,6 @@ if ("serviceWorker" in navigator) {
     <p class="vg-reason" id="vayenGiftReason"></p>
     <button class="vg-action" id="vayenGiftClaim" type="button">Unwrap Your Gift ✦</button>
     <p class="vg-error" id="vayenGiftError" role="status"></p>
-    <button class="vg-secondary" id="vayenGiftLater" type="button">Maybe later</button>
   </section>
 </div>
 <script type="module" id="vayen-real-gift-script">
@@ -1038,7 +1052,6 @@ import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/
     const reason = document.getElementById('vayenGiftReason');
     const claim = document.getElementById('vayenGiftClaim');
     const close = document.getElementById('vayenGiftClose');
-    const later = document.getElementById('vayenGiftLater');
     const error = document.getElementById('vayenGiftError');
     const present = document.getElementById('vayenGiftPresent');
     const confetti = document.getElementById('vayenGiftConfetti');
@@ -1048,7 +1061,6 @@ import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/
     let busy = false;
     let completed = false;
     let previousFocus = null;
-    const dismissed = new Set();
 
     function hide() {
         if (busy) return;
@@ -1073,8 +1085,8 @@ import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/
         claim.disabled = false;
         error.textContent = '';
         present.classList.remove('vg-open');
+        overlay.querySelector('.vg-panel').classList.remove('vg-claimed');
         confetti.replaceChildren();
-        later.hidden = false;
         previousFocus = document.activeElement;
         overlay.classList.add('vg-visible');
         overlay.setAttribute('aria-hidden', 'false');
@@ -1112,7 +1124,7 @@ import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/
             const gifts = Array.isArray(data.gifts) ? data.gifts : [];
             const next = gifts.find(g => g && g.status === 'unclaimed' &&
                 typeof g.giftId === 'string' && g.giftId &&
-                !dismissed.has(g.giftId));
+                true);
             if (next) display(next);
         } catch (e) {
             // Keep homepage fully usable if gift service is temporarily unavailable.
@@ -1130,6 +1142,7 @@ import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/
             if (result.success !== true) throw new Error('Gift claim not confirmed');
             completed = true;
             present.classList.add('vg-open');
+            overlay.querySelector('.vg-panel').classList.add('vg-claimed');
             celebrate();
             title.textContent = 'It’s yours. Enjoy!';
             subtitle.textContent = 'Your gift is ready whenever you are.';
@@ -1140,7 +1153,6 @@ import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/
                 if (slug) location.href = 'reader.html?product=' + encodeURIComponent(slug);
                 else location.href = 'library.html';
             };
-            later.textContent = 'Continue exploring';
             busy = false;
         } catch (e) {
             error.textContent = 'Your gift could not be opened right now. Please try again.';
@@ -1150,17 +1162,11 @@ import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/
         }
     });
     close.addEventListener('click', () => {
-        if (activeGift?.giftId && !completed) dismissed.add(activeGift.giftId);
-        hide();
-    });
-    later.addEventListener('click', () => {
-        if (activeGift?.giftId && !completed) dismissed.add(activeGift.giftId);
         hide();
     });
     document.addEventListener('keydown', event => {
         if (event.key === 'Escape' && overlay.classList.contains('vg-visible')) {
-            if (activeGift?.giftId && !completed) dismissed.add(activeGift.giftId);
-            hide();
+                hide();
         }
     });
     async function initialize(attempt = 0) {
