@@ -149,8 +149,9 @@ async function open(type, o) {
       'Please sign in to access your purchased products.', o.name);
     return;
   }
-  if (o.source !== 'cloud' || o.paymentStatus !== 'paid' ||
-      o.verificationStatus !== 'verified' || !o.productId) {
+  // Claimed gifts and verified purchases are both valid entitlements.
+  // The Reader independently verifies access on the trusted backend.
+  if (!canAccess(o)) {
     showModal('download', 'Purchase confirmation pending',
       'This product is not available for download until your purchase is confirmed.', o.name);
     return;
