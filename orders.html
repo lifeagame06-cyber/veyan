@@ -110,7 +110,7 @@ let records=[]; // Only verified cloud records appear in purchase history.
 const money=n=>'₹'+Number(n || 0).toLocaleString('en-IN');
 const localRecords = []; // Legacy preview orders are excluded from real purchase history.
 // Public Edge Function endpoint only. Never place secret keys in frontend code.
-const EBOOK_FUNCTION_URL = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/vayen-read-ebook';
+const EBOOK_FUNCTION_URL = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/smart-handler';
 const EMAIL_FUNCTION_URL = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/vayen-send-email';
 let currentFirebaseUser = null;
 let cloudRecords = [];
@@ -224,11 +224,57 @@ window.addEventListener('vayen-orders-auth', event => {
   currentFirebaseUser = event.detail || null;
 });
 document.getElementById('vyModalClose').onclick=close;modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close()});
-function render(recent){const shown=recent?records.filter(o=>Date.now()-new Date(o.createdAt).getTime()<30*86400000):records;
- list.innerHTML=shown.map(o=>`<article class="vy-demo-order" data-order="${safe(o.id)}"><div class="vy-order-art">V</div><div class="vy-order-info"><div class="vy-order-meta"><span class="vy-order-pill">ORDER</span><span class="vy-order-ready">Order details</span></div><h2>${safe(o.name)}</h2><p>${safe(o.category)} · #${safe(o.id)}</p><small>${safe(new Date(o.createdAt).toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'}))}</small></div><strong class="vy-order-price">${money(o.price)}</strong><div class="vy-order-actions"><button type="button" data-action="download" data-id="${safe(o.id)}">↓ Download</button><button type="button" data-action="email" data-id="${safe(o.id)}">✉ Send to Email</button></div></article>`).join('');
- count.textContent=String(shown.length);empty.style.display=shown.length?'none':'';
- if(highlight&&!recent){const item=Array.from(list.querySelectorAll('[data-order]')).find(el=>el.dataset.order===highlight);if(item){item.classList.add('vy-order-highlight');requestAnimationFrame(()=>item.scrollIntoView({behavior:'smooth',block:'center'}));setTimeout(()=>item.classList.remove('vy-order-highlight'),10000)}}
+function canAccess(o) {
+    return o.source === 'cloud' &&
+        o.paymentStatus === 'paid' &&
+        o.verificationStatus === 'verified' &&
+        Boolean(o.productId);
 }
+
+function render(recent) {
+    const shown = recent
+        ? records.filter(o => Date.now() - new Date(o.createdAt).getTime() < 30 * 86400000)
+        : records;
+
+    list.innerHTML = shown.map(o => {
+        const verified = canAccess(o);
+        const statusLabel = verified ? 'Purchase confirmed' : 'Purchase confirmation pending';
+        const actions = verified ? `
+            <button type="button" data-action="download" data-id="${safe(o.id)}">↓ Download</button>
+            <button type="button" data-action="email" data-id="${safe(o.id)}">✉ Send to Email</button>
+        ` : `<span class="vy-order-ready">Purchase confirmation pending</span>`;
+
+        return `
+            <article class="vy-demo-order" data-order="${safe(o.id)}">
+                <div class="vy-order-art">V</div>
+                <div class="vy-order-info">
+                    <div class="vy-order-meta">
+                        <span class="vy-order-pill">ORDER</span>
+                        <span class="vy-order-ready">${statusLabel}</span>
+                    </div>
+                    <h2>${safe(o.name)}</h2>
+                    <p>${safe(o.category)} · #${safe(o.id)}</p>
+                    <small>${safe(new Date(o.createdAt).toLocaleString('en-IN', {dateStyle:'medium',timeStyle:'short'}))}</small>
+                </div>
+                <strong class="vy-order-price">${money(o.price)}</strong>
+                <div class="vy-order-actions">${actions}</div>
+            </article>`;
+    }).join('');
+
+    count.textContent = String(shown.length);
+    empty.style.display = shown.length ? 'none' : '';
+
+    if (highlight && !recent) {
+        const item = Array.from(list.querySelectorAll('[data-order]'))
+            .find(el => el.dataset.order === highlight);
+        if (item) {
+            item.classList.add('vy-order-highlight');
+            requestAnimationFrame(() => item.scrollIntoView({behavior:'smooth', block:'center'}));
+            setTimeout(() => item.classList.remove('vy-order-highlight'), 10000);
+        }
+    }
+}
+
 list.addEventListener('click',e=>{const btn=e.target.closest('button[data-action]');if(!btn)return;const o=records.find(x=>x.id===btn.dataset.id);if(o)open(btn.dataset.action,o)});
 const filters=document.querySelectorAll('.orders-filter');filters.forEach((btn,i)=>btn.addEventListener('click',()=>{filters.forEach(x=>x.classList.remove('active'));btn.classList.add('active');recentActive=i===1;render(recentActive)}));render(false);
 })();
