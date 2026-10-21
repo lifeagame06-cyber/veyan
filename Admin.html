@@ -122,10 +122,28 @@ $('deliveryRows').innerHTML=db.surprises.map(x=>'<tr><td>'+esc(x.id)+'</td><td>'
 $('giftCount').textContent=db.giftcards.length;$('giftValue').textContent=fmt(db.giftcards.reduce((s,x)=>s+x.value,0));$('giftcardRows').innerHTML=db.giftcards.map(x=>'<tr><td><strong>'+esc(x.code)+'</strong></td><td>'+esc(x.buyer)+'</td><td>'+esc(x.recipient)+'</td><td>'+fmt(x.value)+'</td><td>'+badge(x.status)+'</td><td><select class="field" data-act="card-status" data-id="'+esc(x.id)+'"><option value="">Change status</option>'+['active','redeemed','cancelled'].map(s=>'<option value="'+s+'">'+s+'</option>').join('')+'</select></td></tr>').join('')||empty(6);
 renderNotifications();$('activityRows').innerHTML=db.activity.map(x=>'<div><span>'+esc(x.msg)+'</span><small>'+esc(x.date)+'</small></div>').join('')||'<p class="sub">No activity yet.</p>'}
 
-function knownCustomers(){return [...new Set([...db.orders.map(x=>x.email),...db.surprises.map(x=>x.email),...db.giftcards.map(x=>x.buyer),...db.giftcards.map(x=>x.recipient)].filter(Boolean))].sort()}
+// Real registered customer emails are used for local notification targeting only.
+let firebaseNotificationCustomers = [];
+window.addEventListener('vayen-admin-customers-loaded', event => {
+  firebaseNotificationCustomers = Array.isArray(event.detail) ? event.detail : [];
+  renderNotifications();
+});
+window.addEventListener('vayen-admin-customers-cleared', () => {
+  firebaseNotificationCustomers = [];
+  renderNotifications();
+});
+function knownCustomers(){
+  return [...new Set([
+    ...firebaseNotificationCustomers,
+    ...db.orders.map(x=>x.email),
+    ...db.surprises.map(x=>x.email),
+    ...db.giftcards.map(x=>x.buyer),
+    ...db.giftcards.map(x=>x.recipient)
+  ].map(x=>String(x||'').trim().toLowerCase()).filter(x=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x)))].sort();
+}
 function renderNotifications(){const customers=knownCustomers(),selector=$('notificationRecipient'),old=selector.value;selector.innerHTML=customers.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join('');if(customers.includes(old))selector.value=old;$('notificationRows').innerHTML=db.notifications.map(n=>'<tr><td><strong>'+esc(n.title)+'</strong><br><span class="sub">'+esc(n.message)+'</span></td><td>'+esc(n.audience==='all'?'All known customers':n.recipient)+'</td><td>'+n.recipients.length+'</td><td>'+esc(new Date(n.date).toLocaleString('en-IN'))+'</td></tr>').join('')||empty(4)}
 $('notificationAudience').onchange=()=>{$('notificationRecipientWrap').style.display=$('notificationAudience').value==='one'?'grid':'none'};
-$('notificationForm').onsubmit=e=>{e.preventDefault();const customers=knownCustomers(),audience=$('notificationAudience').value,recipient=$('notificationRecipient').value,recipients=audience==='all'?customers:[recipient];if(!recipients.length||!recipients[0]){notify('Add a demo customer first');return}const title=$('notificationTitle').value.trim(),message=$('notificationMessage').value.trim();if(!title||!message)return;db.notifications.unshift({id:uid('NTF'),title,message,audience,recipient:audience==='one'?recipient:null,recipients,date:new Date().toISOString()});log('Created demo notification for '+recipients.length+' customer(s)');save();e.target.reset();$('notificationRecipientWrap').style.display='none';render();notify('Saved demo notification for '+recipients.length+' customer(s)')};
+$('notificationForm').onsubmit=e=>{e.preventDefault();const customers=knownCustomers(),audience=$('notificationAudience').value,recipient=$('notificationRecipient').value,recipients=audience==='all'?customers:[recipient];if(!recipients.length||!recipients[0]){notify('No customer email available yet. Refresh Customers first.');return}const title=$('notificationTitle').value.trim(),message=$('notificationMessage').value.trim();if(!title||!message)return;db.notifications.unshift({id:uid('NTF'),title,message,audience,recipient:audience==='one'?recipient:null,recipients,date:new Date().toISOString()});log('Created demo notification for '+recipients.length+' customer(s)');save();e.target.reset();$('notificationRecipientWrap').style.display='none';render();notify('Saved demo notification for '+recipients.length+' customer(s)')};
 function giftActions(x){return x.status==='delivered'?'<span class="sub">Completed</span>':'<div class="actions"><button class="tiny" data-act="assign" data-id="'+esc(x.id)+'">'+(x.productId?'Change gift':'Select gift')+'</button>'+(x.productId?'<button class="tiny" data-act="deliver" data-id="'+esc(x.id)+'">Mark delivered</button>':'')+'</div>'}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.tagName==='SELECT')return;const {act,id}=b.dataset;if(act==='edit')editor('products',id);if(act==='assign')editor('assign',id);if(act==='remove-product'){const p=db.products.find(x=>x.id===id);if(!p)return;if(!confirm('Hide '+p.name+' from new customers? The product record will be kept.'))return;window.VayenAdminProducts.save({...p,status:'hidden'}).then(()=>{p.status='hidden';log('Hidden product '+p.name);save();render();notify('Product hidden in Firebase')}).catch(err=>{console.error(err);notify('Unable to hide product')})}if(act==='deliver'){const x=db.surprises.find(x=>x.id===id);if(!x||!x.productId||x.status==='delivered')return;if(!confirm('Mark gift as delivered in demo? No real delivery will occur.'))return;x.status='delivered';x.deliveredAt=new Date().toISOString();log('Marked gift '+id+' delivered (demo)');save();render();notify('Demo delivery recorded')}});
 document.addEventListener('change',e=>{const el=e.target;if(!el.matches('select[data-act]')||!el.value)return;const {act,id}=el.dataset;if(act==='order-status'){const x=db.orders.find(x=>x.id===id);if(x){x.status=el.value;log('Set demo order '+id+' to '+el.value)}}if(act==='card-status'){const x=db.giftcards.find(x=>x.id===id);if(x){x.status=el.value;log('Set demo gift card '+id+' to '+el.value)}}save();render();notify('Demo status updated')});['productSearch','orderSearch'].forEach(id=>$(id).addEventListener('input',render));$('orderFilter').addEventListener('change',render);$('resetDemo').onclick=()=>{if(!confirm('Delete local demo orders, gifts, notifications and activity? Firebase products will NOT be deleted.'))return;const products=db.products;db=blank();db.products=products;save();render();notify('Local demo records reset')};window.addEventListener('vayen-admin-products-loaded',e=>{db.products=e.detail;render()});render();
@@ -321,7 +339,7 @@ document.getElementById('importProducts').addEventListener('click',async()=>{
   finally{button.disabled=false;button.textContent='Import original catalog';}
 });
 
-function blocked(text,showLogin=false){authorized=false;activeAdminUid=null;records=[];cloudOrders=[];window.VayenAdminProducts.save=async()=>{throw Error('Admin access required')};gate.style.display='grid';message.textContent=text;signIn.style.display=showLogin?'inline-block':'none';}
+function blocked(text,showLogin=false){authorized=false;activeAdminUid=null;records=[];cloudOrders=[];window.dispatchEvent(new Event('vayen-admin-customers-cleared'));window.VayenAdminProducts.save=async()=>{throw Error('Admin access required')};gate.style.display='grid';message.textContent=text;signIn.style.display=showLogin?'inline-block':'none';}
 function dateLabel(value){
   if(!value)return '—';
   const d=typeof value.toDate==='function'?value.toDate():new Date(value);
@@ -338,6 +356,9 @@ async function refreshCustomers(){
   try{
     const snapshot=await getDocs(collection(firestore,'users'));
     records=snapshot.docs.map(d=>({id:d.id,...d.data()}));
+    window.dispatchEvent(new CustomEvent('vayen-admin-customers-loaded', {
+      detail: records.map(customer => customer.email).filter(Boolean)
+    }));
     records.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
     $('sCustomers').textContent=records.length;
     renderCustomers();
