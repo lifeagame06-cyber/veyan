@@ -1007,7 +1007,7 @@ const errorText = e => ({
   'auth/popup-blocked':'Your browser blocked the Google sign-in popup.',
   'auth/unauthorized-domain':'Add this website domain in Firebase Authentication → Settings → Authorized domains.',
   'auth/operation-not-allowed':'Enable this sign-in method in Firebase Authentication.'
-})[e?.code] || e?.message || 'Could not sign in. Please try again.';
+})[e?.code] || 'Could not sign in. Please try again.';
 function finish(user, created=false) {
   const name=(user.displayName || user.email?.split('@')[0] || 'Customer').trim();
   const account={id:user.uid,name,email:user.email || '',provider:user.providerData?.[0]?.providerId || 'password',demo:false,loginAt:new Date().toISOString()};
@@ -1020,14 +1020,12 @@ function finish(user, created=false) {
   const next=isProductLogin?product:null;
   const plan=isPlanLogin?(allowedPlans.includes(urlPlan)?urlPlan:pendingPlan):null;
   const destination=next?'payment.html?product='+encodeURIComponent(next):plan?'plan-checkout.html?plan='+encodeURIComponent(plan):'index.html';
-  setTimeout(() => {
-    if (plan) sessionStorage.removeItem('vayenPendingPlanCheckout');
-    location.href = destination;
-  }, created ? 3000 : 2200);
+  if (plan) sessionStorage.removeItem('vayenPendingPlanCheckout');
+  location.href = destination;
 }
 setMode('signin');
 if (!firebaseConfig.apiKey) {
-  message('Firebase API key is empty. Add your API key in firebaseConfig to enable real login.');
+  message('Sign-in is temporarily unavailable. Please try again later.');
 } else {
   try {
     const app=initializeApp(firebaseConfig);
@@ -1054,7 +1052,7 @@ if (!firebaseConfig.apiKey) {
         } else {const result=await signInWithEmailAndPassword(auth,email,password);finish(result.user);}
       } catch(err){message(errorText(err));} finally {btn.disabled=false;}
     });
-  } catch(e){message('Firebase setup error: '+errorText(e));}
+  } catch(e){console.error('VAYEN authentication initialization failed:',e);message('Sign-in is temporarily unavailable. Please try again later.');}
 }
 </script>
 <style>
