@@ -980,5 +980,203 @@ if ("serviceWorker" in navigator) {
 
 <nav aria-label="Mobile main navigation" class="vayen-mobile-nav"><a aria-current="page" class="mobile-nav-item active" href="index.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-7H9v7H3z"></path></svg></span><span>Home</span></a><a class="mobile-nav-item" href="collection.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM9 4v16M5 10h14"></path></svg></span><span>Collection</span></a><a class="mobile-nav-item" href="library.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg></span><span>Library</span></a><a class="mobile-nav-item" href="orders.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 3h14v18l-3-2-4 2-4-2-3 2zM8 8h8M8 12h8"></path></svg></span><span>Orders</span></a><a class="mobile-nav-item" href="profile.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 21c.8-4.5 3.1-6.5 7-6.5s6.2 2 7 6.5"></path></svg></span><span>Account</span></a></nav><script type="module" src="vayen-auth-sync.js"></script>
 
+
+<!-- VAYEN — SECURE CUSTOMER GIFT EXPERIENCE -->
+<style id="vayen-real-gift-styles">
+.vg-overlay{position:fixed;inset:0;z-index:100050;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(27,16,24,.74);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.vg-overlay.vg-visible{display:flex}
+.vg-panel{position:relative;isolation:isolate;width:min(100%,530px);max-height:calc(100dvh - 36px);overflow-y:auto;padding:45px 35px 34px;text-align:center;border:1px solid rgba(255,255,255,.85);border-radius:27px;background:radial-gradient(circle at 50% 0%,#fff 0%,#fff9f6 42%,#f5e8e9 100%);box-shadow:0 28px 100px rgba(15,7,14,.45);color:#3b2532;animation:vg-rise .45s ease both}
+@keyframes vg-rise{from{opacity:0;transform:translateY(18px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+.vg-close{position:absolute;right:16px;top:16px;width:36px;height:36px;border:1px solid #eadbe0;border-radius:50%;background:#fff9fa;color:#6c4a59;cursor:pointer;font-size:20px}
+.vg-kicker{font:700 10px Arial,sans-serif;letter-spacing:3px;color:#a16c81}
+.vg-panel h2{font:normal clamp(31px,6vw,43px)/1.12 Georgia,serif;letter-spacing:-1px;margin:13px 0 10px;color:#3b2330}
+.vg-subtitle{font:normal 14px/1.7 Arial,sans-serif;color:#8b6e7a;margin:0 auto 18px;max-width:350px}
+.vg-present{position:relative;display:grid;place-items:center;width:168px;height:166px;margin:16px auto 18px;filter:drop-shadow(0 16px 18px rgba(112,44,77,.18))}
+.vg-box{position:absolute;bottom:17px;width:112px;height:100px;border-radius:9px 9px 16px 16px;background:linear-gradient(135deg,#a84d77,#672b4d);box-shadow:inset -14px -6px 22px #40152d35}
+.vg-box:before{content:"";position:absolute;inset:0 auto 0 44px;width:24px;background:linear-gradient(90deg,#f3d6a2,#fff2cf,#e8c58a)}
+.vg-lid{position:absolute;z-index:2;bottom:110px;width:132px;height:27px;border-radius:7px;background:linear-gradient(135deg,#ba6489,#753252);transition:transform .75s cubic-bezier(.2,.7,.2,1)}
+.vg-lid:after{content:"";position:absolute;left:54px;width:24px;height:100%;background:#f4dfb1}
+.vg-bow{position:absolute;z-index:3;bottom:133px;color:#b78c4b;font-size:43px;line-height:1;transition:transform .75s ease}
+.vg-present.vg-open .vg-lid{transform:translateY(-60px) rotate(-15deg)}
+.vg-present.vg-open .vg-bow{transform:translateY(-65px) rotate(-15deg)}
+.vg-product{font:700 18px/1.4 Georgia,serif;color:#4b2939;margin:8px 0}
+.vg-reason{font:normal 13px/1.6 Arial,sans-serif;color:#826672;max-width:380px;margin:8px auto 22px;overflow-wrap:anywhere}
+.vg-action{width:min(100%,300px);min-height:48px;border:0;border-radius:13px;background:#64354e;color:#fff;font:700 13px Arial,sans-serif;letter-spacing:.35px;cursor:pointer;box-shadow:0 10px 25px #5d2e4933;transition:transform .2s,background .2s}
+.vg-action:hover{background:#854361;transform:translateY(-2px)}.vg-action:disabled{opacity:.65;cursor:wait;transform:none}
+.vg-secondary{display:block;margin:16px auto 0;border:0;background:transparent;color:#876978;text-decoration:underline;text-underline-offset:4px;font:12px Arial,sans-serif;cursor:pointer}
+.vg-error{min-height:18px;color:#9e3854;font:12px/1.5 Arial,sans-serif;margin:11px 0 0}
+.vg-confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
+.vg-confetti i{position:absolute;top:-20px;width:9px;height:16px;background:var(--c);left:var(--x);transform:rotate(var(--r));animation:vg-fall 2.5s ease-in forwards;animation-delay:var(--d)}
+@keyframes vg-fall{to{transform:translateY(640px) rotate(720deg);opacity:0}}
+@media(max-width:600px){.vg-panel{padding:39px 22px 27px;border-radius:23px}.vg-present{transform:scale(.9);margin:4px auto 8px}}
+@media(prefers-reduced-motion:reduce){.vg-panel,.vg-confetti i{animation:none}.vg-lid,.vg-bow{transition:none}}
+</style>
+<div id="vayenGiftOverlay" class="vg-overlay" aria-hidden="true">
+  <section class="vg-panel" role="dialog" aria-modal="true" aria-labelledby="vayenGiftTitle">
+    <button class="vg-close" id="vayenGiftClose" aria-label="Close gift notification" type="button">×</button>
+    <div class="vg-confetti" id="vayenGiftConfetti" aria-hidden="true"></div>
+    <div class="vg-kicker">A LITTLE SOMETHING, JUST FOR YOU</div>
+    <h2 id="vayenGiftTitle">A surprise from VAYEN.</h2>
+    <p class="vg-subtitle" id="vayenGiftSubtitle">Someone has something special waiting for you.</p>
+    <div class="vg-present" id="vayenGiftPresent" aria-hidden="true"><div class="vg-box"></div><div class="vg-lid"></div><div class="vg-bow">✧</div></div>
+    <div class="vg-product" id="vayenGiftProduct">A special digital gift</div>
+    <p class="vg-reason" id="vayenGiftReason"></p>
+    <button class="vg-action" id="vayenGiftClaim" type="button">Unwrap Your Gift ✦</button>
+    <p class="vg-error" id="vayenGiftError" role="status"></p>
+    <button class="vg-secondary" id="vayenGiftLater" type="button">Maybe later</button>
+  </section>
+</div>
+<script type="module" id="vayen-real-gift-script">
+import { getApp, getApps } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
+import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
+
+(function () {
+    const overlay = document.getElementById('vayenGiftOverlay');
+    const title = document.getElementById('vayenGiftTitle');
+    const subtitle = document.getElementById('vayenGiftSubtitle');
+    const product = document.getElementById('vayenGiftProduct');
+    const reason = document.getElementById('vayenGiftReason');
+    const claim = document.getElementById('vayenGiftClaim');
+    const close = document.getElementById('vayenGiftClose');
+    const later = document.getElementById('vayenGiftLater');
+    const error = document.getElementById('vayenGiftError');
+    const present = document.getElementById('vayenGiftPresent');
+    const confetti = document.getElementById('vayenGiftConfetti');
+    const endpoint = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/vayen-gift-manager';
+    let activeGift = null;
+    let activeUser = null;
+    let busy = false;
+    let completed = false;
+    let previousFocus = null;
+    const dismissed = new Set();
+
+    function hide() {
+        if (busy) return;
+        overlay.classList.remove('vg-visible');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (previousFocus && previousFocus.focus) previousFocus.focus();
+    }
+    function display(gift) {
+        if (busy || completed) return;
+        activeGift = gift;
+        const slug = String(gift.productId || '');
+        const catalog = window.VayenCatalog;
+        const record = catalog && typeof catalog.records === 'function'
+            ? catalog.records().find(p => (p.slug || p.id) === slug)
+            : null;
+        const readableName = slug.split('-').map(x => x.charAt(0).toUpperCase() + x.slice(1)).join(' ');
+        product.textContent = gift.productName || gift.productTitle || record?.name || readableName || 'Your digital gift';
+        reason.textContent = gift.message || gift.reason || '';
+        title.textContent = 'A surprise from VAYEN.';
+        subtitle.textContent = 'A thoughtful gift is waiting to be unwrapped.';
+        claim.textContent = 'Unwrap Your Gift ✦';
+        claim.disabled = false;
+        error.textContent = '';
+        present.classList.remove('vg-open');
+        confetti.replaceChildren();
+        later.hidden = false;
+        previousFocus = document.activeElement;
+        overlay.classList.add('vg-visible');
+        overlay.setAttribute('aria-hidden', 'false');
+        close.focus();
+    }
+    async function request(user, action, extra = {}) {
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                Authorization: 'Bearer ' + await user.getIdToken(),
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ action, ...extra })
+        });
+        const data = await response.json();
+        if (!response.ok || data.error) throw new Error('Gift service unavailable');
+        return data;
+    }
+    function celebrate() {
+        const colors = ['#b87c98','#d4ae75','#71405a','#e9b7bf','#f7dca6'];
+        for (let i = 0; i < 42; i++) {
+            const piece = document.createElement('i');
+            piece.style.setProperty('--x', Math.random() * 100 + '%');
+            piece.style.setProperty('--c', colors[i % colors.length]);
+            piece.style.setProperty('--r', Math.random() * 360 + 'deg');
+            piece.style.setProperty('--d', Math.random() * .45 + 's');
+            confetti.appendChild(piece);
+        }
+    }
+    async function check(user) {
+        if (!user || busy || completed) return;
+        try {
+            const data = await request(user, 'list');
+            if (activeUser !== user) return;
+            const gifts = Array.isArray(data.gifts) ? data.gifts : [];
+            const next = gifts.find(g => g && g.status === 'unclaimed' &&
+                typeof g.giftId === 'string' && g.giftId &&
+                !dismissed.has(g.giftId));
+            if (next) display(next);
+        } catch (e) {
+            // Keep homepage fully usable if gift service is temporarily unavailable.
+            console.warn('VAYEN gift notification temporarily unavailable');
+        }
+    }
+    claim.addEventListener('click', async () => {
+        if (busy || completed || !activeGift || !activeUser) return;
+        busy = true;
+        claim.disabled = true;
+        claim.textContent = 'Preparing your gift…';
+        error.textContent = '';
+        try {
+            const result = await request(activeUser, 'claim', { giftId: activeGift.giftId });
+            if (result.success !== true) throw new Error('Gift claim not confirmed');
+            completed = true;
+            present.classList.add('vg-open');
+            celebrate();
+            title.textContent = 'It’s yours. Enjoy!';
+            subtitle.textContent = 'Your gift is ready whenever you are.';
+            claim.textContent = 'Read Your Gift →';
+            claim.disabled = false;
+            claim.onclick = () => {
+                const slug = String(result.productId || activeGift.productId || '');
+                if (slug) location.href = 'reader.html?product=' + encodeURIComponent(slug);
+                else location.href = 'library.html';
+            };
+            later.textContent = 'Continue exploring';
+            busy = false;
+        } catch (e) {
+            error.textContent = 'Your gift could not be opened right now. Please try again.';
+            claim.textContent = 'Try Unwrapping Again';
+            claim.disabled = false;
+            busy = false;
+        }
+    });
+    close.addEventListener('click', () => {
+        if (activeGift?.giftId && !completed) dismissed.add(activeGift.giftId);
+        hide();
+    });
+    later.addEventListener('click', () => {
+        if (activeGift?.giftId && !completed) dismissed.add(activeGift.giftId);
+        hide();
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && overlay.classList.contains('vg-visible')) {
+            if (activeGift?.giftId && !completed) dismissed.add(activeGift.giftId);
+            hide();
+        }
+    });
+    async function initialize(attempt = 0) {
+        if (!getApps().length) {
+            if (attempt < 35) setTimeout(() => initialize(attempt + 1), 300);
+            return;
+        }
+        onAuthStateChanged(getAuth(getApp()), user => {
+            activeUser = user;
+            if (!user) { activeGift = null; hide(); return; }
+            check(user);
+        });
+    }
+    initialize();
+})();
+</script>
+
 </body>
 </html>
