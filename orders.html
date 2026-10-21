@@ -48,7 +48,7 @@
 <!-- INTRO -->
 <section class="orders-hero">
 <span class="orders-label">
-            MY ORDERS · PURCHASE HISTORY
+            MY ORDERS · PURCHASES & GIFTS
         </span>
 <h1>
             Your<br/>
@@ -56,7 +56,7 @@
 </h1>
 <p>
             A clear record of everything
-            you've purchased from VAYEN.
+            you've purchased or received from VAYEN.
         </p>
 </section>
 <!-- ORDER SUMMARY -->
@@ -83,13 +83,13 @@
 <div class="orders-empty-mark">
             V
         </div>
-<span>NOTHING PURCHASED YET</span>
+<span>NO ORDERS OR GIFTS YET</span>
 <h2>
             Your first choice<br/>
 <em>starts here.</em>
 </h2>
 <p>
-            Once you purchase something from VAYEN,
+            Once you purchase or claim a gift from VAYEN,
             your order details will stay here for
             easy reference.
         </p>
@@ -155,7 +155,13 @@ async function open(type, o) {
       'This product is not available for download until your purchase is confirmed.', o.name);
     return;
   }
-  if (type === 'email') {
+  if (type === 'email' && o.kind === 'gift') {
+     showModal('email', 'Your VAYEN gift',
+       'Your gifted ebook is ready to read in your account.', o.name);
+     return;
+   }
+
+   if (type === 'email') {
     showModal('email', 'Sending your email',
       'Checking your purchase and preparing your access email…',
       currentFirebaseUser.email || 'Your account email');
@@ -225,6 +231,9 @@ window.addEventListener('vayen-orders-auth', event => {
 });
 document.getElementById('vyModalClose').onclick=close;modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close()});
 function canAccess(o) {
+    if (o.kind === 'gift') {
+        return o.source === 'cloud' && o.status === 'claimed' && Boolean(o.productId);
+    }
     return o.source === 'cloud' &&
         o.paymentStatus === 'paid' &&
         o.verificationStatus === 'verified' &&
@@ -238,10 +247,12 @@ function render(recent) {
 
     list.innerHTML = shown.map(o => {
         const verified = canAccess(o);
-        const statusLabel = verified ? 'Purchase confirmed' : 'Purchase confirmation pending';
+        const gifted = o.kind === 'gift';
+        const statusLabel = gifted ? 'Gifted by VAYEN 🎁' :
+            (verified ? 'Purchase confirmed' : 'Purchase confirmation pending');
         const actions = verified ? `
-            <button type="button" data-action="download" data-id="${safe(o.id)}">↓ Download</button>
-            <button type="button" data-action="email" data-id="${safe(o.id)}">✉ Send to Email</button>
+            <button type="button" data-action="read" data-id="${safe(o.id)}">Read Ebook →</button>
+            ${gifted ? '' : `<button type="button" data-action="email" data-id="${safe(o.id)}">✉ Send to Email</button>`}
         ` : `<span class="vy-order-ready">Purchase confirmation pending</span>`;
 
         return `
@@ -249,14 +260,15 @@ function render(recent) {
                 <div class="vy-order-art">V</div>
                 <div class="vy-order-info">
                     <div class="vy-order-meta">
-                        <span class="vy-order-pill">ORDER</span>
+                        <span class="vy-order-pill">${gifted ? 'GIFT' : 'ORDER'}</span>
                         <span class="vy-order-ready">${statusLabel}</span>
                     </div>
                     <h2>${safe(o.name)}</h2>
                     <p>${safe(o.category)} · #${safe(o.id)}</p>
+                    ${gifted ? '<p style="margin-top:5px;color:#963d61;font-weight:700">Complimentary gift · No payment required</p>' : ''}
                     <small>${safe(new Date(o.createdAt).toLocaleString('en-IN', {dateStyle:'medium',timeStyle:'short'}))}</small>
                 </div>
-                <strong class="vy-order-price">${money(o.price)}</strong>
+                <strong class="vy-order-price">${gifted ? '₹0 · Gift' : money(o.price)}</strong>
                 <div class="vy-order-actions">${actions}</div>
             </article>`;
     }).join('');
@@ -301,14 +313,53 @@ if (!getApps().length) {
 } else {
     const auth = getAuth(getApp());
     const db = getFirestore(getApp());
-    let stopListening = null;
+    let stopOrders = null;
+    let stopGifts = null;
+    let cloudOrders = [];
+    let cloudGifts = [];
+    let ordersLoaded = false;
+    let giftsLoaded = false;
+    const ebookTitles = {
+        'youtube-creator-system': 'YouTube Creator System',
+        'vlogging-mastery': 'Vlogging Mastery',
+        'animation-mastery': 'Animation Mastery',
+        'social-media-tips': 'Social Media Tips',
+        'ai-prompt-box': 'AI Prompt Box',
+        'build-your-own-ai': 'Build Your Own AI',
+        'reels-growth': 'Reels Growth',
+        'web-creator': 'Web Creator',
+        'youtube-algorithm': 'YouTube Algorithm',
+        'earn-from-social-media': 'Earn from Social Media',
+        'creator-studio': 'Creator Studio',
+        'business-launch': 'Business Launch',
+        'content-strategy': 'Content Strategy',
+        'design-thumbnails': 'Design Thumbnails',
+        'edit-videos': 'Edit Videos',
+        'ai-automation': 'AI Automation',
+        'seller-commerce': 'Seller Commerce',
+        'personal-brand': 'Personal Brand'
+    };
+    function publish() {
+        window.dispatchEvent(new CustomEvent('vayen-orders-cloud', {
+            detail: [...cloudOrders, ...cloudGifts]
+        }));
+        status.textContent = ordersLoaded && giftsLoaded ? '' : 'Loading your orders and gifts…';
+    }
+    function toIso(raw) {
+        const date = raw?.toDate?.() || new Date(raw || 0);
+        return Number.isNaN(date.getTime()) ? new Date(0).toISOString() : date.toISOString();
+    }
 
     onAuthStateChanged(auth, user => {
         window.dispatchEvent(new CustomEvent('vayen-orders-auth', { detail: user }));
-        if (stopListening) {
-            stopListening();
-            stopListening = null;
-        }
+        if (stopOrders) stopOrders();
+        if (stopGifts) stopGifts();
+        stopOrders = null;
+        stopGifts = null;
+        cloudOrders = [];
+        cloudGifts = [];
+        ordersLoaded = false;
+        giftsLoaded = false;
 
         window.dispatchEvent(new CustomEvent('vayen-orders-cloud', {
             detail: []
@@ -319,10 +370,10 @@ if (!getApps().length) {
             return;
         }
 
-        status.textContent = 'Loading your orders…';
+        status.textContent = 'Loading your orders and gifts…';
         // Read-only. New orders must eventually be written by a trusted payment backend.
         const ref = collection(db, 'users', user.uid, 'orders');
-        stopListening = onSnapshot(ref, snapshot => {
+        stopOrders = onSnapshot(ref, snapshot => {
             const orders = snapshot.docs.map(item => {
                 const data = item.data();
                 const rawDate = data.createdAt;
@@ -343,13 +394,41 @@ if (!getApps().length) {
                         : date.toISOString()
                 };
             });
-            window.dispatchEvent(new CustomEvent('vayen-orders-cloud', {
-                detail: orders
-            }));
-            status.textContent = '';
+            cloudOrders = orders;
+            ordersLoaded = true;
+            publish();
         }, error => {
             console.error('Unable to load orders:', error);
             status.textContent = 'We could not load your orders. Please refresh and try again.';
+        });
+
+        // Claimed gifts are issued by the trusted backend, not browser writes.
+        const giftRef = collection(db, 'users', user.uid, 'gifts');
+        stopGifts = onSnapshot(giftRef, snapshot => {
+            cloudGifts = snapshot.docs.flatMap(item => {
+                const data = item.data();
+                if (data.userId !== user.uid || data.giftId !== item.id ||
+                    data.status !== 'claimed' || typeof data.productId !== 'string' ||
+                    !Object.prototype.hasOwnProperty.call(ebookTitles, data.productId)) {
+                    return [];
+                }
+                return [{
+                    id: 'gift-' + item.id,
+                    kind: 'gift',
+                    source: 'cloud',
+                    status: 'claimed',
+                    name: ebookTitles[data.productId],
+                    category: 'VAYEN EBOOK',
+                    productId: data.productId,
+                    price: 0,
+                    createdAt: toIso(data.claimedAt || data.createdAt)
+                }];
+            });
+            giftsLoaded = true;
+            publish();
+        }, error => {
+            console.error('Unable to load gifted ebooks:', error);
+            status.textContent = 'We could not load your gifts. Please refresh and try again.';
         });
     });
 }
