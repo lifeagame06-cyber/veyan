@@ -109,7 +109,28 @@
         flex-wrap: wrap;
     }
 }
-  </style>
+  
+
+.vy-order-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.vy-order-actions button{max-width:100%;white-space:normal;min-height:42px}
+.vy-download-overlay[hidden]{display:none!important}
+.vy-download-overlay{position:fixed;inset:0;z-index:10050;display:flex;align-items:center;justify-content:center;background:rgba(31,20,32,.62);backdrop-filter:blur(5px);padding:16px}
+.vy-download-dialog{position:relative;width:min(100%,490px);max-height:calc(100dvh - 32px);overflow:auto;background:#fffaf9;border:1px solid #eadfe1;border-radius:22px;box-shadow:0 24px 80px #1f142044;padding:32px 24px 24px;text-align:center;color:#402631}
+.vy-download-close{position:absolute;right:14px;top:12px;background:none;border:0;color:#755b67;font-size:26px;cursor:pointer;padding:4px 10px}
+.vy-download-eyebrow{font-size:10px;letter-spacing:2px;font-weight:800;color:#986079}
+.vy-download-dialog h2{font:normal 29px Georgia,serif;margin:10px 0 8px}
+.vy-download-book{font-size:13px;color:#88777e;margin:0 0 23px}
+.vy-download-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.vy-download-options button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;min-height:112px;background:#fcf7f7;border:1px solid #eadfe1;border-radius:15px;color:#402631;padding:16px 8px;cursor:pointer}
+.vy-download-options button:hover:not(:disabled),.vy-download-options button:focus-visible{border-color:#963d61;outline:2px solid #963d61;outline-offset:1px}
+.vy-download-options button:disabled{opacity:.5;cursor:wait}
+.vy-download-options strong{font:normal 23px Georgia,serif}
+.vy-download-options span{font-size:11px;color:#88777e}
+.vy-download-message{min-height:22px;font-size:12px;line-height:1.6;color:#805267;margin:16px 0 0}
+@media(max-width:480px){.vy-order-actions{gap:8px}.vy-order-actions button{font-size:12px;padding:10px 12px;flex:0 1 auto}.vy-download-dialog{padding:30px 15px 20px}.vy-download-options{gap:8px}.vy-download-options button{padding:12px 6px;min-height:108px}.vy-download-options strong{font-size:20px}.vy-download-options span{font-size:10px}}
+
+.library-ebook-actions{display:flex;flex-wrap:wrap;gap:8px}.library-ebook-actions .btn{flex:1;min-width:100px;text-align:center}.library-download-btn{border:1px solid #d8bdc7;background:#fff8f9;cursor:pointer}.library-ebook-kind{font-size:12px;color:#8b5068;font-weight:700;margin:7px 0 12px}
+</style>
  </head>
  <body>
   <header class="top">
@@ -179,7 +200,7 @@
        …
       </strong>
       <small>
-       Purchased Products
+       My Ebooks
       </small>
      </div>
     </div>
@@ -203,7 +224,7 @@
       Saved
      </button>
      <button class="tab" data-tab="purchased">
-      Purchased
+      My Ebooks
      </button>
      <button class="tab" data-tab="collections">
       Collections
@@ -236,7 +257,7 @@
     </div>
    </section>
    <p class="notice">
-    Your saved products and collections are linked to your VAYEN account. Purchased products will appear after payment confirmation. You can also open the PDF Reader to read your own files.
+    Your saved products and collections are linked to your VAYEN account. Your verified purchases and claimed gifts will appear here. You can also open the PDF Reader to read your own files.
    </p>
   </main>
   <nav class="bottom">
@@ -389,7 +410,7 @@
          const unique = new Map();
          for (const item of verifiedPurchases) {
              if (item && typeof item.slug === 'string' && item.slug.trim()) {
-                 unique.set(item.slug, item);
+                 if (!unique.has(item.slug) || item.kind === 'gift') unique.set(item.slug, item);
              }
          }
          return Array.from(unique.values());
@@ -518,12 +539,12 @@
         $('#createBtn').classList.toggle('hidden', tab !== 'collections');
         const titles = {
             saved: 'Saved Products',
-            purchased: 'Purchased Products',
+            purchased: 'My Ebooks',
             collections: 'My Collections'
         };
         const subtitles = {
             saved: "Products you've bookmarked for later.",
-            purchased: 'Your completed purchases will appear here.',
+            purchased: 'Your purchased ebooks and gifts from VAYEN.',
             collections: 'Your own organized product collections.'
         };
         $('#sectionTitle').textContent = titles[tab];
@@ -553,7 +574,7 @@
                         </div>
                     </article>
                 `).join('') + '</div>'
-                : empty('No purchases found', 'Verified purchases will appear here after payment confirmation.', false);
+                : empty('No ebooks yet', 'Your verified purchases and claimed gifts will appear here.', false);
         } else {
             const folders = state.folders.filter(folder => folder.name.toLowerCase().includes(search));
             $('#content').innerHTML = folders.length
@@ -820,7 +841,9 @@ else {
   try {
     const app=getApps().length?getApp():initializeApp(firebaseConfig);
     const auth=getAuth(app),db=getFirestore(app);
-    let uid=null,version=0,writeQueue=Promise.resolve(),stopOrders=null;
+    let uid=null,version=0,writeQueue=Promise.resolve(),stopOrders=null,stopGifts=null;
+     let paidEbooks = [], giftedEbooks = [];
+     const publishEbooks = () => bridge.setPurchases([...paidEbooks, ...giftedEbooks]);
     window.addEventListener('vayen-library-changed',e=>{
       if(!uid)return;
       const targetUid=uid;
@@ -836,6 +859,8 @@ else {
     onAuthStateChanged(auth,async user=>{
       const token=++version;uid=null;bridge.reset();
        if (stopOrders) { stopOrders(); stopOrders = null; }
+       if (stopGifts) { stopGifts(); stopGifts = null; }
+       paidEbooks = []; giftedEbooks = [];
       if(!user){account.textContent='Sign in';account.href='login.html';info('Sign in to save products and collections across your devices.');document.getElementById('content').innerHTML='<div class="empty"><h3>Sign in to your library</h3><p>Your saved products and collections will appear here.</p><a class="btn" href="login.html">Sign in →</a></div>';return;}
       account.textContent='My Account';account.href='profile.html';
       info('Loading your library...');
@@ -865,18 +890,133 @@ else {
              if ((o.userId && o.userId !== user.uid) || o.paymentStatus !== 'paid' ||
                 o.verificationStatus !== 'verified' ||
                 typeof id !== 'string' || !id.trim()) return null;
-            return { slug: id, name: o.productName || o.name || id.replace(/-/g, ' ') };
+            return { slug: id, name: o.productName || o.name || id.replace(/-/g, ' '), kind: 'purchase' };
           }).filter(Boolean);
           bridge.setPurchases(verified);
         }, orderError => {
           console.error('Unable to load verified orders:', orderError);
           if (token === version) info('Saved products loaded, but purchases could not be checked.');
         });
+         stopGifts = onSnapshot(collection(db, 'users', user.uid, 'gifts'), snapshot => {
+           if (token !== version || auth.currentUser?.uid !== user.uid) return;
+           giftedEbooks = snapshot.docs.flatMap(giftSnap => {
+             const gift = giftSnap.data();
+             if (gift.userId !== user.uid || gift.giftId !== giftSnap.id ||
+                 gift.status !== 'claimed' || typeof gift.productId !== 'string' ||
+                 !gift.productId.trim()) return [];
+             const title = window.VayenCatalog?.BASE?.[gift.productId]?.name ||
+                 gift.productId.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+             return [{ slug: gift.productId, name: title, kind: 'gift' }];
+           });
+           publishEbooks();
+         }, giftError => {
+           console.error('Unable to load claimed gifts:', giftError);
+           if (token === version) info('Your library is available, but gifts could not be loaded.');
+         });
 info('Your saved products and collections are synced to your VAYEN account.');
       }catch(err){console.error('Library loading failed:',err);info('Unable to load your library. Please refresh and try again.');document.getElementById('content').innerHTML='<div class="empty"><h3>Library unavailable</h3><p>Please refresh and try again.</p></div>';}
     });
   }catch(err){console.error('Library setup failed:',err);info('Unable to connect your library. Please refresh and try again.');}
 }
   </script>
- </body>
+ 
+<script type="module" id="vayen-library-secure-download">
+import { getApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
+import { getAuth } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
+const DOWNLOAD_FUNCTION_URL = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/smart-handler';
+const downloadOverlay = document.getElementById('vyDownloadOverlay');
+const downloadMessage = document.getElementById('vyDownloadMessage');
+const downloadTitle = document.getElementById('vyDownloadTitle');
+const downloadChoices = [...downloadOverlay.querySelectorAll('[data-download-language]')];
+let selectedDownload = null;
+let downloading = false;
+function closeDownload() {
+    if (downloading) return;
+    downloadOverlay.hidden = true;
+    selectedDownload = null;
+    downloadMessage.textContent = '';
+}
+document.getElementById('vyDownloadClose').addEventListener('click', closeDownload);
+downloadOverlay.addEventListener('click', event => {
+    if (event.target === downloadOverlay) closeDownload();
+});
+document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !downloadOverlay.hidden) closeDownload();
+});
+window.addEventListener('vayen-library-download', event => {
+    const item = event.detail;
+    if (!item || !item.slug) return;
+    selectedDownload = item;
+    downloadTitle.textContent = item.name;
+    downloadMessage.textContent = '';
+    downloadOverlay.hidden = false;
+});
+function downloadError(status) {
+    if (status === 401) return 'Please sign in again to download your ebook.';
+    if (status === 403) return 'This ebook is not available in your account.';
+    if (status === 429) return 'Please wait a moment before trying again.';
+    return 'Download could not be started. Please try again.';
+}
+async function downloadEdition(language) {
+    if (!selectedDownload || downloading) return;
+    const item = selectedDownload;
+    downloading = true;
+    downloadChoices.forEach(button => button.disabled = true);
+    downloadMessage.textContent = 'Preparing your secure download…';
+    let blobUrl = null;
+    try {
+        const user = getAuth(getApp()).currentUser;
+        if (!user) throw new Error('Please sign in to download your ebook.');
+        const token = await user.getIdToken();
+        const response = await fetch(DOWNLOAD_FUNCTION_URL, {
+            method: 'POST',
+            headers: {
+                Authorization: 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ productId: item.slug, language }),
+            cache: 'no-store'
+        });
+        if (!response.ok) throw new Error(downloadError(response.status));
+        const result = await response.json();
+        if (typeof result.url !== 'string' || !result.url.startsWith('https://')) {
+            throw new Error('Download could not be prepared. Please try again.');
+        }
+        const pdfResponse = await fetch(result.url, { cache: 'no-store' });
+        if (!pdfResponse.ok) throw new Error('Download could not be completed. Please try again.');
+        const maxBytes = 60 * 1024 * 1024;
+        const length = Number(pdfResponse.headers.get('content-length'));
+        if (length > maxBytes) {
+            await pdfResponse.body?.cancel();
+            throw new Error('This file is too large to download here.');
+        }
+        const bytes = await pdfResponse.arrayBuffer();
+        if (bytes.byteLength > maxBytes) throw new Error('This file is too large to download here.');
+        const signature = new Uint8Array(bytes.slice(0, 5));
+        if (String.fromCharCode(...signature) !== '%PDF-') {
+            throw new Error('The ebook file is unavailable. Please try again later.');
+        }
+        const blob = new Blob([bytes], { type: 'application/pdf' });
+        blobUrl = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = blobUrl;
+        anchor.download = item.slug + '-' + language + '.pdf';
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+        downloadMessage.textContent = 'Your download has started. You can choose another language too.';
+    } catch (error) {
+        console.error('VAYEN ebook download failed:', error);
+        downloadMessage.textContent = error instanceof Error ? error.message : 'Please try again.';
+    } finally {
+        if (blobUrl) setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
+        downloading = false;
+        downloadChoices.forEach(button => button.disabled = false);
+    }
+}
+downloadChoices.forEach(button => button.addEventListener('click', () => {
+    downloadEdition(button.dataset.downloadLanguage);
+}));
+</script>
+</body>
 </html>
