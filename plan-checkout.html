@@ -2,85 +2,155 @@
 /* Keep account-only checkout hidden until Firebase confirms the session. */
 body.vayen-auth-pending .wrap, body.vayen-auth-pending .foot { visibility:hidden; }
 :root{font-family:Arial,sans-serif;color:#2b2228}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 95% 0%,#ead2d5,transparent 45%),radial-gradient(ellipse at 0% 95%,#e5c8c6,transparent 55%),#f8f3ef}a{text-decoration:none;color:inherit}.top{display:flex;align-items:center;justify-content:space-between;max-width:1110px;margin:20px auto;padding:22px 30px;border:1px solid white;border-radius:20px;background:#fffcfae8;box-shadow:0 14px 38px #56333b0b}.brand{font-size:22px;letter-spacing:5px;font-weight:900}.back{font-size:13px;color:#7e6871}.wrap{width:min(1070px,calc(100% - 32px));margin:55px auto}.eyebrow{color:#9b637a;font-size:11px;font-weight:800;letter-spacing:2px}.heading{font-size:clamp(36px,5vw,57px);letter-spacing:-2px;margin:12px 0}.sub{font-size:14px;color:#7f7378;line-height:1.7}.grid{display:grid;grid-template-columns:1.35fr .85fr;gap:22px;margin-top:32px}.card{background:#fffdfb;border:1px solid #e9dfe0;border-radius:24px;padding:31px;box-shadow:0 16px 45px #4b303812}.label{font-size:11px;font-weight:800;letter-spacing:1.5px;color:#966a7b}.name{font-size:29px;letter-spacing:-1px;margin:17px 0 12px}.muted{font-size:13px;color:#81747b;line-height:1.7}.rule{height:1px;background:#eee5e5;margin:24px 0}.row{display:flex;justify-content:space-between;gap:14px;align-items:center;margin:15px 0;font-size:13px}.price{font-size:32px;font-weight:800}.button{width:100%;display:block;padding:17px 20px;border:0;border-radius:13px;background:#2b2029;color:white;font-size:13px;font-weight:800;text-align:center;cursor:pointer}.note{margin-top:17px;padding:14px 15px;background:#f9eff0;border:1px solid #eedde0;border-radius:12px;color:#7a4f60;font-size:12px;line-height:1.6}.feature{padding:9px 0;font-size:13px;color:#554951}.feature::before{content:'✓';color:#9c687e;font-weight:800;margin-right:10px}.hidden{display:none}.error{color:#a13d50}.foot{text-align:center;font-size:11px;color:#9b8c91;margin:40px 0}@media(max-width:700px){.top{margin:8px 10px;padding:17px}.wrap{margin:30px auto}.grid{grid-template-columns:1fr;gap:14px;margin-top:24px}.card{padding:22px}.heading{letter-spacing:-1px}}
-</style></head><body class="vayen-auth-pending"><header class="top"><a class="brand" href="index.html">VAYEN</a><a class="back" href="plans.html">← Back to Plans</a></header><main class="wrap"><span class="eyebrow">VAYEN / EXCLUSIVE ACCESS</span><h1 class="heading">Plan checkout<span style="color:#b27a8d">.</span></h1><p class="sub">Review your selected plan and payment details before proceeding.</p><div class="grid"><section class="card"><span class="label">SELECTED PLAN</span><h2 class="name" id="name">—</h2><p class="muted" id="description"></p><div class="rule"></div><div id="benefits"></div><div class="rule"></div><p class="muted">Signed-in account: <strong id="email"></strong></p><a class="back" href="plans.html">← Change plan</a></section><aside class="card"><span class="label">ORDER SUMMARY</span><div class="row"><span>Plan price</span><strong id="price">—</strong></div><div class="row"><span>Additional charges</span><strong>₹0</strong></div><div class="rule"></div><div class="row"><strong>Total payable</strong><strong class="price" id="total">—</strong></div><button class="button" id="pay" type="button">Continue to Payment →</button><div class="note" id="status">Checkout preview only. Real payment collection and plan activation require a verified payment gateway. No charge will be made.</div></aside></div></main><footer class="foot">© 2026 VAYEN · Digital products, thoughtfully made.</footer><script type="module" id="vayen-plan-firebase-checkout">
+</style></head><body class="vayen-auth-pending"><header class="top"><a class="brand" href="index.html">VAYEN</a><a class="back" href="plans.html">← Back to Plans</a></header><main class="wrap"><span class="eyebrow">VAYEN / EXCLUSIVE ACCESS</span><h1 class="heading">Plan checkout<span style="color:#b27a8d">.</span></h1><p class="sub">Review your selected plan and payment details before proceeding.</p><div class="grid"><section class="card"><span class="label">SELECTED PLAN</span><h2 class="name" id="name">—</h2><p class="muted" id="description"></p><div class="rule"></div><div id="benefits"></div><div class="rule"></div><p class="muted">Signed-in account: <strong id="email"></strong></p><a class="back" href="plans.html">← Change plan</a></section><aside class="card"><span class="label">ORDER SUMMARY</span><div class="row"><span>Plan price</span><strong id="price">—</strong></div><div class="row"><span>Additional charges</span><strong>₹0</strong></div><div class="rule"></div><div class="row"><strong>Total payable</strong><strong class="price" id="total">—</strong></div><button class="button" id="pay" type="button">Continue to Payment →</button><div class="note" id="status">Sign in to review your plan and continue securely.</div></aside></div></main><footer class="foot">© 2026 VAYEN · Digital products, thoughtfully made.</footer><script src="https://checkout.razorpay.com/v1/checkout.js"></script><script type="module" id="vayen-plan-firebase-checkout">
 import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyCJStLo-FmvkPQo-u-cP-J4rQ8z4ecYMW4",
-    authDomain: "veyan-53930.firebaseapp.com",
-    projectId: "veyan-53930",
-    storageBucket: "veyan-53930.firebasestorage.app",
-    messagingSenderId: "836801786398",
-    appId: "1:836801786398:web:a73fbda60267efcdbd740f"
+const CONFIG = window.VAYEN_FIREBASE_CONFIG || {
+  apiKey: "AIzaSyCJStLo-FmvkPQo-u-cP-J4rQ8z4ecYMW4",
+  authDomain: "veyan-53930.firebaseapp.com",
+  projectId: "veyan-53930",
+  appId: "1:836801786398:web:a73fbda60267efcdbd740f"
 };
-
-const plans = {
-    'discount-pass': {
-        name: 'Discount Pass', price: 299,
-        description: '10% off eligible digital products throughout your membership year.',
-        benefits: ['10% off products above ₹500', 'Up to 50 discounted purchases', 'Valid for 1 year']
-    },
-    'surprise-box': {
-        name: 'Surprise Box', price: 499,
-        description: 'An exclusive mystery digital gift, specially selected for you.',
-        benefits: ['Mystery digital product', 'Delivered to My Orders when fulfilled', 'Gift details provided before activation']
-    },
-    'shopping-pass': {
-        name: 'Shopping Pass', price: 999,
-        description: '₹1,500 of shopping credit for eligible VAYEN digital products.',
-        benefits: ['₹1,500 shopping credit', '₹501 extra shopping value', 'Track remaining balance']
-    }
+const BASE = "https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1";
+const PLANS = {
+  "discount-pass": {name:"Discount Pass",price:299,description:"10% off eligible digital products throughout your membership year.",benefits:["10% off products above ₹500","Up to 50 discounted purchases","Valid for 1 year"]},
+  "surprise-box": {name:"Surprise Box",price:499,description:"An exclusive mystery digital gift, specially selected for you.",benefits:["Mystery digital product","Delivered to My Orders when fulfilled","Gift details provided before activation"]},
+  "shopping-pass": {name:"Shopping Pass",price:999,description:"₹1,500 of shopping credit for eligible VAYEN digital products.",benefits:["₹1,500 shopping credit","₹501 extra shopping value","Track remaining balance"]}
 };
-
-const id = new URLSearchParams(location.search).get('plan');
-const plan = Object.hasOwn(plans, id) ? plans[id] : null;
+const id = new URLSearchParams(location.search).get("plan");
+const plan = Object.hasOwn(PLANS,id) ? PLANS[id] : null;
 const el = name => document.getElementById(name);
-const pay = el('pay');
-const status = el('status');
-
-// Payment stays unavailable until verified payment integration is ready.
+const pay = el("pay");
+const status = el("status");
+let currentUser = null;
+let busy = false;
+let verifying = false;
 pay.disabled = true;
-pay.style.cursor = 'not-allowed';
-pay.style.opacity = '.65';
-
+function message(text, error=false) {
+  status.textContent = text;
+  status.classList.toggle("error",error);
+}
+function setBusy(value) {
+  busy = value;
+  pay.disabled = value || !currentUser;
+  pay.textContent = value ? "Please wait…" : "Continue to Payment →";
+}
+async function call(name, payload, user) {
+  const token = await user.getIdToken();
+  const res = await fetch(`${BASE}/${name}`, {
+    method:"POST",
+    headers:{"Content-Type":"application/json",Authorization:`Bearer ${token}`},
+    body:JSON.stringify(payload)
+  });
+  const data = await res.json().catch(()=>null);
+  if(!res.ok) {
+    console.error("VAYEN plan checkout request failed",name,res.status);
+    throw new Error("We could not complete this request. Please try again shortly.");
+  }
+  return data;
+}
+async function checkout() {
+  if(busy || !currentUser || !plan) return;
+  if(typeof window.Razorpay !== "function") {
+    message("Secure payment options are temporarily unavailable. Please try again.",true);
+    return;
+  }
+  const user = currentUser;
+  setBusy(true);
+  message("Preparing secure payment options…");
+  try {
+    const order = await call("vayen-create-plan-payment",{planId:id},user);
+    if (!/^rzp_test_[A-Za-z0-9]+$/.test(order.keyId || "") ||
+        !/^order_[A-Za-z0-9]{6,80}$/.test(order.orderId || "") ||
+        order.planId !== id || order.amount !== plan.price * 100 ||
+        order.currency !== "INR") {
+      throw new Error("Invalid checkout details");
+    }
+    const checkout = new window.Razorpay({
+      key:order.keyId, amount:order.amount, currency:"INR",
+      name:"VAYEN", description:plan.name, order_id:order.orderId,
+      prefill:{email:user.email || ""},theme:{color:"#30232a"},
+      modal:{ondismiss:()=>{
+        if(verifying) return;
+        setBusy(false);
+        message("Checkout closed. You can continue whenever you're ready.");
+      }},
+      handler:async payment=>{
+        verifying = true;
+        setBusy(true);
+        message("Confirming your plan payment securely…");
+        try {
+          const result = await call("vayen-verify-plan-payment",{
+            razorpay_order_id:payment.razorpay_order_id,
+            razorpay_payment_id:payment.razorpay_payment_id,
+            razorpay_signature:payment.razorpay_signature
+          },user);
+          if(result.success !== true || result.orderId !== order.orderId || result.planId !== id) {
+            throw new Error("Plan verification pending");
+          }
+          message("Your plan payment is confirmed. Thank you!");
+          pay.textContent = "Payment Confirmed ✓";
+          pay.disabled = true;
+          // Do not redirect to product success.html; plans are separate from products.
+        } catch(e) {
+          console.error("Plan confirmation pending",e);
+          message("Your payment is being confirmed. If charged, please don't pay again. Contact support with your payment details if your plan doesn't appear.",true);
+          pay.textContent = "Confirmation Pending";
+          pay.disabled = true;
+        }
+      }
+    });
+    checkout.on("payment.failed",()=>{
+      setBusy(false);
+      message("Payment was not completed. You can try again.",true);
+    });
+    checkout.open();
+  } catch(e) {
+    console.error("VAYEN plan checkout setup error",e);
+    setBusy(false);
+    message("We could not open secure payment. Please try again shortly.",true);
+  }
+}
 if (!plan) {
-    document.body.classList.remove('vayen-auth-pending');
-    el('name').textContent = 'Plan unavailable';
-    status.textContent = 'Please choose a valid plan from the Plans page.';
+  document.body.classList.remove("vayen-auth-pending");
+  el("name").textContent = "Plan unavailable";
+  message("Please choose a valid plan from the Plans page.",true);
 } else {
-    el('name').textContent = plan.name;
-    el('description').textContent = plan.description;
-    el('price').textContent = '₹' + plan.price.toLocaleString('en-IN');
-    el('total').textContent = '₹' + plan.price.toLocaleString('en-IN');
-    for (const benefit of plan.benefits) {
-        const item = document.createElement('div');
-        item.className = 'feature';
-        item.textContent = benefit;
-        el('benefits').append(item);
-    }
-
-    status.textContent = 'Checking your account…';
-    try {
-        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        onAuthStateChanged(auth, user => {
-            if (!user) {
-                sessionStorage.setItem('vayenPendingPlanCheckout', id);
-                location.replace('login.html?from=plan&plan=' + encodeURIComponent(id));
-                return;
-            }
-            document.body.classList.remove('vayen-auth-pending');
-            sessionStorage.removeItem('vayenPendingPlanCheckout');
-            el('email').textContent = user.email || 'Signed in';
-            status.textContent = 'Your plan summary is ready. Payment will be available when secure checkout is enabled. No charge has been made.';
-        }, () => {
-            document.body.classList.remove('vayen-auth-pending');
-            status.textContent = 'We could not verify your account. Please refresh and try again.';
-        });
-    } catch (error) {
-        document.body.classList.remove('vayen-auth-pending');
-        status.textContent = 'We could not open your checkout. Please refresh and try again.';
-    }
+  el("name").textContent = plan.name;
+  el("description").textContent = plan.description;
+  el("price").textContent = "₹" + plan.price.toLocaleString("en-IN");
+  el("total").textContent = "₹" + plan.price.toLocaleString("en-IN");
+  for(const benefit of plan.benefits) {
+    const div = document.createElement("div");
+    div.className = "feature";
+    div.textContent = benefit;
+    el("benefits").append(div);
+  }
+  message("Checking your account…");
+  try {
+    const app = getApps().length ? getApp() : initializeApp(CONFIG);
+    const auth = getAuth(app);
+    onAuthStateChanged(auth,user=>{
+      if(!user) {
+        sessionStorage.setItem("vayenPendingPlanCheckout",id);
+        location.replace("login.html?from=plan&plan=" + encodeURIComponent(id));
+        return;
+      }
+      currentUser = user;
+      document.body.classList.remove("vayen-auth-pending");
+      sessionStorage.removeItem("vayenPendingPlanCheckout");
+      el("email").textContent = user.email || "Signed in";
+      setBusy(false);
+      message("Review your plan and continue to secure payment. Test payments are simulated.");
+    },()=>{
+      document.body.classList.remove("vayen-auth-pending");
+      message("We could not verify your account. Please refresh and try again.",true);
+    });
+    pay.addEventListener("click",checkout);
+  } catch(e) {
+    document.body.classList.remove("vayen-auth-pending");
+    message("We could not open your checkout. Please refresh and try again.",true);
+  }
 }
 </script></body></html>
