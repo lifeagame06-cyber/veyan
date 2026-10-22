@@ -584,8 +584,6 @@
                             <strong>${safe(label(item))}</strong>
                             <div class="price">${item.kind === 'gift' ? 'Gifted by VAYEN 🎁' : 'Purchased · Verified'}</div>
                             <div class="product-foot">
-                                <a class="btn" href="reader.html?product=${encodeURIComponent(item.slug)}">Read Ebook →</a>
-                                <button class="btn library-download-btn" type="button" data-library-download="${safe(item.slug)}">Download PDF ↓</button>
                                 <a class="btn library-order-link" href="orders.html?highlight=${encodeURIComponent(item.orderId)}" aria-label="View order for ${safe(label(item))}">View Order ↗</a>
                             </div>
                         </div>
@@ -662,13 +660,6 @@
     });
 
     $('#content').addEventListener('click', event => {
-        const download = event.target.closest('[data-library-download]');
-        if (download) {
-            const item = purchases().find(p => p.slug === download.dataset.libraryDownload);
-            if (item) window.dispatchEvent(new CustomEvent('vayen-library-download', { detail: item }));
-            return;
-        }
-
         if (!libraryReady) return;
 
         const back = event.target.closest('[data-back-collections]');
@@ -945,116 +936,6 @@ info('Your saved products and collections are synced to your VAYEN account.');
 }
   </script>
  
-<div class="vy-download-overlay" id="vyDownloadOverlay" hidden>
-  <section class="vy-download-dialog" role="dialog" aria-modal="true" aria-labelledby="vyDownloadHeading">
-    <button class="vy-download-close" id="vyDownloadClose" type="button" aria-label="Close download options">×</button>
-    <div class="vy-download-eyebrow">VAYEN DIGITAL LIBRARY</div>
-    <h2 id="vyDownloadHeading">Choose Your Edition</h2>
-    <p class="vy-download-book" id="vyDownloadTitle"></p>
-    <div class="vy-download-options">
-      <button type="button" data-download-language="english"><strong>English</strong><span>Download PDF ↓</span></button>
-      <button type="button" data-download-language="hinglish"><strong>Hinglish</strong><span>Download PDF ↓</span></button>
-    </div>
-    <p class="vy-download-message" id="vyDownloadMessage" role="status"></p>
-  </section>
-</div>
-<script type="module" id="vayen-library-secure-download">
-import { getApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
-import { getAuth } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
-const DOWNLOAD_FUNCTION_URL = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/smart-handler';
-const downloadOverlay = document.getElementById('vyDownloadOverlay');
-const downloadMessage = document.getElementById('vyDownloadMessage');
-const downloadTitle = document.getElementById('vyDownloadTitle');
-const downloadChoices = [...downloadOverlay.querySelectorAll('[data-download-language]')];
-let selectedDownload = null;
-let downloading = false;
-function closeDownload() {
-    if (downloading) return;
-    downloadOverlay.hidden = true;
-    selectedDownload = null;
-    downloadMessage.textContent = '';
-}
-document.getElementById('vyDownloadClose').addEventListener('click', closeDownload);
-downloadOverlay.addEventListener('click', event => {
-    if (event.target === downloadOverlay) closeDownload();
-});
-document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && !downloadOverlay.hidden) closeDownload();
-});
-window.addEventListener('vayen-library-download', event => {
-    const item = event.detail;
-    if (!item || !item.slug) return;
-    selectedDownload = item;
-    downloadTitle.textContent = item.name;
-    downloadMessage.textContent = '';
-    downloadOverlay.hidden = false;
-});
-function downloadError(status) {
-    if (status === 401) return 'Please sign in again to download your ebook.';
-    if (status === 403) return 'This ebook is not available in your account.';
-    if (status === 429) return 'Please wait a moment before trying again.';
-    return 'Download could not be started. Please try again.';
-}
-async function downloadEdition(language) {
-    if (!selectedDownload || downloading) return;
-    const item = selectedDownload;
-    downloading = true;
-    downloadChoices.forEach(button => button.disabled = true);
-    downloadMessage.textContent = 'Preparing your secure download…';
-    let blobUrl = null;
-    try {
-        const user = getAuth(getApp()).currentUser;
-        if (!user) throw new Error('Please sign in to download your ebook.');
-        const token = await user.getIdToken();
-        const response = await fetch(DOWNLOAD_FUNCTION_URL, {
-            method: 'POST',
-            headers: {
-                Authorization: 'Bearer ' + token,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ productId: item.slug, language }),
-            cache: 'no-store'
-        });
-        if (!response.ok) throw new Error(downloadError(response.status));
-        const result = await response.json();
-        if (typeof result.url !== 'string' || !result.url.startsWith('https://')) {
-            throw new Error('Download could not be prepared. Please try again.');
-        }
-        const pdfResponse = await fetch(result.url, { cache: 'no-store' });
-        if (!pdfResponse.ok) throw new Error('Download could not be completed. Please try again.');
-        const maxBytes = 60 * 1024 * 1024;
-        const length = Number(pdfResponse.headers.get('content-length'));
-        if (length > maxBytes) {
-            await pdfResponse.body?.cancel();
-            throw new Error('This file is too large to download here.');
-        }
-        const bytes = await pdfResponse.arrayBuffer();
-        if (bytes.byteLength > maxBytes) throw new Error('This file is too large to download here.');
-        const signature = new Uint8Array(bytes.slice(0, 5));
-        if (String.fromCharCode(...signature) !== '%PDF-') {
-            throw new Error('The ebook file is unavailable. Please try again later.');
-        }
-        const blob = new Blob([bytes], { type: 'application/pdf' });
-        blobUrl = URL.createObjectURL(blob);
-        const anchor = document.createElement('a');
-        anchor.href = blobUrl;
-        anchor.download = item.slug + '-' + language + '.pdf';
-        document.body.appendChild(anchor);
-        anchor.click();
-        anchor.remove();
-        downloadMessage.textContent = 'Your download has started. You can choose another language too.';
-    } catch (error) {
-        console.error('VAYEN ebook download failed:', error);
-        downloadMessage.textContent = error instanceof Error ? error.message : 'Please try again.';
-    } finally {
-        if (blobUrl) setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
-        downloading = false;
-        downloadChoices.forEach(button => button.disabled = false);
-    }
-}
-downloadChoices.forEach(button => button.addEventListener('click', () => {
-    downloadEdition(button.dataset.downloadLanguage);
-}));
-</script>
+
 </body>
 </html>
