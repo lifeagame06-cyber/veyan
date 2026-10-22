@@ -304,6 +304,12 @@ html.vayen-profile-auth-verified #vayenProfileSkeleton { display: none !importan
 @media(max-width:768px){#vayenProfileSkeleton{width:calc(100% - 20px);margin:19px auto 95px}.vy-sk-grid{grid-template-columns:1fr;gap:12px}.vy-sk-panel{padding:14px;min-height:230px}.vy-sk-title{height:32px;margin-bottom:18px}}
 @media(prefers-reduced-motion:reduce){.vy-sk-shimmer,.vy-sk-spinner{animation:none}}
 </style>
+<style id="vayen-avatar-picker-styles">
+.vy-avatar-modal[hidden]{display:none!important}.vy-avatar-modal{position:fixed;inset:0;z-index:11000;display:grid;place-items:center;padding:18px;background:rgba(30,22,29,.58);backdrop-filter:blur(5px)}
+.vy-avatar-dialog{width:min(480px,100%);max-height:88dvh;overflow:auto;background:#fffcfa;border:1px solid #fff;border-radius:23px;padding:23px;box-shadow:0 25px 80px #21121d40;font-family:'DM Sans',Arial,sans-serif}
+.vy-avatar-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.vy-avatar-top h2{margin:0;font-size:23px;color:#30232b}.vy-avatar-close{width:35px;height:35px;border:1px solid #e8dad9;border-radius:50%;background:#fff;font-size:22px;cursor:pointer}.vy-avatar-intro{color:#8b7d80;font-size:12px;line-height:1.5;margin:9px 0 18px}.vy-avatar-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px}.vy-avatar-choice{aspect-ratio:1;border:2px solid #e9e1df;border-radius:16px;background:#f7f0ec;font-size:30px;cursor:pointer;display:grid;place-items:center;transition:transform .15s,border-color .15s}.vy-avatar-choice:hover{transform:translateY(-2px)}.vy-avatar-choice[aria-pressed="true"]{border-color:#98516d;background:#fbe9f0;box-shadow:0 0 0 2px #f0d4e0}.vy-avatar-save{margin-top:19px;width:100%;min-height:44px;border:0;border-radius:11px;background:#281d26;color:white;font-weight:800;cursor:pointer}.vy-avatar-save:disabled{opacity:.6;cursor:wait}.vy-avatar-message{min-height:17px;font-size:11px;color:#a84256;margin:9px 0 0}.vayen-avatar.vy-character-avatar,#vyHeaderAvatar.vy-character-avatar{font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;font-weight:400}
+@media(max-width:420px){.vy-avatar-dialog{padding:17px}.vy-avatar-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}.vy-avatar-choice{font-size:24px;border-radius:11px}}
+</style>
 </head>
 <body class="profile-body"><header class="profile-header">
 <a class="profile-brand" href="index.html">VAYEN</a>
@@ -590,5 +596,36 @@ onAuthStateChanged(auth, loadWallet, error => {
   walletError = true;
   render();
 });
-</script><script type="module" src="vayen-auth-sync.js"></script></body>
+</script><script type="module" src="vayen-auth-sync.js"></script><div class="vy-avatar-modal" id="vyAvatarModal" hidden role="presentation">
+ <section class="vy-avatar-dialog" role="dialog" aria-modal="true" aria-labelledby="vyAvatarTitle">
+  <div class="vy-avatar-top"><h2 id="vyAvatarTitle">Choose your avatar</h2><button class="vy-avatar-close" id="vyAvatarClose" aria-label="Close avatar picker" type="button">×</button></div>
+  <p class="vy-avatar-intro">Choose a character that feels like you.</p>
+  <div class="vy-avatar-grid" id="vyAvatarGrid" role="group" aria-label="Character avatars"></div>
+  <button class="vy-avatar-save" id="vyAvatarSave" type="button">Save Avatar →</button>
+  <p class="vy-avatar-message" id="vyAvatarMessage" role="status" aria-live="polite"></p>
+ </section>
+</div>
+<script type="module" id="vayen-character-avatars">
+import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
+import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
+const app = getApps().length ? getApp() : initializeApp({apiKey:'AIzaSyCJStLo-FmvkPQo-u-cP-J4rQ8z4ecYMW4',authDomain:'veyan-53930.firebaseapp.com',projectId:'veyan-53930',appId:'1:836801786398:web:a73fbda60267efcdbd740f'});
+const auth = getAuth(app), db = getFirestore(app);
+const faces = ['😀','😎','😊','🤓','🥰','😇','😺','👨','👩','👱','👩‍🦱','👨‍🦱','👩‍🦰','👨‍🦰','👩‍🦳','👨‍🦳','🧑‍🎨','🧑‍🚀'];
+const modal=document.getElementById('vyAvatarModal'),grid=document.getElementById('vyAvatarGrid'),message=document.getElementById('vyAvatarMessage'),save=document.getElementById('vyAvatarSave');
+let selected=null,activeUser=null,revision=0;
+function paint(index){if(!Number.isInteger(index)||index<0||index>=faces.length)return;document.querySelectorAll('.vayen-avatar,#vyHeaderAvatar').forEach(el=>{el.textContent=faces[index];el.classList.add('vy-character-avatar')});}
+function choose(index){selected=index;Array.from(grid.children).forEach((el,i)=>el.setAttribute('aria-pressed',String(i===index)));message.textContent='';}
+faces.forEach((face,index)=>{const button=document.createElement('button');button.type='button';button.className='vy-avatar-choice';button.textContent=face;button.setAttribute('aria-label','Avatar '+(index+1));button.setAttribute('aria-pressed','false');button.addEventListener('click',()=>choose(index));grid.append(button)});
+function close(){modal.hidden=true;document.body.style.overflow='';}
+function open(){if(!activeUser)return;modal.hidden=false;document.body.style.overflow='hidden';message.textContent='';grid.children[selected??0]?.focus();}
+// Capture stops the older placeholder click handler in the shared auth script.
+document.getElementById('vyAvatarButton').addEventListener('click',event=>{event.stopImmediatePropagation();open()},true);
+document.getElementById('vyAvatarClose').addEventListener('click',close);
+modal.addEventListener('click',event=>{if(event.target===modal)close()});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!modal.hidden)close()});
+save.addEventListener('click',async()=>{if(!activeUser||selected===null)return;save.disabled=true;message.textContent='';try{await setDoc(doc(db,'users',activeUser.uid),{avatarId:selected,updatedAt:serverTimestamp()},{merge:true});paint(selected);close()}catch(error){console.error('Avatar save failed:',error);message.textContent='Could not save your avatar. Please try again.'}finally{save.disabled=false}});
+onAuthStateChanged(auth,async user=>{const current=++revision;activeUser=user;selected=null;if(!user){close();return}try{const snapshot=await getDoc(doc(db,'users',user.uid));if(current!==revision)return;const id=snapshot.exists()?snapshot.data().avatarId:null;if(Number.isInteger(id)&&id>=0&&id<faces.length){choose(id);paint(id)}}catch(error){console.error('Avatar unavailable:',error)}});
+</script>
+</body>
 </html>
