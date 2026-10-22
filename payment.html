@@ -7,19 +7,27 @@
   <title>
    Checkout — VAYEN
   </title>
-  <style>
-   :root{font-family:Arial,Helvetica,sans-serif;color:#2c2227;background:#f7f1ee}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 85% 10%,#f4e0e4 0,transparent 46%),#f7f1ee}a{text-decoration:none;color:inherit}.header{height:76px;border-bottom:1px solid #e9dadd;background:#fffaf8e8;display:flex;align-items:center;justify-content:space-between;padding:0 max(22px,calc((100vw - 1080px)/2));gap:15px}.brand{font-weight:900;letter-spacing:5px;font-size:22px}.back{font-size:13px;font-weight:700;color:#735b66}.wrap{width:min(1050px,calc(100% - 40px));margin:55px auto 70px}.eyebrow{font-size:11px;letter-spacing:2.5px;font-weight:800;color:#a36b7f}.headline{font-size:clamp(34px,5vw,55px);line-height:1.08;letter-spacing:-2px;margin:14px 0}.muted{color:#776b71;line-height:1.65}.layout{display:grid;grid-template-columns:1.25fr .85fr;gap:25px;margin-top:30px}.card{background:#fffaf8;border:1px solid #ecdde0;border-radius:25px;padding:35px;box-shadow:0 20px 55px #50313b12}.card h2{font-size:24px;letter-spacing:-.7px;margin:0 0 15px}.label{font-size:11px;font-weight:800;letter-spacing:1.8px;color:#a16b7b}.product{font-size:24px;font-weight:750;margin:12px 0 7px}.price{font-size:30px;font-weight:800}.line{border-top:1px solid #eadde0;margin:22px 0}.between{display:flex;justify-content:space-between;gap:12px;align-items:center}.note{font-size:12px;color:#756970;line-height:1.7}.primary{display:flex;align-items:center;justify-content:space-between;gap:15px;background:#30232a;color:#fff;border:0;border-radius:15px;padding:19px 22px;font-weight:750;font-size:14px;width:100%;cursor:pointer;transition:.2s}.primary:hover{background:#583b49;transform:translateY(-2px)}.secondary{display:inline-flex;padding:14px 21px;border:1px solid #d9c6cc;border-radius:14px;font-size:13px;font-weight:700}.badge{display:inline-block;border-radius:999px;background:#f5e7e9;padding:9px 13px;color:#945e71;font-size:11px;font-weight:800;letter-spacing:1px}.icon{display:grid;place-items:center;width:76px;height:76px;border-radius:23px;background:#f2e1e5;color:#9c6477;font-size:34px;margin:0 auto 23px}.center{text-align:center}.center .muted{max-width:460px;margin:0 auto 28px}.result{max-width:650px;margin:0 auto}.result .primary{max-width:330px;margin:24px auto 12px;justify-content:center}.foot{padding:25px;text-align:center;border-top:1px solid #e8dadd;color:#927c83;font-size:11px}.small-row{display:flex;gap:10px;align-items:flex-start;margin:17px 0;font-size:13px;color:#65545e;line-height:1.5}.small-row b{color:#ae7385}.demo{margin-top:18px;padding:13px 15px;border:1px dashed #d8b6c2;border-radius:12px;color:#7d5666;background:#fcf3f4;font-size:12px;line-height:1.6}.error{color:#a13c54}.disabled{opacity:.5;pointer-events:none}@media(max-width:700px){.header{height:66px;padding:0 20px}.brand{font-size:19px}.back{font-size:11px}.wrap{margin:30px auto 48px;width:calc(100% - 28px)}.layout{grid-template-columns:1fr;gap:17px;margin-top:22px}.card{padding:26px 22px;border-radius:23px}.headline{letter-spacing:-1.5px}.result{margin-top:15px}}
 
-.checkout-policy-links {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 9px;
-    margin-bottom: 13px;
-    font-size: 12px;
-}
-.checkout-policy-links a:hover { text-decoration: underline; }
-.checkout-policy-links span { opacity: .5; }
+  <style>
+    :root{font-family:Arial,Helvetica,sans-serif;color:#30232a;background:#f8f2ef}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 80% 12%,#f2dfe4 0,transparent 45%),#f8f2ef}
+    a{color:inherit;text-decoration:none}.header{height:76px;padding:0 max(22px,calc((100vw - 1080px)/2));display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eadce0;background:#fffaf8d9}
+    .brand{font-size:22px;font-weight:900;letter-spacing:5px}.back{font-size:13px;font-weight:700;color:#806b75}
+    .checkout-shell{min-height:calc(100vh - 164px);display:flex;align-items:center;justify-content:center;padding:46px 20px}
+    .checkout-card{width:min(100%,460px);background:#fffaf8;border:1px solid #ecdee2;border-radius:26px;box-shadow:0 22px 70px #50313b12;padding:48px 38px;text-align:center}
+    .mark{width:70px;height:70px;margin:0 auto 25px;border-radius:22px;background:#f2e3e7;display:grid;place-items:center;color:#9c667a}
+    .spinner{width:30px;height:30px;border:3px solid #dcbec8;border-top-color:#6b4053;border-radius:50%;animation:spin .9s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .eyebrow{font-size:11px;font-weight:800;letter-spacing:2.5px;color:#a36b7f}.headline{font-size:clamp(28px,5vw,37px);letter-spacing:-1.2px;margin:12px 0}
+    .muted{font-size:14px;color:#786a72;line-height:1.7;margin:0 auto 16px}.product-name{font-size:13px;font-weight:750;margin:18px 0 4px}
+    .notice{font-size:12px;color:#76646d;line-height:1.6;min-height:20px;margin:16px 0 0}.notice.error{color:#a13c54}
+    .primary{width:100%;border:0;border-radius:14px;background:#30232a;color:white;font-weight:750;font-size:14px;padding:16px 20px;cursor:pointer;margin-top:20px}
+    .primary:disabled{opacity:.55;cursor:wait}.primary span{margin-left:8px}.secure-note{font-size:11px;color:#8e7d84;margin:17px 0 0}
+    .mode-note{font-size:11px;color:#906c7a;margin:10px 0 0}
+    .foot{text-align:center;padding:22px 15px;border-top:1px solid #eadce0;color:#917c84;font-size:11px}
+    .checkout-policy-links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}.checkout-policy-links span{opacity:.5}
+    @media(max-width:700px){.header{height:66px;padding:0 20px}.brand{font-size:19px}.back{font-size:11px}.checkout-shell{min-height:calc(100vh - 152px);padding:28px 14px}.checkout-card{padding:42px 24px}}
+    @media(prefers-reduced-motion:reduce){.spinner{animation:none}}
   </style>
  </head>
  <body>
@@ -31,102 +39,23 @@
     ← Continue exploring
    </a>
   </header>
-  <main class="wrap">
-   <span class="eyebrow">
-    VAYEN / CHECKOUT
-   </span>
-   <h1 class="headline">
-    Secure checkout
-    <span style="color:#b67b90">
-     .
-    </span>
-   </h1>
-   <p class="muted">
-    Your payment is being prepared securely.
-   </p>
-   <div class="layout">
-    <section class="card">
-     <span class="label">
-      YOUR DIGITAL PRODUCT
-     </span>
-     <div class="product" data-name="">
-     </div>
-     <p class="muted" data-category="">
-     </p>
-     <div class="line">
-     </div>
-     <div class="small-row">
-      <b>
-       ✓
-      </b>
-      <span>
-       One-time purchase, no subscription.
-      </span>
-     </div>
-     <div class="small-row">
-      <b>
-       ✓
-      </b>
-      <span>
-       Your purchase will appear in your VAYEN Library after confirmation.
-      </span>
-     </div>
-     <div class="small-row">
-      <b>
-       ✓
-      </b>
-      <span>
-       Review the product details before proceeding.
-      </span>
-     </div>
-     <div class="line">
-     </div>
-     <a class="secondary" data-back="" href="product.html">
-      ← View product
-     </a>
+  <main class="checkout-shell">
+    <section class="checkout-card" aria-label="Secure checkout">
+      <div class="mark" aria-hidden="true"><div class="spinner"></div></div>
+      <span class="eyebrow">VAYEN / SECURE CHECKOUT</span>
+      <h1 class="headline">Preparing your payment</h1>
+      <p class="muted">Your secure payment options will open automatically.</p>
+      <div class="product-name" data-name=""></div>
+      <span data-category="" hidden></span>
+      <span data-price="" hidden></span>
+      <div class="notice" id="checkoutNotice" role="status" aria-live="polite">Checking your account and product details…</div>
+      <button class="primary" id="demoContinue" type="button" disabled>Open secure payment <span>→</span></button>
+      <p class="secure-note">Payments processed securely by Razorpay</p>
+      <p class="mode-note">Test mode · No real payment will be charged</p>
+      <a data-back="" href="product.html" class="back" style="display:inline-block;margin-top:20px">← Back to product</a>
     </section>
-    <aside class="card">
-     <span class="label">
-      ORDER SUMMARY
-     </span>
-     <div class="between" style="margin-top:24px">
-      <span class="muted">
-       Product
-      </span>
-      <strong data-price="">
-      </strong>
-     </div>
-     <div class="between" style="margin-top:16px">
-      <span class="muted">
-       Additional charges
-      </span>
-      <strong>
-       ₹0
-      </strong>
-     </div>
-     <div class="line">
-     </div>
-     <div class="between">
-      <strong>
-       Total
-      </strong>
-      <span class="price" data-price="">
-      </span>
-     </div>
-     <p class="note">
-      Prices shown in INR. Payments are securely processed by Razorpay.
-     </p>
-     <button class="primary" id="demoContinue" type="button">
-      Open secure payment
-      <span>
-       →
-      </span>
-     </button>
-      <div class="demo" id="checkoutNotice" role="status" aria-live="polite">
-       Preparing your secure payment options…
-      </div>    </aside>
-   </div>
   </main>
+
   <footer class="foot">
    <nav aria-label="Support and policies" class="checkout-policy-links">
     <a href="refund.html">
