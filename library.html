@@ -342,7 +342,7 @@
     let state = { saved: [], folders: [] };
     let libraryReady = false;
      let verifiedPurchases = [];
-    let tab = 'saved';
+    let tab = new URLSearchParams(location.search).get('tab') === 'purchased' ? 'purchased' : 'saved';
     let query = '';
     let activeFolderId = null;
     let modalAction = null;
@@ -835,7 +835,7 @@
   <script type="module">
    import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
-import { getFirestore, doc, getDoc, collection, setDoc, serverTimestamp, onSnapshot } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
+import { getFirestore, doc, getDoc, collection, query, where, setDoc, serverTimestamp, onSnapshot } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
 
 // Use the same Firebase project and API key as vayen-auth-sync.js.
 const firebaseConfig = {
@@ -856,9 +856,9 @@ else {
   try {
     const app=getApps().length?getApp():initializeApp(firebaseConfig);
     const auth=getAuth(app),db=getFirestore(app);
-    let uid=null,version=0,writeQueue=Promise.resolve(),stopOrders=null,stopGifts=null;
-     let paidEbooks = [], giftedEbooks = [];
-     const publishEbooks = () => bridge.setPurchases([...paidEbooks, ...giftedEbooks]);
+    let uid=null,version=0,writeQueue=Promise.resolve(),stopOrders=null,stopRootOrders=null,stopGifts=null;
+     let paidEbooks = [], rootPaidEbooks = [], giftedEbooks = [];
+     const publishEbooks = () => bridge.setPurchases([...paidEbooks, ...rootPaidEbooks, ...giftedEbooks]);
     window.addEventListener('vayen-library-changed',e=>{
       if(!uid)return;
       const targetUid=uid;
@@ -874,8 +874,9 @@ else {
     onAuthStateChanged(auth,async user=>{
       const token=++version;uid=null;bridge.reset();
        if (stopOrders) { stopOrders(); stopOrders = null; }
+       if (stopRootOrders) { stopRootOrders(); stopRootOrders = null; }
        if (stopGifts) { stopGifts(); stopGifts = null; }
-       paidEbooks = []; giftedEbooks = [];
+       paidEbooks = []; rootPaidEbooks = []; giftedEbooks = [];
       if(!user){account.textContent='Sign in';account.href='login.html';info('Sign in to save products and collections across your devices.');document.getElementById('content').innerHTML='<div class="empty"><h3>Sign in to your library</h3><p>Your saved products and collections will appear here.</p><a class="btn" href="login.html">Sign in →</a></div>';return;}
       account.textContent='My Account';account.href='profile.html';
       info('Loading your library...');
@@ -913,6 +914,26 @@ else {
           console.error('Unable to load verified orders:', orderError);
           if (token === version) info('Saved products loaded, but purchases could not be checked.');
         });
+         // Top-level /orders is the verified-payment source used by checkout.
+         // Firestore must allow users to read only their own orders.
+         stopRootOrders = onSnapshot(
+           query(collection(db, 'orders'), where('userId', '==', user.uid)),
+           snapshot => {
+             if (token !== version || auth.currentUser?.uid !== user.uid) return;
+             rootPaidEbooks = snapshot.docs.flatMap(orderSnap => {
+               const o = orderSnap.data();
+               if (o.userId !== user.uid || o.paymentStatus !== 'paid' ||
+                   o.verificationStatus !== 'verified' ||
+                   typeof o.productId !== 'string' || !o.productId.trim()) return [];
+               return [{slug:o.productId, name:o.productName || o.productId.replace(/-/g,' '),
+                        kind:'purchase', orderId:orderSnap.id}];
+             });
+             publishEbooks();
+           }, error => {
+             console.error('Verified purchase access unavailable:', error);
+             if (token === version) info('Your library loaded, but purchases could not be refreshed. Please contact support.');
+           }
+         );
          stopGifts = onSnapshot(collection(db, 'users', user.uid, 'gifts'), snapshot => {
            if (token !== version || auth.currentUser?.uid !== user.uid) return;
            giftedEbooks = snapshot.docs.flatMap(giftSnap => {

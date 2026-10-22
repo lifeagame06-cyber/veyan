@@ -57,26 +57,6 @@
     .checkout-policy-links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}.checkout-policy-links span{opacity:.5}
     @media(max-width:700px){.header{height:66px;padding:0 20px}.brand{font-size:19px}.back{font-size:11px}.checkout-shell{min-height:calc(100vh - 152px);padding:28px 14px}.checkout-card{padding:42px 24px}}
     @media(prefers-reduced-motion:reduce){.spinner{animation:none}}
-
-    /* High-visibility payment progress — applies while connecting and verifying. */
-    .checkout-card.is-processing .mark {
-      background: #dcf7e7 !important;
-      border: 2px solid #8ed5ab !important;
-      box-shadow: 0 0 0 7px #edf9f1 !important;
-    }
-    .checkout-card.is-processing .spinner {
-      border: 3px solid #a5dcb9 !important;
-      border-top-color: #12834f !important;
-      animation: spin .9s linear infinite !important;
-    }
-    .checkout-card.is-processing .notice:not(.error) {
-      background: #e0f7e9 !important;
-      color: #146a40 !important;
-      border: 2px solid #83d1a3 !important;
-      box-shadow: 0 5px 18px #16845a17 !important;
-    }
-    .checkout-card.is-closed .spinner,
-    .checkout-card.is-success .spinner { animation: none !important; }
   </style>
  </head>
  <body>
@@ -89,7 +69,7 @@
    </a>
   </header>
   <main class="checkout-shell">
-    <section class="checkout-card is-processing" aria-label="Secure checkout">
+    <section class="checkout-card" aria-label="Secure checkout">
       <div class="mark" aria-hidden="true"><div class="spinner"></div></div>
       <span class="eyebrow">VAYEN / SECURE CHECKOUT</span>
       <h1 class="headline">Preparing your payment</h1>
@@ -273,7 +253,7 @@
               }
               setView('success');
               showNotice('Payment verified. Your product is now available in My Products.');
-              location.assign('library.html');
+              location.assign('success.html?order=' + encodeURIComponent(order.orderId));
             } catch (error) {
               console.error('VAYEN payment confirmation pending:', error);
               showNotice('Your payment is being confirmed. Check My Library shortly. If it does not appear, contact support with your order details.', true);
@@ -284,11 +264,9 @@
           }
         });
         checkout.on('payment.failed', () => {
-          if (verifyingPayment || checkoutCard.classList.contains('is-success')) return;
           setBusy(false);
           setView('failed');
-          showNotice('Payment unsuccessful. Redirecting to payment options…', true);
-          location.assign('failed.html?product=' + encodeURIComponent(productId));
+          showNotice('Payment was not completed. Select Try Again when ready.', true);
         });
         checkout.open();
       } catch (error) {
