@@ -20,7 +20,7 @@
     @keyframes spin{to{transform:rotate(360deg)}}
     .eyebrow{font-size:11px;font-weight:800;letter-spacing:2.5px;color:#a36b7f}.headline{font-size:clamp(28px,5vw,37px);letter-spacing:-1.2px;margin:12px 0}
     .muted{font-size:14px;color:#786a72;line-height:1.7;margin:0 auto 16px}.product-name{font-size:13px;font-weight:750;margin:18px 0 4px}
-    .notice{font-size:13px;font-weight:600;color:#503a46;line-height:1.65;min-height:54px;margin:22px 0 0;padding:15px 17px;background:#f5eaee;border:1px solid #e5cdd6;border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px #50313b0b}.notice.error{color:#923e56;background:#fff0f2;border-color:#e6b5c4}.checkout-card.is-processing .mark{background:#ead5df;box-shadow:0 0 0 7px #f6edf1}.checkout-card.is-closed .mark{background:#f2e3e7}.checkout-card.is-closed .spinner{animation:none;border:0;width:auto;height:auto}.checkout-card.is-closed .spinner::after{content:'×';font-size:38px;font-weight:400;line-height:1;color:#9c667a}.checkout-card.is-closed .headline{font-size:32px}.checkout-card.is-closed .primary{box-shadow:0 9px 22px #30232a26}
+    .notice{font-size:13px;font-weight:600;color:#503a46;line-height:1.65;min-height:54px;margin:22px 0 0;padding:15px 17px;background:#f5eaee;border:1px solid #e5cdd6;border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px #50313b0b}.notice.error{color:#923e56;background:#fff0f2;border-color:#e6b5c4}.checkout-card.is-processing .mark{background:#ead5df;box-shadow:0 0 0 7px #f6edf1}.checkout-card.is-closed .mark{background:#f2e3e7}.checkout-card.is-closed .spinner{animation:none;border:0;width:auto;height:auto}.checkout-card.is-closed .spinner::after{content:'×';font-size:38px;font-weight:400;line-height:1;color:#9c667a}.checkout-card.is-closed .headline{font-size:32px}.checkout-card.is-closed .primary{box-shadow:0 9px 22px #30232a26}.checkout-card.is-success .mark{background:#dff5e9;box-shadow:0 0 0 7px #edf9f2}.checkout-card.is-success .spinner{animation:none;border:0;width:auto;height:auto}.checkout-card.is-success .spinner::after{content:"✓";font-size:38px;font-weight:800;color:#16845a}.checkout-card.is-success .notice{background:#e8f7ee;border-color:#b9e5ca;color:#176c44}
     .primary{width:100%;border:0;border-radius:14px;background:#30232a;color:white;font-weight:750;font-size:14px;padding:16px 20px;cursor:pointer;margin-top:20px}
     .primary:disabled{opacity:.55;cursor:wait}.primary span{margin-left:8px}.secure-note{font-size:11px;color:#8e7d84;margin:17px 0 0}
     .mode-note{font-size:11px;color:#906c7a;margin:10px 0 0}
@@ -51,7 +51,7 @@
       <div class="notice" id="checkoutNotice" role="status" aria-live="polite">Checking your account and product details…</div>
       <button class="primary" id="demoContinue" type="button" disabled>Open secure payment <span>→</span></button>
       <p class="secure-note">Payments processed securely by Razorpay</p>
-      <p class="mode-note">Test mode · No real payment will be charged</p>
+      <p class="mode-note">Test environment · Payments are simulated</p>
       <a data-back="" href="product.html" class="back" style="display:inline-block;margin-top:20px">← Back to product</a>
     </section>
   </main>
@@ -94,11 +94,12 @@
     const money = value => '₹' + Number(value).toLocaleString('en-IN');
     let busy = false;
     let auth;
+    let verifyingPayment = false;
 
     function showNotice(message, isError = false) {
       notice.textContent = message;
       notice.classList.toggle('error', isError);
-       checkoutCard.classList.toggle('is-processing', busy && !isError);
+      checkoutCard.classList.toggle('is-processing', busy && !isError && !checkoutCard.classList.contains('is-success'));
     }
 
     function fill(product, fallback = 'Product unavailable') {
@@ -117,6 +118,27 @@
       busy = value;
       button.disabled = value;
       button.querySelector('span').textContent = value ? '…' : '→';
+    }
+
+    function setView(state) {
+      checkoutCard.classList.toggle('is-closed', state === 'closed' || state === 'failed');
+      checkoutCard.classList.toggle('is-success', state === 'success');
+      checkoutCard.classList.toggle('is-processing', state === 'processing');
+      if (state === 'processing') {
+        headline.textContent = 'Preparing your payment';
+        description.textContent = 'Please wait while we connect you to secure checkout.';
+      } else if (state === 'closed') {
+        headline.textContent = 'Payment Window Closed';
+        description.textContent = 'You can continue securely whenever you are ready.';
+        button.firstChild.textContent = 'Continue Again ';
+      } else if (state === 'failed') {
+        headline.textContent = 'Payment Unsuccessful';
+        description.textContent = 'Your purchase has not been confirmed.';
+        button.firstChild.textContent = 'Try Again ';
+      } else if (state === 'success') {
+        headline.textContent = 'Purchase Confirmed';
+        description.textContent = 'Thank you for your purchase!';
+      }
     }
 
     async function callFunction(name, payload, user) {
@@ -150,6 +172,7 @@
       }
 
       setBusy(true);
+      setView('processing');
       showNotice('Connecting to secure payment options…');
       try {
         const order = await callFunction('vayen-create-payment', { productId }, user);
@@ -178,11 +201,17 @@
           theme: { color: '#30232a' },
           modal: {
             ondismiss: () => {
-              showNotice('Checkout closed. Select Open secure payment whenever you are ready.');
+              if (verifyingPayment || checkoutCard.classList.contains('is-success')) return;
               setBusy(false);
+              setView('closed');
+              showNotice('Checkout closed. Select Continue Again to reopen secure payment.');
             }
           },
           handler: async payment => {
+            verifyingPayment = true;
+            setBusy(true);
+            setView('processing');
+            headline.textContent = 'Verifying your payment';
             showNotice('Confirming your payment securely…');
             try {
               const result = await callFunction('vayen-verify-payment', {
@@ -193,24 +222,29 @@
               if (result.success !== true || result.orderId !== order.orderId) {
                 throw new Error('Payment confirmation is pending.');
               }
-              showNotice('Thank you for your purchase! Opening your orders…');
+              setView('success');
+              showNotice('Payment verified. Your product is now available in My Products.');
               location.assign('library.html');
             } catch (error) {
               console.error('VAYEN payment confirmation pending:', error);
               showNotice('Your payment is being confirmed. Check My Library shortly. If it does not appear, contact support with your order details.', true);
+              verifyingPayment = false;
               setBusy(false);
+              setView('closed');
             }
           }
         });
         checkout.on('payment.failed', () => {
-          showNotice('Payment unsuccessful. You can safely try again.', true);
           setBusy(false);
+          setView('failed');
+          showNotice('Payment was not completed. Select Try Again when ready.', true);
         });
         checkout.open();
       } catch (error) {
         console.error('VAYEN checkout setup error:', error);
-        showNotice('We could not prepare checkout right now. Please try again.', true);
         setBusy(false);
+        setView('closed');
+        showNotice('We could not open secure payment. Select Continue Again to retry.', true);
       }
     }
 
