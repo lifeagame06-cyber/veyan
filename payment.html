@@ -229,6 +229,22 @@
           order_id: order.orderId,
           prefill: { email: user.email || '' },
           theme: { color: '#30232a' },
+          // Keep the checkout focused on UPI apps and debit/credit cards.
+          config: {
+            display: {
+              blocks: {
+                preferred: {
+                  name: 'Choose a payment method',
+                  instruments: [
+                    { method: 'upi' },
+                    { method: 'card' }
+                  ]
+                }
+              },
+              sequence: ['block.preferred'],
+              preferences: { show_default_blocks: false }
+            }
+          },
           modal: {
             ondismiss: () => {
               if (verifyingPayment || checkoutCard.classList.contains('is-success')) return;
