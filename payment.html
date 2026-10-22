@@ -36,13 +36,13 @@
     VAYEN / CHECKOUT
    </span>
    <h1 class="headline">
-    Make it yours
+    Secure checkout
     <span style="color:#b67b90">
      .
     </span>
    </h1>
    <p class="muted">
-    Review your digital product before continuing.
+    Your payment is being prepared securely.
    </p>
    <div class="layout">
     <section class="card">
@@ -114,16 +114,16 @@
       </span>
      </div>
      <p class="note">
-      Prices shown in INR. Secure test checkout only; no real charge.
+      Prices shown in INR. Payments are securely processed by Razorpay.
      </p>
      <button class="primary" id="demoContinue" type="button">
-      Continue to test checkout
+      Open secure payment
       <span>
        →
       </span>
      </button>
       <div class="demo" id="checkoutNotice" role="status" aria-live="polite">
-       Test checkout is being prepared. No real payment will be charged.
+       Preparing your secure payment options…
       </div>    </aside>
    </div>
   </main>
@@ -154,7 +154,7 @@
     import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
     import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
 
-    // Test payments only. Production activation requires a separate review.
+    // Payment keys and amounts are validated against server-generated orders. Production activation requires a separate review.
     const FUNCTION_BASE = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1';
     const productId = new URLSearchParams(location.search).get('product') || '';
     const button = document.getElementById('demoContinue');
@@ -212,12 +212,12 @@
         return;
       }
       if (typeof window.Razorpay !== 'function') {
-        showNotice('Secure checkout is temporarily unavailable. Please try again.', true);
+        showNotice('Secure payment options are temporarily unavailable. Please try again.', true);
         return;
       }
 
       setBusy(true);
-      showNotice('Preparing your secure test checkout…');
+      showNotice('Connecting to secure payment options…');
       try {
         const order = await callFunction('vayen-create-payment', { productId }, user);
         if (
@@ -245,7 +245,7 @@
           theme: { color: '#30232a' },
           modal: {
             ondismiss: () => {
-              showNotice('Checkout was closed. No product has been unlocked.');
+              showNotice('Checkout closed. Select Open secure payment whenever you are ready.');
               setBusy(false);
             }
           },
@@ -260,7 +260,7 @@
               if (result.success !== true || result.orderId !== order.orderId) {
                 throw new Error('Payment confirmation is pending.');
               }
-              showNotice('Purchase confirmed! Opening your Library…');
+              showNotice('Thank you for your purchase! Opening your orders…');
               location.assign('library.html');
             } catch (error) {
               console.error('VAYEN payment confirmation pending:', error);
@@ -270,7 +270,7 @@
           }
         });
         checkout.on('payment.failed', () => {
-          showNotice('Payment was not completed. You can try again.', true);
+          showNotice('Payment unsuccessful. You can safely try again.', true);
           setBusy(false);
         });
         checkout.open();
@@ -328,9 +328,12 @@
         }
 
         fill(product);
-        showNotice('Test checkout only. No real money will be charged.');
+        showNotice('Your payment options are opening…');
         button.disabled = false;
         button.addEventListener('click', startCheckout);
+        // Open payment options immediately after account and product checks.
+        // The visible button remains a fallback if the browser blocks automatic opening.
+        await startCheckout();
       } catch (error) {
         console.error('VAYEN checkout loading error:', error);
         fill(null, 'Checkout temporarily unavailable');
