@@ -829,6 +829,9 @@
         }
     };
 
+    document.querySelectorAll('[data-tab]').forEach(item => {
+        item.classList.toggle('active', item.dataset.tab === tab);
+    });
     render();
 })();
   </script>
