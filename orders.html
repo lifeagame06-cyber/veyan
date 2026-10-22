@@ -153,7 +153,7 @@ function refreshRecords() {
     localRecords.forEach(order => byId.set(String(order.id), order));
     cloudRecords.forEach(order => byId.set(String(order.id), order));
     records = Array.from(byId.values()).sort((a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        (b.createdAt ? new Date(b.createdAt).getTime() : 0) - (a.createdAt ? new Date(a.createdAt).getTime() : 0)
     );
     render(recentActive);
 }
@@ -318,7 +318,7 @@ function canAccess(o) {
 
 function render(recent) {
     const shown = recent
-        ? records.filter(o => Date.now() - new Date(o.createdAt).getTime() < 30 * 86400000)
+        ? records.filter(o => o.createdAt && Date.now() - new Date(o.createdAt).getTime() < 30 * 86400000)
         : records;
 
     list.innerHTML = shown.map(o => {
@@ -342,9 +342,9 @@ function render(recent) {
                     <h2>${safe(o.name)}</h2>
                     <p>${safe(o.category)} · #${safe(o.id)}</p>
                     ${gifted ? '<p style="margin-top:5px;color:#963d61;font-weight:700">Complimentary gift · No payment required</p>' : ''}
-                    <small>${safe(new Date(o.createdAt).toLocaleString('en-IN', {dateStyle:'medium',timeStyle:'short'}))}</small>
+                    <small>${o.createdAt ? safe(new Date(o.createdAt).toLocaleString('en-IN', {dateStyle:'medium',timeStyle:'short'})) : 'Purchase date unavailable'}</small>
                 </div>
-                <strong class="vy-order-price">${gifted ? '₹0 · Gift' : money(o.price)}</strong>
+                <strong class="vy-order-price">${gifted ? '₹0 · Gift' : (o.price == null ? 'Price unavailable' : money(o.price))}</strong>
                 <div class="vy-order-actions">${actions}</div>
             </article>`;
     }).join('');
@@ -376,7 +376,9 @@ import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/
 import {
     getFirestore,
     collection,
-    onSnapshot
+    onSnapshot,
+    query,
+    where
 } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
 
 const list = document.getElementById('ordersList');
@@ -391,10 +393,13 @@ if (!getApps().length) {
     const auth = getAuth(getApp());
     const db = getFirestore(getApp());
     let stopOrders = null;
+    let stopRootOrders = null;
     let stopGifts = null;
     let cloudOrders = [];
+    let rootOrders = [];
     let cloudGifts = [];
     let ordersLoaded = false;
+    let rootOrdersLoaded = false;
     let giftsLoaded = false;
     const ebookTitles = {
         'youtube-creator-system': 'YouTube Creator System',
@@ -417,25 +422,48 @@ if (!getApps().length) {
         'personal-brand': 'Personal Brand'
     };
     function publish() {
+        // The root verified payment record takes priority over its legacy copy.
+        const rootPaymentIds = new Set(rootOrders.map(o => o.razorpayOrderId).filter(Boolean));
+        const rootProductIds = new Set(rootOrders.map(o => o.productId));
+        const legacyOnly = cloudOrders.filter(o =>
+            !rootPaymentIds.has(o.razorpayOrderId) &&
+            !(o.paymentStatus === 'paid' && o.verificationStatus === 'verified' && rootProductIds.has(o.productId))
+        );
         window.dispatchEvent(new CustomEvent('vayen-orders-cloud', {
-            detail: [...cloudOrders, ...cloudGifts]
+            detail: [...rootOrders, ...legacyOnly, ...cloudGifts]
         }));
-        status.textContent = ordersLoaded && giftsLoaded ? '' : 'Loading your orders and gifts…';
+        status.textContent = ordersLoaded && rootOrdersLoaded && giftsLoaded ? '' : 'Loading your orders and gifts…';
     }
     function toIso(raw) {
-        const date = raw?.toDate?.() || new Date(raw || 0);
-        return Number.isNaN(date.getTime()) ? new Date(0).toISOString() : date.toISOString();
+        if (!raw) return null;
+        const date = raw?.toDate?.() || (typeof raw === 'number' && raw < 1e11 ? new Date(raw * 1000) : new Date(raw));
+        return Number.isNaN(date.getTime()) || date.getTime() <= 0 ? null : date.toISOString();
+    }
+    function orderTitle(data) {
+        const productId = String(data.productId || '');
+        const given = String(data.productName || data.name || '').trim();
+        return given && given.toLowerCase() !== 'digital product'
+            ? given : (ebookTitles[productId] || productId.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) || 'Digital product');
+    }
+    function orderPrice(data) {
+        if (data.amount != null && Number.isFinite(Number(data.amount))) return Number(data.amount) / 100;
+        if (data.price != null && Number.isFinite(Number(data.price))) return Number(data.price);
+        return null;
     }
 
     onAuthStateChanged(auth, user => {
         window.dispatchEvent(new CustomEvent('vayen-orders-auth', { detail: user }));
         if (stopOrders) stopOrders();
+        if (stopRootOrders) stopRootOrders();
         if (stopGifts) stopGifts();
         stopOrders = null;
+        stopRootOrders = null;
         stopGifts = null;
         cloudOrders = [];
+        rootOrders = [];
         cloudGifts = [];
         ordersLoaded = false;
+        rootOrdersLoaded = false;
         giftsLoaded = false;
 
         window.dispatchEvent(new CustomEvent('vayen-orders-cloud', {
@@ -451,25 +479,23 @@ if (!getApps().length) {
         // Read-only. New orders must eventually be written by a trusted payment backend.
         const ref = collection(db, 'users', user.uid, 'orders');
         stopOrders = onSnapshot(ref, snapshot => {
-            const orders = snapshot.docs.map(item => {
+            const orders = snapshot.docs.flatMap(item => {
                 const data = item.data();
-                const rawDate = data.createdAt;
-                const date = rawDate?.toDate?.() || new Date(rawDate || 0);
-                return {
+                if (data.userId && data.userId !== user.uid) return [];
+                return [{
                     id: item.id,
-                    name: String(data.name || 'Digital product'),
+                    name: orderTitle(data),
                     category: String(data.category || 'DIGITAL PRODUCT'),
-                    price: Number(data.price || 0),
+                    price: orderPrice(data),
                     status: String(data.status || 'record'),
                     source: 'cloud',
                     productId: typeof data.productId === 'string' ? data.productId : '',
                     paymentStatus: String(data.paymentStatus || ''),
                     verificationStatus: String(data.verificationStatus || ''),
+                    razorpayOrderId: String(data.razorpayOrderId || ''),
                     email: String(data.email || user.email || ''),
-                    createdAt: Number.isNaN(date.getTime())
-                        ? new Date(0).toISOString()
-                        : date.toISOString()
-                };
+                    createdAt: toIso(data.createdAt || data.paidAt || data.verifiedAt)
+                }];
             });
             cloudOrders = orders;
             ordersLoaded = true;
@@ -478,6 +504,40 @@ if (!getApps().length) {
             console.error('Unable to load orders:', error);
             status.textContent = 'We could not load your orders. Please refresh and try again.';
         });
+
+        // Checkout stores verified Razorpay purchases in the top-level orders collection.
+        stopRootOrders = onSnapshot(
+            query(collection(db, 'orders'), where('userId', '==', user.uid)),
+            snapshot => {
+                rootOrders = snapshot.docs.flatMap(item => {
+                    const data = item.data();
+                    if (data.userId !== user.uid || data.paymentStatus !== 'paid' ||
+                        data.verificationStatus !== 'verified' ||
+                        typeof data.productId !== 'string' || !data.productId.trim()) return [];
+                    return [{
+                        id: item.id,
+                        name: orderTitle(data),
+                        category: String(data.category || 'DIGITAL PRODUCT'),
+                        price: orderPrice(data),
+                        status: 'verified',
+                        source: 'cloud',
+                        productId: data.productId,
+                        paymentStatus: 'paid',
+                        verificationStatus: 'verified',
+                        razorpayOrderId: String(data.razorpayOrderId || ''),
+                        email: String(data.email || user.email || ''),
+                        createdAt: toIso(data.createdAt || data.paidAt || data.verifiedAt)
+                    }];
+                });
+                rootOrdersLoaded = true;
+                publish();
+            }, error => {
+                console.error('Unable to load verified payment records:', error);
+                rootOrdersLoaded = true;
+                publish();
+                status.textContent = 'Some purchase details could not be loaded. Please refresh and try again.';
+            }
+        );
 
         // Claimed gifts are issued by the trusted backend, not browser writes.
         const giftRef = collection(db, 'users', user.uid, 'gifts');
