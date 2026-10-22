@@ -52,7 +52,19 @@
 .vy-download-message{min-height:22px;font-size:12px;line-height:1.6;color:#805267;margin:16px 0 0}
 @media(max-width:480px){.vy-order-actions{gap:8px}.vy-order-actions button{font-size:12px;padding:10px 12px;flex:0 1 auto}.vy-download-dialog{padding:30px 15px 20px}.vy-download-options{gap:8px}.vy-download-options button{padding:12px 6px;min-height:108px}.vy-download-options strong{font-size:20px}.vy-download-options span{font-size:10px}}
 </style>
-</head>
+<style id="vayen-order-deeplink-highlight">
+.vy-demo-order.vy-order-highlight {
+    border: 2px solid #a34f76 !important;
+    background: #fff2f6 !important;
+    box-shadow: 0 0 0 5px rgba(163,79,118,.13), 0 12px 34px rgba(88,43,65,.14) !important;
+    transition: background .35s ease, box-shadow .35s ease;
+}
+.vy-demo-order { scroll-margin-top: 95px; }
+</style>
+<style id="vayen-order-deeplink-highlight">
+.vy-demo-order.vy-order-highlight{border:2px solid #a34f76!important;background:#fff2f6!important;box-shadow:0 0 0 5px rgba(163,79,118,.13),0 12px 34px rgba(88,43,65,.14)!important}
+.vy-demo-order{scroll-margin-top:95px}
+</style></head>
 <body class="orders-body">
 <!-- HEADER -->
 <header class="orders-header">
@@ -148,6 +160,8 @@ let currentFirebaseUser = null;
 let cloudRecords = [];
 let recentActive = false;
 let highlightShown = false;
+let highlightExpiresAt = 0;
+let highlightTimer = null;
 function refreshRecords() {
     const byId = new Map();
     localRecords.forEach(order => byId.set(String(order.id), order));
@@ -352,14 +366,26 @@ function render(recent) {
     count.textContent = String(shown.length);
     empty.style.display = shown.length ? 'none' : '';
 
-    if (highlight && !recent && !highlightShown) {
+    if (highlight && !recent) {
         const item = Array.from(list.querySelectorAll('[data-order]'))
             .find(el => el.dataset.order === highlight);
         if (item) {
-            highlightShown = true;
-            item.classList.add('vy-order-highlight');
-            requestAnimationFrame(() => item.scrollIntoView({behavior:'smooth', block:'center'}));
-            setTimeout(() => item.classList.remove('vy-order-highlight'), 5000);
+            if (!highlightShown) {
+                highlightShown = true;
+                highlightExpiresAt = Date.now() + 6500;
+                // Wait until the browser has laid out the newly rendered order cards.
+                requestAnimationFrame(() => requestAnimationFrame(() => {
+                    const target = Array.from(list.querySelectorAll('[data-order]'))
+                        .find(el => el.dataset.order === highlight);
+                    target?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }));
+                highlightTimer = setTimeout(() => {
+                    list.querySelectorAll('.vy-order-highlight').forEach(el =>
+                        el.classList.remove('vy-order-highlight'));
+                }, 6500);
+            }
+            // Snapshot updates can re-render cards; retain the highlight until expiry.
+            if (Date.now() < highlightExpiresAt) item.classList.add('vy-order-highlight');
         }
     }
 }
