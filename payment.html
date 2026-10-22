@@ -55,6 +55,13 @@
     .mode-note{font-size:11px;color:#906c7a;margin:10px 0 0}
     .foot{text-align:center;padding:22px 15px;border-top:1px solid #eadce0;color:#917c84;font-size:11px}
     .checkout-policy-links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}.checkout-policy-links span{opacity:.5}
+    .order-summary{margin:24px 0 10px;padding:20px;border:1px solid #eadce0;border-radius:18px;background:#fff;text-align:left}
+    .order-summary .summary-title{font-size:11px;font-weight:800;letter-spacing:1.8px;color:#9b637a;margin:0 0 15px}
+    .order-summary .summary-row{display:flex;justify-content:space-between;gap:15px;margin:13px 0;font-size:13px;color:#66545e}
+    .order-summary .summary-row strong{color:#30232a;text-align:right}
+    .order-summary .summary-total{border-top:1px solid #eadce0;padding-top:16px;margin-top:18px;font-weight:800}
+    .order-summary .summary-total strong{font-size:21px}
+    .credit-message{font-size:12px;line-height:1.6;color:#8a7780;margin:14px 0 0}
     @media(max-width:700px){.header{height:66px;padding:0 20px}.brand{font-size:19px}.back{font-size:11px}.checkout-shell{min-height:calc(100vh - 152px);padding:28px 14px}.checkout-card{padding:42px 24px}}
     @media(prefers-reduced-motion:reduce){.spinner{animation:none}}
   </style>
@@ -73,12 +80,19 @@
       <div class="mark" aria-hidden="true"><div class="spinner"></div></div>
       <span class="eyebrow">VAYEN / SECURE CHECKOUT</span>
       <h1 class="headline">Preparing your payment</h1>
-      <p class="muted">Your secure payment options will open automatically.</p>
+      <p class="muted">Review your order before proceeding to secure payment.</p>
       <div class="product-name" data-name=""></div>
       <span data-category="" hidden></span>
       <span data-price="" hidden></span>
+      <div class="order-summary" id="orderSummary" hidden>
+        <p class="summary-title">ORDER SUMMARY</p>
+        <div class="summary-row"><span>Digital product</span><strong id="summaryProduct">—</strong></div>
+        <div class="summary-row"><span>Product price</span><strong id="summaryPrice">—</strong></div>
+        <div class="summary-row summary-total"><span>Total payable</span><strong id="summaryTotal">—</strong></div>
+        <p class="credit-message">VAYEN Credits and membership discounts will appear here once secure balance verification is available.</p>
+      </div>
       <div class="notice" id="checkoutNotice" role="status" aria-live="polite">Checking your account and product details…</div>
-      <button class="primary" id="demoContinue" type="button" disabled>Open secure payment <span>→</span></button>
+      <button class="primary" id="demoContinue" type="button" disabled>Proceed to Secure Payment <span>→</span></button>
       <p class="secure-note">Payments processed securely by Razorpay</p>
       <p class="mode-note">Test environment · Payments are simulated</p>
       <a data-back="" href="product.html" class="back" style="display:inline-block;margin-top:20px">← Back to product</a>
@@ -373,12 +387,16 @@
            return;
          }
         fill(product);
-        showNotice('Connecting securely. Your payment options will open shortly…');
+        document.getElementById('summaryProduct').textContent = product.name;
+        document.getElementById('summaryPrice').textContent = money(product.price);
+        document.getElementById('summaryTotal').textContent = money(product.price);
+        document.getElementById('orderSummary').hidden = false;
+        headline.textContent = 'Review your order';
+        description.textContent = 'Check your product and total before continuing.';
+        checkoutCard.querySelector('.mark').style.display = 'none';
+        showNotice('Your order summary is ready. Proceed when you are ready.');
         button.disabled = false;
         button.addEventListener('click', startCheckout);
-        // Open payment options immediately after account and product checks.
-        // The visible button remains a fallback if the browser blocks automatic opening.
-        await startCheckout();
       } catch (error) {
         console.error('VAYEN checkout loading error:', error);
         fill(null, 'Checkout temporarily unavailable');
