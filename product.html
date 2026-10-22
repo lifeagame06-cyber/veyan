@@ -1018,6 +1018,98 @@ window.VayenSaved={get,toggle,heart,sync,user};window.addEventListener('vayen-sa
 
 
 
+<script type="module" id="vayen-owned-status">
+import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
+import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
+import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
+
+const selectedId = new URLSearchParams(location.search).get('id') ||
+    new URLSearchParams(location.search).get('product') || 'ai-prompting';
+const links = [...document.querySelectorAll('a.product-get')];
+const config = window.VAYEN_FIREBASE_CONFIG;
+let ready = false;
+let owned = false;
+let signedIn = false;
+let checkPromise;
+
+function setOwned(value) {
+    owned = value;
+    for (const link of links) {
+        if (value) {
+            link.removeAttribute('href');
+            link.setAttribute('aria-disabled', 'true');
+            link.style.cursor = 'default';
+            link.firstChild.textContent = 'Owned ';
+            const arrow = link.querySelector('span');
+            if (arrow) arrow.textContent = '✓';
+        }
+    }
+}
+
+// No visible loader or artificial delay. A click while ownership is being
+// checked waits for the result rather than opening duplicate checkout.
+document.addEventListener('click', async event => {
+    const link = event.target.closest?.('a.product-get');
+    if (!link || !links.includes(link)) return;
+    if (owned) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        return;
+    }
+    if (!ready) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        await checkPromise;
+        if (owned || !ready) return;
+        const destination = signedIn
+            ? 'payment.html?product=' + encodeURIComponent(selectedId)
+            : 'login.html?from=get&product=' + encodeURIComponent(selectedId);
+        location.assign(destination);
+    }
+}, true);
+
+checkPromise = (async () => {
+    try {
+        if (!config) throw new Error('Firebase configuration unavailable');
+        const app = getApps().length ? getApp() : initializeApp(config);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const user = await new Promise((resolve, reject) => {
+            const stop = onAuthStateChanged(auth, current => {
+                stop();
+                resolve(current);
+            }, reject);
+        });
+        signedIn = !!user;
+        if (!user) { ready = true; return; }
+
+        const [rootOrders, historyOrders, gifts] = await Promise.all([
+            getDocs(query(collection(db, 'orders'), where('userId', '==', user.uid))),
+            getDocs(collection(db, 'users', user.uid, 'orders')),
+            getDocs(collection(db, 'users', user.uid, 'gifts'))
+        ]);
+        if (auth.currentUser?.uid !== user.uid) return;
+        const paid = [...rootOrders.docs, ...historyOrders.docs].some(snap => {
+            const order = snap.data();
+            return order.productId === selectedId &&
+                (!order.userId || order.userId === user.uid) &&
+                order.paymentStatus === 'paid' &&
+                order.verificationStatus === 'verified';
+        });
+        const gifted = gifts.docs.some(snap => {
+            const gift = snap.data();
+            return gift.productId === selectedId && gift.userId === user.uid &&
+                gift.giftId === snap.id && gift.status === 'claimed';
+        });
+        if (paid || gifted) setOwned(true);
+        ready = true;
+    } catch (error) {
+        // Never treat a failed ownership check as proof that a user does not own it.
+        console.error('VAYEN ownership check unavailable:', error);
+    }
+})();
+</script>
+
 <script src="vayen-product-approved.js?v=full-fit-20261020"></script>
 </body>
 </html>

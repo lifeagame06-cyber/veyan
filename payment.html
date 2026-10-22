@@ -111,6 +111,7 @@
   <script type="module">
     import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
     import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
+    import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
 
     // Payment keys and amounts are validated against server-generated orders. Production activation requires a separate review.
     const FUNCTION_BASE = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1';
@@ -323,6 +324,38 @@
           return;
         }
 
+         // Check existing verified access before creating any new payment order.
+         // The checkout's existing account-check notice remains unchanged.
+         const db = getFirestore(app);
+         const [rootOrders, historyOrders, gifts] = await Promise.all([
+           getDocs(query(collection(db, 'orders'), where('userId', '==', user.uid))),
+           getDocs(collection(db, 'users', user.uid, 'orders')),
+           getDocs(collection(db, 'users', user.uid, 'gifts'))
+         ]);
+         if (auth.currentUser?.uid !== user.uid) return;
+         const alreadyPurchased = [...rootOrders.docs, ...historyOrders.docs].some(snap => {
+           const o = snap.data();
+           return o.productId === productId &&
+             (!o.userId || o.userId === user.uid) &&
+             o.paymentStatus === 'paid' && o.verificationStatus === 'verified';
+         });
+         const alreadyGifted = gifts.docs.some(snap => {
+           const g = snap.data();
+           return g.productId === productId && g.userId === user.uid &&
+             g.giftId === snap.id && g.status === 'claimed';
+         });
+         if (alreadyPurchased || alreadyGifted) {
+          fill(product);
+           setBusy(false);
+           setView('success');
+           headline.textContent = 'Already in your Library';
+           description.textContent = 'You already have access to this product.';
+           showNotice('This product is already yours. Find it in My Products.');
+           button.disabled = true;
+           button.firstChild.textContent = 'Owned ';
+           button.querySelector('span').textContent = '✓';
+           return;
+         }
         fill(product);
         showNotice('Connecting securely. Your payment options will open shortly…');
         button.disabled = false;
