@@ -836,7 +836,7 @@ const text = (selector, value) => {
     const element = document.querySelector(selector);
     if (element) element.textContent = value;
 };
-const formatPrice = value => value == null ? "Price coming soon" : "₹" + value.toLocaleString("en-IN");
+const formatPrice = value => value == null ? "Price unavailable" : "₹" + value.toLocaleString("en-IN");
 
 text(".product-visual-top span", product.category);
 text(".product-visual-top small", "VAYEN / " + product.number);
@@ -884,15 +884,10 @@ document.querySelectorAll("a.product-get").forEach(link => {
     let active=null;try{active=JSON.parse(sessionStorage.getItem("vayenDemoLoginSessionV1")||"null")}catch(e){}
     link.href = (active&&active.id&&active.email ? "payment.html?product=" : "login.html?from=get&product=") + encodeURIComponent(productId);
 });
-if (product.price == null) {
-    document.querySelectorAll("a.product-get").forEach(link => {
-        link.removeAttribute("href");
-        link.style.pointerEvents = "none";
-        link.style.opacity = "0.55";
-        link.setAttribute("aria-disabled", "true");
-        link.childNodes[0].textContent = "Coming soon ";
-    });
-}
+// Availability is controlled by the catalog and payment validation.
+// Keep the normal Get action for products the catalog exposes;
+// verified purchases and claimed gifts are handled by vayen-owned-status.
+
 
 
 const visual = document.querySelector(".product-visual");
@@ -1039,6 +1034,9 @@ function setOwned(value) {
             link.removeAttribute('href');
             link.setAttribute('aria-disabled', 'true');
             link.style.cursor = 'default';
+            // Preserve the normal button appearance for verified owners.
+            link.style.pointerEvents = 'auto';
+            link.style.opacity = '1';
             link.firstChild.textContent = 'Owned ';
             const arrow = link.querySelector('span');
             if (arrow) arrow.textContent = '✓';
