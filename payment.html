@@ -252,7 +252,7 @@
                 throw new Error('Payment confirmation is pending.');
               }
               setView('success');
-              showNotice('Payment verified. Your product is now available in My Products.');
+              showNotice('Payment verified. Opening your order details…');
               location.assign('success.html?order=' + encodeURIComponent(order.orderId));
             } catch (error) {
               console.error('VAYEN payment confirmation pending:', error);

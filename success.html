@@ -9,7 +9,7 @@
 </head>
 <body>
 <header class="header"><a class="brand" href="index.html">VAYEN</a><a href="collection.html">← Continue exploring</a></header>
-<main class="shell"><section class="card" aria-live="polite"><div class="mark" id="mark">…</div><span class="eyebrow" id="eyebrow">VAYEN / PURCHASE STATUS</span><h1 id="heading">Checking your purchase</h1><p class="desc" id="message">Please wait while we securely confirm your order.</p><div class="order" id="order"><strong id="product"></strong><small id="reference"></small></div><a class="primary" id="view" href="library.html?tab=purchased">View Your Product →</a><a class="secondary" href="collection.html">Continue exploring</a></section></main>
+<main class="shell"><section class="card" aria-live="polite"><div class="mark" id="mark">…</div><span class="eyebrow" id="eyebrow">VAYEN / PURCHASE STATUS</span><h1 id="heading">Checking your purchase</h1><p class="desc" id="message">Please wait while we securely confirm your order.</p><div class="order" id="order"><strong id="product"></strong><small id="reference"></small></div><a class="primary" id="view" href="orders.html">View Order →</a><a class="secondary" href="collection.html">Continue exploring</a></section></main>
 <footer class="foot"><nav class="links"><a href="refund.html">Refund Policy</a><a href="contact.html">Contact Us</a><a href="privacy.html">Privacy Policy</a></nav>© 2026 VAYEN · Digital products, thoughtfully made.</footer>
 <script src="vayen-firebase-config.js"></script>
 <script type="module">
@@ -34,10 +34,12 @@ try{
     $('mark').textContent='✓';$('mark').classList.add('success');
     $('eyebrow').textContent='VAYEN / PURCHASE CONFIRMED';
     $('heading').textContent='Thank You for Your Purchase!';
-    $('message').textContent='Your payment is verified and your digital product is ready in My Products.';
+    $('message').textContent='Your payment is verified. Open your order to access your purchased product.';
     $('product').textContent=o.productName||'Your VAYEN product';
     $('reference').textContent='Order reference: '+orderId;
     $('order').style.display='block';
+    $('view').href='orders.html?highlight='+encodeURIComponent(orderId);
+    $('view').textContent='View Order →';
     $('view').style.display='block';
    }else{status('Payment confirmation pending','We are checking your order. If payment was completed, please check My Products shortly or contact support.');}
   }
