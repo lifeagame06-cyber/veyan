@@ -137,7 +137,7 @@
     import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
     import { getFirestore, collection, query, where, getDocs, doc, getDoc } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
 
-    // Payment keys and amounts are validated against server-generated orders. Production activation requires a separate review.
+    // TEST MODE ONLY. Before Live Mode: audit backend reconciliation and test failed/cancelled payments.
     const FUNCTION_BASE = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1';
     const productId = new URLSearchParams(location.search).get('product') || '';
     const button = document.getElementById('demoContinue');
@@ -174,12 +174,10 @@
       document.getElementById('summaryTotal').textContent = money(payable / 100);
       const creditOnly = benefitsQuoteReady && creditsToggle.checked && credits > 0 && payable === 0;
       const standard = discount === 0 && credits === 0;
-      button.disabled = busy || !(creditOnly || standard);
+      button.disabled = busy || !benefitsQuoteReady;
       benefitsMessage.textContent = creditOnly
         ? 'Your purchase can be completed using VAYEN Credits. Your balance will be verified again before confirmation.'
-        : !standard
-          ? 'This combination is not available yet. Your payment cannot be charged at a different amount.'
-          : 'The final price will be confirmed securely before payment.';
+        : 'Your final discount, credits and payment amount will be confirmed securely before payment.';
     }
     discountToggle.addEventListener('change', updateBenefitPreview);
     creditsToggle.addEventListener('change', updateBenefitPreview);
@@ -251,10 +249,6 @@
       if (busy) return;
       const amounts = selectedAmounts();
       const creditOnly = benefitsQuoteReady && creditsToggle.checked && amounts.credits > 0 && amounts.payable === 0;
-      if (!creditOnly && (amounts.discount > 0 || amounts.credits > 0)) {
-        showNotice('This payment combination is not available yet.', true);
-        return;
-      }
       const user = auth?.currentUser;
       if (!user) {
         location.assign('login.html?from=get&product=' + encodeURIComponent(productId));
@@ -293,7 +287,27 @@
       setView('processing');
       showNotice('Connecting to secure payment options…');
       try {
-        const order = await callFunction('vayen-create-payment', { productId }, user);
+        const flex = amounts.discount > 0 || amounts.credits > 0;
+        let order;
+        if (flex) {
+          try {
+            order = await callFunction('vayen-flex-resume-payment', { productId }, user);
+            if (order.canResume !== true) {
+              if (order.status !== 'none') {
+                throw new Error('Your earlier checkout needs confirmation. Contact VAYEN Support before retrying.');
+              }
+              order = await callFunction('vayen-flex-create-payment', {
+                productId,
+                applyDiscount: discountToggle.checked,
+                useCredits: creditsToggle.checked
+              }, user);
+            }
+          } catch (error) {
+            throw error;
+          }
+        } else {
+          order = await callFunction('vayen-create-payment', { productId }, user);
+        }
         if (
           !/^rzp_test_[A-Za-z0-9]+$/.test(order.keyId || '') ||
           !/^order_[A-Za-z0-9]{6,80}$/.test(order.orderId || '') ||
@@ -303,10 +317,8 @@
           throw new Error('Test checkout is not available yet.');
         }
 
-        // Server-returned amount is authoritative; update the display accordingly.
-        document.querySelectorAll('[data-price]').forEach(element => {
-          element.textContent = money(order.amount / 100);
-        });
+        // Original product price remains visible. Only the final payable total changes.
+        document.getElementById('summaryTotal').textContent = money(order.amount / 100);
 
         const checkout = new window.Razorpay({
           key: order.keyId,
@@ -348,7 +360,8 @@
             headline.textContent = 'Verifying your payment';
             showNotice('Confirming your payment securely…');
             try {
-              const result = await callFunction('vayen-verify-payment', {
+              const result = await callFunction(
+                flex ? 'vayen-flex-verify-payment' : 'vayen-verify-payment', {
                 razorpay_order_id: payment.razorpay_order_id,
                 razorpay_payment_id: payment.razorpay_payment_id,
                 razorpay_signature: payment.razorpay_signature
