@@ -68,6 +68,51 @@
     .benefit-copy small{font-size:11px;color:#806b75;font-weight:400;line-height:1.5}
     .summary-row.benefit-saving strong{color:#16845a}
     .credit-message{font-size:12px;line-height:1.6;color:#8a7780;margin:14px 0 0}
+    /* Desktop-only checkout: spacious, two-column PC layout. Mobile stays unchanged. */
+    @media (min-width: 901px) {
+      .checkout-shell { padding: 55px 28px 70px; align-items: center; }
+      .checkout-card {
+        width: min(100%, 1040px);
+        display: grid;
+        grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+        grid-template-rows: repeat(12, auto);
+        column-gap: clamp(36px, 5vw, 72px);
+        align-content: center;
+        align-items: start;
+        padding: clamp(42px, 5vw, 66px);
+        text-align: left;
+        min-height: 490px;
+      }
+      .checkout-card > :not(.order-summary) { grid-column: 1; min-width: 0; }
+      .checkout-card > .mark { margin: 0 0 20px; }
+      .checkout-card > .eyebrow { align-self: end; }
+      .checkout-card > .headline { font-size: 39px; line-height: 1.13; margin: 12px 0 12px; }
+      .checkout-card > .muted { margin: 0 0 10px; max-width: 350px; }
+      .checkout-card > .product-name { margin: 16px 0 10px; }
+      .checkout-card > .notice { margin: 20px 0 0; text-align: left; justify-content: flex-start; }
+      .checkout-card > .primary { margin-top: 22px; }
+      .checkout-card > .secure-note, .checkout-card > .mode-note { text-align: left; }
+      .checkout-card > a[data-back] { justify-self: start; }
+      .checkout-card > .order-summary {
+        grid-column: 2;
+        grid-row: 1 / span 12;
+        width: 100%;
+        margin: 0;
+        padding: 29px 30px;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 12px 34px #50313b0a;
+        align-self: center;
+      }
+      .checkout-card > .order-summary[hidden] { display: none; }
+      .checkout-card > .order-summary .summary-title { margin-bottom: 22px; }
+      .checkout-card > .order-summary .summary-row { font-size: 14px; margin: 17px 0; }
+      .checkout-card > .order-summary .benefit-option { padding: 17px; margin: 17px 0; }
+      .checkout-card > .order-summary .summary-total strong { font-size: 26px; }
+    }
+    @media (min-width: 701px) and (max-width: 900px) {
+      .checkout-card { width: min(100%, 600px); }
+    }
     @media(max-width:700px){.header{height:66px;padding:0 20px}.brand{font-size:19px}.back{font-size:11px}.checkout-shell{min-height:calc(100vh - 152px);padding:28px 14px}.checkout-card{padding:42px 24px}}
     @media(prefers-reduced-motion:reduce){.spinner{animation:none}}
   </style>
@@ -156,6 +201,8 @@
     const discountToggle = document.getElementById('applyDiscount');
     const creditsToggle = document.getElementById('applyCredits');
     const benefitsMessage = document.getElementById('benefitsMessage');
+    // Closing or leaving the page cannot prove an order is unpaid.
+    // Reserved credits are only released by a server-side Razorpay-verified cleanup.
 
     function selectedAmounts() {
       const discount = discountToggle.checked && hasDiscountPass && originalPricePaise > 50000
@@ -350,7 +397,9 @@
               if (verifyingPayment || checkoutCard.classList.contains('is-success')) return;
               setBusy(false);
               setView('closed');
-              showNotice('Checkout closed. Select Continue Again to reopen secure payment.');
+              showNotice(flex && amounts.credits > 0
+                ? 'Payment window closed. Your selected credits remain reserved until the payment is safely confirmed or released. Select Continue Again to resume.'
+                : 'Checkout closed. Select Continue Again to reopen secure payment.');
             }
           },
           handler: async payment => {
