@@ -9,6 +9,55 @@
 
     <title>Product — VAYEN</title>
 
+<style id="vayen-product-first-paint">
+/* Critical styles load before external CSS to prevent a blank first paint. */
+html, body.product-body { margin: 0; min-height: 100%; background: #faf4f2; }
+body.product-body { visibility: visible; }
+#vayen-product-skeleton {
+  position: fixed; inset: 0; z-index: 2147480000;
+  overflow: auto; background: #faf4f2; color: #31252a;
+  opacity: 1; transition: opacity .22s ease;
+  font-family: Arial, Helvetica, sans-serif;
+}
+body.vayen-product-ready #vayen-product-skeleton {
+  opacity: 0; pointer-events: none; visibility: hidden;
+  transition: opacity .22s ease, visibility 0s linear .22s;
+}
+.vps-top { height: 75px; padding: 0 max(5%, calc((100vw - 1320px)/2)); display: flex;
+  align-items: center; justify-content: space-between; border-bottom: 1px solid #ecdcde; }
+.vps-brand { font-size: 25px; font-weight: 850; letter-spacing: .17em; }
+.vps-nav { display: flex; gap: 15px; align-items: center; }
+.vps-shell { max-width: 1250px; margin: 0 auto; padding: 55px 5% 80px; }
+.vps-hero { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  align-items: center; gap: clamp(24px,5vw,85px); }
+.vps-cover { aspect-ratio: 4/4.6; max-height: 565px; border-radius: 18px;
+  background: linear-gradient(145deg, #ecd6d4, #d7b6b8); box-shadow: 0 15px 35px #3d202010; }
+.vps-info { display: flex; flex-direction: column; gap: 19px; }
+.vps-bar { display: block; border-radius: 12px; height: 17px; background: #e9dadd; }
+.vps-bar.tiny { height: 12px; }.vps-bar.heading { height: 43px; }
+.vps-bar.button { height: 54px; border-radius: 12px; margin-top: 18px; background: #e4c9d0; }
+.vps-line { display: flex; gap: 15px; margin-top: 14px; }
+.vps-line .vps-bar { flex: 1; height: 60px; }
+.vps-shimmer { position: relative; overflow: hidden; }
+.vps-shimmer::after { content: ''; position: absolute; inset: 0;
+  background: linear-gradient(100deg, transparent 15%, #ffffff55 45%, transparent 75%);
+  transform: translateX(-100%); animation: vps-sweep 1.8s ease-in-out infinite; }
+@keyframes vps-sweep { to { transform: translateX(100%); } }
+@media(max-width: 750px) {
+  .vps-top { height: 64px; padding: 0 6%; }
+  .vps-brand { font-size: 21px; }
+  .vps-shell { padding: 24px 6% 100px; }
+  .vps-hero { grid-template-columns: 1fr; gap: 26px; }
+  .vps-cover { aspect-ratio: 1.15; max-height: 350px; }
+  .vps-info { gap: 14px; }
+  .vps-bar.heading { height: 34px; }
+}
+@media(prefers-reduced-motion: reduce) {
+  .vps-shimmer::after { animation: none; }
+  #vayen-product-skeleton { transition: none; }
+}
+</style>
+
     <link rel="stylesheet" href="style.css">
 <style>
 /* FLAGSHIP PRODUCT COVERS — READABLE TEXT */
@@ -98,7 +147,29 @@ body.product-body:not(.vayen-product-ready) .product-mobile-get { visibility: hi
 </head>
 
 
-<body class="product-body" style="visibility:hidden">
+<body class="product-body">
+<!-- Accessible visual placeholder. No pricing or purchase actions are simulated. -->
+<div id="vayen-product-skeleton" role="status" aria-label="Loading product details" aria-live="polite">
+  <div class="vps-top"><div class="vps-brand">VAYEN</div><div class="vps-nav">
+    <div class="vps-bar vps-shimmer" style="width:60px;height:14px"></div>
+    <div class="vps-bar vps-shimmer" style="width:75px;height:14px"></div>
+  </div></div>
+  <div class="vps-shell"><div class="vps-hero">
+    <div class="vps-cover vps-shimmer"></div>
+    <div class="vps-info">
+      <div class="vps-bar tiny vps-shimmer" style="width:39%"></div>
+      <div class="vps-bar heading vps-shimmer" style="width:88%"></div>
+      <div class="vps-bar heading vps-shimmer" style="width:61%"></div>
+      <div class="vps-bar vps-shimmer" style="width:95%"></div>
+      <div class="vps-bar vps-shimmer" style="width:83%"></div>
+      <div class="vps-bar vps-shimmer" style="width:90%"></div>
+      <div class="vps-bar vps-shimmer" style="width:73%"></div>
+      <div class="vps-line"><div class="vps-bar vps-shimmer"></div><div class="vps-bar vps-shimmer"></div><div class="vps-bar vps-shimmer"></div></div>
+      <div class="vps-bar button vps-shimmer" style="width:100%"></div>
+    </div>
+  </div></div>
+</div>
+
 
 
 <!-- HEADER -->
