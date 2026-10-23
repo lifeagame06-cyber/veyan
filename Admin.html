@@ -152,7 +152,9 @@ if(!v.name.trim() || !Number.isFinite(Number(v.price)) || Number(v.price)<0){not
  const rec={id:id||uid('PRD'),slug,name:v.name.trim(),category:v.category.trim(),price:Number(v.price),status:v.status,group:v.group,image:v.image.trim(),shortDescription:v.shortDescription.trim(),description:v.description.trim(),features:v.features.trim(),badge:v.badge.trim(),worldNumber:id?db.products.find(x=>x.id===id)?.worldNumber||null:v.group==='Worlds'?VayenCatalog.nextWorldNumber(db.products):null};
 try{await window.VayenAdminProducts.save(rec);const i=db.products.findIndex(x=>x.id===rec.id);if(i<0)db.products.unshift(rec);else db.products[i]=rec;log((id?'Edited':'Added')+' product '+rec.name);save();$('editor').close();render();notify('Product saved to Firebase');}catch(error){console.error(error);notify('Firebase save failed: '+error.message)}return;
 }else if(type==='orders'){db.orders.unshift({id:uid('ORD'),email:v.email.trim().toLowerCase(),product:v.product,amount:Number(v.amount),status:v.status,reference:v.reference,date:now});log('Created demo order')}else if(type==='surprises'){db.surprises.unshift({id:uid('BOX'),email:v.email.trim().toLowerCase(),box:v.box,amount:Number(v.amount),productId:null,status:'pending',date:now});log('Created demo Surprise Box request')}else if(type==='giftcards'){db.giftcards.unshift({id:uid('GC'),code:'VAYEN-'+Math.random().toString(36).slice(2,10).toUpperCase(),buyer:v.buyer.trim().toLowerCase(),recipient:v.recipient.trim().toLowerCase(),value:Number(v.value),status:v.status,date:now});log('Created demo gift card')}save();$('editor').close();render();notify('Saved in local demo')};
-$('addProduct').onclick=$('quickProduct').onclick=()=>editor('products');$('addOrder').onclick=$('quickOrder').onclick=()=>editor('orders');$('addSurprise').onclick=$('quickGift').onclick=()=>editor('surprises');$('addGiftCard').onclick=()=>editor('giftcards');
+$('addProduct').onclick=$('quickProduct').onclick=()=>editor('products');$('addOrder').onclick=$('quickOrder').onclick=()=>editor('orders');if ($('addSurprise')) $('addSurprise').onclick=()=>editor('surprises');
+if ($('quickGift')) $('quickGift').onclick=()=>editor('surprises');$('addGiftCard').onclick=()=>editor('giftcards');
+var firebaseNotificationCustomers = [];
 function render(){const paid=db.orders.filter(x=>x.status==='success');$('sOrders').textContent=db.orders.length;$('sRevenue').textContent=fmt(paid.reduce((s,x)=>s+x.amount,0));$('sGifts').textContent=db.surprises.filter(x=>x.status!=='delivered').length;
 $('recentOrders').innerHTML=db.orders.slice(0,5).map(x=>'<div><span>'+esc(x.product)+'<br><small>'+esc(x.email)+'</small></span><span>'+fmt(x.amount)+' · '+badge(x.status)+'</span></div>').join('')||'<p class="sub">No test orders yet.</p>';
 $('recentGifts').innerHTML=db.surprises.slice(0,5).map(x=>'<div><span>'+esc(x.box)+'<br><small>'+esc(x.email)+'</small></span>'+badge(x.status)+'</div>').join('')||'<p class="sub">No surprise box requests yet.</p>';
@@ -165,7 +167,6 @@ $('giftCount').textContent=db.giftcards.length;$('giftValue').textContent=fmt(db
 renderNotifications();$('activityRows').innerHTML=db.activity.map(x=>'<div><span>'+esc(x.msg)+'</span><small>'+esc(x.date)+'</small></div>').join('')||'<p class="sub">No activity yet.</p>'}
 
 // Real registered customer emails are used for local notification targeting only.
-let firebaseNotificationCustomers = [];
 window.addEventListener('vayen-admin-customers-loaded', event => {
   firebaseNotificationCustomers = Array.isArray(event.detail) ? event.detail : [];
   renderNotifications();
