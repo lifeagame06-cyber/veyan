@@ -1056,6 +1056,7 @@ import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/
     const present = document.getElementById('vayenGiftPresent');
     const confetti = document.getElementById('vayenGiftConfetti');
     const endpoint = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/vayen-gift-manager';
+    const surpriseEndpoint = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/vayen-surprise-claim';
     let activeGift = null;
     let activeUser = null;
     let busy = false;
@@ -1079,8 +1080,8 @@ import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/
         const readableName = slug.split('-').map(x => x.charAt(0).toUpperCase() + x.slice(1)).join(' ');
         product.textContent = gift.productName || gift.productTitle || record?.name || readableName || 'Your digital gift';
         reason.textContent = gift.message || gift.reason || '';
-        title.textContent = 'A surprise from VAYEN.';
-        subtitle.textContent = 'A thoughtful gift is waiting to be unwrapped.';
+        title.textContent = gift.sourceType === 'surprise-box' ? 'Your Surprise Box Purchase Gift' : 'A surprise from VAYEN.';
+        subtitle.textContent = gift.sourceType === 'surprise-box' ? 'Your purchased surprise is ready to claim.' : 'A thoughtful gift is waiting to be unwrapped.';
         claim.textContent = 'Unwrap Your Gift ✦';
         claim.disabled = false;
         error.textContent = '';
@@ -1092,8 +1093,8 @@ import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/
         overlay.setAttribute('aria-hidden', 'false');
         close.focus();
     }
-    async function request(user, action, extra = {}) {
-        const response = await fetch(endpoint, {
+    async function request(user, action, extra = {}, isSurprise = false) {
+        const response = await fetch(isSurprise ? surpriseEndpoint : endpoint, {
             method: 'POST',
             headers: {
                 Authorization: 'Bearer ' + await user.getIdToken(),
@@ -1119,6 +1120,13 @@ import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/
     async function check(user) {
         if (!user || busy || completed) return;
         try {
+            let surpriseGifts = [];
+            try {
+                const surprise = await request(user, 'list', {}, true);
+                surpriseGifts = Array.isArray(surprise.gifts) ? surprise.gifts : [];
+            } catch (e) { console.warn('Surprise gift service temporarily unavailable'); }
+            if (activeUser !== user) return;
+            if (surpriseGifts.length) { display(surpriseGifts[0]); return; }
             const data = await request(user, 'list');
             if (activeUser !== user) return;
             const gifts = Array.isArray(data.gifts) ? data.gifts : [];
@@ -1138,7 +1146,7 @@ import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/
         claim.textContent = 'Preparing your gift…';
         error.textContent = '';
         try {
-            const result = await request(activeUser, 'claim', { giftId: activeGift.giftId });
+            const result = await request(activeUser, 'claim', { giftId: activeGift.giftId }, activeGift.sourceType === 'surprise-box');
             if (result.success !== true) throw new Error('Gift claim not confirmed');
             completed = true;
             present.classList.add('vg-open');
