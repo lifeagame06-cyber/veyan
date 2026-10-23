@@ -363,7 +363,7 @@ html.vayen-profile-auth-verified #vayenProfileSkeleton { display: none !importan
 </section>
 <section aria-label="VAYEN experience benefits" class="vy-mobile-benefits"><div class="vy-mobile-benefit"><span class="vy-mobile-benefit-icon">◎</span><div><strong>Faster access</strong><small>Open your library and orders instantly.</small></div></div><div class="vy-mobile-benefit"><span class="vy-mobile-benefit-icon">◇</span><div><strong>Offline access</strong><small>Access supported saved content when available.</small></div></div><div class="vy-mobile-benefit"><span class="vy-mobile-benefit-icon">◉</span><div><strong>Better experience</strong><small>Clean, distraction-free reading.</small></div></div></section><section aria-label="Your credits" class="vy-credits-card">
 <div aria-hidden="true" class="vy-credit-icon">◈</div>
-<div class="vy-credit-info"><span class="vy-credit-label">YOUR CREDITS</span><strong><span id="vyCreditBalance">0</span> Credits</strong><small>Available balance</small></div>
+<div class="vy-credit-info"><span class="vy-credit-label">YOUR CREDITS</span><strong><span id="vyCreditBalance">—</span> Credits</strong><small>Available balance</small></div>
 <button class="vy-credit-details-btn" id="vyOpenCredits" type="button">View Details →</button>
 </section><button aria-label="Logout" class="vy-mobile-logout-row" data-vy-logout="" type="button">↪  Logout   ›</button><section class="vy-panel" id="vayenAppTitle">
 <div class="vy-app-top"><div><span class="vy-eyebrow">VAYEN ON YOUR DEVICE</span><h2>VAYEN App</h2><p>Your space, just one tap away.</p></div><img alt="VAYEN App" class="vayen-app-logo" src="images/veyan.png"/></div>
@@ -467,7 +467,7 @@ html.vayen-profile-auth-verified #vayenProfileSkeleton { display: none !importan
 <div class="vy-credit-backdrop" data-close-credits=""></div>
 <section aria-labelledby="vyCreditsTitle" aria-modal="true" class="vy-credit-dialog" role="dialog" tabindex="-1">
 <div class="vy-credit-dialog-top"><div><span class="vy-credit-label">VAYEN WALLET</span><h2 id="vyCreditsTitle">Your Credit Details</h2></div><button aria-label="Close credit details" class="vy-credit-close" data-close-credits="" type="button">×</button></div>
-<div class="vy-credit-balance-panel"><small>Available balance</small><strong><span id="vyModalCreditBalance">0</span> Credits</strong><span>Only recorded credits are shown</span></div>
+<div class="vy-credit-balance-panel"><small>Available balance</small><strong><span id="vyModalCreditBalance">—</span> Credits</strong><span>Only recorded credits are shown</span></div>
 <div class="vy-credit-history-head"><strong>Credit activity</strong><span>Received &amp; used</span></div>
 <div class="vy-credit-history" id="vyCreditHistory"><p class="vy-credit-empty">No credit transactions recorded yet. Once credits are issued or used, their source, date and amount will appear here.</p></div>
 <a class="vy-credit-repurchase" href="plans.html?highlight=shopping-pass#shopping-pass">Purchase Again <span>→</span></a>
@@ -500,6 +500,7 @@ let historyReady = false;
 let walletBalance = null;
 let walletEntries = [];
 let walletError = false;
+let historyError = false;
 
 function setTextBalance(value) {
   const display = value === null ? '—' : value.toLocaleString('en-IN');
@@ -514,7 +515,8 @@ function message(text) {
 }
 function render() {
   setTextBalance(walletError || !walletReady ? null : walletBalance);
-  if (walletError) return message('Credit details are temporarily unavailable. Please try again later.');
+  if (walletError) return message('Credit balance is temporarily unavailable. Please try again later.');
+  if (historyError) return message('Credit activity is temporarily unavailable. Your available balance is shown above.');
   if (!walletReady || !historyReady) return message('Loading your credit activity…');
   if (!walletEntries.length) return message('No credit transactions recorded yet.');
   history.replaceChildren();
@@ -540,7 +542,7 @@ function clearSubscriptions() {
   stopBalance(); stopHistory();
   stopBalance = () => {}; stopHistory = () => {};
   walletReady = false; historyReady = false;
-  walletBalance = null; walletEntries = []; walletError = false;
+  walletBalance = null; walletEntries = []; walletError = false; historyError = false;
   render();
 }
 function loadWallet(user) {
@@ -570,7 +572,7 @@ function loadWallet(user) {
     render();
   }, error => {
     console.error('VAYEN credit activity unavailable:', error);
-    walletError = true;
+    historyError = true;
     render();
   });
 }
