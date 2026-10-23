@@ -68,7 +68,7 @@ function setBrightness(value){const n=Math.min(130,Math.max(60,Number(value)||10
 try{setBrightness(localStorage.getItem('vayenReaderBrightness')||100)}catch{setBrightness(100)}
 brightness.addEventListener('input',e=>setBrightness(e.target.value));
 const FUNCTION_URL =
-  'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/smart-handler';
+  'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/vayen-read-ebook';
 const requestedProduct=new URLSearchParams(location.search).get('product');
 const controlIds=['prev','next','zoomOut','zoomIn','fit','full','focus','pageInput'];
 try{const t=localStorage.getItem('vayenReaderTheme');if(['light','sepia','dark'].includes(t)){$('theme').value=t;document.body.dataset.theme=t}}catch{}

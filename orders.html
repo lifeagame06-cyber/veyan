@@ -154,8 +154,8 @@ let records=[]; // Only verified cloud records appear in purchase history.
 const money=n=>'₹'+Number(n || 0).toLocaleString('en-IN');
 const localRecords = []; // Legacy preview orders are excluded from real purchase history.
 // Public Edge Function endpoint only. Never place secret keys in frontend code.
-const EBOOK_FUNCTION_URL = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/smart-handler';
-const DOWNLOAD_FUNCTION_URL = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/smart-handler';
+const EBOOK_FUNCTION_URL = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/vayen-read-ebook';
+const DOWNLOAD_FUNCTION_URL = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/vayen-read-ebook';
 let currentFirebaseUser = null;
 let cloudRecords = [];
 let recentActive = false;
