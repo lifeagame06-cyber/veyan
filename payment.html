@@ -118,9 +118,64 @@
     }
     @media(max-width:700px){.header{height:66px;padding:0 20px}.brand{font-size:19px}.back{font-size:11px}.checkout-shell{min-height:calc(100vh - 152px);padding:28px 14px}.checkout-card{padding:42px 24px}}
     @media(prefers-reduced-motion:reduce){.spinner{animation:none}}
+
+    /* Branded loading screen: visible immediately, checkout only after ready. */
+    .vayen-loading {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 80% 12%, #f2dfe4 0, transparent 45%), #f8f2ef;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity .35s ease, visibility .35s ease;
+    }
+    .vayen-loading.is-finished { opacity: 0; visibility: hidden; pointer-events: none; }
+    .vayen-loading-inner { text-align: center; padding: 24px; }
+    .vayen-loading-logo {
+      font-size: clamp(33px, 7vw, 48px);
+      font-weight: 900;
+      letter-spacing: .24em;
+      padding-left: .24em;
+      color: #30232a;
+      animation: vayen-logo-appear .7s ease both;
+    }
+    .vayen-loading-line {
+      width: 104px;
+      height: 3px;
+      margin: 22px auto 16px;
+      border-radius: 99px;
+      background: #e9d9de;
+      overflow: hidden;
+    }
+    .vayen-loading-line::after {
+      content: '';
+      display: block;
+      width: 42%;
+      height: 100%;
+      border-radius: inherit;
+      background: #95677a;
+      animation: vayen-progress 1.15s ease-in-out infinite alternate;
+    }
+    .vayen-loading-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: #947d87; }
+    @keyframes vayen-progress { from { transform: translateX(-100%); } to { transform: translateX(245%); } }
+    @keyframes vayen-logo-appear { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) {
+      .vayen-loading, .vayen-loading-logo { animation: none; transition: none; }
+      .vayen-loading-line::after { animation: none; width: 100%; }
+    }
   </style>
  </head>
  <body>
+  <div class="vayen-loading" id="vayenLoading" role="status" aria-live="polite" aria-label="Preparing VAYEN checkout">
+    <div class="vayen-loading-inner">
+      <div class="vayen-loading-logo">VAYEN</div>
+      <div class="vayen-loading-line" aria-hidden="true"></div>
+      <div class="vayen-loading-label">SECURE CHECKOUT</div>
+    </div>
+  </div>
   <header class="header">
    <a class="brand" href="index.html">
     VAYEN
@@ -482,6 +537,7 @@
 
     function revealCheckout() {
        checkoutCard.classList.add('checkout-ready');
+       document.getElementById('vayenLoading')?.classList.add('is-finished');
      }
 
 
