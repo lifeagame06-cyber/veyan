@@ -584,7 +584,8 @@
                             <strong>${safe(label(item))}</strong>
                             <div class="price">${item.kind === 'gift' ? 'Gifted by VAYEN 🎁' : 'Purchased · Verified'}</div>
                             <div class="product-foot">
-                                <a class="btn library-order-link" href="orders.html?highlight=${encodeURIComponent(item.orderId)}" aria-label="View order for ${safe(label(item))}">View Order ↗</a>
+                                <a class="btn" href="reader.html?product=${encodeURIComponent(item.slug)}" aria-label="Read ${safe(label(item))}">Read Ebook →</a>
+                                <a class="btn library-order-link" href="orders.html?highlight=${encodeURIComponent(item.orderId)}" aria-label="View order and download ${safe(label(item))}">Download / Order ↗</a>
                             </div>
                         </div>
                     </article>
