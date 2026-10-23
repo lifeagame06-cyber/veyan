@@ -68,6 +68,9 @@
     .benefit-copy small{font-size:11px;color:#806b75;font-weight:400;line-height:1.5}
     .summary-row.benefit-saving strong{color:#16845a}
     .credit-message{font-size:12px;line-height:1.6;color:#8a7780;margin:14px 0 0}
+    [hidden] { display: none !important; }
+    .checkout-card { visibility: hidden; }
+    .checkout-card.checkout-ready { visibility: visible; }
     /* Desktop-only checkout: spacious, two-column PC layout. Mobile stays unchanged. */
     @media (min-width: 901px) {
       .checkout-shell { padding: 55px 28px 70px; align-items: center; }
@@ -477,6 +480,11 @@
       }
     }
 
+    function revealCheckout() {
+       checkoutCard.classList.add('checkout-ready');
+     }
+
+
     async function initializeCheckout() {
       button.disabled = true;
       document.querySelectorAll('[data-back]').forEach(element => {
@@ -488,6 +496,7 @@
       if (!/^[a-zA-Z0-9_-]{1,120}$/.test(productId)) {
         fill(null);
         showNotice('This product link is invalid. Please return to the collection.', true);
+        revealCheckout();
         return;
       }
 
@@ -520,6 +529,7 @@
             (product.status && product.status !== 'published')) {
           fill(null);
           showNotice('This product is currently unavailable. Please explore other products.', true);
+        revealCheckout();
           return;
         }
 
@@ -550,6 +560,7 @@
            headline.textContent = 'Already in your Library';
            description.textContent = 'You already have access to this product.';
            showNotice('This product is already yours. Find it in My Products.');
+        revealCheckout();
            button.disabled = true;
            button.firstChild.textContent = 'Owned ';
            button.querySelector('span').textContent = '✓';
@@ -592,12 +603,14 @@
         description.textContent = 'Check your product and total before continuing.';
         checkoutCard.querySelector('.mark').style.display = 'none';
         showNotice('Your order summary is ready. Proceed when you are ready.');
+        revealCheckout();
         updateBenefitPreview();
         button.addEventListener('click', startCheckout);
       } catch (error) {
         console.error('VAYEN checkout loading error:', error);
         fill(null, 'Checkout temporarily unavailable');
         showNotice('We could not prepare your checkout. Please refresh and try again.', true);
+        revealCheckout();
       }
     }
 
