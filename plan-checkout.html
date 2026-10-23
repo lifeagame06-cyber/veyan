@@ -61,7 +61,7 @@ async function checkout() {
   message("Preparing secure payment options…");
   try {
     const order = await call("vayen-create-plan-payment",{planId:id},user);
-    if (!/^rzp_test_[A-Za-z0-9]+$/.test(order.keyId || "") ||
+    if (!/^rzp_(?:test|live)_[A-Za-z0-9]+$/.test(order.keyId || "") ||
         !/^order_[A-Za-z0-9]{6,80}$/.test(order.orderId || "") ||
         order.planId !== id || order.amount !== plan.price * 100 ||
         order.currency !== "INR") {
