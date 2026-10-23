@@ -408,6 +408,22 @@
               }, user);
             }
           } catch (error) {
+            // A prior payment may already have been captured. Recover it
+            // server-side instead of opening a second Razorpay window.
+            try {
+              const recovered = await callFunction(
+                'vayen-flex-recover-captured', { productId }, user
+              );
+              if (recovered.success === true && recovered.recovered === true &&
+                  typeof recovered.orderId === 'string') {
+                setView('success');
+                showNotice('Purchase confirmed. Opening your order details…');
+                location.assign('success.html?order=' + encodeURIComponent(recovered.orderId));
+                return;
+              }
+            } catch (recoveryError) {
+              console.warn('VAYEN payment recovery requires review', recoveryError);
+            }
             throw error;
           }
         } else {
@@ -518,8 +534,6 @@
               verifyingPayment = false;
               setBusy(false);
               setView('closed');
-              // A payment may have been captured even when verification times out.
-              // Never offer a second payment from this uncertain state.
               button.disabled = true;
               button.firstChild.textContent = 'Confirmation Pending ';
               button.querySelector('span').textContent = '…';
@@ -652,8 +666,6 @@
             : 'No spendable credits available';
         } catch (benefitError) {
           console.warn('VAYEN benefits unavailable', benefitError);
-          // Allow standard Razorpay checkout when optional benefits cannot load.
-          // No discount or credits are applied without a verified server quote.
           benefitsQuoteReady = false;
           hasDiscountPass = false;
           displayedCreditsPaise = 0;
@@ -661,8 +673,8 @@
           creditsToggle.checked = false;
           discountToggle.disabled = true;
           creditsToggle.disabled = true;
-          document.getElementById('discountAvailability').textContent = 'Not available right now';
-          document.getElementById('creditAvailability').textContent = 'Not available right now';
+          document.getElementById('discountAvailability').textContent = 'Membership unavailable';
+          document.getElementById('creditAvailability').textContent = 'Credits unavailable';
         }
         updateBenefitPreview();
         document.getElementById('orderSummary').hidden = false;
