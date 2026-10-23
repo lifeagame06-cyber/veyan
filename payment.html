@@ -61,6 +61,12 @@
     .order-summary .summary-row strong{color:#30232a;text-align:right}
     .order-summary .summary-total{border-top:1px solid #eadce0;padding-top:16px;margin-top:18px;font-weight:800}
     .order-summary .summary-total strong{font-size:21px}
+    .benefit-option{display:flex;align-items:flex-start;gap:12px;margin:13px 0;padding:14px;border:1px solid #eadce0;border-radius:13px;background:#fffafc;cursor:pointer}
+    .benefit-option input{margin-top:3px;accent-color:#6b4053;width:17px;height:17px}
+    .benefit-option:has(input:disabled){opacity:.58;cursor:not-allowed}
+    .benefit-copy{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:700;color:#30232a}
+    .benefit-copy small{font-size:11px;color:#806b75;font-weight:400;line-height:1.5}
+    .summary-row.benefit-saving strong{color:#16845a}
     .credit-message{font-size:12px;line-height:1.6;color:#8a7780;margin:14px 0 0}
     @media(max-width:700px){.header{height:66px;padding:0 20px}.brand{font-size:19px}.back{font-size:11px}.checkout-shell{min-height:calc(100vh - 152px);padding:28px 14px}.checkout-card{padding:42px 24px}}
     @media(prefers-reduced-motion:reduce){.spinner{animation:none}}
@@ -88,8 +94,12 @@
         <p class="summary-title">ORDER SUMMARY</p>
         <div class="summary-row"><span>Digital product</span><strong id="summaryProduct">—</strong></div>
         <div class="summary-row"><span>Product price</span><strong id="summaryPrice">—</strong></div>
+        <label class="benefit-option"><input type="checkbox" id="applyDiscount" disabled/><span class="benefit-copy">Apply 10% Discount Pass<small id="discountAvailability">Checking membership…</small></span></label>
+        <div class="summary-row benefit-saving" id="discountRow" hidden><span>Membership discount</span><strong id="summaryDiscount">−₹0</strong></div>
+        <label class="benefit-option"><input type="checkbox" id="applyCredits" disabled/><span class="benefit-copy">Use VAYEN Credits<small id="creditAvailability">Checking credit balance…</small></span></label>
+        <div class="summary-row benefit-saving" id="creditsRow" hidden><span>Shopping Credits applied</span><strong id="summaryCredits">−₹0</strong></div>
         <div class="summary-row summary-total"><span>Total payable</span><strong id="summaryTotal">—</strong></div>
-        <p class="credit-message">VAYEN Credits and membership discounts will appear here once secure balance verification is available.</p>
+        <p class="credit-message" id="benefitsMessage">Membership and credit options are being prepared.</p>
       </div>
       <div class="notice" id="checkoutNotice" role="status" aria-live="polite">Checking your account and product details…</div>
       <button class="primary" id="demoContinue" type="button" disabled>Proceed to Secure Payment <span>→</span></button>
@@ -125,7 +135,7 @@
   <script type="module">
     import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
     import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
-    import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
+    import { getFirestore, collection, query, where, getDocs, doc, getDoc } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
 
     // Payment keys and amounts are validated against server-generated orders. Production activation requires a separate review.
     const FUNCTION_BASE = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1';
@@ -139,6 +149,40 @@
     let busy = false;
     let auth;
     let verifyingPayment = false;
+    let originalPricePaise = 0;
+    let hasDiscountPass = false;
+    let displayedCreditsPaise = 0;
+    let benefitsQuoteReady = false;
+    const discountToggle = document.getElementById('applyDiscount');
+    const creditsToggle = document.getElementById('applyCredits');
+    const benefitsMessage = document.getElementById('benefitsMessage');
+
+    function selectedAmounts() {
+      const discount = discountToggle.checked && hasDiscountPass && originalPricePaise > 50000
+        ? Math.floor(originalPricePaise / 10) : 0;
+      const discounted = originalPricePaise - discount;
+      const credits = creditsToggle.checked ? Math.min(displayedCreditsPaise, discounted) : 0;
+      return { discount, discounted, credits, payable: discounted - credits };
+    }
+
+    function updateBenefitPreview() {
+      const { discount, credits, payable } = selectedAmounts();
+      document.getElementById('discountRow').hidden = discount === 0;
+      document.getElementById('creditsRow').hidden = credits === 0;
+      document.getElementById('summaryDiscount').textContent = '−' + money(discount / 100);
+      document.getElementById('summaryCredits').textContent = '−' + money(credits / 100);
+      document.getElementById('summaryTotal').textContent = money(payable / 100);
+      const creditOnly = benefitsQuoteReady && creditsToggle.checked && credits > 0 && payable === 0;
+      const standard = discount === 0 && credits === 0;
+      button.disabled = busy || !(creditOnly || standard);
+      benefitsMessage.textContent = creditOnly
+        ? 'Your purchase can be completed using VAYEN Credits. Your balance will be verified again before confirmation.'
+        : !standard
+          ? 'This combination is not available yet. Your payment cannot be charged at a different amount.'
+          : 'The final price will be confirmed securely before payment.';
+    }
+    discountToggle.addEventListener('change', updateBenefitPreview);
+    creditsToggle.addEventListener('change', updateBenefitPreview);
 
     function showNotice(message, isError = false) {
       notice.textContent = message;
@@ -205,9 +249,39 @@
 
     async function startCheckout() {
       if (busy) return;
+      const amounts = selectedAmounts();
+      const creditOnly = benefitsQuoteReady && creditsToggle.checked && amounts.credits > 0 && amounts.payable === 0;
+      if (!creditOnly && (amounts.discount > 0 || amounts.credits > 0)) {
+        showNotice('This payment combination is not available yet.', true);
+        return;
+      }
       const user = auth?.currentUser;
       if (!user) {
         location.assign('login.html?from=get&product=' + encodeURIComponent(productId));
+        return;
+      }
+      if (creditOnly) {
+        setBusy(true);
+        setView('processing');
+        showNotice('Confirming your VAYEN Credits purchase…');
+        try {
+          const result = await callFunction('vayen-credit-purchase', {
+            productId,
+            applyDiscount: discountToggle.checked,
+            useCredits: true
+          }, user);
+          if (result.success !== true || typeof result.orderId !== 'string') {
+            throw new Error('Purchase confirmation is pending.');
+          }
+          setView('success');
+          showNotice('Purchase confirmed. Opening your Library…');
+          location.assign('success.html?order=' + encodeURIComponent(result.orderId));
+        } catch (error) {
+          setBusy(false);
+          setView('closed');
+          showNotice(error.message || 'Could not complete your purchase. Please try again.', true);
+          updateBenefitPreview();
+        }
         return;
       }
       if (typeof window.Razorpay !== 'function') {
@@ -389,13 +463,41 @@
         fill(product);
         document.getElementById('summaryProduct').textContent = product.name;
         document.getElementById('summaryPrice').textContent = money(product.price);
+        originalPricePaise = Math.round(Number(product.price) * 100);
         document.getElementById('summaryTotal').textContent = money(product.price);
+        // Use the server-calculated spendable credit lots, not the wallet display balance.
+        try {
+          const quote = await callFunction('vayen-checkout-quote', { productId }, user);
+          if (quote.quoteOnly !== true || quote.productId !== productId ||
+              quote.pricePaise !== originalPricePaise || quote.currency !== 'INR') {
+            throw new Error('Checkout details could not be confirmed.');
+          }
+          hasDiscountPass = quote.discountPassAvailable === true;
+          displayedCreditsPaise = Number.isSafeInteger(quote.availableCreditsPaise)
+            ? Math.max(0, quote.availableCreditsPaise) : 0;
+          benefitsQuoteReady = true;
+          discountToggle.disabled = !hasDiscountPass;
+          creditsToggle.disabled = displayedCreditsPaise <= 0;
+          document.getElementById('discountAvailability').textContent = hasDiscountPass
+            ? 'Active · 10% off eligible products' : 'No eligible Discount Pass';
+          document.getElementById('creditAvailability').textContent = displayedCreditsPaise > 0
+            ? money(displayedCreditsPaise / 100) + ' available to spend'
+            : 'No spendable credits available';
+        } catch (benefitError) {
+          console.warn('VAYEN benefits unavailable', benefitError);
+          benefitsQuoteReady = false;
+          discountToggle.disabled = true;
+          creditsToggle.disabled = true;
+          document.getElementById('discountAvailability').textContent = 'Membership unavailable';
+          document.getElementById('creditAvailability').textContent = 'Credits unavailable';
+        }
+        updateBenefitPreview();
         document.getElementById('orderSummary').hidden = false;
         headline.textContent = 'Review your order';
         description.textContent = 'Check your product and total before continuing.';
         checkoutCard.querySelector('.mark').style.display = 'none';
         showNotice('Your order summary is ready. Proceed when you are ready.');
-        button.disabled = false;
+        updateBenefitPreview();
         button.addEventListener('click', startCheckout);
       } catch (error) {
         console.error('VAYEN checkout loading error:', error);
