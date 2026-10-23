@@ -548,8 +548,9 @@ function clearSubscriptions() {
 function loadWallet(user) {
   clearSubscriptions();
   if (!user) return message('Sign in to view your credits.');
-  stopBalance = onSnapshot(doc(db, 'users', user.uid, 'wallet', 'summary'), snap => {
-    const amount = snap.exists() ? snap.data().balance : 0;
+  stopBalance = onSnapshot(doc(db, 'users', user.uid, 'wallet', 'shoppingCredits'), snap => {
+    const amountPaise = snap.exists() ? snap.data().balancePaise : 0;
+    const amount = Number.isSafeInteger(amountPaise) ? amountPaise / 100 : NaN;
     if (!Number.isSafeInteger(amount) || amount < 0) {
       walletError = true;
     } else {
