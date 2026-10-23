@@ -47,9 +47,9 @@
   <div class="toolbar"><input class="field" id="loginCustomerSearch" placeholder="Search customer ID or name..."></div>
   <div class="tablewrap"><table><thead><tr><th>Customer ID</th><th>Name</th><th>Email</th><th>Login method</th><th>Joined</th><th>Dear name</th><th>Details</th></tr></thead><tbody id="loginCustomerRows"></tbody></table></div>
 </div></section>
-<section class="section" id="surprise"><p class="note">TEST WORKSPACE · Surprise Box assignments can be tested locally. Real requests will require verified payment integration.</p><div class="panel"><div class="panelhead"><h2>Surprise Box requests</h2><button class="button" id="addSurprise">+ Test request</button></div><div class="tablewrap"><table><thead><tr><th>Request</th><th>Customer</th><th>Box / Amount</th><th>Selected gift</th><th>Status</th><th>Action</th></tr></thead><tbody id="surpriseRows"></tbody></table></div></div></section>
+<section class="section" id="surprise"><div class="panel"><div class="panelhead"><h2>Paid Surprise Box requests</h2><button class="button secondary" id="refreshRealSurprises">Refresh</button></div><p class="sub" id="realSurpriseStatus">Waiting for admin access...</p><div class="tablewrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Gift</th><th>Action</th></tr></thead><tbody id="realSurpriseRows"></tbody></table></div></div></section><div style="display:none"><table><tbody id="surpriseRows"></tbody></table></div>
 <section class="section" id="giftcards"><div class="stats" style="grid-template-columns:repeat(2,minmax(0,1fr))"><div class="stat"><label>Gift cards purchased</label><strong id="giftCount">0</strong><small>Number of test cards</small></div><div class="stat"><label>Total face value</label><strong id="giftValue">₹0</strong><small>Test gift card value</small></div></div><div class="panel"><div class="panelhead"><h2>Gift cards</h2><button class="button" id="addGiftCard">+ Test gift card</button></div><div class="tablewrap"><table><thead><tr><th>Card code</th><th>Buyer</th><th>Recipient</th><th>Value</th><th>Status</th><th>Action</th></tr></thead><tbody id="giftcardRows"></tbody></table></div></div></section>
-<section class="section" id="delivery"><p class="note">LOCAL TESTING · Delivery status changes do not send emails or grant customer access.</p><div class="panel"><div class="panelhead"><h2>Gift delivery queue</h2></div><div class="tablewrap"><table><thead><tr><th>Request</th><th>Recipient</th><th>Assigned product</th><th>Status</th><th>Action</th></tr></thead><tbody id="deliveryRows"></tbody></table></div></div></section>
+<section class="section" id="delivery"><div class="panel"><h2>Gift Delivery</h2><p>Paid Surprise Boxes are delivered from the Surprise Boxes tab.</p><button class="button" data-go="surprise">Open Surprise Boxes</button></div></section><div style="display:none"><table><tbody id="deliveryRows"></tbody></table></div>
 <section class="section" id="sendgift">
   <p class="note">REAL GIFT DELIVERY · Send a complimentary ebook to an existing VAYEN customer. The recipient can claim it securely from their Homepage. This does not create a paid order.</p>
   <div class="panel" style="max-width:780px">
@@ -362,6 +362,51 @@ let activeAdminUid=null;
      giftButton.disabled = !authorized;
    }
  });
+// Secure paid Surprise Box queue and admin-selected delivery.
+let surpriseBusy=false;
+async function surpriseCall(body){
+ const user=getAuth().currentUser;
+ if(!authorized||!user||user.uid!==activeAdminUid)throw Error('Admin sign-in required');
+ const token=await user.getIdToken();
+ const response=await fetch('https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/vayen-admin-surprise-box',{
+  method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify(body)
+ });
+ const data=await response.json().catch(()=>({}));
+ if(!response.ok||data.success!==true)throw Error(data.error||'Request failed');
+ return data;
+}
+async function refreshSurpriseQueue(){
+ if(!authorized||surpriseBusy)return;
+ const status=$('realSurpriseStatus'),rows=$('realSurpriseRows');status.textContent='Loading paid requests...';
+ try{
+  const [response,products]=await Promise.all([surpriseCall({action:'list'}),getDocs(collection(firestore,'products'))]);
+  const choices=products.docs.filter(d=>{const p=d.data();return p.status==='published'&&p.slug===d.id&&Number.isSafeInteger(p.price)&&p.price>=499&&p.price<=999}).map(d=>({id:d.id,name:d.data().name||d.id}));
+  rows.replaceChildren();
+  for(const item of response.items){
+   const tr=document.createElement('tr');
+   const order=document.createElement('td');order.textContent=item.orderId;
+   const customer=document.createElement('td');customer.textContent=item.email||item.userId;
+   const gift=document.createElement('td'),select=document.createElement('select');select.className='field';
+   select.add(new Option('Select ebook',''));
+   for(const p of choices)select.add(new Option(p.name,p.id));gift.append(select);
+   const action=document.createElement('td'),button=document.createElement('button');button.className='tiny';button.textContent='Deliver';action.append(button);
+   button.addEventListener('click',async()=>{
+    if(surpriseBusy||!select.value){status.textContent='Select an ebook first.';return;}
+    const name=choices.find(p=>p.id===select.value)?.name||select.value;
+    if(!confirm(`Deliver ${name} to ${item.email||item.userId}?`))return;
+    surpriseBusy=true;button.disabled=true;status.textContent='Delivering gift...';
+    try{await surpriseCall({action:'deliver',orderId:item.orderId,userId:item.userId,productId:select.value});status.textContent='Gift delivered.';}
+    catch(e){console.error(e);status.textContent=e.message||'Delivery failed.';}
+    finally{surpriseBusy=false;button.disabled=false;}
+    await refreshSurpriseQueue();
+   });
+   tr.append(order,customer,gift,action);rows.append(tr);
+  }
+  status.textContent=`${response.items.length} pending paid request(s)`;
+ }catch(e){console.error(e);status.textContent='Could not load requests. Try Refresh.';}
+}
+$('refreshRealSurprises').addEventListener('click',refreshSurpriseQueue);
+document.querySelector('[data-tab="surprise"]').addEventListener('click',refreshSurpriseQueue);
 // Firebase product management. Catalog document IDs are product slugs.
 async function refreshProducts(){
   if(!authorized||!firestore)return;
