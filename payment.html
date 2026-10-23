@@ -369,12 +369,45 @@
               if (result.success !== true || result.orderId !== order.orderId) {
                 throw new Error('Payment confirmation is pending.');
               }
+
+              // A verified Razorpay payment is not enough for a Flex checkout:
+              // the reserved credits must also be settled. Check server lock state.
+              // The status endpoint reports "none" only when the lock is gone.
+              if (flex) {
+                showNotice('Finalizing your purchase and Shopping Credits…');
+                const state = await callFunction(
+                  'vayen-flex-checkout-status',
+                  { productId },
+                  user
+                );
+
+                if (state.status === 'paid' && state.orderId === order.orderId) {
+                  // Legacy/incomplete verification may mark paid while leaving
+                  // a credit reservation. Reconcile once, idempotently.
+                  if (amounts.credits <= 0) {
+                    throw new Error('Your purchase needs a settlement review.');
+                  }
+                  const recovery = await callFunction(
+                    'vayen-flex-reconcile-payment',
+                    { orderId: order.orderId },
+                    user
+                  );
+                  if (recovery.success !== true ||
+                      recovery.orderId !== order.orderId ||
+                      !['recovered', 'already-recovered'].includes(recovery.status)) {
+                    throw new Error('Your credits settlement is still pending.');
+                  }
+                } else if (state.status !== 'none') {
+                  throw new Error('Your purchase is still being finalized.');
+                }
+              }
+
               setView('success');
               showNotice('Payment verified. Opening your order details…');
               location.assign('success.html?order=' + encodeURIComponent(order.orderId));
             } catch (error) {
               console.error('VAYEN payment confirmation pending:', error);
-              showNotice('Your payment is being confirmed. Check My Library shortly. If it does not appear, contact support with your order details.', true);
+              showNotice('Payment received. Final confirmation may still be pending. Please do not pay again; contact VAYEN Support with your order details if this continues.', true);
               verifyingPayment = false;
               setBusy(false);
               setView('closed');
