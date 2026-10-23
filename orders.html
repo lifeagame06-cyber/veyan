@@ -572,7 +572,7 @@ if (!getApps().length) {
                 const data = item.data();
                 if (data.userId !== user.uid || data.giftId !== item.id ||
                     data.status !== 'claimed' || typeof data.productId !== 'string' ||
-                    !Object.prototype.hasOwnProperty.call(ebookTitles, data.productId)) {
+                    !data.productId.trim()) {
                     return [];
                 }
                 return [{
@@ -580,7 +580,9 @@ if (!getApps().length) {
                     kind: 'gift',
                     source: 'cloud',
                     status: 'claimed',
-                    name: ebookTitles[data.productId],
+                    name: (typeof data.productName === 'string' && data.productName.trim())
+                        ? data.productName.trim()
+                        : (ebookTitles[data.productId] || data.productId.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())),
                     category: 'VAYEN EBOOK',
                     productId: data.productId,
                     price: 0,
