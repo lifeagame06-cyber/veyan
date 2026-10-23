@@ -35,10 +35,10 @@
 <button class="active" data-tab="dashboard">◫ &nbsp; Dashboard</button><button data-tab="products">▦ &nbsp; Products</button><button data-tab="orders">▤ &nbsp; Orders</button><button data-tab="payments">◈ &nbsp; Payments</button><button data-tab="customers">♙ &nbsp; Customers</button><button data-tab="surprise">✦ &nbsp; Surprise Boxes</button><button data-tab="delivery">↗ &nbsp; Gift Delivery</button><button data-tab="sendgift">🎁 &nbsp; Send Gift</button><button data-tab="support">✉ &nbsp; Support Requests <span id="supportNavCount" style="float:right;color:#e6aeb9"></span></button><button data-tab="settings">⚙ &nbsp; Settings</button>
 </nav><div class="sidefoot">OWNER WORKSPACE · Secure access<br><a href="index.html">← Back to VAYEN</a></div></aside>
 <main class="main"><header class="top"><div><span class="eyebrow">VAYEN / MANAGEMENT</span><h1 id="pageTitle">Overview<span style="color:#ae7c85">.</span></h1></div><div class="topright"><span class="pill">● ADMIN ACCESS</span></div></header>
-<section class="section active" id="dashboard"><div class="stats"><div class="stat"><label>Verified orders</label><strong id="sOrders">0</strong><small>Confirmed paid transactions</small></div><div class="stat"><label>Verified order value</label><strong id="sRevenue">₹0</strong><small>Verified paid orders only</small></div><div class="stat"><label>Customers</label><strong id="sCustomers">—</strong><small>Registered Firebase profiles</small></div><div class="stat"><label>Gifts to deliver</label><strong id="sGifts">0</strong><small>Awaiting fulfillment</small></div></div><div class="cards2"><div class="panel"><div class="panelhead"><h2>Recent orders</h2><button class="tiny" data-go="orders">View all →</button></div><div id="recentOrders" class="activity"></div></div><div class="panel"><div class="panelhead"><h2>Gift fulfillment</h2><button class="tiny" data-go="delivery">Manage →</button></div><div id="recentGifts" class="activity"></div></div></div><div class="panel"><div class="panelhead"><h2>Quick actions</h2></div><div class="actions"><button class="button" id="quickProduct">+ Add product</button><button class="button secondary" type="button" data-go="orders">View verified orders →</button><button class="button secondary" type="button" data-go="surprise">Review paid Surprise Boxes →</button></div></div></section>
+<section class="section active" id="dashboard"><div class="stats"><div class="stat"><label>Verified orders</label><strong id="sOrders">0</strong><small>Verified customer records</small></div><div class="stat"><label>Verified order value</label><strong id="sRevenue">₹0</strong><small>Verified paid orders only</small></div><div class="stat"><label>Customers</label><strong id="sCustomers">—</strong><small>Registered Firebase profiles</small></div><div class="stat"><label>Gifts to deliver</label><strong id="sGifts">0</strong><small>Awaiting fulfillment</small></div></div><div class="cards2"><div class="panel"><div class="panelhead"><h2>Recent orders</h2><button class="tiny" data-go="orders">View all →</button></div><div id="recentOrders" class="activity"></div></div><div class="panel"><div class="panelhead"><h2>Gift fulfillment</h2><button class="tiny" data-go="delivery">Manage →</button></div><div id="recentGifts" class="activity"></div></div></div><div class="panel"><div class="panelhead"><h2>Quick actions</h2></div><div class="actions"><button class="button" id="quickProduct">+ Add product</button><button class="button secondary" type="button" data-go="orders">View verified orders →</button><button class="button secondary" type="button" data-go="surprise">Review paid Surprise Boxes →</button></div></div></section>
 <section class="section" id="products"><p class="note">FIREBASE PRODUCTS · Add, edit and hide products across devices. Customer orders are displayed from verified account records.</p><div class="panel"><div class="panelhead"><h2>Product catalog</h2><div class="actions"><button class="button secondary" id="importProducts" type="button">Import original catalog</button><button class="button" id="addProduct">+ Add product</button></div></div><div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:15px"><div class="stat"><label>Premium products</label><strong id="premiumCount">0</strong></div><div class="stat"><label>Worlds</label><strong id="worldCount">0</strong></div><div class="stat"><label>Expensive / Flagship</label><strong id="otherCount">0</strong></div></div><div class="toolbar"><input class="field" id="productSearch" placeholder="Search products..."></div><div class="tablewrap"><table><thead><tr><th>Product</th><th>Collection</th><th>Category</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead><tbody id="productRows"></tbody></table></div></div></section>
-<section class="section" id="orders"><div class="panel"><div class="panelhead"><h2>Payment orders</h2><button class="button secondary" type="button" id="refreshCloudOrders">↻ Refresh</button></div><p class="sub" id="cloudOrdersStatus" role="status" aria-live="polite">Waiting for secure admin access...</p><div class="toolbar"><input class="field" id="cloudOrderSearch" placeholder="Search order, customer, product..."></div><div class="tablewrap"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Product</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody id="cloudOrderRows"><tr><td colspan="6" class="empty">No orders loaded.</td></tr></tbody></table></div></div></section>
-<section class="section" id="payments"><div class="panel"><div class="panelhead"><h2>Verified customer payments</h2><button class="button secondary" type="button" id="refreshPayments">↻ Refresh</button></div><p class="sub">Verified payments from secure order records. Unpaid orders are excluded from revenue.</p><div class="tablewrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead><tbody id="verifiedPaymentRows"><tr><td colspan="4" class="empty">Refresh to load payments.</td></tr></tbody></table></div></div></section>
+<section class="section" id="orders"><div class="panel"><div class="panelhead"><h2>Firebase customer orders</h2><button class="button secondary" type="button" id="refreshCloudOrders">↻ Refresh</button></div><p class="sub" id="cloudOrdersStatus" role="status" aria-live="polite">Waiting for secure admin access...</p><div class="toolbar"><input class="field" id="cloudOrderSearch" placeholder="Search order, customer, product..."></div><div class="tablewrap"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Product</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody id="cloudOrderRows"><tr><td colspan="6" class="empty">No orders loaded.</td></tr></tbody></table></div></div></section>
+<section class="section" id="payments"><div class="panel"><div class="panelhead"><h2>Verified customer payments</h2><button class="button secondary" type="button" id="refreshPayments">↻ Refresh</button></div><p class="sub">Verified orders from customer accounts. Pending/unverified orders are not counted as revenue.</p><div class="tablewrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead><tbody id="verifiedPaymentRows"><tr><td colspan="4" class="empty">Refresh to load payments.</td></tr></tbody></table></div></div></section>
 <section class="section" id="customers">
 <div class="panel">
   <div class="panelhead"><h2>Registered Firebase Customers</h2><button type="button" class="button secondary" id="refreshLoginCustomers">↻ Refresh</button></div>
@@ -517,70 +517,55 @@ async function refreshCustomers(){
     $('customerRefreshStatus').textContent='Unable to load customers. Check admin permission and Firebase configuration.';
   }
 }
-// Read-only verified payment reporting. Source: root /orders documents.
+// Read-only admin order overview. No payment verification or fulfillment occurs here.
 let cloudOrders = [];
-const orderTimestamp = v => v?.toDate?.()?.getTime?.() || (v?.seconds ? v.seconds * 1000 : new Date(v || 0).getTime()) || 0;
-const money = n => '₹' + (Number(n || 0) / 100).toLocaleString('en-IN', {maximumFractionDigits:2});
 function renderCloudOrders() {
   const q = $('cloudOrderSearch').value.trim().toLowerCase();
   const rows = cloudOrders.filter(o => [o.id,o.customer,o.name,o.status].join(' ').toLowerCase().includes(q));
   $('cloudOrderRows').innerHTML = rows.map(o => `<tr>
     <td>${escapeHtml(o.id)}</td><td>${escapeHtml(o.customer)}</td>
-    <td>${escapeHtml(o.name)}</td><td>${money(o.amountPaise)}</td>
-    <td><span class="tag ${o.verified ? 'success' : ''}">${escapeHtml(o.status)}</span></td><td>${escapeHtml(dateLabel(o.createdAt))}</td>
-  </tr>`).join('') || '<tr><td colspan="6" class="empty">No matching orders.</td></tr>';
+    <td>${escapeHtml(o.name)}</td><td>₹${Number(o.price || 0).toLocaleString('en-IN')}</td>
+    <td><span class="tag">${escapeHtml(o.status)}</span></td><td>${escapeHtml(dateLabel(o.createdAt))}</td>
+  </tr>`).join('') || '<tr><td colspan="6" class="empty">No matching Firebase orders.</td></tr>';
 }
 async function refreshCloudOrders() {
   if (!authorized || !firestore) return;
   const btn = $('refreshCloudOrders');
   btn.disabled = true;
-  $('cloudOrdersStatus').textContent = 'Loading payment records...';
+  $('cloudOrdersStatus').textContent = 'Loading customer orders...';
   try {
-    const [snap, userSnap] = await Promise.all([
-      getDocs(collection(firestore, 'orders')),
-      getDocs(collection(firestore, 'users'))
-    ]);
-    const users = new Map(userSnap.docs.map(d => [d.id, d.data()]));
-    cloudOrders = snap.docs.map(d => {
-      const x = d.data();
-      const u = users.get(x.userId) || {};
-      const paid = String(x.paymentStatus || '').toLowerCase();
-      const verifiedStatus = String(x.verificationStatus || '').toLowerCase();
-      // Never treat an abandoned/failed/unverified order as successful.
-      const verified = ['paid','captured','success'].includes(paid) &&
-        ['verified','success'].includes(verifiedStatus);
-      const status = verified ? 'Verified paid' :
-        paid === 'abandoned' ? 'Abandoned' :
-        paid === 'failed' ? 'Failed' :
-        paid === 'refunded' ? 'Refunded' :
-        paid === 'pending' || paid === 'created' ? 'Pending' :
-        'Unverified / ' + (paid || 'unknown');
-      return {
+    // Read the same users/{uid}/orders path used by the customer Orders page.
+    const users = await getDocs(collection(firestore, 'users'));
+    const results = await Promise.allSettled(users.docs.map(async userDoc => {
+      const snap = await getDocs(collection(firestore, 'users', userDoc.id, 'orders'));
+      return snap.docs.map(d => ({
         id: d.id,
-        customer: String(u.email || x.customerEmail || x.email || x.userId || 'Unknown customer'),
-        name: String(x.productName || x.planName || x.productId || x.planType || 'Digital product'),
-        amountPaise: Number(x.amount ?? x.amountPaise ?? 0),
-        status, verified,
-        createdAt: x.createdAt || x.paidAt || x.verifiedAt || null
-      };
+        customer: String(userDoc.data().email || userDoc.data().fullName || userDoc.id),
+        name: String(d.data().name || 'Digital product'),
+        price: Number(d.data().price || 0),
+        status: d.data().paymentStatus === 'paid' && d.data().verificationStatus === 'verified' ? 'Verified paid' : 'Unverified / pending',
+        createdAt: d.data().createdAt || null
+      }));
+    }));
+    const failures = results.filter(r => r.status === 'rejected');
+    cloudOrders = results.filter(r => r.status === 'fulfilled').flatMap(r => r.value);
+    cloudOrders.sort((a,b) => {
+      const time = v => v?.toDate?.()?.getTime?.() || new Date(v || 0).getTime() || 0;
+      return time(b.createdAt) - time(a.createdAt);
     });
-    cloudOrders.sort((a,b) => orderTimestamp(b.createdAt) - orderTimestamp(a.createdAt));
     renderCloudOrders();
-    const verified = cloudOrders.filter(o => o.verified);
-    $('sOrders').textContent = verified.length;
-    $('sRevenue').textContent = money(verified.reduce((sum,o) => sum + o.amountPaise,0));
-    $('recentOrders').innerHTML = cloudOrders.slice(0,5).map(o =>
-      `<div><span>${escapeHtml(o.name)}<br><small>${escapeHtml(o.customer)}</small></span><span>${money(o.amountPaise)} · ${escapeHtml(o.status)}</span></div>`
-    ).join('') || '<p class="sub">No orders yet.</p>';
-    $('verifiedPaymentRows').innerHTML = verified.map(o =>
-      `<tr><td>${escapeHtml(o.id)}</td><td>${escapeHtml(o.customer)}</td><td>${money(o.amountPaise)}</td><td><span class="tag success">Verified paid</span></td></tr>`
-    ).join('') || '<tr><td colspan="4" class="empty">No verified payments yet.</td></tr>';
-    $('cloudOrdersStatus').textContent = `${cloudOrders.length} order(s) loaded from payment records · ${verified.length} verified paid.`;
+    const verified=cloudOrders.filter(o=>o.status==='Verified paid');
+    $('sOrders').textContent=verified.length;
+    $('sRevenue').textContent='₹'+verified.reduce((sum,o)=>sum+Number(o.price||0),0).toLocaleString('en-IN');
+    $('recentOrders').innerHTML=cloudOrders.slice(0,5).map(o=>`<div><span>${escapeHtml(o.name)}<br><small>${escapeHtml(o.customer)}</small></span><span>₹${Number(o.price||0).toLocaleString('en-IN')} · ${escapeHtml(o.status)}</span></div>`).join('')||'<p class="sub">No customer orders yet.</p>';
+    $('verifiedPaymentRows').innerHTML=verified.map(o=>`<tr><td>${escapeHtml(o.id)}</td><td>${escapeHtml(o.customer)}</td><td>₹${Number(o.price||0).toLocaleString('en-IN')}</td><td><span class="tag success">Verified paid</span></td></tr>`).join('')||'<tr><td colspan="4" class="empty">No verified payments yet.</td></tr>';
+    $('cloudOrdersStatus').textContent = failures.length
+      ? `${cloudOrders.length} order(s) loaded. ${failures.length} customer order collection(s) could not be accessed; check admin Firestore rules.`
+      : `${cloudOrders.length} Firebase order(s) found across ${users.size} customer profile(s).`;
+    if (failures.length) console.error('Some customer orders could not be loaded:', failures.map(r => r.reason));
   } catch (error) {
-    console.error('Admin payment reporting failed:',error);
-    $('cloudOrdersStatus').textContent = error?.code === 'permission-denied'
-      ? 'Admin payment records access needs to be enabled in Firestore rules.'
-      : 'Unable to load payment records. Please try Refresh.';
+    console.error('Admin order load failed:', error);
+    $('cloudOrdersStatus').textContent = 'Unable to load Firebase orders. Check admin permissions and connection.';
   } finally { btn.disabled = false; }
 }
 $('refreshCloudOrders').addEventListener('click', refreshCloudOrders);
