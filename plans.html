@@ -714,6 +714,44 @@
     .vayen-plans .vp-lifetime {animation:none}
 }
 </style>
+
+<style id="vayen-compact-adjustments">
+/* Compact layout: keep the approved reference colours and artwork. */
+.vayen-plans .vp-grid {max-width:1240px;gap:20px;margin-top:32px;}
+.vayen-plans .vp-card {min-height:535px;padding:25px 25px 21px;border-radius:23px;}
+.vayen-plans .vp-card-main {margin-top:36px;}
+.vayen-plans .vp-card h3 {font-size:clamp(27px,2.35vw,34px);line-height:1.14;letter-spacing:-1.15px;}
+.vayen-plans .vp-kicker {font-size:10px;letter-spacing:1.45px;}
+.vayen-plans .vp-price {font-size:32px;margin-top:22px;}
+.vayen-plans .vp-description {font-size:12px;line-height:1.55;min-height:43px;margin-top:7px;}
+.vayen-plans .vp-benefits {gap:9px;padding:12px 0 15px;font-size:11px;}
+.vayen-plans .vp-benefits>span:not(.vp-future-benefit) {line-height:1.35;}
+.vayen-plans .vp-future-benefit {padding:10px 11px;font-size:11px;}
+.vayen-plans .vp-details summary {min-height:34px;padding-top:10px;font-size:11px;}
+.vayen-plans .vp-get {padding:13px 17px;margin-top:8px;font-size:11px;}
+.vayen-plans .vp-art {top:19%;width:40%;max-height:175px;}
+.vayen-plans .vp-bundle .vp-art {top:20%;width:41%;}
+.vayen-plans .vp-lifetime .vp-art {top:19%;width:39%;}
+.vayen-plans .vp-surprise .vp-art {top:20%;width:41%;}
+@media(max-width:900px) {
+ .vayen-plans .vp-grid {max-width:455px;gap:32px;}
+ .vayen-plans .vp-card {min-height:505px;}
+ .vayen-plans .vp-card h3 {font-size:34px;}
+}
+@media(max-width:768px) {
+ .vayen-plans .vp-grid {margin-top:34px;gap:30px;}
+ .vayen-plans .vp-card {padding:24px 22px 20px;min-height:505px;}
+ .vayen-plans .vp-card-main {margin-top:36px;}
+ .vayen-plans .vp-card h3 {font-size:clamp(28px,7.7vw,34px);}
+ .vayen-plans .vp-price {font-size:31px;}
+ .vayen-plans .vp-description {min-height:0;}
+}
+@media(max-width:380px) {
+ .vayen-plans .vp-card {padding:22px 18px 18px;}
+ .vayen-plans .vp-card h3 {font-size:28px;}
+ .vayen-plans .vp-art {width:36%;}
+}
+</style>
 </head>
 <body>
 <header class="plans-page-header">
@@ -791,7 +829,7 @@
 <!-- SURPRISE BOX -->
 <article class="vp-card vp-surprise">
 <div class="vp-card-top">
-<span>01 / SOMETHING SPECIAL</span>
+<span>03 / SOMETHING SPECIAL</span>
 <span class="vp-tag">THE MYSTERY PICK</span>
 </div>
 <img class="vp-art" src="plans-assets/surprise-art.png" alt="" aria-hidden="true" loading="lazy"/>
