@@ -773,6 +773,61 @@
     .vayen-plans .vp-surprise { min-height: 0; }
 }
 </style>
+
+<style id="vayen-restore-equal-card-size">
+/* Restore the original tall, balanced three-card composition.
+   Cards remain independent when their details are opened. */
+@media (min-width:901px) {
+    .vayen-plans .vp-grid { align-items: start !important; }
+    .vayen-plans .vp-card,
+    .vayen-plans .vp-bundle,
+    .vayen-plans .vp-lifetime,
+    .vayen-plans .vp-surprise {
+        min-height: 610px !important;
+        height: auto !important;
+        align-self: start !important;
+    }
+}
+.vayen-plans .vp-card { display:flex; flex-direction:column; }
+.vayen-plans .vp-side-highlight {
+    position:relative;
+    z-index:2;
+    margin-top: 18px;
+    padding: 15px 12px;
+    min-height: 48px;
+    display:flex;
+    align-items:center;
+    border-radius:12px;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:.65px;
+    line-height:1.4;
+}
+.vayen-plans .vp-bundle .vp-side-highlight {
+    background:rgba(255,214,191,.10);
+    border:1px solid rgba(255,207,182,.58);
+    color:#ffe0d1;
+}
+.vayen-plans .vp-surprise .vp-side-highlight {
+    background:rgba(210,218,255,.10);
+    border:1px solid rgba(204,213,255,.56);
+    color:#e2e6ff;
+}
+.vayen-plans .vp-bundle .vp-benefits,
+.vayen-plans .vp-surprise .vp-benefits {
+    margin-top: 8px !important;
+    padding-top: 12px !important;
+}
+.vayen-plans .vp-get { margin-top:auto !important; }
+.vayen-plans .vp-details { margin-bottom: 18px; }
+@media(max-width:900px) {
+    .vayen-plans .vp-card { min-height: 560px !important; }
+}
+@media(max-width:450px) {
+    .vayen-plans .vp-card { min-height: 530px !important; }
+    .vayen-plans .vp-side-highlight {font-size:10px;padding:12px;}
+}
+</style>
 </head>
 <body>
 <header class="plans-page-header">
@@ -806,6 +861,7 @@
     <div class="vp-price">₹2,999 <small>/ one-time</small></div>
     <p class="vp-description">Choose 5 eligible digital products you love and keep access to them for life.</p>
   </div>
+  <div class="vp-side-highlight">✧ &nbsp; YOUR 5 PICKS. YOURS FOR LIFE.</div>
   <div class="vp-benefits">
     <span>✓ Pick any 5 eligible products</span>
     <span>✓ Lifetime access to your selections</span>
@@ -860,6 +916,7 @@
 <div class="vp-price">₹499 <small>/ one-time</small></div>
 <p class="vp-description">An exclusive mystery digital gift, specially selected for you.</p>
 </div>
+<div class="vp-side-highlight">✧ &nbsp; A GIFT PICKED JUST FOR YOU</div>
 <div class="vp-benefits">
 <span>✦ A mystery digital product</span>
 <span>✦ Delivered to your My Orders</span>
