@@ -2,9 +2,12 @@
 /* Keep account-only checkout hidden until Firebase confirms the session. */
 body.vayen-auth-pending .wrap, body.vayen-auth-pending .foot { visibility:hidden; }
 :root{font-family:Arial,sans-serif;color:#2b2228}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 95% 0%,#ead2d5,transparent 45%),radial-gradient(ellipse at 0% 95%,#e5c8c6,transparent 55%),#f8f3ef}a{text-decoration:none;color:inherit}.top{display:flex;align-items:center;justify-content:space-between;max-width:1110px;margin:20px auto;padding:22px 30px;border:1px solid white;border-radius:20px;background:#fffcfae8;box-shadow:0 14px 38px #56333b0b}.brand{font-size:22px;letter-spacing:5px;font-weight:900}.back{font-size:13px;color:#7e6871}.wrap{width:min(1070px,calc(100% - 32px));margin:55px auto}.eyebrow{color:#9b637a;font-size:11px;font-weight:800;letter-spacing:2px}.heading{font-size:clamp(36px,5vw,57px);letter-spacing:-2px;margin:12px 0}.sub{font-size:14px;color:#7f7378;line-height:1.7}.grid{display:grid;grid-template-columns:1.35fr .85fr;gap:22px;margin-top:32px}.card{background:#fffdfb;border:1px solid #e9dfe0;border-radius:24px;padding:31px;box-shadow:0 16px 45px #4b303812}.label{font-size:11px;font-weight:800;letter-spacing:1.5px;color:#966a7b}.name{font-size:29px;letter-spacing:-1px;margin:17px 0 12px}.muted{font-size:13px;color:#81747b;line-height:1.7}.rule{height:1px;background:#eee5e5;margin:24px 0}.row{display:flex;justify-content:space-between;gap:14px;align-items:center;margin:15px 0;font-size:13px}.price{font-size:32px;font-weight:800}.button{width:100%;display:block;padding:17px 20px;border:0;border-radius:13px;background:#2b2029;color:white;font-size:13px;font-weight:800;text-align:center;cursor:pointer}.note{margin-top:17px;padding:14px 15px;background:#f9eff0;border:1px solid #eedde0;border-radius:12px;color:#7a4f60;font-size:12px;line-height:1.6}.feature{padding:9px 0;font-size:13px;color:#554951}.feature::before{content:'✓';color:#9c687e;font-weight:800;margin-right:10px}.hidden{display:none}.error{color:#a13d50}.foot{text-align:center;font-size:11px;color:#9b8c91;margin:40px 0}@media(max-width:700px){.top{margin:8px 10px;padding:17px}.wrap{margin:30px auto}.grid{grid-template-columns:1fr;gap:14px;margin-top:24px}.card{padding:22px}.heading{letter-spacing:-1px}}
-</style></head><body class="vayen-auth-pending"><header class="top"><a class="brand" href="index.html">VAYEN</a><a class="back" href="plans.html">← Back to Plans</a></header><main class="wrap"><span class="eyebrow">VAYEN / EXCLUSIVE ACCESS</span><h1 class="heading">Plan checkout<span style="color:#b27a8d">.</span></h1><p class="sub">Review your selected plan and payment details before proceeding.</p><div class="grid"><section class="card"><span class="label">SELECTED PLAN</span><h2 class="name" id="name">—</h2><p class="muted" id="description"></p><div class="rule"></div><div id="benefits"></div><div class="rule"></div><p class="muted">Signed-in account: <strong id="email"></strong></p><a class="back" href="plans.html">← Change plan</a></section><aside class="card"><span class="label">ORDER SUMMARY</span><div class="row"><span>Plan price</span><strong id="price">—</strong></div><div class="row"><span>Additional charges</span><strong>₹0</strong></div><div class="rule"></div><div class="row"><strong>Total payable</strong><strong class="price" id="total">—</strong></div><button class="button" id="pay" type="button">Continue to Payment →</button><div class="note" id="status">Sign in to review your plan and continue securely.</div></aside></div></main><footer class="foot">© 2026 VAYEN · Digital products, thoughtfully made.</footer><script src="https://checkout.razorpay.com/v1/checkout.js"></script><script type="module" id="vayen-plan-firebase-checkout">
+
+.bundle-picker{margin-top:22px}.bundle-picker h3{font-size:17px;margin:0 0 7px}.bundle-picker .picker-status{font-size:12px;color:#826b75;margin:0 0 12px}.bundle-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;max-height:355px;overflow:auto}.bundle-option{display:flex;gap:10px;align-items:center;border:1px solid #eadde1;border-radius:12px;padding:12px;background:#fff;cursor:pointer;font-size:12px;line-height:1.4}.bundle-option:has(input:checked){background:#f7e8ed;border-color:#945a73}.bundle-option input{accent-color:#703a56;width:17px;height:17px;flex-shrink:0}.bundle-option input:disabled{cursor:not-allowed}.bundle-count{font-weight:700;color:#7e415b;margin-top:10px;font-size:12px}.button:disabled{opacity:.55;cursor:not-allowed}@media(max-width:550px){.bundle-list{grid-template-columns:1fr}}
+</style></head><body class="vayen-auth-pending"><header class="top"><a class="brand" href="index.html">VAYEN</a><a class="back" href="plans.html">← Back to Plans</a></header><main class="wrap"><span class="eyebrow">VAYEN / EXCLUSIVE ACCESS</span><h1 class="heading">Plan checkout<span style="color:#b27a8d">.</span></h1><p class="sub">Review your selected plan and payment details before proceeding.</p><div class="grid"><section class="card"><span class="label">SELECTED PLAN</span><h2 class="name" id="name">—</h2><p class="muted" id="description"></p><div class="rule"></div><div id="benefits"></div><section id="bundlePicker" class="bundle-picker hidden"><h3>Choose your 5 ebooks</h3><p class="picker-status" id="pickerStatus">Loading available ebooks…</p><div class="bundle-list" id="bundleList"></div><div class="bundle-count" id="bundleCount">0 of 5 selected</div></section><div class="rule"></div><p class="muted">Signed-in account: <strong id="email"></strong></p><a class="back" href="plans.html">← Change plan</a></section><aside class="card"><span class="label">ORDER SUMMARY</span><div class="row"><span>Plan price</span><strong id="price">—</strong></div><div class="row"><span>Additional charges</span><strong>₹0</strong></div><div class="rule"></div><div class="row"><strong>Total payable</strong><strong class="price" id="total">—</strong></div><button class="button" id="pay" type="button">Continue to Payment →</button><div class="note" id="status">Sign in to review your plan and continue securely.</div></aside></div></main><footer class="foot">© 2026 VAYEN · Digital products, thoughtfully made.</footer><script src="https://checkout.razorpay.com/v1/checkout.js"></script><script type="module" id="vayen-plan-firebase-checkout">
 import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
 const CONFIG = window.VAYEN_FIREBASE_CONFIG || {
   apiKey: "AIzaSyCJStLo-FmvkPQo-u-cP-J4rQ8z4ecYMW4",
@@ -14,18 +17,22 @@ const CONFIG = window.VAYEN_FIREBASE_CONFIG || {
 };
 const BASE = "https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1";
 const PLANS = {
-  "discount-pass": {name:"Discount Pass",price:299,description:"10% off eligible digital products throughout your membership year.",benefits:["10% off products above ₹500","Up to 50 discounted purchases","Valid for 1 year"]},
-  "surprise-box": {name:"Surprise Box",price:499,description:"An exclusive mystery digital gift, specially selected for you.",benefits:["Mystery digital product","Delivered to My Orders when fulfilled","Gift details provided before activation"]},
-  "shopping-pass": {name:"Shopping Pass",price:999,description:"₹1,500 of shopping credit for eligible VAYEN digital products.",benefits:["₹1,500 shopping credit","₹501 extra shopping value","Track remaining balance"]}
+  "surprise-box": {name:"Surprise Box",price:499,description:"A mystery digital gift, specially selected for you.",benefits:["Admin-selected surprise product","Delivered after fulfillment","Your gift appears in My Products once claimed"]},
+  "bundle-pass": {name:"VAYEN Bundle Pass",price:2999,description:"Choose any five eligible VAYEN ebooks and enjoy lifetime access to your selection.",benefits:["Choose exactly 5 published ebooks","Lifetime access to your chosen ebooks","Read and download from My Products"]},
+  "lifetime-access": {name:"VAYEN Lifetime Access",price:5999,description:"Lifetime access to all currently eligible published VAYEN ebooks.",benefits:["All eligible ebooks published at purchase","Lifetime access to included ebooks","10 Future Products Included*","*Future-product access will be introduced separately; not automatically unlocked yet."]}
 };
 const id = new URLSearchParams(location.search).get("plan");
-const plan = Object.hasOwn(PLANS,id) ? PLANS[id] : null;
+const plan = typeof id === "string" && Object.hasOwn(PLANS,id) ? PLANS[id] : null;
 const el = name => document.getElementById(name);
 const pay = el("pay");
 const status = el("status");
 let currentUser = null;
 let busy = false;
 let verifying = false;
+let selectionReady = false;
+const selected = new Set();
+let catalogLoading = false;
+let completed = false;
 pay.disabled = true;
 function message(text, error=false) {
   status.textContent = text;
@@ -33,7 +40,7 @@ function message(text, error=false) {
 }
 function setBusy(value) {
   busy = value;
-  pay.disabled = value || !currentUser;
+  pay.disabled = completed || value || !currentUser || !plan || (id === "bundle-pass" && (!selectionReady || selected.size !== 5));
   pay.textContent = value ? "Please wait…" : "Continue to Payment →";
 }
 async function call(name, payload, user) {
@@ -50,8 +57,50 @@ async function call(name, payload, user) {
   }
   return data;
 }
+async function loadBundleProducts(db) {
+  if (catalogLoading) return;
+  catalogLoading = true;
+  const picker = el("bundlePicker");
+  picker.classList.remove("hidden");
+  const hint = el("pickerStatus");
+  try {
+    const snap = await getDocs(query(collection(db,"products"),where("status","==","published")));
+    const books = snap.docs.map(doc => ({id:doc.id,...doc.data()}))
+      .filter(p => p.slug === p.id && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p.id) && Number.isSafeInteger(p.price) && p.price > 0)
+      .sort((a,b) => String(a.name || a.title || a.id).localeCompare(String(b.name || b.title || b.id)));
+    const list = el("bundleList");
+    list.replaceChildren();
+    for (const book of books) {
+      const label = document.createElement("label");
+      label.className = "bundle-option";
+      const check = document.createElement("input");
+      check.type = "checkbox";
+      check.value = book.id;
+      const text = document.createElement("span");
+      text.textContent = book.name || book.title || book.id.replace(/-/g," ");
+      check.addEventListener("change", () => {
+        if (check.checked) selected.add(book.id); else selected.delete(book.id);
+        for (const input of list.querySelectorAll('input[type="checkbox"]')) {
+          input.disabled = !input.checked && selected.size >= 5;
+        }
+        el("bundleCount").textContent = `${selected.size} of 5 selected`;
+        setBusy(busy);
+      });
+      label.append(check,text);
+      list.append(label);
+    }
+    selectionReady = books.length >= 5;
+    hint.textContent = selectionReady ? "Select exactly five ebooks to continue." : "Not enough ebooks are available right now. Please try later.";
+    setBusy(busy);
+  } catch (error) {
+    console.error("Unable to load bundle catalog",error);
+    hint.textContent = "Available ebooks could not be loaded. Please refresh and try again.";
+    selectionReady = false;
+    setBusy(busy);
+  } finally { catalogLoading = false; }
+}
 async function checkout() {
-  if(busy || !currentUser || !plan) return;
+  if(busy || !currentUser || !plan || (id === "bundle-pass" && (!selectionReady || selected.size !== 5))) return;
   if(typeof window.Razorpay !== "function") {
     message("Secure payment options are temporarily unavailable. Please try again.",true);
     return;
@@ -60,7 +109,9 @@ async function checkout() {
   setBusy(true);
   message("Preparing secure payment options…");
   try {
-    const order = await call("vayen-create-plan-payment",{planId:id},user);
+    const payload = {planId:id};
+    if (id === "bundle-pass") payload.selectedProductIds = [...selected];
+    const order = await call("vayen-create-plan-payment",payload,user);
     if (!/^rzp_(?:test|live)_[A-Za-z0-9]+$/.test(order.keyId || "") ||
         !/^order_[A-Za-z0-9]{6,80}$/.test(order.orderId || "") ||
         order.planId !== id || order.amount !== plan.price * 100 ||
@@ -89,14 +140,16 @@ async function checkout() {
           if(result.success !== true || result.orderId !== order.orderId || result.planId !== id) {
             throw new Error("Plan verification pending");
           }
-          message("Your plan payment is confirmed. Thank you!");
+          completed = true;
+           message("Your plan payment is confirmed. Your included ebooks will appear in My Products.");
           pay.textContent = "Payment Confirmed ✓";
           pay.disabled = true;
           // Do not redirect to product success.html; plans are separate from products.
         } catch(e) {
           console.error("Plan confirmation pending",e);
           message("Your payment is being confirmed. If charged, please don't pay again. Contact support with your payment details if your plan doesn't appear.",true);
-          pay.textContent = "Confirmation Pending";
+          completed = true;
+           pay.textContent = "Confirmation Pending";
           pay.disabled = true;
         }
       }
@@ -142,7 +195,8 @@ if (!plan) {
       sessionStorage.removeItem("vayenPendingPlanCheckout");
       el("email").textContent = user.email || "Signed in";
       setBusy(false);
-      message("Review your plan and continue to secure payment. Test payments are simulated.");
+      message(id === "bundle-pass" ? "Choose five ebooks to continue securely." : "Review your plan and continue to secure payment.");
+       if (id === "bundle-pass") loadBundleProducts(getFirestore(app));
     },()=>{
       document.body.classList.remove("vayen-auth-pending");
       message("We could not verify your account. Please refresh and try again.",true);
