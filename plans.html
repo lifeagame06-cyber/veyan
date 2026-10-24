@@ -851,6 +851,19 @@
   .vayen-plans .vp-lifetime { transform: none !important; }
 }
 </style>
+
+<style id="vayen-art-clean-final">
+/* Keep compact card sizes; make the centre only subtly taller and more prominent. */
+@media (min-width:901px) {
+  .vayen-plans .vp-lifetime { transform:translateY(-7px) !important; min-height:608px !important; }
+  .vayen-plans .vp-lifetime:hover { transform:translateY(-10px) !important; }
+}
+.vayen-plans .vp-art {
+  -webkit-mask-image:none !important; mask-image:none !important;
+  object-fit:contain; filter:drop-shadow(0 8px 12px rgba(0,0,0,.10));
+}
+@media (max-width:900px) { .vayen-plans .vp-lifetime {transform:none !important;min-height:unset !important;} }
+</style>
 </head>
 <body>
 <header class="plans-page-header">
