@@ -198,6 +198,54 @@ body.vayen-bundle-route:not(.vy-bundle-checkout-stage) .vy-bundle-modal{padding:
  .vy-bundle-header p{font-size:11px!important}
 }
 </style>
+<style id="vayen-selected-animated-state-v4">
+.vy-bundle-side{position:relative}
+.vy-selected-list{position:relative}
+.vy-selected-list:empty{display:flex;align-items:center;justify-content:center;min-height:210px}
+.vy-selected-list:empty::before{content:"";position:absolute;width:148px;height:148px;border:1px dashed rgba(159,81,111,.4);border-radius:50%;animation:vyEmptyOrbit 10s linear infinite;background:radial-gradient(circle,#fff9fb 0%,#f7e7ed 62%,transparent 63%)}
+.vy-selected-list:empty::after{content:"✦  Your collection starts here  ✦\a Choose a book to add it";white-space:pre;text-align:center;position:relative;font:600 12px/2 Arial,sans-serif;letter-spacing:.2px;color:#8d5570;animation:vyEmptyBreathe 3s ease-in-out infinite}
+.vy-selected-row{animation:vyBookArrive .35s cubic-bezier(.2,.8,.2,1) both;transition:background .2s,transform .2s}
+.vy-selected-row.vy-removing{animation:vyBookLeave .2s ease-in forwards;pointer-events:none}
+.vy-selected-row img{width:62px;height:39px;object-fit:contain;border-radius:5px;background:#191523;flex-shrink:0}
+.vy-selected-row button{width:30px;height:30px;border-radius:50%;background:#f9e8ef;flex-shrink:0}
+.vy-book.chosen{animation:vySelectedPulse .32s ease-out}
+@keyframes vyEmptyOrbit{to{transform:rotate(360deg)}}
+@keyframes vyEmptyBreathe{50%{opacity:.55;transform:translateY(-4px)}}
+@keyframes vyBookArrive{from{opacity:0;transform:translateY(13px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes vyBookLeave{to{opacity:0;transform:translateX(22px) scale(.92)}}
+@keyframes vySelectedPulse{50%{transform:scale(1.025)}}
+@media(max-width:720px){.vy-selected-list:empty{display:none!important}.vy-selected-row img{width:48px;height:32px}}
+@media(prefers-reduced-motion:reduce){.vy-selected-list:empty::before,.vy-selected-list:empty::after,.vy-selected-row,.vy-selected-row.vy-removing,.vy-book.chosen{animation:none!important}}
+</style>
+<style id="vayen-desktop-checkout-refinement-v5">
+/* Checkout-only styling. Product picker and payment JavaScript remain unchanged. */
+@media (min-width: 721px) {
+  body.vy-bundle-checkout-stage .wrap {width:min(1120px,calc(100% - 56px));margin:36px auto 60px}
+  body.vy-bundle-checkout-stage .grid {grid-template-columns:minmax(0,1.36fr) minmax(310px,.86fr);align-items:start;gap:24px;margin-top:24px}
+  body.vy-bundle-checkout-stage .grid > .card {min-width:0;border:1px solid #eadde2;border-radius:22px;background:#fffdfc;box-shadow:0 16px 48px rgba(54,31,43,.08)}
+  body.vy-bundle-checkout-stage .grid > .card:first-child {padding:30px 30px 25px}
+  body.vy-bundle-checkout-stage .grid > aside.card {align-self:start;position:sticky;top:24px;padding:28px 26px 22px;display:flex;flex-direction:column;gap:3px;min-height:0;height:auto;overflow:hidden}
+  body.vy-bundle-checkout-stage .grid > aside.card::before {content:"SECURE VAYEN CHECKOUT";display:block;font-size:10px;font-weight:800;letter-spacing:2px;color:#96526e;margin-bottom:13px}
+  body.vy-bundle-checkout-stage .grid > aside.card::after {content:"✓  One-time payment     ✓  Lifetime access\A\A Your selected ebooks unlock after successful payment confirmation.";white-space:pre-wrap;display:block;border-top:1px solid #eee1e5;margin-top:19px;padding-top:17px;font-size:12px;line-height:1.8;color:#7d6672}
+  body.vy-bundle-checkout-stage .grid > aside.card .button {margin-top:20px;min-height:54px;border-radius:13px;box-shadow:0 8px 22px rgba(66,35,51,.15)}
+  body.vy-bundle-checkout-stage .grid > aside.card .note {margin-top:12px;line-height:1.65;border-radius:12px}
+  body.vy-bundle-checkout-stage .vy-review {background:linear-gradient(145deg,#fff9fb,#fffdfb);border-radius:17px;padding:19px 20px}
+  body.vy-bundle-checkout-stage .vy-review-row {gap:15px;padding:12px 0}
+  body.vy-bundle-checkout-stage .vy-review-cover {width:100px!important;height:64px!important;object-fit:contain;background:#171722;border-radius:8px;flex-shrink:0}
+  body.vy-bundle-checkout-stage .vy-review-book {font-size:13px;line-height:1.5}
+  body.vy-bundle-checkout-stage .vy-review-price {font-size:13px;white-space:nowrap}
+  body.vy-bundle-checkout-stage .vy-review-saving {padding-top:7px;font-size:14px}
+}
+@media (min-width:721px) and (max-width:880px) {
+  body.vy-bundle-checkout-stage .grid {grid-template-columns:minmax(0,1fr) minmax(280px,.85fr);gap:14px}
+  body.vy-bundle-checkout-stage .grid > .card:first-child {padding:22px}
+  body.vy-bundle-checkout-stage .grid > aside.card {padding:22px 18px}
+}
+@media (max-width:720px) {
+  body.vy-bundle-checkout-stage .grid > aside.card {height:auto;min-height:0}
+  body.vy-bundle-checkout-stage .vy-review-cover {object-fit:contain;background:#171722}
+}
+</style>
 </head><body class="vayen-auth-pending"><script>if(new URLSearchParams(location.search).get("plan")==="bundle-pass")document.body.classList.add("vayen-bundle-route");</script><header class="top"><a class="brand" href="index.html">VAYEN</a><a class="back" href="plans.html">← Back to Plans</a></header><main class="wrap"><span class="eyebrow">VAYEN / EXCLUSIVE ACCESS</span><h1 class="heading">Plan checkout<span style="color:#b27a8d">.</span></h1><p class="sub">Review your selected plan and payment details before proceeding.</p><div class="grid"><section class="card"><span class="label">SELECTED PLAN</span><h2 class="name" id="name">—</h2><p class="muted" id="description"></p><div class="rule"></div><div id="benefits"></div><div id="vyBundleReview" class="vy-review hidden"></div><section id="bundlePicker" class="bundle-picker hidden"><h3>Choose your 5 ebooks</h3><p class="picker-status" id="pickerStatus">Loading available ebooks…</p><div class="bundle-list" id="bundleList"></div><div class="bundle-count" id="bundleCount">0 of 5 selected</div></section><div class="rule"></div><p class="muted">Signed-in account: <strong id="email"></strong></p><a class="back" href="plans.html">← Change plan</a></section><aside class="card"><span class="label">ORDER SUMMARY</span><div class="row"><span>Plan price</span><strong id="price">—</strong></div><div class="row"><span>Additional charges</span><strong>₹0</strong></div><div class="rule"></div><div class="row"><strong>Total payable</strong><strong class="price" id="total">—</strong></div><button class="button" id="pay" type="button">Continue to Payment →</button><div class="note" id="status">Sign in to review your plan and continue securely.</div></aside></div></main><footer class="foot">© 2026 VAYEN · Digital products, thoughtfully made.</footer><div class="vy-bundle-modal" id="vyBundleModal" hidden><section class="vy-bundle-shell" role="dialog" aria-modal="true" aria-labelledby="vyBundleHeading"><div class="vy-bundle-header"><div class="vy-bundle-eyebrow">VAYEN BUNDLE PASS · ₹2,999</div><h2 id="vyBundleHeading">Choose Your 5 Favorites</h2><p>Select exactly five published ebooks. After successful payment, enjoy lifetime access to your selected collection.</p><button type="button" class="vy-bundle-x" id="vyBundleClose" aria-label="Close">×</button></div><div class="vy-bundle-body"><div class="vy-bundle-left"><input id="vyBundleSearch" class="vy-bundle-search" placeholder="Search ebooks…" aria-label="Search ebooks"><div class="vy-bundle-products" id="vyBundleCards"></div></div><aside class="vy-bundle-side"><div class="vy-side-heading"><span>Your selected ebooks</span><span class="vy-count" id="vyBundleSelectedCount">0 / 5</span></div><div class="vy-selected-list" id="vyBundleSelectedList"></div><div class="vy-total-line"><span>Individual total</span><strong id="vyBundleOriginal">₹0</strong></div><div class="vy-total-line"><strong>Bundle Pass price</strong><strong class="vy-plan-total">₹2,999</strong></div><div class="vy-save" id="vyBundleSaving"></div><div class="vy-warning" id="vyBundleWarning" role="status"></div><button class="vy-continue" type="button" id="vyBundleContinue">Continue to Payment →</button><div class="vy-secure">Secure checkout · One-time payment</div></aside></div></section></div><div class="vy-success-modal" id="vyBundleSuccess" hidden><section class="vy-success-box" role="dialog" aria-modal="true" aria-labelledby="vySuccessHeading" id="vySuccessBox"><div class="vy-success-icon">✓</div><div class="vy-bundle-eyebrow">VAYEN BUNDLE PASS</div><h2 id="vySuccessHeading">Congratulations!</h2><p>You've unlocked your 5 selected ebooks with lifetime access. Your collection is ready.</p><a href="orders.html">Go to My Orders →</a></section></div><script>setTimeout(()=>{if(document.body.classList.contains("vayen-auth-pending")){document.body.classList.remove("vayen-auth-pending");const s=document.getElementById("status");if(s)s.textContent="Checkout is taking longer than expected. Please refresh to try again.";}},12000);</script><script src="https://checkout.razorpay.com/v1/checkout.js"></script><script type="module" id="vayen-plan-firebase-checkout">
 import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
@@ -288,11 +336,19 @@ function updateBundle() {
   chosen.replaceChildren();
   for (const book of bundleBooks.filter(b=>selected.has(b.id))) {
     const row = document.createElement("div"); row.className = "vy-selected-row";
+    const thumb = document.createElement("img");
+    thumb.alt = "";
+    thumb.src = productCover(book) || fallbackProductCover(book);
+    thumb.onerror = () => { thumb.onerror = null; thumb.src = fallbackProductCover(book); };
     const title = document.createElement("span");title.textContent = book.name || book.title || book.id;
     const price = document.createElement("strong");price.textContent=currency(Number(book.price));
     const remove = document.createElement("button");remove.type="button";remove.textContent="×";remove.setAttribute("aria-label","Remove "+title.textContent);
-    remove.onclick=()=>{selected.delete(book.id);updateBundle();};
-    row.append(title,price,remove);chosen.append(row);
+    remove.onclick=()=>{
+      row.classList.add("vy-removing");
+      selected.delete(book.id);
+      window.setTimeout(updateBundle,190);
+    };
+    row.append(thumb,title,price,remove);chosen.append(row);
   }
   for (const card of bundleCards.querySelectorAll("[data-book-id]")) {
     const checked=selected.has(card.dataset.bookId);
@@ -309,7 +365,7 @@ function drawBundle() {
     const card=document.createElement("label");card.className="vy-book";card.dataset.bookId=book.id;
     const cover=document.createElement("span");cover.className="vy-book-cover";cover.textContent="V";
     const coverUrl=productCover(book);
-    if(coverUrl){const image=document.createElement("img");image.src=coverUrl;image.loading="lazy";image.alt="";image.onerror=()=>{const backup=remoteProductCover(book);if(backup && image.src!==backup){image.onerror=()=>{cover.textContent="Cover unavailable";};image.src=backup;}else{cover.textContent="Cover unavailable";}};cover.replaceChildren(image);}
+    {const image=document.createElement("img");image.src=coverUrl || fallbackProductCover(book);image.loading="lazy";image.alt="";image.onerror=()=>{const backup=remoteProductCover(book);if(backup && image.src!==backup){image.onerror=()=>{image.onerror=null;image.src=fallbackProductCover(book);};image.src=backup;}else{image.onerror=null;image.src=fallbackProductCover(book);}};cover.replaceChildren(image);}
     const title=document.createElement("span");title.className="vy-book-title";title.textContent=book.name||book.title||book.id.replace(/-/g," ");
     const price=document.createElement("span");price.className="vy-book-price";price.textContent=currency(Number(book.price));
     const input=document.createElement("input");input.type="checkbox";input.className="vy-book-check";input.setAttribute("aria-label","Select "+title.textContent);
@@ -396,6 +452,14 @@ function remoteProductCover(book) {
     .find(value => typeof value === "string" && /^https:\/\//i.test(value)) || "";
 }
 function productCover(book) { return localProductCover(book) || remoteProductCover(book); }
+function fallbackProductCover(book) {
+  // A readable VAYEN cover for products whose public image file does not exist.
+  const title = String(book.name || book.title || book.id).replace(/[<>&"']/g, " ");
+  const lines = title.match(/.{1,23}(?:\s|$)/g) || [title];
+  const text = lines.slice(0,3).map((line,i)=>`<text x="32" y="${115+i*29}" fill="#fff6fa" font-size="22" font-weight="700" font-family="Arial">${line.trim()}</text>`).join("");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360"><defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#251b30"/><stop offset="1" stop-color="#8b426b"/></linearGradient></defs><rect width="640" height="360" fill="url(#g)"/><circle cx="550" cy="85" r="135" fill="#d994b1" opacity=".16"/><text x="32" y="55" fill="#efb9ce" font-size="15" font-family="Arial" letter-spacing="5">V A Y E N</text>${text}<path d="M32 300h160" stroke="#dba2bd" stroke-width="3"/><text x="32" y="329" fill="#e9bdd0" font-size="12" font-family="Arial">DIGITAL COLLECTION</text></svg>`;
+  return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+}
 function showBundleCheckout() {
   if(selected.size !== 5) return;
   const review = el("vyBundleReview");
@@ -407,7 +471,7 @@ function showBundleCheckout() {
     const row=document.createElement("div");row.className="vy-review-row";
     const cover=document.createElement("img");cover.className="vy-review-cover";cover.alt="";
     const url=productCover(book);
-    if(url){cover.src=url;cover.onerror=()=>{cover.removeAttribute("src");};}
+    cover.src=url || fallbackProductCover(book);cover.onerror=()=>{cover.onerror=null;cover.src=fallbackProductCover(book);};
     const name=document.createElement("span");name.className="vy-review-book";name.textContent=book.name||book.title||book.id;
     const price=document.createElement("strong");price.className="vy-review-price";price.textContent=currency(Number(book.price));
     row.append(cover,name,price);review.append(row);
