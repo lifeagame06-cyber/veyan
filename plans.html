@@ -908,7 +908,7 @@
     <summary>View plan details <span>↗</span></summary>
     <p>Choose five eligible digital products when purchasing. Only those five selected products are included; future releases and other products are not included.</p>
   </details>
-  <span class="vp-get vp-soon" aria-label="Bundle Pass checkout coming soon">Available soon <span>↗</span></span>
+  <a class="vp-get" data-vayen-plan="bundle-pass" href="plan-checkout.html?plan=bundle-pass">Get Bundle Pass <span>↗</span></a>
 </article>
 
 <!-- LIFETIME ACCESS — FEATURED CENTER PLAN -->
@@ -936,7 +936,7 @@
     <summary>View plan details <span>↗</span></summary>
     <p>Includes all eligible products available when you purchase, plus 10 future product releases. Future-product access and claiming will be introduced separately.</p>
   </details>
-  <span class="vp-get vp-soon" aria-label="Lifetime Access checkout coming soon">Available soon <span>↗</span></span>
+  <a class="vp-get" data-vayen-plan="lifetime-access" href="plan-checkout.html?plan=lifetime-access">Get Lifetime Access <span>↗</span></a>
 </article>
 
 <!-- SURPRISE BOX -->
@@ -1011,7 +1011,7 @@
 </nav>
 <script id="vayen-plan-checkout-routing">
 (function () {
-    const allowed = new Set(['surprise-box']); // Preserve existing Surprise Box checkout; new plans remain disabled.
+    const allowed = new Set(['bundle-pass', 'lifetime-access', 'surprise-box']); // Only the three current VAYEN plans are available.
 
     document.querySelectorAll('.vp-get[data-vayen-plan]').forEach(link => {
         const plan = link.dataset.vayenPlan;
