@@ -606,6 +606,114 @@
     .vayen-plans .vp-lifetime { animation: none; }
 }
 </style>
+
+<style id="vayen-reference-match">
+/* Reference-matched three-card palette and responsive composition. */
+.vayen-plans { background:#f7f2ef; }
+.vayen-plans .vp-container { max-width: 1510px; }
+.vayen-plans .vp-grid {
+    max-width: 1450px;
+    grid-template-columns: repeat(3,minmax(0,1fr));
+    gap: 23px;
+    align-items: stretch;
+    margin: 42px auto 0;
+}
+.vayen-plans .vp-card {
+    position:relative;
+    isolation:isolate;
+    min-height: 660px;
+    padding: 34px 31px 27px;
+    overflow: visible;
+    border-radius: 25px;
+    color: #fff7f9;
+    border: 1px solid rgba(255,220,236,.25);
+    box-shadow: 0 17px 38px rgba(58,35,51,.15);
+    transition: transform .3s ease,box-shadow .3s ease;
+}
+.vayen-plans .vp-bundle {
+    background: radial-gradient(ellipse at 85% 15%,#875b55 0%,transparent 52%),
+                linear-gradient(145deg,#744f49 0%,#523936 60%,#694641 100%);
+    border-color:#c98c82;
+    box-shadow:0 17px 38px rgba(91,51,44,.18),0 0 18px rgba(218,144,119,.18);
+}
+.vayen-plans .vp-lifetime {
+    transform: translateY(-10px);
+    background:radial-gradient(ellipse at 90% 15%,#70315c 0%,transparent 52%),
+               linear-gradient(160deg,#541e4a 0%,#371831 60%,#2d172c 100%);
+    border-color:#f054b6;
+    box-shadow:0 0 0 1px rgba(255,113,200,.3),0 0 30px rgba(255,67,170,.42),0 0 58px rgba(237,74,163,.25),0 20px 40px rgba(67,23,58,.25);
+    animation:vp-soft-glow 4s ease-in-out infinite alternate;
+}
+.vayen-plans .vp-surprise {
+    background:radial-gradient(ellipse at 88% 10%,#45588c 0%,transparent 55%),
+               linear-gradient(155deg,#303c62 0%,#252e4e 58%,#3e507e 100%);
+    border-color:#7789c4;
+    box-shadow:0 17px 38px rgba(44,56,102,.2),0 0 17px rgba(130,143,226,.16);
+}
+@keyframes vp-soft-glow {
+    from {box-shadow:0 0 0 1px rgba(255,113,200,.3),0 0 24px rgba(255,67,170,.3),0 0 45px rgba(237,74,163,.18),0 20px 40px rgba(67,23,58,.25)}
+    to {box-shadow:0 0 0 1px rgba(255,139,210,.5),0 0 36px rgba(255,67,170,.48),0 0 68px rgba(237,74,163,.3),0 20px 40px rgba(67,23,58,.25)}
+}
+.vayen-plans .vp-bundle:hover,.vayen-plans .vp-surprise:hover {transform:translateY(-5px)}
+.vayen-plans .vp-lifetime:hover {transform:translateY(-14px)}
+.vayen-plans .vp-card-top {position:relative;z-index:2;font-size:10px;letter-spacing:1.1px}
+.vayen-plans .vp-soft-tag,.vayen-plans .vp-tag {border:1px solid rgba(255,235,249,.35);border-radius:999px;padding:9px 12px;font-size:9px;color:#fff;letter-spacing:1px}
+.vayen-plans .vp-card-main {position:relative;z-index:2;margin-top:66px}
+.vayen-plans .vp-card h3 {font-size:clamp(30px,2.55vw,42px);line-height:1.13;letter-spacing:-1.7px;max-width:290px}
+.vayen-plans .vp-kicker {font-size:11px;letter-spacing:1.8px;color:#f3c4d8;opacity:1}
+.vayen-plans .vp-bundle .vp-kicker {color:#ffd0c0}
+.vayen-plans .vp-surprise .vp-kicker {color:#d3d9ff}
+.vayen-plans .vp-price {font-size:37px;margin-top:32px;color:white}
+.vayen-plans .vp-price small {font-size:11px}
+.vayen-plans .vp-description {font-size:13px;line-height:1.7;opacity:.95;max-width:100%;min-height:60px}
+.vayen-plans .vp-benefits {position:relative;z-index:2;gap:14px;padding:20px 0 24px;font-size:12px;border-bottom:1px solid rgba(255,255,255,.22)}
+.vayen-plans .vp-benefits>span:not(.vp-future-benefit) {display:block;line-height:1.5}
+.vayen-plans .vp-future-benefit {background:rgba(244,117,192,.12);border:1px solid rgba(251,116,204,.8);font-size:12px;padding:14px 13px;box-shadow:inset 0 0 14px rgba(249,88,190,.08)}
+.vayen-plans .vp-details {position:relative;z-index:2}
+.vayen-plans .vp-details summary {font-size:12px;min-height:42px;align-items:center;padding-top:16px}
+.vayen-plans .vp-details[open] {padding-bottom:6px}
+.vayen-plans .vp-details p {margin:7px 0 12px;padding:12px 13px;border-radius:11px;background:rgba(255,255,255,.08);color:#fff;font-size:11px;line-height:1.7;opacity:1}
+.vayen-plans .vp-get {position:relative;z-index:2;border-radius:999px;padding:17px 20px;background:#ffdfd1;color:#2d2023;margin-top:12px}
+.vayen-plans .vp-bundle .vp-get {background:#ffdac9;color:#2b1e21}
+.vayen-plans .vp-lifetime .vp-get {background:#f8d8ef;color:#311b2e}
+.vayen-plans .vp-surprise .vp-get {background:#d9deff;color:#1d2441}
+.vayen-plans .vp-get:hover,.vayen-plans .vp-surprise .vp-get:hover {background:#fff0f6;color:#352339}
+.vayen-plans .vp-art {position:absolute;z-index:1;right:3%;top:19%;width:44%;height:auto;max-height:230px;object-fit:contain;pointer-events:none;filter:drop-shadow(0 5px 10px rgba(0,0,0,.12))}
+.vayen-plans .vp-bundle .vp-art {right:1%;top:20%;width:45%}
+.vayen-plans .vp-lifetime .vp-art {right:0%;top:19%;width:42%}
+.vayen-plans .vp-surprise .vp-art {right:0%;top:19%;width:45%}
+.vayen-plans .vp-featured-label {background:linear-gradient(110deg,#ffd9ed,#fbbbe2);color:#3e2340;border:1px solid #ffe7f4;padding:10px 24px;font-size:10px}
+.vayen-plans .vp-preview-note {margin-top:29px}
+@media(max-width:1150px) and (min-width:901px) {
+    .vayen-plans .vp-grid {gap:15px}
+    .vayen-plans .vp-card {padding:29px 22px 23px}
+    .vayen-plans .vp-card h3 {font-size:32px}
+    .vayen-plans .vp-art {width:38%}
+}
+@media(max-width:900px) {
+    .vayen-plans .vp-grid {grid-template-columns:minmax(0,1fr);max-width:510px;gap:38px}
+    .vayen-plans .vp-card {min-height:590px}
+    .vayen-plans .vp-lifetime,.vayen-plans .vp-lifetime:hover {transform:none}
+    .vayen-plans .vp-card h3 {font-size:38px}
+}
+@media(max-width:768px) {
+    .vayen-plans .vp-card {padding:27px 24px 22px;min-height:580px}
+    .vayen-plans .vp-grid {margin-top:42px;gap:35px}
+    .vayen-plans .vp-card-main {margin-top:55px}
+    .vayen-plans .vp-card h3 {font-size:clamp(30px,8vw,38px)}
+    .vayen-plans .vp-art {top:20%;width:42%}
+    .vayen-plans .vp-price {font-size:35px}
+    .vayen-plans .vp-description {min-height:50px}
+}
+@media(max-width:380px) {
+    .vayen-plans .vp-card {padding:24px 18px 20px}
+    .vayen-plans .vp-art {width:38%;top:21%}
+    .vayen-plans .vp-card h3 {font-size:29px}
+}
+@media(prefers-reduced-motion:reduce) {
+    .vayen-plans .vp-lifetime {animation:none}
+}
+</style>
 </head>
 <body>
 <header class="plans-page-header">
@@ -632,7 +740,8 @@
     <span>01 / YOUR COLLECTION</span>
     <span class="vp-soft-tag">CHOOSE YOUR 5</span>
   </div>
-  <div class="vp-card-main">
+  <img class="vp-art" src="plans-assets/bundle-art.png" alt="" aria-hidden="true" loading="lazy"/>
+<div class="vp-card-main">
     <p class="vp-kicker">VAYEN BUNDLE PASS</p>
     <h3>Five picks.<br/>All yours.</h3>
     <div class="vp-price">₹2,999 <small>/ one-time</small></div>
@@ -658,7 +767,8 @@
     <span>02 / THE COMPLETE COLLECTION</span>
     <span class="vp-tag">LIFETIME</span>
   </div>
-  <div class="vp-card-main">
+  <img class="vp-art" src="plans-assets/lifetime-art.png" alt="" aria-hidden="true" loading="lazy"/>
+<div class="vp-card-main">
     <p class="vp-kicker">VAYEN LIFETIME ACCESS</p>
     <h3>Everything now.<br/>More to come.</h3>
     <div class="vp-price">₹5,999 <small>/ one-time</small></div>
@@ -684,6 +794,7 @@
 <span>01 / SOMETHING SPECIAL</span>
 <span class="vp-tag">THE MYSTERY PICK</span>
 </div>
+<img class="vp-art" src="plans-assets/surprise-art.png" alt="" aria-hidden="true" loading="lazy"/>
 <div class="vp-card-main">
 <p class="vp-kicker">THE SURPRISE BOX</p>
 <h3>Something good.<br/>Just for you.</h3>
