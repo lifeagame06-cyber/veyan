@@ -374,7 +374,120 @@ body.vy-bundle-checkout-stage .grid>aside.card .row .price{color:#8e1747;font-si
  body.vy-bundle-checkout-stage .vy-checkout-trust{margin-top:13px!important;padding-top:12px!important}
  body.vy-bundle-checkout-stage .vy-checkout-trust strong{font-size:10px!important}
 }
-</style></head><body class="vayen-auth-pending"><script>if(new URLSearchParams(location.search).get("plan")==="bundle-pass"){
+</style>
+<style id="vayen-bundle-desktop-mobile-style-v10">
+/* Apply the premium mobile selector visual language to DESKTOP FINAL CHECKOUT only. */
+@media(min-width:801px){
+body.vayen-bundle-route.vy-bundle-checkout-stage{
+ background:radial-gradient(ellipse at 90% 0%,#f6e1e9 0%,transparent 48%),linear-gradient(135deg,#faf5f1,#f7e9ee 70%,#fbf7f4)!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .top{
+ background:transparent!important;border-bottom:0!important;box-shadow:none!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .wrap{
+ width:min(1140px,calc(100% - 60px))!important;
+ margin:22px auto 40px!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .eyebrow{
+ font-size:11px!important;letter-spacing:2px!important;color:#9b3d65!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .heading{
+ font-family:Georgia,serif!important;font-weight:700!important;
+ font-size:clamp(39px,4.3vw,53px)!important;letter-spacing:-1.5px!important;
+ line-height:1.1!important;margin:9px 0 10px!important;color:#30222e!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .sub{
+ font-size:13px!important;color:#826d78!important;line-height:1.6!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .grid{
+ display:grid!important;grid-template-columns:minmax(0,1.22fr) minmax(350px,.9fr)!important;
+ gap:18px!important;align-items:start!important;margin-top:22px!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .grid>section.card,
+body.vayen-bundle-route.vy-bundle-checkout-stage .grid>aside.card{
+ background:#fffafc!important;border:1px solid #ecdce2!important;
+ border-radius:22px!important;box-shadow:0 14px 36px rgba(78,38,58,.06)!important;
+ padding:25px!important;height:auto!important;min-height:0!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .grid>aside.card{
+ position:sticky!important;top:22px!important;
+ background:linear-gradient(145deg,#fffafd,#fcf1f5)!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .name{
+ font:700 28px/1.2 Georgia,serif!important;color:#342431!important;margin:9px 0 7px!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .label{
+ color:#963e62!important;letter-spacing:1.6px!important;font-size:11px!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .grid>section.card>.rule{
+ margin:14px 0!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .feature{padding:5px 0!important}
+body.vayen-bundle-route.vy-bundle-checkout-stage .vy-review{
+ border:0!important;background:transparent!important;padding:0!important;
+ margin:19px 0 12px!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .vy-review-title{
+ font-size:14px!important;color:#362631!important;letter-spacing:0!important;margin-bottom:12px!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .vy-review-row{
+ display:flex!important;align-items:center!important;gap:13px!important;
+ min-height:0!important;padding:10px 12px!important;margin:0 0 8px!important;
+ background:#fff!important;border:1px solid #f0e1e7!important;
+ border-radius:14px!important;box-shadow:0 4px 15px #57304408!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .vy-review-cover{
+ width:100px!important;height:63px!important;aspect-ratio:auto!important;
+ object-fit:cover!important;border-radius:8px!important;flex-shrink:0!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .vy-review-book{
+ font-size:13px!important;font-weight:700!important;line-height:1.4!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .vy-review-price{
+ font-size:14px!important;color:#943e63!important;font-weight:800!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .vy-review-summary{
+ padding:13px 4px 5px!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .vy-review-saving{
+ color:#158052!important;font-weight:800!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .vy-review-change{
+ margin-top:9px!important;color:#943e63!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .grid>aside.card .row{
+ margin:13px 0!important;font-size:13px!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .grid>aside.card .row:has(.price){
+ background:#f8e6ed!important;border:1px solid #efd3de!important;
+ border-radius:12px!important;padding:16px!important;margin:19px 0 16px!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .grid>aside.card .price{
+ font-size:34px!important;color:#8c1747!important;font-weight:900!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .grid>aside.card .button{
+ width:100%!important;background:linear-gradient(110deg,#352431,#67354f)!important;
+ color:white!important;border-radius:12px!important;padding:17px 12px!important;
+ font-weight:800!important;box-shadow:none!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .grid>aside.card .note{
+ background:#fff5f8!important;border:1px solid #f0dfe5!important;
+ border-radius:11px!important;font-size:12px!important;line-height:1.55!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .vy-checkout-trust{
+ display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;
+ gap:0!important;margin-top:17px!important;padding-top:17px!important;
+ border-top:1px solid #eedee4!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .vy-checkout-trust>div{
+ min-width:0!important;padding:0 5px!important;
+}
+body.vayen-bundle-route.vy-bundle-checkout-stage .vy-checkout-trust strong{
+ font-size:10px!important;line-height:1.4!important;
+}
+}
+</style>
+</head><body class="vayen-auth-pending"><script>if(new URLSearchParams(location.search).get("plan")==="bundle-pass"){
   document.body.classList.add("vayen-bundle-route");
   if(sessionStorage.getItem("vayenBundleCheckoutStageV9")==="payment")document.body.classList.add("vy-bundle-checkout-stage");
 }</script><header class="top"><a class="brand" href="index.html">VAYEN</a><a class="back" href="plans.html">← Back to Plans</a></header><main class="wrap"><span class="eyebrow">VAYEN / EXCLUSIVE ACCESS</span><h1 class="heading">Plan checkout<span style="color:#b27a8d">.</span></h1><p class="sub">Review your selected plan and payment details before proceeding.</p><div class="grid"><section class="card"><span class="label">SELECTED PLAN</span><h2 class="name" id="name">—</h2><p class="muted" id="description"></p><div class="rule"></div><div id="benefits"></div><div id="vyBundleReview" class="vy-review hidden"></div><section id="bundlePicker" class="bundle-picker hidden"><h3>Choose your 5 ebooks</h3><p class="picker-status" id="pickerStatus">Loading available ebooks…</p><div class="bundle-list" id="bundleList"></div><div class="bundle-count" id="bundleCount">0 of 5 selected</div></section><div class="rule"></div><p class="muted">Signed-in account: <strong id="email"></strong></p><a class="back" href="plans.html">← Change plan</a></section><aside class="card"><span class="label">ORDER SUMMARY</span><div class="row"><span>Plan price</span><strong id="price">—</strong></div><div class="row"><span>Additional charges</span><strong>₹0</strong></div><div class="rule"></div><div class="row"><strong>Total payable</strong><strong class="price" id="total">—</strong></div><button class="button" id="pay" type="button">Continue to Payment →</button><div class="note" id="status">Sign in to review your plan and continue securely.</div><div class="vy-checkout-trust" aria-label="Purchase benefits"><div><span>♢</span><strong>VAYEN Secure</strong><small>Protected checkout</small></div><div><span>▣</span><strong>One-Time Payment</strong><small>No renewals</small></div><div><span>↓</span><strong>Digital Access</strong><small>After confirmation</small></div><div><span>∞</span><strong>Lifetime Access</strong><small>Your chosen ebooks</small></div></div></aside></div></main><footer class="foot">© 2026 VAYEN · Digital products, thoughtfully made.</footer><div class="vy-bundle-modal" id="vyBundleModal" hidden><section class="vy-bundle-shell" role="dialog" aria-modal="true" aria-labelledby="vyBundleHeading"><div class="vy-bundle-header"><div class="vy-bundle-eyebrow">VAYEN BUNDLE PASS · ₹2,999</div><h2 id="vyBundleHeading">Choose Your 5 Favorites</h2><p>Select exactly five published ebooks. After successful payment, enjoy lifetime access to your selected collection.</p><button type="button" class="vy-bundle-x" id="vyBundleClose" aria-label="Close">×</button></div><div class="vy-bundle-body"><div class="vy-bundle-left"><input id="vyBundleSearch" class="vy-bundle-search" placeholder="Search ebooks…" aria-label="Search ebooks"><div class="vy-bundle-products" id="vyBundleCards"></div></div><aside class="vy-bundle-side"><div class="vy-side-heading"><span>Your selected ebooks</span><span class="vy-count" id="vyBundleSelectedCount">0 / 5</span></div><div class="vy-selected-list" id="vyBundleSelectedList"></div><div class="vy-total-line"><span>Individual total</span><strong id="vyBundleOriginal">₹0</strong></div><div class="vy-total-line"><strong>Bundle Pass price</strong><strong class="vy-plan-total">₹2,999</strong></div><div class="vy-save" id="vyBundleSaving"></div><div class="vy-warning" id="vyBundleWarning" role="status"></div><button class="vy-continue" type="button" id="vyBundleContinue">Continue to Payment →</button><div class="vy-secure">Secure checkout · One-time payment</div></aside></div></section></div><div class="vy-success-modal" id="vyBundleSuccess" hidden><section class="vy-success-box" role="dialog" aria-modal="true" aria-labelledby="vySuccessHeading" id="vySuccessBox"><div class="vy-success-icon">✓</div><div class="vy-bundle-eyebrow">VAYEN BUNDLE PASS</div><h2 id="vySuccessHeading">Congratulations!</h2><p>You've unlocked your 5 selected ebooks with lifetime access. Your collection is ready.</p><a href="orders.html">Go to My Orders →</a></section></div><script>setTimeout(()=>{if(document.body.classList.contains("vayen-auth-pending")){document.body.classList.remove("vayen-auth-pending");const s=document.getElementById("status");if(s)s.textContent="Checkout is taking longer than expected. Please refresh to try again.";}},12000);</script><script src="https://checkout.razorpay.com/v1/checkout.js"></script><script type="module" id="vayen-plan-firebase-checkout">
