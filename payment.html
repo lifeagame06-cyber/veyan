@@ -61,13 +61,6 @@
     .order-summary .summary-row strong{color:#30232a;text-align:right}
     .order-summary .summary-total{border-top:1px solid #eadce0;padding-top:16px;margin-top:18px;font-weight:800}
     .order-summary .summary-total strong{font-size:21px}
-    .benefit-option{display:flex;align-items:flex-start;gap:12px;margin:13px 0;padding:14px;border:1px solid #eadce0;border-radius:13px;background:#fffafc;cursor:pointer}
-    .benefit-option input{margin-top:3px;accent-color:#6b4053;width:17px;height:17px}
-    .benefit-option:has(input:disabled){opacity:.58;cursor:not-allowed}
-    .benefit-copy{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:700;color:#30232a}
-    .benefit-copy small{font-size:11px;color:#806b75;font-weight:400;line-height:1.5}
-    .summary-row.benefit-saving strong{color:#16845a}
-    .credit-message{font-size:12px;line-height:1.6;color:#8a7780;margin:14px 0 0}
     @media(max-width:700px){.header{height:66px;padding:0 20px}.brand{font-size:19px}.back{font-size:11px}.checkout-shell{min-height:calc(100vh - 152px);padding:28px 14px}.checkout-card{padding:42px 24px}}
     @media(prefers-reduced-motion:reduce){.spinner{animation:none}}
   </style>
@@ -143,6 +136,8 @@
     let busy = false;
     let auth;
     let verifyingPayment = false;
+    let paymentAttemptStarted = false;
+    let paymentPendingReview = false;
 
     function showNotice(message, isError = false) {
       notice.textContent = message;
@@ -208,7 +203,7 @@
     }
 
     async function startCheckout() {
-      if (busy) return;
+      if (busy || paymentPendingReview) return;
       const user = auth?.currentUser;
       if (!user) {
         location.assign('login.html?from=get&product=' + encodeURIComponent(productId));
@@ -249,28 +244,17 @@
           order_id: order.orderId,
           prefill: { email: user.email || '' },
           theme: { color: '#30232a' },
-          // Keep the checkout focused on UPI apps and debit/credit cards.
-          config: {
-            display: {
-              blocks: {
-                preferred: {
-                  name: 'Choose a payment method',
-                  instruments: [
-                    { method: 'upi' },
-                    { method: 'card' }
-                  ]
-                }
-              },
-              sequence: ['block.preferred'],
-              preferences: { show_default_blocks: false }
-            }
-          },
           modal: {
             ondismiss: () => {
               if (verifyingPayment || checkoutCard.classList.contains('is-success')) return;
+              paymentPendingReview = true;
               setBusy(false);
               setView('closed');
-              showNotice('Checkout closed. Select Continue Again to reopen secure payment.');
+              headline.textContent = 'Payment Status Pending';
+              description.textContent = 'If you approved a payment, please allow time for confirmation.';
+              showNotice('Check My Orders or My Library before making another payment. If you did not pay, return to the product later.');
+              button.disabled = true;
+              button.firstChild.textContent = 'Payment status pending ';
             }
           },
           handler: async payment => {
@@ -293,24 +277,40 @@
               location.assign('success.html?order=' + encodeURIComponent(order.orderId));
             } catch (error) {
               console.error('VAYEN payment confirmation pending:', error);
-              showNotice('Your payment is being confirmed. Check My Library shortly. If it does not appear, contact support with your order details.', true);
+              paymentPendingReview = true;
               verifyingPayment = false;
               setBusy(false);
               setView('closed');
+              headline.textContent = 'Payment Confirmation Pending';
+              description.textContent = 'Your payment may have succeeded. Please do not pay again.';
+              showNotice('Check My Library or My Orders. If your purchase does not appear, contact support with your order details.', true);
+              button.disabled = true;
+              button.firstChild.textContent = 'Confirmation pending ';
             }
           }
         });
         checkout.on('payment.failed', () => {
+          if (verifyingPayment) return;
           setBusy(false);
           setView('failed');
           showNotice('Payment was not completed. Select Try Again when ready.', true);
         });
+        paymentAttemptStarted = true;
         checkout.open();
       } catch (error) {
         console.error('VAYEN checkout setup error:', error);
         setBusy(false);
         setView('closed');
-        showNotice('We could not open secure payment. Select Continue Again to retry.', true);
+        if (paymentAttemptStarted) {
+          paymentPendingReview = true;
+          headline.textContent = 'Payment Status Pending';
+          description.textContent = 'Please check your orders before paying again.';
+          showNotice('The payment window may have opened. Check My Orders or My Library before trying another payment.', true);
+          button.disabled = true;
+          button.firstChild.textContent = 'Payment status pending ';
+        } else {
+          showNotice('We could not prepare secure payment. Please try again.', true);
+        }
       }
     }
 
