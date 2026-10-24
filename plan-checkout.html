@@ -78,6 +78,36 @@ body.vayen-bundle-route:not(.vy-bundle-checkout-stage) .vy-bundle-modal{padding:
 .vy-bundle-x{z-index:2}
 .vy-review-cover{height:88px;width:65px;object-fit:cover}
 @media(max-width:720px){.vy-bundle-shell{max-height:calc(100dvh - 14px)}.vy-bundle-products{grid-template-columns:repeat(2,minmax(0,1fr))}.vy-book-cover{width:min(100%,110px)}.vy-bundle-side{flex-shrink:0}.vy-bundle-header{padding-right:52px}}
+</style><style id="vy-mobile-compact-20261024">
+@media(max-width:720px){
+  .vy-bundle-modal{padding:0!important;display:block;overflow:hidden}
+  .vy-bundle-shell{width:100%;height:100dvh;max-height:100dvh!important;border:0;border-radius:0!important;display:flex;overflow:hidden}
+  .vy-bundle-header{padding:15px 52px 12px 16px!important;flex-shrink:0}
+  .vy-bundle-header h2{font-size:25px!important;margin:5px 0!important;line-height:1.12}
+  .vy-bundle-header p{font-size:11px;line-height:1.4}
+  .vy-bundle-eyebrow{font-size:9px;letter-spacing:1.4px}
+  .vy-bundle-x{top:13px;right:12px;width:33px;height:33px}
+  .vy-bundle-body{display:flex!important;flex-direction:column;min-height:0;overflow:hidden!important;flex:1}
+  .vy-bundle-left{flex:1;min-height:0;overflow:hidden!important;padding:10px 12px 0!important;display:flex;flex-direction:column}
+  .vy-bundle-search{flex-shrink:0;padding:11px 12px;font-size:13px}
+  .vy-bundle-products{flex:1;min-height:0;overflow-y:auto!important;overscroll-behavior:contain;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px;padding:10px 2px 12px}
+  .vy-book{padding:9px 6px!important;gap:5px;min-height:0}
+  .vy-book-cover{width:min(100%,96px)!important;aspect-ratio:3/4}
+  .vy-book-title{font-size:11px;min-height:0;line-height:1.25}
+  .vy-book-price{font-size:11px}
+  .vy-book-check{width:16px;height:16px;top:7px;right:7px}
+  .vy-bundle-side{flex:0 0 auto;padding:11px 14px calc(12px + env(safe-area-inset-bottom))!important;border-top:1px solid #e7d9df;background:#fffafa;box-shadow:0 -6px 20px #39202b12;gap:0}
+  .vy-side-heading{font-size:12px}
+  .vy-selected-list{flex:none;max-height:57px!important;min-height:0!important;overflow-y:auto;padding:2px 0}
+  .vy-selected-row{font-size:11px;padding:4px 0}
+  .vy-total-line{font-size:11px;margin:3px 0}
+  .vy-plan-total{font-size:20px}
+  .vy-save{font-size:11px;min-height:0;margin:2px 0}
+  .vy-warning{font-size:11px;min-height:0;margin:3px 0}
+  .vy-continue{padding:13px 8px;font-size:12px}
+  .vy-secure{margin-top:5px;font-size:10px}
+}
+@media(max-width:390px){.vy-bundle-header h2{font-size:22px!important}.vy-book-cover{width:min(100%,83px)!important}.vy-bundle-header p{font-size:10px}}
 </style></head><body class="vayen-auth-pending"><script>if(new URLSearchParams(location.search).get("plan")==="bundle-pass")document.body.classList.add("vayen-bundle-route");</script><header class="top"><a class="brand" href="index.html">VAYEN</a><a class="back" href="plans.html">← Back to Plans</a></header><main class="wrap"><span class="eyebrow">VAYEN / EXCLUSIVE ACCESS</span><h1 class="heading">Plan checkout<span style="color:#b27a8d">.</span></h1><p class="sub">Review your selected plan and payment details before proceeding.</p><div class="grid"><section class="card"><span class="label">SELECTED PLAN</span><h2 class="name" id="name">—</h2><p class="muted" id="description"></p><div class="rule"></div><div id="benefits"></div><div id="vyBundleReview" class="vy-review hidden"></div><section id="bundlePicker" class="bundle-picker hidden"><h3>Choose your 5 ebooks</h3><p class="picker-status" id="pickerStatus">Loading available ebooks…</p><div class="bundle-list" id="bundleList"></div><div class="bundle-count" id="bundleCount">0 of 5 selected</div></section><div class="rule"></div><p class="muted">Signed-in account: <strong id="email"></strong></p><a class="back" href="plans.html">← Change plan</a></section><aside class="card"><span class="label">ORDER SUMMARY</span><div class="row"><span>Plan price</span><strong id="price">—</strong></div><div class="row"><span>Additional charges</span><strong>₹0</strong></div><div class="rule"></div><div class="row"><strong>Total payable</strong><strong class="price" id="total">—</strong></div><button class="button" id="pay" type="button">Continue to Payment →</button><div class="note" id="status">Sign in to review your plan and continue securely.</div></aside></div></main><footer class="foot">© 2026 VAYEN · Digital products, thoughtfully made.</footer><div class="vy-bundle-modal" id="vyBundleModal" hidden><section class="vy-bundle-shell" role="dialog" aria-modal="true" aria-labelledby="vyBundleHeading"><div class="vy-bundle-header"><div class="vy-bundle-eyebrow">VAYEN BUNDLE PASS · ₹2,999</div><h2 id="vyBundleHeading">Choose Your 5 Favorites</h2><p>Select exactly five published ebooks. After successful payment, enjoy lifetime access to your selected collection.</p><button type="button" class="vy-bundle-x" id="vyBundleClose" aria-label="Close">×</button></div><div class="vy-bundle-body"><div class="vy-bundle-left"><input id="vyBundleSearch" class="vy-bundle-search" placeholder="Search ebooks…" aria-label="Search ebooks"><div class="vy-bundle-products" id="vyBundleCards"></div></div><aside class="vy-bundle-side"><div class="vy-side-heading"><span>Your selected ebooks</span><span class="vy-count" id="vyBundleSelectedCount">0 / 5</span></div><div class="vy-selected-list" id="vyBundleSelectedList"></div><div class="vy-total-line"><span>Individual total</span><strong id="vyBundleOriginal">₹0</strong></div><div class="vy-total-line"><strong>Bundle Pass price</strong><strong class="vy-plan-total">₹2,999</strong></div><div class="vy-save" id="vyBundleSaving"></div><div class="vy-warning" id="vyBundleWarning" role="status"></div><button class="vy-continue" type="button" id="vyBundleContinue">Continue to Payment →</button><div class="vy-secure">Secure checkout · One-time payment</div></aside></div></section></div><div class="vy-success-modal" id="vyBundleSuccess" hidden><section class="vy-success-box" role="dialog" aria-modal="true" aria-labelledby="vySuccessHeading" id="vySuccessBox"><div class="vy-success-icon">✓</div><div class="vy-bundle-eyebrow">VAYEN BUNDLE PASS</div><h2 id="vySuccessHeading">Congratulations!</h2><p>You've unlocked your 5 selected ebooks with lifetime access. Your collection is ready.</p><a href="orders.html">Go to My Orders →</a></section></div><script src="https://checkout.razorpay.com/v1/checkout.js"></script><script type="module" id="vayen-plan-firebase-checkout">
 import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
@@ -181,7 +211,7 @@ function drawBundle() {
     const card=document.createElement("label");card.className="vy-book";card.dataset.bookId=book.id;
     const cover=document.createElement("span");cover.className="vy-book-cover";cover.textContent="V";
     const coverUrl=localProductCover(book) || productCover(book);
-    if(coverUrl){const image=document.createElement("img");image.src=coverUrl;image.loading="lazy";image.alt="";image.onerror=()=>{cover.replaceChildren(document.createTextNode("V"));};cover.replaceChildren(image);}
+    if(coverUrl){const image=document.createElement("img");image.src=coverUrl;image.loading="lazy";image.alt="";image.onerror=()=>{console.warn("VAYEN ebook cover unavailable:", image.src);cover.replaceChildren(document.createTextNode("V"));};cover.replaceChildren(image);}
     const title=document.createElement("span");title.className="vy-book-title";title.textContent=book.name||book.title||book.id.replace(/-/g," ");
     const price=document.createElement("span");price.className="vy-book-price";price.textContent=currency(Number(book.price));
     const input=document.createElement("input");input.type="checkbox";input.className="vy-book-check";input.setAttribute("aria-label","Select "+title.textContent);
@@ -243,15 +273,19 @@ const VAYEN_LOCAL_COVERS = {
   "seller-commerce": "seller-commerce.png"
 };
 function localProductCover(book) {
-  const slug = String(book.id || "").toLowerCase();
-  const title = String(book.name || book.title || "").toLowerCase();
-  const key = Object.keys(VAYEN_LOCAL_COVERS).find(k => k === slug ||
-    k.replace(/-/g," ") === title ||
-    (k === "personal-brand" && title.includes("personal brand")) ||
-    (k === "design-thumbnails" && title.includes("thumbnails")) ||
-    (k === "edit-videos" && title.includes("edit videos")) ||
-    (k === "seller-commerce" && title.includes("commerce")));
-  return key ? "images/vayen-bundle/" + VAYEN_LOCAL_COVERS[key] : "";
+  const slug = String(book.id || "").toLowerCase().trim();
+  const title = String(book.name || book.title || "").toLowerCase().trim();
+  const normalized = value => value.replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const aliases = {
+    "build-your-personal-brand":"personal-brand",
+    "how-to-design-thumbnails":"design-thumbnails",
+    "how-to-edit-videos":"edit-videos",
+    "creator-studio":"edit-videos"
+  };
+  const candidates = [slug, normalized(title), aliases[slug], aliases[normalized(title)]];
+  const key = candidates.find(value => value && VAYEN_LOCAL_COVERS[value]);
+  if (!key) return "";
+  return new URL("images/vayen-bundle/" + VAYEN_LOCAL_COVERS[key], location.href).href;
 }
 function productCover(book) {
   return localProductCover(book) || [book.coverUrl,book.coverImage,book.coverImageUrl,book.imageUrl,book.image,book.cover,book.thumbnail,book.thumbnailUrl]
