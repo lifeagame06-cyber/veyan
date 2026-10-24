@@ -19,7 +19,7 @@ const BASE = "https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1";
 const PLANS = {
   "surprise-box": {name:"Surprise Box",price:499,description:"A mystery digital gift, specially selected for you.",benefits:["Admin-selected surprise product","Delivered after fulfillment","Your gift appears in My Products once claimed"]},
   "bundle-pass": {name:"VAYEN Bundle Pass",price:2999,description:"Choose any five eligible VAYEN ebooks and enjoy lifetime access to your selection.",benefits:["Choose exactly 5 published ebooks","Lifetime access to your chosen ebooks","Read and download from My Products"]},
-  "lifetime-access": {name:"VAYEN Lifetime Access",price:5999,description:"Lifetime access to all currently eligible published VAYEN ebooks.",benefits:["All eligible ebooks published at purchase","Lifetime access to included ebooks","10 Future Products Included*","*Future-product access will be introduced separately; not automatically unlocked yet."]}
+  "lifetime-access": {name:"VAYEN Lifetime Access",price:5999,description:"Lifetime access to all currently eligible published VAYEN ebooks.",benefits:["All eligible ebooks published at purchase","Lifetime access to included ebooks","10 Future Products Included","One-Time Payment — No Renewals or Subscription Fees"]}
 };
 const id = new URLSearchParams(location.search).get("plan");
 const plan = typeof id === "string" && Object.hasOwn(PLANS,id) ? PLANS[id] : null;
