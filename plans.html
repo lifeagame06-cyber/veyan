@@ -63,7 +63,8 @@
 
 .vayen-plans .vp-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 520px);
+    justify-content: center;
     gap: 18px;
 }
 
@@ -468,36 +469,13 @@
 <span class="vp-eyebrow">VAYEN / EXCLUSIVE ACCESS</span>
 <h2>More value.<br/><em>Made for you.</em></h2>
 </div>
-<p>Two thoughtful ways to get more from VAYEN. Choose the one that fits you.</p>
+<p>A little something special, thoughtfully selected for you.</p>
 </div>
 <div class="vp-grid">
-<!-- PLAN 01 — DISCOUNT PASS -->
-<article class="vp-card vp-discount">
-<div class="vp-card-top">
-<span>01 / MEMBER BENEFIT</span>
-<span aria-hidden="true" class="vp-symbol">✳</span>
-</div>
-<div class="vp-card-main">
-<p class="vp-kicker">THE DISCOUNT PASS</p>
-<h3>Save more.<br/>Every time.</h3>
-<div class="vp-price">₹299 <small>/ one-time</small></div>
-<p class="vp-description">Unlock 10% off eligible digital products throughout your membership year.</p>
-</div>
-<div class="vp-benefits">
-<span>✓ 10% OFF on products above ₹500</span>
-<span>✓ Up to 50 discounted purchases</span>
-<span>✓ Valid for 1 year</span>
-</div>
-<details class="vp-details">
-<summary>View plan details <span>↗</span></summary>
-<p>Valid for 365 days from activation or until 50 successful discounted purchases, whichever comes first. Applies to eligible products priced above ₹500. Payment activation will be connected later.</p>
-</details>
-<a class="vp-get" data-vayen-plan="discount-pass" href="#">Get Discount Pass ↗</a>
-</article>
-<!-- PLAN 02 — SURPRISE BOX -->
+<!-- SURPRISE BOX -->
 <article class="vp-card vp-surprise">
 <div class="vp-card-top">
-<span>02 / SOMETHING SPECIAL</span>
+<span>01 / SOMETHING SPECIAL</span>
 <span class="vp-tag">THE MYSTERY PICK</span>
 </div>
 <div class="vp-card-main">
@@ -518,7 +496,7 @@
 <a class="vp-get" data-vayen-plan="surprise-box" href="#">Get Surprise Box ↗</a>
 </article>
 </div>
-<p class="vp-preview-note">Select a plan to review its checkout summary and available benefits.</p>
+<p class="vp-preview-note">Explore the Surprise Box and review its details before checkout.</p>
 </div>
 </section>
 <footer aria-label="VAYEN mobile footer" class="vp-mobile-footer">
@@ -563,7 +541,7 @@
 </nav>
 <script id="vayen-plan-checkout-routing">
 (function () {
-    const allowed = new Set(['discount-pass', 'surprise-box']);
+    const allowed = new Set(['surprise-box']);
 
     document.querySelectorAll('.vp-get[data-vayen-plan]').forEach(link => {
         const plan = link.dataset.vayenPlan;
