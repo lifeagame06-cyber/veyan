@@ -91,7 +91,8 @@ function message(text, error=false) {
 }
 function setBusy(value) {
   busy = value;
-  pay.disabled = completed || value || !currentUser || !plan;\n  bundleContinue.disabled = value || completed;
+  pay.disabled = completed || value || !currentUser || !plan;
+  bundleContinue.disabled = value || completed;
   pay.textContent = value ? "Please wait…" : (id === "bundle-pass" ? "Choose Your 5 Favorites →" : "Continue to Payment →");
 }
 async function call(name, payload, user) {
@@ -258,6 +259,7 @@ async function checkout() {
            message("Your plan payment is confirmed. Your included ebooks will appear in My Products.");
           pay.textContent = "Payment Confirmed ✓";
           pay.disabled = true;
+          if (id === "bundle-pass") celebrateBundle();
           // Do not redirect to product success.html; plans are separate from products.
         } catch(e) {
           console.error("Plan confirmation pending",e);
