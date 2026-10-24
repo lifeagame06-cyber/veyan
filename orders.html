@@ -321,6 +321,9 @@ window.addEventListener('vayen-orders-auth', event => {
 });
 document.getElementById('vyModalClose').onclick=close;modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close()});
 function canAccess(o) {
+    if (o.kind === 'plan') {
+        return o.source === 'cloud' && o.status === 'active' && Boolean(o.productId);
+    }
     if (o.kind === 'gift') {
         return o.source === 'cloud' && o.status === 'claimed' && Boolean(o.productId);
     }
@@ -338,8 +341,10 @@ function render(recent) {
     list.innerHTML = shown.map(o => {
         const verified = canAccess(o);
         const gifted = o.kind === 'gift';
+        const planUnlocked = o.kind === 'plan';
         const statusLabel = gifted ? 'Gifted by VAYEN 🎁' :
-            (verified ? 'Purchase confirmed' : 'Purchase confirmation pending');
+            (planUnlocked ? 'Lifetime access unlocked ✓' :
+            (verified ? 'Purchase confirmed' : 'Purchase confirmation pending'));
         const actions = verified ? `
             <button type="button" data-action="read" data-id="${safe(o.id)}">Read Ebook →</button>
             <button type="button" data-action="download" data-id="${safe(o.id)}">↓ Download PDF</button>
@@ -350,15 +355,15 @@ function render(recent) {
                 <div class="vy-order-art">V</div>
                 <div class="vy-order-info">
                     <div class="vy-order-meta">
-                        <span class="vy-order-pill">${gifted ? 'GIFT' : 'ORDER'}</span>
+                        <span class="vy-order-pill">${gifted ? 'GIFT' : (planUnlocked ? 'PLAN ACCESS' : 'ORDER')}</span>
                         <span class="vy-order-ready">${statusLabel}</span>
                     </div>
                     <h2>${safe(o.name)}</h2>
                     <p>${safe(o.category)} · #${safe(o.id)}</p>
-                    ${gifted ? '<p style="margin-top:5px;color:#963d61;font-weight:700">Complimentary gift · No payment required</p>' : ''}
+                    ${gifted ? '<p style="margin-top:5px;color:#963d61;font-weight:700">Complimentary gift · No payment required</p>' : (planUnlocked ? '<p style="margin-top:5px;color:#963d61;font-weight:700">Included in your verified plan · Lifetime access</p>' : '')}
                     <small>${o.createdAt ? safe(new Date(o.createdAt).toLocaleString('en-IN', {dateStyle:'medium',timeStyle:'short'})) : 'Purchase date unavailable'}</small>
                 </div>
-                <strong class="vy-order-price">${gifted ? '₹0 · Gift' : (o.price == null ? 'Price unavailable' : money(o.price))}</strong>
+                <strong class="vy-order-price">${gifted ? '₹0 · Gift' : (planUnlocked ? 'Included in plan' : (o.price == null ? 'Price unavailable' : money(o.price)))}</strong>
                 <div class="vy-order-actions">${actions}</div>
             </article>`;
     }).join('');
@@ -368,7 +373,7 @@ function render(recent) {
 
     if (highlight && !recent) {
         const item = Array.from(list.querySelectorAll('[data-order]'))
-            .find(el => el.dataset.order === highlight);
+            .find(el => el.dataset.order === highlight || records.some(o => o.id === el.dataset.order && o.sourceOrderId === highlight));
         if (item) {
             if (!highlightShown) {
                 highlightShown = true;
@@ -376,7 +381,7 @@ function render(recent) {
                 // Wait until the browser has laid out the newly rendered order cards.
                 requestAnimationFrame(() => requestAnimationFrame(() => {
                     const target = Array.from(list.querySelectorAll('[data-order]'))
-                        .find(el => el.dataset.order === highlight);
+                        .find(el => el.dataset.order === highlight || records.some(o => o.id === el.dataset.order && o.sourceOrderId === highlight));
                     target?.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }));
                 highlightTimer = setTimeout(() => {
@@ -421,12 +426,15 @@ if (!getApps().length) {
     let stopOrders = null;
     let stopRootOrders = null;
     let stopGifts = null;
+    let stopEntitlements = null;
     let cloudOrders = [];
     let rootOrders = [];
     let cloudGifts = [];
+    let planAccess = [];
     let ordersLoaded = false;
     let rootOrdersLoaded = false;
     let giftsLoaded = false;
+    let entitlementsLoaded = false;
     const ebookTitles = {
         'youtube-creator-system': 'YouTube Creator System',
         'vlogging-mastery': 'Vlogging Mastery',
@@ -456,9 +464,9 @@ if (!getApps().length) {
             !(o.paymentStatus === 'paid' && o.verificationStatus === 'verified' && rootProductIds.has(o.productId))
         );
         window.dispatchEvent(new CustomEvent('vayen-orders-cloud', {
-            detail: [...rootOrders, ...legacyOnly, ...cloudGifts]
+            detail: [...rootOrders, ...legacyOnly, ...cloudGifts, ...planAccess]
         }));
-        status.textContent = ordersLoaded && rootOrdersLoaded && giftsLoaded ? '' : 'Loading your orders and gifts…';
+        status.textContent = ordersLoaded && rootOrdersLoaded && giftsLoaded && entitlementsLoaded ? '' : 'Loading your orders and gifts…';
     }
     function toIso(raw) {
         if (!raw) return null;
@@ -482,15 +490,19 @@ if (!getApps().length) {
         if (stopOrders) stopOrders();
         if (stopRootOrders) stopRootOrders();
         if (stopGifts) stopGifts();
+        if (stopEntitlements) stopEntitlements();
         stopOrders = null;
         stopRootOrders = null;
         stopGifts = null;
+        stopEntitlements = null;
         cloudOrders = [];
         rootOrders = [];
         cloudGifts = [];
+        planAccess = [];
         ordersLoaded = false;
         rootOrdersLoaded = false;
         giftsLoaded = false;
+        entitlementsLoaded = false;
 
         window.dispatchEvent(new CustomEvent('vayen-orders-cloud', {
             detail: []
@@ -562,6 +574,43 @@ if (!getApps().length) {
                 rootOrdersLoaded = true;
                 publish();
                 status.textContent = 'Some purchase details could not be loaded. Please refresh and try again.';
+            }
+        );
+
+        // Lifetime product access is granted server-side only after plan payment verification.
+        stopEntitlements = onSnapshot(
+            collection(db, 'users', user.uid, 'productEntitlements'),
+            snapshot => {
+                planAccess = snapshot.docs.flatMap(item => {
+                    const data = item.data();
+                    const productId = item.id;
+                    if (data.userId !== user.uid || data.productId !== productId ||
+                        data.status !== 'active' ||
+                        !['bundle-pass', 'lifetime-access'].includes(data.sourceType) ||
+                        typeof data.sourceOrderId !== 'string' ||
+                        !/^order_[A-Za-z0-9]{6,80}$/.test(data.sourceOrderId)) return [];
+                    const title = ebookTitles[productId] ||
+                        productId.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+                    return [{
+                        id: 'plan-' + productId,
+                        kind: 'plan',
+                        source: 'cloud',
+                        status: 'active',
+                        name: title,
+                        category: data.sourceType === 'bundle-pass' ? 'BUNDLE PASS · LIFETIME' : 'LIFETIME ACCESS',
+                        productId,
+                        sourceOrderId: data.sourceOrderId,
+                        price: null,
+                        createdAt: toIso(data.grantedAt || data.createdAt)
+                    }];
+                });
+                entitlementsLoaded = true;
+                publish();
+            }, error => {
+                console.error('Unable to load plan access:', error);
+                entitlementsLoaded = true;
+                publish();
+                status.textContent = 'Some plan products could not be loaded. Please refresh and try again.';
             }
         );
 
