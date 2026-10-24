@@ -828,6 +828,29 @@
     .vayen-plans .vp-side-highlight {font-size:10px;padding:12px;}
 }
 </style>
+
+<style id="vayen-final-center-and-art-smoothing">
+/* Keep the approved compact width and typography; let each details panel expand alone. */
+@media (min-width: 901px) {
+  .vayen-plans .vp-grid { align-items: start !important; }
+  .vayen-plans .vp-card { align-self: start !important; }
+  .vayen-plans .vp-lifetime {
+    min-height: 565px !important;
+    transform: translateY(-10px) !important;
+  }
+  .vayen-plans .vp-lifetime:hover { transform: translateY(-13px) !important; }
+}
+/* Fade the source illustrations into each card's own gradient rather than
+   exposing the square corners of the original artwork crop. */
+.vayen-plans .vp-art {
+  -webkit-mask-image: radial-gradient(ellipse 63% 61% at 52% 51%, #000 39%, rgba(0,0,0,.96) 53%, rgba(0,0,0,.58) 72%, transparent 96%);
+  mask-image: radial-gradient(ellipse 63% 61% at 52% 51%, #000 39%, rgba(0,0,0,.96) 53%, rgba(0,0,0,.58) 72%, transparent 96%);
+  filter: none !important;
+}
+@media (max-width: 900px) {
+  .vayen-plans .vp-lifetime { transform: none !important; }
+}
+</style>
 </head>
 <body>
 <header class="plans-page-header">
