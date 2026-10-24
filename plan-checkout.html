@@ -4,7 +4,52 @@ body.vayen-auth-pending .wrap, body.vayen-auth-pending .foot { visibility:hidden
 :root{font-family:Arial,sans-serif;color:#2b2228}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 95% 0%,#ead2d5,transparent 45%),radial-gradient(ellipse at 0% 95%,#e5c8c6,transparent 55%),#f8f3ef}a{text-decoration:none;color:inherit}.top{display:flex;align-items:center;justify-content:space-between;max-width:1110px;margin:20px auto;padding:22px 30px;border:1px solid white;border-radius:20px;background:#fffcfae8;box-shadow:0 14px 38px #56333b0b}.brand{font-size:22px;letter-spacing:5px;font-weight:900}.back{font-size:13px;color:#7e6871}.wrap{width:min(1070px,calc(100% - 32px));margin:55px auto}.eyebrow{color:#9b637a;font-size:11px;font-weight:800;letter-spacing:2px}.heading{font-size:clamp(36px,5vw,57px);letter-spacing:-2px;margin:12px 0}.sub{font-size:14px;color:#7f7378;line-height:1.7}.grid{display:grid;grid-template-columns:1.35fr .85fr;gap:22px;margin-top:32px}.card{background:#fffdfb;border:1px solid #e9dfe0;border-radius:24px;padding:31px;box-shadow:0 16px 45px #4b303812}.label{font-size:11px;font-weight:800;letter-spacing:1.5px;color:#966a7b}.name{font-size:29px;letter-spacing:-1px;margin:17px 0 12px}.muted{font-size:13px;color:#81747b;line-height:1.7}.rule{height:1px;background:#eee5e5;margin:24px 0}.row{display:flex;justify-content:space-between;gap:14px;align-items:center;margin:15px 0;font-size:13px}.price{font-size:32px;font-weight:800}.button{width:100%;display:block;padding:17px 20px;border:0;border-radius:13px;background:#2b2029;color:white;font-size:13px;font-weight:800;text-align:center;cursor:pointer}.note{margin-top:17px;padding:14px 15px;background:#f9eff0;border:1px solid #eedde0;border-radius:12px;color:#7a4f60;font-size:12px;line-height:1.6}.feature{padding:9px 0;font-size:13px;color:#554951}.feature::before{content:'✓';color:#9c687e;font-weight:800;margin-right:10px}.hidden{display:none}.error{color:#a13d50}.foot{text-align:center;font-size:11px;color:#9b8c91;margin:40px 0}@media(max-width:700px){.top{margin:8px 10px;padding:17px}.wrap{margin:30px auto}.grid{grid-template-columns:1fr;gap:14px;margin-top:24px}.card{padding:22px}.heading{letter-spacing:-1px}}
 
 .bundle-picker{margin-top:22px}.bundle-picker h3{font-size:17px;margin:0 0 7px}.bundle-picker .picker-status{font-size:12px;color:#826b75;margin:0 0 12px}.bundle-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;max-height:355px;overflow:auto}.bundle-option{display:flex;gap:10px;align-items:center;border:1px solid #eadde1;border-radius:12px;padding:12px;background:#fff;cursor:pointer;font-size:12px;line-height:1.4}.bundle-option:has(input:checked){background:#f7e8ed;border-color:#945a73}.bundle-option input{accent-color:#703a56;width:17px;height:17px;flex-shrink:0}.bundle-option input:disabled{cursor:not-allowed}.bundle-count{font-weight:700;color:#7e415b;margin-top:10px;font-size:12px}.button:disabled{opacity:.55;cursor:not-allowed}@media(max-width:550px){.bundle-list{grid-template-columns:1fr}}
-</style></head><body class="vayen-auth-pending"><header class="top"><a class="brand" href="index.html">VAYEN</a><a class="back" href="plans.html">← Back to Plans</a></header><main class="wrap"><span class="eyebrow">VAYEN / EXCLUSIVE ACCESS</span><h1 class="heading">Plan checkout<span style="color:#b27a8d">.</span></h1><p class="sub">Review your selected plan and payment details before proceeding.</p><div class="grid"><section class="card"><span class="label">SELECTED PLAN</span><h2 class="name" id="name">—</h2><p class="muted" id="description"></p><div class="rule"></div><div id="benefits"></div><section id="bundlePicker" class="bundle-picker hidden"><h3>Choose your 5 ebooks</h3><p class="picker-status" id="pickerStatus">Loading available ebooks…</p><div class="bundle-list" id="bundleList"></div><div class="bundle-count" id="bundleCount">0 of 5 selected</div></section><div class="rule"></div><p class="muted">Signed-in account: <strong id="email"></strong></p><a class="back" href="plans.html">← Change plan</a></section><aside class="card"><span class="label">ORDER SUMMARY</span><div class="row"><span>Plan price</span><strong id="price">—</strong></div><div class="row"><span>Additional charges</span><strong>₹0</strong></div><div class="rule"></div><div class="row"><strong>Total payable</strong><strong class="price" id="total">—</strong></div><button class="button" id="pay" type="button">Continue to Payment →</button><div class="note" id="status">Sign in to review your plan and continue securely.</div></aside></div></main><footer class="foot">© 2026 VAYEN · Digital products, thoughtfully made.</footer><script src="https://checkout.razorpay.com/v1/checkout.js"></script><script type="module" id="vayen-plan-firebase-checkout">
+</style>
+<style id="vayen-premium-bundle-picker">
+.bundle-picker{display:none!important}
+.vy-bundle-overlay[hidden]{display:none!important}
+.vy-bundle-overlay{position:fixed;inset:0;z-index:10020;background:rgba(30,18,29,.68);backdrop-filter:blur(9px);display:grid;place-items:center;padding:18px}
+.vy-bundle-dialog{width:min(930px,100%);max-height:min(92dvh,900px);display:flex;flex-direction:column;overflow:hidden;border-radius:25px;background:#fffaf9;border:1px solid #f0e4e7;box-shadow:0 30px 95px #170a1666}
+.vy-bundle-head{position:relative;padding:25px 29px 17px;background:linear-gradient(115deg,#fff7f5,#f4e6eb);border-bottom:1px solid #eadce1}
+.vy-bundle-kicker{font-size:10px;letter-spacing:2px;font-weight:800;color:#a05275}
+.vy-bundle-head h2{font:normal clamp(25px,4vw,36px) Georgia,serif;margin:9px 0}
+.vy-bundle-head p{font-size:12px;line-height:1.6;color:#78636d;margin:0}
+.vy-bundle-close{position:absolute;right:20px;top:18px;border:0;background:#ffffffbb;width:34px;height:34px;border-radius:50%;font-size:24px;color:#674353;cursor:pointer}
+.vy-bundle-topline{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 28px;border-bottom:1px solid #eee3e6;font-size:12px;color:#6f5964}
+.vy-bundle-pill{background:#f5e5eb;border-radius:30px;padding:9px 14px;color:#74344f;font-weight:800;white-space:nowrap}
+.vy-bundle-products{overflow:auto;min-height:80px;padding:20px 26px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.vy-bundle-book{position:relative;display:flex;align-items:center;gap:12px;min-width:0;padding:13px;border:1px solid #eadfe2;border-radius:16px;background:white;cursor:pointer;transition:transform .18s,border-color .18s,box-shadow .18s}
+.vy-bundle-book:hover{transform:translateY(-2px);box-shadow:0 7px 22px #55304415}
+.vy-bundle-book.is-selected{background:#fff3f7;border-color:#a64e76;box-shadow:inset 0 0 0 1px #a64e76}
+.vy-bundle-book.is-maxed{opacity:.58;cursor:not-allowed}
+.vy-bundle-cover{width:52px;height:72px;flex-shrink:0;border-radius:6px;background:linear-gradient(140deg,#422334,#ad7086);display:grid;place-items:center;color:#fff;font:22px Georgia,serif;box-shadow:3px 4px 9px #3a1a2c25;overflow:hidden}
+.vy-bundle-cover img{width:100%;height:100%;object-fit:cover}
+.vy-bundle-bookname{font-size:12px;line-height:1.5;font-weight:800;color:#382a32;overflow-wrap:anywhere}
+.vy-bundle-booksmall{font-size:10px;color:#987e89;margin-top:6px}
+.vy-bundle-check{position:absolute;right:9px;top:8px;width:20px;height:20px;accent-color:#8b3d60}
+.vy-bundle-footer{padding:16px 26px 20px;border-top:1px solid #eee1e6;background:#fffaf9}
+.vy-bundle-alert{min-height:20px;font-size:12px;color:#a3445d;margin-bottom:9px;text-align:center}
+.vy-bundle-actions{display:flex;gap:11px}
+.vy-bundle-actions button{min-height:48px;border-radius:12px;font-weight:800;cursor:pointer}
+.vy-bundle-back{background:#fff;border:1px solid #e6d5dd;padding:0 20px;color:#775767}
+.vy-bundle-continue{flex:1;border:0;background:#30232c;color:white;padding:0 18px}
+.vy-bundle-continue:disabled{opacity:.55;cursor:wait}
+@keyframes vy-bundle-shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+.vy-shake{animation:vy-bundle-shake .36s ease}
+@media(max-width:700px){.vy-bundle-overlay{padding:9px}.vy-bundle-dialog{max-height:95dvh;border-radius:18px}.vy-bundle-head{padding:22px 17px 15px}.vy-bundle-topline{padding:11px 15px}.vy-bundle-products{grid-template-columns:repeat(2,minmax(0,1fr));padding:12px;gap:9px}.vy-bundle-book{padding:9px;gap:8px}.vy-bundle-cover{width:39px;height:58px}.vy-bundle-bookname{font-size:11px}.vy-bundle-footer{padding:12px}.vy-bundle-actions{gap:8px}.vy-bundle-back{padding:0 12px}}
+@media(max-width:390px){.vy-bundle-products{grid-template-columns:1fr}.vy-bundle-cover{width:45px;height:60px}}
+</style>
+</head><body class="vayen-auth-pending"><header class="top"><a class="brand" href="index.html">VAYEN</a><a class="back" href="plans.html">← Back to Plans</a></header><main class="wrap"><span class="eyebrow">VAYEN / EXCLUSIVE ACCESS</span><h1 class="heading">Plan checkout<span style="color:#b27a8d">.</span></h1><p class="sub">Review your selected plan and payment details before proceeding.</p><div class="grid"><section class="card"><span class="label">SELECTED PLAN</span><h2 class="name" id="name">—</h2><p class="muted" id="description"></p><div class="rule"></div><div id="benefits"></div><section id="bundlePicker" class="bundle-picker hidden"><h3>Choose your 5 ebooks</h3><p class="picker-status" id="pickerStatus">Loading available ebooks…</p><div class="bundle-list" id="bundleList"></div><div class="bundle-count" id="bundleCount">0 of 5 selected</div></section><div class="rule"></div><p class="muted">Signed-in account: <strong id="email"></strong></p><a class="back" href="plans.html">← Change plan</a></section><aside class="card"><span class="label">ORDER SUMMARY</span><div class="row"><span>Plan price</span><strong id="price">—</strong></div><div class="row"><span>Additional charges</span><strong>₹0</strong></div><div class="rule"></div><div class="row"><strong>Total payable</strong><strong class="price" id="total">—</strong></div><button class="button" id="pay" type="button">Continue to Payment →</button><div class="note" id="status">Sign in to review your plan and continue securely.</div></aside></div></main><footer class="foot">© 2026 VAYEN · Digital products, thoughtfully made.</footer><div class="vy-bundle-overlay" id="vyBundleOverlay" hidden>
+<section class="vy-bundle-dialog" role="dialog" aria-modal="true" aria-labelledby="vyBundleHeading">
+<div class="vy-bundle-head"><span class="vy-bundle-kicker">VAYEN · EXCLUSIVE COLLECTION</span>
+<h2 id="vyBundleHeading">Choose your 5 favorites.</h2>
+<p>Handpick five ebooks you love. Your chosen collection is yours for a lifetime.</p>
+<button class="vy-bundle-close" id="vyBundleClose" type="button" aria-label="Close selection">×</button></div>
+<div class="vy-bundle-topline"><span id="vyBundleHint">Loading available ebooks…</span><span class="vy-bundle-pill" id="vyBundleCount">0 / 5 SELECTED</span></div>
+<div class="vy-bundle-products" id="vyBundleProducts"></div>
+<div class="vy-bundle-footer"><div class="vy-bundle-alert" id="vyBundleAlert" role="status" aria-live="polite"></div>
+<div class="vy-bundle-actions"><button type="button" class="vy-bundle-back" id="vyBundleBack">Back</button><button type="button" class="vy-bundle-continue" id="vyBundleContinue">Continue to Payment · ₹2,999 →</button></div></div>
+</section></div><script src="https://checkout.razorpay.com/v1/checkout.js"></script><script type="module" id="vayen-plan-firebase-checkout">
 import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
@@ -40,8 +85,8 @@ function message(text, error=false) {
 }
 function setBusy(value) {
   busy = value;
-  pay.disabled = completed || value || !currentUser || !plan || (id === "bundle-pass" && (!selectionReady || selected.size !== 5));
-  pay.textContent = value ? "Please wait…" : "Continue to Payment →";
+  pay.disabled = completed || value || !currentUser || !plan;
+  pay.textContent = value ? "Please wait…" : (id === "bundle-pass" ? "Choose Your 5 Favorites →" : "Continue to Payment →");\n  bundleContinue.disabled = value || completed;
 }
 async function call(name, payload, user) {
   const token = await user.getIdToken();
@@ -57,48 +102,96 @@ async function call(name, payload, user) {
   }
   return data;
 }
+const bundleOverlay = el("vyBundleOverlay");
+const bundleContinue = el("vyBundleContinue");
+const bundleAlert = el("vyBundleAlert");
+function showBundlePicker() {
+  if (id !== "bundle-pass" || !currentUser || busy || completed) return;
+  bundleOverlay.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+function hideBundlePicker() {
+  if (busy) return;
+  bundleOverlay.hidden = true;
+  document.body.style.overflow = "";
+}
+function shakeBundleButton(text) {
+  bundleAlert.textContent = text;
+  bundleContinue.classList.remove("vy-shake");
+  void bundleContinue.offsetWidth;
+  bundleContinue.classList.add("vy-shake");
+}
+el("vyBundleClose").addEventListener("click",hideBundlePicker);
+el("vyBundleBack").addEventListener("click",hideBundlePicker);
+bundleOverlay.addEventListener("click",event=>{if(event.target===bundleOverlay) hideBundlePicker();});
+document.addEventListener("keydown",event=>{if(event.key==="Escape"&&!bundleOverlay.hidden) hideBundlePicker();});
+bundleContinue.addEventListener("click",()=>{
+  if (!selectionReady) { shakeBundleButton("Ebooks are loading or unavailable. Please try again."); return; }
+  if (selected.size !== 5) { shakeBundleButton(`Select exactly 5 ebooks to continue (${selected.size}/5 selected).`); return; }
+  bundleAlert.textContent = "";
+  hideBundlePicker();
+  checkout();
+});
 async function loadBundleProducts(db) {
   if (catalogLoading) return;
   catalogLoading = true;
-  const picker = el("bundlePicker");
-  picker.classList.remove("hidden");
-  const hint = el("pickerStatus");
+  const hint = el("vyBundleHint");
+  const list = el("vyBundleProducts");
+  hint.textContent = "Loading available ebooks…";
   try {
     const snap = await getDocs(query(collection(db,"products"),where("status","==","published")));
-    const books = snap.docs.map(doc => ({id:doc.id,...doc.data()}))
-      .filter(p => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p.id) && Number.isSafeInteger(Number(p.price)) && Number(p.price) > 0)
-      .sort((a,b) => String(a.name || a.title || a.id).localeCompare(String(b.name || b.title || b.id)));
-    const list = el("bundleList");
+    const books = snap.docs.map(doc => ({...doc.data(),id:doc.id}))
+      .filter(p => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p.id) && Number.isSafeInteger(Number(p.price)) && Number(p.price)>0)
+      .sort((a,b)=>String(a.name||a.title||a.id).localeCompare(String(b.name||b.title||b.id)));
     list.replaceChildren();
-    for (const book of books) {
-      const label = document.createElement("label");
-      label.className = "bundle-option";
-      const check = document.createElement("input");
-      check.type = "checkbox";
-      check.value = book.id;
-      const text = document.createElement("span");
-      text.textContent = book.name || book.title || book.id.replace(/-/g," ");
-      check.addEventListener("change", () => {
-        if (check.checked) selected.add(book.id); else selected.delete(book.id);
-        for (const input of list.querySelectorAll('input[type="checkbox"]')) {
-          input.disabled = !input.checked && selected.size >= 5;
-        }
-        el("bundleCount").textContent = `${selected.size} of 5 selected`;
-        setBusy(busy);
-      });
-      label.append(check,text);
-      list.append(label);
+    selected.clear();
+    const checks=[];
+    function refresh() {
+      el("vyBundleCount").textContent = `${selected.size} / 5 SELECTED`;
+      for(const {input,card} of checks) {
+        input.disabled = !input.checked && selected.size>=5;
+        card.classList.toggle("is-selected",input.checked);
+        card.classList.toggle("is-maxed",input.disabled);
+      }
+      bundleAlert.textContent = "";
     }
-    selectionReady = books.length >= 5;
-    hint.textContent = selectionReady ? "Select exactly five ebooks to continue." : "Not enough ebooks are available right now. Please try later.";
-    setBusy(busy);
-  } catch (error) {
+    for (const book of books) {
+      const card=document.createElement("label");
+      card.className="vy-bundle-book";
+      const cover=document.createElement("span");
+      cover.className="vy-bundle-cover";
+      cover.textContent="V";
+      const imageUrl=[book.coverUrl,book.coverImage,book.imageUrl,book.image,book.cover].find(v=>typeof v==="string"&&/^https:\/\//i.test(v));
+      if(imageUrl){const img=document.createElement("img");img.src=imageUrl;img.alt="";img.loading="lazy";cover.replaceChildren(img);}
+      const details=document.createElement("span");
+      const title=document.createElement("div");
+      title.className="vy-bundle-bookname";
+      title.textContent=book.name||book.title||book.id.replace(/-/g," ");
+      const subtitle=document.createElement("div");
+      subtitle.className="vy-bundle-booksmall";
+      subtitle.textContent="LIFETIME EBOOK ACCESS";
+      details.append(title,subtitle);
+      const input=document.createElement("input");
+      input.type="checkbox";input.className="vy-bundle-check";input.value=book.id;
+      input.setAttribute("aria-label","Select "+title.textContent);
+      input.addEventListener("change",()=>{
+        if(input.checked) selected.add(book.id);else selected.delete(book.id);
+        refresh();
+      });
+      checks.push({input,card});
+      card.append(cover,details,input);
+      list.append(card);
+    }
+    selectionReady=books.length>=5;
+    hint.textContent=selectionReady?"Select any five published ebooks":"Not enough eligible ebooks available right now.";
+    refresh();
+  } catch(error) {
     console.error("Unable to load bundle catalog",error);
-    hint.textContent = "Available ebooks could not be loaded. Please refresh and try again.";
-    selectionReady = false;
-    setBusy(busy);
-  } finally { catalogLoading = false; }
+    hint.textContent="Could not load ebooks. Please refresh and try again.";
+    selectionReady=false;
+  } finally {catalogLoading=false;}
 }
+
 async function checkout() {
   if(busy || !currentUser || !plan || (id === "bundle-pass" && (!selectionReady || selected.size !== 5))) return;
   if(typeof window.Razorpay !== "function") {
@@ -195,13 +288,13 @@ if (!plan) {
       sessionStorage.removeItem("vayenPendingPlanCheckout");
       el("email").textContent = user.email || "Signed in";
       setBusy(false);
-      message(id === "bundle-pass" ? "Choose five ebooks to continue securely." : "Review your plan and continue to secure payment.");
+      message(id === "bundle-pass" ? "Choose your five favorites before secure payment." : "Review your plan and continue to secure payment.");
        if (id === "bundle-pass") loadBundleProducts(getFirestore(app));
     },()=>{
       document.body.classList.remove("vayen-auth-pending");
       message("We could not verify your account. Please refresh and try again.",true);
     });
-    pay.addEventListener("click",checkout);
+    pay.addEventListener("click",()=>{if(id==="bundle-pass") showBundlePicker(); else checkout();});
   } catch(e) {
     document.body.classList.remove("vayen-auth-pending");
     message("We could not open your checkout. Please refresh and try again.",true);
