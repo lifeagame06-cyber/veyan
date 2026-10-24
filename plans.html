@@ -552,6 +552,60 @@
     .vayen-plans .vp-surprise-intro { margin-bottom: 23px; font-size: 12px; }
 }
 </style>
+<style id="vayen-three-card-final-polish">
+
+/* VAYEN three-card polish: cohesive dark cards and gentle lifetime glow. */
+.vayen-plans .vp-bundle {
+    color: #fff8fb;
+    background: radial-gradient(circle at 92% 5%, rgba(225, 159, 196, .19), transparent 43%),
+                linear-gradient(145deg, #624055, #332631 87%);
+    border-color: rgba(250, 218, 234, .28);
+    box-shadow: 0 16px 39px rgba(68, 37, 56, .16);
+}
+.vayen-plans .vp-bundle .vp-kicker { color: #f1c6d9; opacity: 1; }
+.vayen-plans .vp-bundle .vp-price { color: #fff; }
+.vayen-plans .vp-bundle .vp-description { opacity: .9; }
+.vayen-plans .vp-bundle .vp-benefits { border-bottom-color: rgba(255, 255, 255, .23); }
+.vayen-plans .vp-bundle .vp-soft-tag { border-color: rgba(255, 240, 248, .4); }
+.vayen-plans .vp-bundle .vp-soon { background: #fff5fa; color: #382638; }
+
+/* Glow stays outside the center card; subtle pulse, not a bright neon ring. */
+.vayen-plans .vp-lifetime {
+    overflow: visible;
+    box-shadow: 0 0 0 1px rgba(244, 196, 222, .46),
+                0 0 19px 4px rgba(204, 123, 173, .25),
+                0 0 42px 10px rgba(184, 106, 158, .14),
+                0 22px 50px rgba(63, 35, 57, .24);
+    animation: vp-lifetime-glow 4.2s ease-in-out infinite;
+}
+@keyframes vp-lifetime-glow {
+    0%, 100% {
+        box-shadow: 0 0 0 1px rgba(244, 196, 222, .42),
+                    0 0 17px 3px rgba(204, 123, 173, .22),
+                    0 0 38px 8px rgba(184, 106, 158, .12),
+                    0 22px 50px rgba(63, 35, 57, .24);
+    }
+    50% {
+        box-shadow: 0 0 0 1px rgba(249, 207, 231, .65),
+                    0 0 25px 6px rgba(204, 123, 173, .34),
+                    0 0 52px 14px rgba(184, 106, 158, .18),
+                    0 22px 50px rgba(63, 35, 57, .24);
+    }
+}
+/* Expanded details flow inside each card without overlapping its action. */
+.vayen-plans .vp-card { height: auto; }
+.vayen-plans .vp-details { width: 100%; flex-shrink: 0; }
+.vayen-plans .vp-details summary { align-items: center; min-height: 44px; padding: 15px 0 8px; }
+.vayen-plans .vp-details[open] { padding-bottom: 6px; }
+.vayen-plans .vp-details p { margin: 9px 0 12px; line-height: 1.85; }
+.vayen-plans .vp-card .vp-get { flex-shrink: 0; margin-top: 16px; }
+@media (max-width: 900px) {
+    .vayen-plans .vp-grid { gap: 38px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .vayen-plans .vp-lifetime { animation: none; }
+}
+</style>
 </head>
 <body>
 <header class="plans-page-header">
