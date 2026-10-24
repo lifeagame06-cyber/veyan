@@ -232,59 +232,7 @@ body.profile-body{margin:0!important;min-height:100vh!important;overflow-x:hidde
  .vy-aside .vy-quick-panel{display:none!important}
  .vy-panel{background:rgba(255,255,255,.88)!important;box-shadow:0 12px 38px rgba(86,52,59,.055)!important}
 }
-</style><style id="vayen-mobile-spacing-only">@media(max-width:768px){.vy-mobile-logout-row{margin-top:12px!important;margin-bottom:12px!important}}</style><style id="vayen-credit-mobile-only">
-.vy-credits-card{display:none}
-.vy-credit-modal[hidden]{display:none!important}
-@media(max-width:768px){
- .vy-credits-card{display:flex;align-items:center;gap:12px;padding:16px 13px;margin-top:12px;margin-bottom:12px;border-radius:18px;background:linear-gradient(115deg,#fff8f7,#f9e9eb);border:1px solid #f1e2e1;box-shadow:0 10px 28px #6843500c}
- .vy-credit-icon{width:42px;height:42px;flex:0 0 42px;border-radius:50%;display:grid;place-items:center;background:#f8dfe5;color:#ae4860;font-size:25px}
- .vy-credit-info{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
- .vy-credit-label{color:#96777d;font-size:9px;letter-spacing:1.4px;font-weight:800}
- .vy-credit-info strong{font-size:18px;letter-spacing:-.6px;color:#30242a}
- .vy-credit-info small{font-size:10px;color:#8b7e80}
- .vy-credit-details-btn{border:1px solid #edcdd5;background:#f9e4e9;color:#a53f59;border-radius:24px;padding:10px 11px;white-space:nowrap;font-size:10px;font-weight:800;cursor:pointer}
-}
-.vy-credit-modal{position:fixed;inset:0;z-index:10020;display:flex;align-items:center;justify-content:center;padding:18px}
-.vy-credit-backdrop{position:absolute;inset:0;background:rgba(31,22,28,.56);backdrop-filter:blur(5px)}
-.vy-credit-dialog{position:relative;z-index:1;width:min(450px,100%);max-height:min(85vh,760px);overflow:auto;background:#fffcfa;border:1px solid #fff;border-radius:23px;padding:22px;box-shadow:0 25px 80px #21121d40;color:#30232b;font-family:'DM Sans',Arial,sans-serif}
-.vy-credit-dialog-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.vy-credit-dialog-top h2{margin:6px 0 0;font-size:23px;letter-spacing:-.7px}
-.vy-credit-close{width:33px;height:33px;border:1px solid #e8dad9;background:#fff;border-radius:50%;font-size:23px;cursor:pointer}
-.vy-credit-balance-panel{display:flex;flex-direction:column;gap:6px;margin:19px 0;padding:19px;border-radius:16px;background:linear-gradient(110deg,#f7e7e9,#fbf4ef)}
-.vy-credit-balance-panel small,.vy-credit-balance-panel span{color:#8d777e;font-size:11px}
-.vy-credit-balance-panel strong{display:block;font-size:28px;letter-spacing:-1px;line-height:1.25;font-weight:800;color:#30232b}
-.vy-credit-balance-panel strong #vyModalCreditBalance{font:inherit!important;letter-spacing:inherit!important;color:inherit!important;vertical-align:baseline!important}
-.vy-credit-history-head{display:flex;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px solid #eee3e1;font-size:12px}
-.vy-credit-history-head span{color:#96898c}
-.vy-credit-history{max-height:230px;overflow:auto}
-.vy-credit-empty{font-size:12px;color:#8a7c7e;line-height:1.65;padding:10px 0}
-.vy-credit-entry{display:flex;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid #f0e8e5;font-size:12px}
-.vy-credit-entry small{display:block;margin-top:4px;color:#8b7d80}
-.vy-credit-entry b{white-space:nowrap}
-.vy-credit-repurchase{display:flex;align-items:center;justify-content:space-between;margin-top:15px;padding:14px 17px;border-radius:11px;background:#2a1e28;color:#fff!important;font-size:12px;font-weight:800;text-decoration:none}
-.vy-credit-note{font-size:10px;line-height:1.6;color:#8c7d80}
-</style><style id="vayen-credit-desktop-placement-highlight">
-/* Desktop: credits occupy empty space below the VAYEN App; mobile retains existing position. */
-@media(min-width:769px){
- .vy-aside{display:flex!important;flex-direction:column!important}
- .vy-aside .vy-quick-panel{order:0!important}
- .vy-aside #vayenAppTitle{order:1!important}
- .vy-aside .vy-credits-card{order:2!important;display:flex!important;align-items:center;gap:16px;margin:0 0 16px!important;padding:22px 20px!important;border-radius:21px;background:linear-gradient(118deg,#fff9f7,#f7e8e9)!important;border:1px solid #f0e0e0;box-shadow:0 13px 35px #6843500b}
- .vy-aside .vy-credit-icon{width:54px;height:54px;flex:0 0 54px;border-radius:50%;display:grid;place-items:center;background:#f6dfe4;color:#a8425d;font-size:28px}
- .vy-aside .vy-credit-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
- .vy-aside .vy-credit-info strong{font-size:23px;letter-spacing:-.6px;color:#30242a}
- .vy-aside .vy-credit-info small{font-size:11px;color:#877a7e}
- .vy-aside .vy-credit-details-btn{padding:11px 14px;border-radius:23px;border:1px solid #ebcbd4;background:#f8e3e8;color:#a43d59;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap}
-}
-/* 10-second soft attention effect, not a permanent flashing border. */
-
-@keyframes vyCreditSpotlight{
- 0%,85%{outline:2px solid rgba(181,72,111,.75);outline-offset:2px;box-shadow:0 0 0 7px rgba(181,72,111,.12),0 16px 40px rgba(138,73,95,.18)}
- 100%{outline:2px solid transparent;outline-offset:2px;box-shadow:0 10px 28px rgba(104,67,80,.05)}
-}
-@media(prefers-reduced-motion:reduce){}
-@media(max-width:390px){.vy-credits-card{gap:8px!important}.vy-credit-details-btn{padding:9px 8px!important;font-size:9px!important}}
-</style><style id="vayen-profile-auth-visibility-guard">
+</style><style id="vayen-mobile-spacing-only">@media(max-width:768px){.vy-mobile-logout-row{margin-top:12px!important;margin-bottom:12px!important}}</style><style id="vayen-profile-auth-visibility-guard">
 /* Account content stays private until Firebase + Firestore have both settled. */
 html:not(.vayen-profile-auth-verified) body.profile-body > main.customer-profile { display: none !important; }
 html.vayen-profile-auth-verified #vayenProfileSkeleton { display: none !important; }
@@ -361,11 +309,7 @@ html.vayen-profile-auth-verified #vayenProfileSkeleton { display: none !importan
 <a class="vy-quick-link" href="orders.html">▣   Orders <span>›</span></a>
 <a class="vy-quick-link" href="contact.html">☏   Get Help <span>›</span></a>
 </section>
-<section aria-label="VAYEN experience benefits" class="vy-mobile-benefits"><div class="vy-mobile-benefit"><span class="vy-mobile-benefit-icon">◎</span><div><strong>Faster access</strong><small>Open your library and orders instantly.</small></div></div><div class="vy-mobile-benefit"><span class="vy-mobile-benefit-icon">◇</span><div><strong>Offline access</strong><small>Access supported saved content when available.</small></div></div><div class="vy-mobile-benefit"><span class="vy-mobile-benefit-icon">◉</span><div><strong>Better experience</strong><small>Clean, distraction-free reading.</small></div></div></section><section aria-label="Your credits" class="vy-credits-card">
-<div aria-hidden="true" class="vy-credit-icon">◈</div>
-<div class="vy-credit-info"><span class="vy-credit-label">YOUR CREDITS</span><strong><span id="vyCreditBalance">—</span> Credits</strong><small>Available balance</small></div>
-<button class="vy-credit-details-btn" id="vyOpenCredits" type="button">View Details →</button>
-</section><button aria-label="Logout" class="vy-mobile-logout-row" data-vy-logout="" type="button">↪  Logout   ›</button><section class="vy-panel" id="vayenAppTitle">
+<section aria-label="VAYEN experience benefits" class="vy-mobile-benefits"><div class="vy-mobile-benefit"><span class="vy-mobile-benefit-icon">◎</span><div><strong>Faster access</strong><small>Open your library and orders instantly.</small></div></div><div class="vy-mobile-benefit"><span class="vy-mobile-benefit-icon">◇</span><div><strong>Offline access</strong><small>Access supported saved content when available.</small></div></div><div class="vy-mobile-benefit"><span class="vy-mobile-benefit-icon">◉</span><div><strong>Better experience</strong><small>Clean, distraction-free reading.</small></div></div></section><button aria-label="Logout" class="vy-mobile-logout-row" data-vy-logout="" type="button">↪  Logout   ›</button><section class="vy-panel" id="vayenAppTitle">
 <div class="vy-app-top"><div><span class="vy-eyebrow">VAYEN ON YOUR DEVICE</span><h2>VAYEN App</h2><p>Your space, just one tap away.</p></div><img alt="VAYEN App" class="vayen-app-logo" src="images/veyan.png"/></div>
 <button class="vayen-app-install" id="vayenInstallBtn" type="button">Get VAYEN App ↗</button>
 <p aria-live="polite" class="vayen-app-help" hidden="" id="vayenAppHelp" role="status"></p>
@@ -463,142 +407,6 @@ html.vayen-profile-auth-verified #vayenProfileSkeleton { display: none !importan
     else showHelp('Chrome ke ⋮ menu mein Install app ya Add to Home screen check karo.');
   });
 })();
-</script><div class="vy-credit-modal" hidden="" id="vyCreditsModal">
-<div class="vy-credit-backdrop" data-close-credits=""></div>
-<section aria-labelledby="vyCreditsTitle" aria-modal="true" class="vy-credit-dialog" role="dialog" tabindex="-1">
-<div class="vy-credit-dialog-top"><div><span class="vy-credit-label">VAYEN WALLET</span><h2 id="vyCreditsTitle">Your Credit Details</h2></div><button aria-label="Close credit details" class="vy-credit-close" data-close-credits="" type="button">×</button></div>
-<div class="vy-credit-balance-panel"><small>Available balance</small><strong><span id="vyModalCreditBalance">—</span> Credits</strong><span>Only recorded credits are shown</span></div>
-<div class="vy-credit-history-head"><strong>Credit activity</strong><span>Received &amp; used</span></div>
-<div class="vy-credit-history" id="vyCreditHistory"><p class="vy-credit-empty">No credit transactions recorded yet. Once credits are issued or used, their source, date and amount will appear here.</p></div>
-<a class="vy-credit-repurchase" href="plans.html?highlight=shopping-pass#shopping-pass">Purchase Again <span>→</span></a>
-<p class="vy-credit-note">Shopping Pass purchases require verified payment before credits can be added.</p>
-</section></div><script type="module" id="vayen-credits-firebase-readonly">
-import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
-import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
-import { getFirestore, doc, collection, onSnapshot, query, orderBy, limit } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
-
-// Wallet is read-only on the customer device. Only a trusted backend may issue or spend credits.
-const firebaseConfig = {
-  apiKey: 'AIzaSyCJStLo-FmvkPQo-u-cP-J4rQ8z4ecYMW4',
-  authDomain: 'veyan-53930.firebaseapp.com',
-  projectId: 'veyan-53930',
-  storageBucket: 'veyan-53930.firebasestorage.app',
-  messagingSenderId: '836801786398',
-  appId: '1:836801786398:web:a73fbda60267efcdbd740f'
-};
-const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const modal = document.getElementById('vyCreditsModal');
-const openButton = document.getElementById('vyOpenCredits');
-const history = document.getElementById('vyCreditHistory');
-const balanceEls = ['vyCreditBalance', 'vyModalCreditBalance'].map(id => document.getElementById(id));
-let stopBalance = () => {};
-let stopHistory = () => {};
-let walletReady = false;
-let historyReady = false;
-let walletBalance = null;
-let walletEntries = [];
-let walletError = false;
-let historyError = false;
-
-function setTextBalance(value) {
-  const display = value === null ? '—' : value.toLocaleString('en-IN');
-  balanceEls.forEach(el => { if (el) el.textContent = display; });
-}
-function message(text) {
-  history.replaceChildren();
-  const p = document.createElement('p');
-  p.className = 'vy-credit-empty';
-  p.textContent = text;
-  history.appendChild(p);
-}
-function render() {
-  setTextBalance(walletError || !walletReady ? null : walletBalance);
-  if (walletError) return message('Credit balance is temporarily unavailable. Please try again later.');
-  if (historyError) return message('Credit activity is temporarily unavailable. Your available balance is shown above.');
-  if (!walletReady || !historyReady) return message('Loading your credit activity…');
-  if (!walletEntries.length) return message('No credit transactions recorded yet.');
-  history.replaceChildren();
-  walletEntries.forEach(entry => {
-    const row = document.createElement('div');
-    row.className = 'vy-credit-entry';
-    const info = document.createElement('div');
-    const title = document.createElement('strong');
-    const subtitle = document.createElement('small');
-    const amount = document.createElement('b');
-    title.textContent = String(entry.source || 'Credit activity');
-    const timestamp = entry.createdAt?.toDate?.();
-    subtitle.textContent = timestamp instanceof Date && !isNaN(timestamp.getTime())
-      ? timestamp.toLocaleDateString('en-IN') : 'Date unavailable';
-    if (entry.product) subtitle.textContent += ' · ' + String(entry.product);
-    amount.textContent = (entry.amount > 0 ? '+' : '') + entry.amount.toLocaleString('en-IN');
-    info.append(title, subtitle);
-    row.append(info, amount);
-    history.append(row);
-  });
-}
-function clearSubscriptions() {
-  stopBalance(); stopHistory();
-  stopBalance = () => {}; stopHistory = () => {};
-  walletReady = false; historyReady = false;
-  walletBalance = null; walletEntries = []; walletError = false; historyError = false;
-  render();
-}
-function loadWallet(user) {
-  clearSubscriptions();
-  if (!user) return message('Sign in to view your credits.');
-  stopBalance = onSnapshot(doc(db, 'users', user.uid, 'wallet', 'shoppingCredits'), snap => {
-    const amountPaise = snap.exists() ? snap.data().balancePaise : 0;
-    const amount = Number.isSafeInteger(amountPaise) ? amountPaise / 100 : NaN;
-    if (!Number.isSafeInteger(amount) || amount < 0) {
-      walletError = true;
-    } else {
-      walletBalance = amount;
-      walletReady = true;
-    }
-    render();
-  }, error => {
-    console.error('VAYEN wallet unavailable:', error);
-    walletError = true;
-    render();
-  });
-  stopHistory = onSnapshot(query(
-    collection(db, 'users', user.uid, 'creditTransactions'),
-    orderBy('createdAt', 'desc'), limit(50)
-  ), snap => {
-    walletEntries = snap.docs.map(item => item.data()).filter(entry =>
-      Number.isSafeInteger(entry.amount) && entry.amount !== 0);
-    historyReady = true;
-    render();
-  }, error => {
-    console.error('VAYEN credit activity unavailable:', error);
-    historyError = true;
-    render();
-  });
-}
-openButton?.addEventListener('click', () => {
-  render();
-  modal.hidden = false;
-  document.body.style.overflow = 'hidden';
-  modal.querySelector('.vy-credit-close').focus();
-});
-function closeModal() {
-  modal.hidden = true;
-  document.body.style.overflow = '';
-  openButton?.focus();
-}
-modal.querySelectorAll('[data-close-credits]').forEach(el => el.addEventListener('click', closeModal));
-document.addEventListener('keydown', event => {
-  if (event.key === 'Escape' && !modal.hidden) closeModal();
-});
-render();
-onAuthStateChanged(auth, loadWallet, error => {
-  console.error('VAYEN wallet sign-in unavailable:', error);
-  clearSubscriptions();
-  walletError = true;
-  render();
-});
 </script><script type="module" src="vayen-auth-sync.js"></script><div class="vy-avatar-modal" id="vyAvatarModal" hidden role="presentation">
  <section class="vy-avatar-dialog" role="dialog" aria-modal="true" aria-labelledby="vyAvatarTitle">
   <div class="vy-avatar-top"><h2 id="vyAvatarTitle">Choose your avatar</h2><button class="vy-avatar-close" id="vyAvatarClose" aria-label="Close avatar picker" type="button">×</button></div>
