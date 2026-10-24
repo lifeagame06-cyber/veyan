@@ -140,6 +140,8 @@
     let paymentPendingReview = false;
     let recoveryTimer = null;
     let recoveryRunning = false;
+    let razorpayWindowOpen = false;
+    let recoveryCheckMode = false;
     let activeOrderId = null;
     const ORDER_KEY_PREFIX = 'vayen_checkout_order_';
     const validOrderId = value => /^order_[A-Za-z0-9]{6,80}$/.test(value || '');
@@ -160,8 +162,20 @@
       if (recoveryTimer) clearTimeout(recoveryTimer);
       recoveryTimer = null;
     }
+    function allowStatusRecheck(message) {
+      paymentPendingReview = true;
+      recoveryCheckMode = true;
+      setBusy(false);
+      setView('closed');
+      headline.textContent = 'Payment Status Needs Checking';
+      description.textContent = 'Your earlier checkout has not been confirmed yet.';
+      showNotice(message);
+      button.disabled = false;
+      button.firstChild.textContent = 'Check Payment Status ';
+    }
     function pendingView(message = 'Your payment is being confirmed. Please do not pay again.') {
       paymentPendingReview = true;
+      recoveryCheckMode = false;
       setBusy(false);
       setView('processing');
       headline.textContent = 'Confirming payment status';
@@ -187,6 +201,7 @@
         if (result?.status === 'unpaid' && attempt >= 2) {
           stopRecovery();
           paymentPendingReview = false;
+          recoveryCheckMode = false;
           clearRememberedOrder(user);
           setView('closed');
           headline.textContent = 'Payment Not Completed';
@@ -198,7 +213,7 @@
         }
         if (result?.status === 'review') {
           stopRecovery();
-          pendingView('Your payment needs confirmation. Please check My Library or contact VAYEN Support.');
+          allowStatusRecheck('We could not confirm this payment. Check again later or contact VAYEN Support. Do not pay again yet.');
           return;
         }
       } catch (error) {
@@ -210,7 +225,7 @@
         stopRecovery();
         recoveryTimer = setTimeout(() => recoverOrder(user, orderId, attempt + 1), 5000);
       } else {
-        pendingView('Confirmation is taking longer than expected. Your purchase will appear in My Library after verification. Please do not pay again yet.');
+        allowStatusRecheck('Confirmation is taking longer than expected. You can check again. Please do not pay again until confirmed.');
       }
     }
     function beginRecovery(user, orderId) {
@@ -284,7 +299,12 @@
     }
 
     async function startCheckout() {
-      if (busy || paymentPendingReview) return;
+      if (busy) return;
+      if (recoveryCheckMode || paymentPendingReview) {
+        const existing = getRememberedOrder(auth?.currentUser);
+        if (auth?.currentUser && validOrderId(existing)) beginRecovery(auth.currentUser, existing);
+        return;
+      }
       const user = auth?.currentUser;
       if (!user) {
         location.assign('login.html?from=get&product=' + encodeURIComponent(productId));
@@ -311,6 +331,7 @@
 
         rememberOrder(user, order.orderId);
         paymentAttemptStarted = false;
+        razorpayWindowOpen = false;
         // Server-returned amount is authoritative; update the display accordingly.
         document.querySelectorAll('[data-price]').forEach(element => {
           element.textContent = money(order.amount / 100);
@@ -329,11 +350,13 @@
           theme: { color: '#30232a' },
           modal: {
             ondismiss: () => {
+              razorpayWindowOpen = false;
               if (verifyingPayment || checkoutCard.classList.contains('is-success')) return;
               beginRecovery(user, order.orderId);
             }
           },
           handler: async payment => {
+            razorpayWindowOpen = false;
             verifyingPayment = true;
             setBusy(true);
             setView('processing');
@@ -362,17 +385,23 @@
         });
         checkout.on('payment.failed', () => {
           if (verifyingPayment) return;
+          razorpayWindowOpen = false;
           beginRecovery(user, order.orderId);
         });
         paymentAttemptStarted = true;
+        razorpayWindowOpen = true;
         checkout.open();
       } catch (error) {
         console.error('VAYEN checkout setup error:', error);
+        razorpayWindowOpen = false;
         setBusy(false);
         setView('closed');
         const previousOrder = getRememberedOrder(user);
         if (validOrderId(previousOrder)) beginRecovery(user, previousOrder);
-        else showNotice('We could not prepare secure payment. Please try again.', true);
+        else {
+          showNotice('We could not prepare secure payment. Please try again.', true);
+          button.disabled = false;
+        }
       }
     }
 
@@ -477,7 +506,7 @@
     window.addEventListener('focus', () => {
       const user = auth?.currentUser;
       const orderId = user && getRememberedOrder(user);
-      if (user && validOrderId(orderId) && !recoveryRunning && !verifyingPayment) {
+      if (user && validOrderId(orderId) && !razorpayWindowOpen && !recoveryRunning && !verifyingPayment && !recoveryTimer && !recoveryCheckMode) {
         beginRecovery(user, orderId);
       }
     });
