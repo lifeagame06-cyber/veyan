@@ -582,7 +582,7 @@
                         <div class="cover"><span>${safe(label(item))}</span></div>
                         <div class="product-info">
                             <strong>${safe(label(item))}</strong>
-                            <div class="price">${item.kind === 'gift' ? 'Gifted by VAYEN 🎁' : 'Purchased · Verified'}</div>
+                            <div class="price">${item.kind === 'gift' ? 'Gifted by VAYEN 🎁' : item.kind === 'plan' ? (item.planType === 'bundle-pass' ? 'Bundle Pass · Lifetime Access' : 'VAYEN Lifetime Access') : 'Purchased · Verified'}</div>
                             <div class="product-foot">
                                 <a class="btn" href="reader.html?product=${encodeURIComponent(item.slug)}" aria-label="Read ${safe(label(item))}">Read Ebook →</a>
                                 <a class="btn library-order-link" href="orders.html?highlight=${encodeURIComponent(item.orderId)}" aria-label="View order and download ${safe(label(item))}">Download / Order ↗</a>
@@ -860,9 +860,9 @@ else {
   try {
     const app=getApps().length?getApp():initializeApp(firebaseConfig);
     const auth=getAuth(app),db=getFirestore(app);
-    let uid=null,version=0,writeQueue=Promise.resolve(),stopOrders=null,stopRootOrders=null,stopGifts=null;
-     let paidEbooks = [], rootPaidEbooks = [], giftedEbooks = [];
-     const publishEbooks = () => bridge.setPurchases([...paidEbooks, ...rootPaidEbooks, ...giftedEbooks]);
+    let uid=null,version=0,writeQueue=Promise.resolve(),stopOrders=null,stopRootOrders=null,stopGifts=null,stopEntitlements=null;
+     let paidEbooks = [], rootPaidEbooks = [], giftedEbooks = [], planEbooks = [];
+     const publishEbooks = () => bridge.setPurchases([...paidEbooks, ...rootPaidEbooks, ...giftedEbooks, ...planEbooks]);
     window.addEventListener('vayen-library-changed',e=>{
       if(!uid)return;
       const targetUid=uid;
@@ -880,7 +880,8 @@ else {
        if (stopOrders) { stopOrders(); stopOrders = null; }
        if (stopRootOrders) { stopRootOrders(); stopRootOrders = null; }
        if (stopGifts) { stopGifts(); stopGifts = null; }
-       paidEbooks = []; rootPaidEbooks = []; giftedEbooks = [];
+       if (stopEntitlements) { stopEntitlements(); stopEntitlements = null; }
+       paidEbooks = []; rootPaidEbooks = []; giftedEbooks = []; planEbooks = [];
       if(!user){account.textContent='Sign in';account.href='login.html';info('Sign in to save products and collections across your devices.');document.getElementById('content').innerHTML='<div class="empty"><h3>Sign in to your library</h3><p>Your saved products and collections will appear here.</p><a class="btn" href="login.html">Sign in →</a></div>';return;}
       account.textContent='My Account';account.href='profile.html';
       info('Loading your library...');
@@ -938,6 +939,37 @@ else {
              if (token === version) info('Your library loaded, but purchases could not be refreshed. Please contact support.');
            }
          );
+         // Read-only plan access granted by VAYEN after verified plan payment.
+         // Match the same fields checked by the secure ebook function and Orders page.
+         stopEntitlements = onSnapshot(
+           collection(db, 'users', user.uid, 'productEntitlements'),
+           snapshot => {
+             if (token !== version || auth.currentUser?.uid !== user.uid) return;
+             planEbooks = snapshot.docs.flatMap(entitlementSnap => {
+               const access = entitlementSnap.data();
+               const productId = entitlementSnap.id;
+               if (access.userId !== user.uid || access.productId !== productId ||
+                   access.status !== 'active' ||
+                   !['bundle-pass', 'lifetime-access'].includes(access.sourceType) ||
+                   typeof access.sourceOrderId !== 'string' ||
+                   !/^order_[A-Za-z0-9]{6,80}$/.test(access.sourceOrderId)) return [];
+               const title = window.VayenCatalog?.BASE?.[productId]?.name ||
+                 productId.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+               return [{
+                 slug: productId,
+                 name: title,
+                 kind: 'plan',
+                 planType: access.sourceType,
+                 orderId: 'plan-' + productId
+               }];
+             });
+             publishEbooks();
+           }, error => {
+             console.error('Unable to load plan products:', error);
+             if (token === version) info('Your library loaded, but some plan products could not be refreshed.');
+           }
+         );
+
          stopGifts = onSnapshot(collection(db, 'users', user.uid, 'gifts'), snapshot => {
            if (token !== version || auth.currentUser?.uid !== user.uid) return;
            giftedEbooks = snapshot.docs.flatMap(giftSnap => {
