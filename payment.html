@@ -138,6 +138,87 @@
     let verifyingPayment = false;
     let paymentAttemptStarted = false;
     let paymentPendingReview = false;
+    let recoveryTimer = null;
+    let recoveryRunning = false;
+    let activeOrderId = null;
+    const ORDER_KEY_PREFIX = 'vayen_checkout_order_';
+    const validOrderId = value => /^order_[A-Za-z0-9]{6,80}$/.test(value || '');
+    const orderStorageKey = user => ORDER_KEY_PREFIX + user.uid + '_' + productId;
+    function rememberOrder(user, orderId) {
+      if (!validOrderId(orderId)) return;
+      activeOrderId = orderId;
+      try { sessionStorage.setItem(orderStorageKey(user), orderId); } catch (_) {}
+    }
+    function clearRememberedOrder(user) {
+      activeOrderId = null;
+      try { sessionStorage.removeItem(orderStorageKey(user)); } catch (_) {}
+    }
+    function getRememberedOrder(user) {
+      try { return sessionStorage.getItem(orderStorageKey(user)); } catch (_) { return null; }
+    }
+    function stopRecovery() {
+      if (recoveryTimer) clearTimeout(recoveryTimer);
+      recoveryTimer = null;
+    }
+    function pendingView(message = 'Your payment is being confirmed. Please do not pay again.') {
+      paymentPendingReview = true;
+      setBusy(false);
+      setView('processing');
+      headline.textContent = 'Confirming payment status';
+      description.textContent = 'VAYEN is checking your earlier checkout securely.';
+      showNotice(message);
+      button.disabled = true;
+      button.firstChild.textContent = 'Confirmation pending ';
+    }
+    async function recoverOrder(user, orderId, attempt = 0) {
+      if (!validOrderId(orderId) || recoveryRunning || auth?.currentUser?.uid !== user.uid) return;
+      recoveryRunning = true;
+      pendingView();
+      try {
+        const result = await callFunction('vayen-recover-payment', { orderId }, user);
+        if (result?.status === 'paid' && result?.success === true && result?.orderId === orderId) {
+          stopRecovery();
+          clearRememberedOrder(user);
+          setView('success');
+          showNotice('Payment verified. Opening your order details…');
+          location.assign('success.html?order=' + encodeURIComponent(orderId));
+          return;
+        }
+        if (result?.status === 'unpaid' && attempt >= 2) {
+          stopRecovery();
+          paymentPendingReview = false;
+          clearRememberedOrder(user);
+          setView('closed');
+          headline.textContent = 'Payment Not Completed';
+          description.textContent = 'No successful payment was found for this checkout.';
+          showNotice('You can return to your product and try again when ready.');
+          button.disabled = false;
+          button.firstChild.textContent = 'Continue Again ';
+          return;
+        }
+        if (result?.status === 'review') {
+          stopRecovery();
+          pendingView('Your payment needs confirmation. Please check My Library or contact VAYEN Support.');
+          return;
+        }
+      } catch (error) {
+        console.warn('VAYEN payment status check pending:', error);
+      } finally {
+        recoveryRunning = false;
+      }
+      if (attempt < 11) {
+        stopRecovery();
+        recoveryTimer = setTimeout(() => recoverOrder(user, orderId, attempt + 1), 5000);
+      } else {
+        pendingView('Confirmation is taking longer than expected. Your purchase will appear in My Library after verification. Please do not pay again yet.');
+      }
+    }
+    function beginRecovery(user, orderId) {
+      if (!validOrderId(orderId)) return;
+      rememberOrder(user, orderId);
+      stopRecovery();
+      recoverOrder(user, orderId);
+    }
 
     function showNotice(message, isError = false) {
       notice.textContent = message;
@@ -228,6 +309,8 @@
           throw new Error('Secure checkout is not available right now.');
         }
 
+        rememberOrder(user, order.orderId);
+        paymentAttemptStarted = false;
         // Server-returned amount is authoritative; update the display accordingly.
         document.querySelectorAll('[data-price]').forEach(element => {
           element.textContent = money(order.amount / 100);
@@ -247,14 +330,7 @@
           modal: {
             ondismiss: () => {
               if (verifyingPayment || checkoutCard.classList.contains('is-success')) return;
-              paymentPendingReview = true;
-              setBusy(false);
-              setView('closed');
-              headline.textContent = 'Payment Status Pending';
-              description.textContent = 'If you approved a payment, please allow time for confirmation.';
-              showNotice('Check My Orders or My Library before making another payment. If you did not pay, return to the product later.');
-              button.disabled = true;
-              button.firstChild.textContent = 'Payment status pending ';
+              beginRecovery(user, order.orderId);
             }
           },
           handler: async payment => {
@@ -272,28 +348,21 @@
               if (result.success !== true || result.orderId !== order.orderId) {
                 throw new Error('Payment confirmation is pending.');
               }
+              stopRecovery();
+              clearRememberedOrder(user);
               setView('success');
               showNotice('Payment verified. Opening your order details…');
               location.assign('success.html?order=' + encodeURIComponent(order.orderId));
             } catch (error) {
               console.error('VAYEN payment confirmation pending:', error);
-              paymentPendingReview = true;
               verifyingPayment = false;
-              setBusy(false);
-              setView('closed');
-              headline.textContent = 'Payment Confirmation Pending';
-              description.textContent = 'Your payment may have succeeded. Please do not pay again.';
-              showNotice('Check My Library or My Orders. If your purchase does not appear, contact support with your order details.', true);
-              button.disabled = true;
-              button.firstChild.textContent = 'Confirmation pending ';
+              beginRecovery(user, order.orderId);
             }
           }
         });
         checkout.on('payment.failed', () => {
           if (verifyingPayment) return;
-          setBusy(false);
-          setView('failed');
-          showNotice('Payment was not completed. Select Try Again when ready.', true);
+          beginRecovery(user, order.orderId);
         });
         paymentAttemptStarted = true;
         checkout.open();
@@ -301,16 +370,9 @@
         console.error('VAYEN checkout setup error:', error);
         setBusy(false);
         setView('closed');
-        if (paymentAttemptStarted) {
-          paymentPendingReview = true;
-          headline.textContent = 'Payment Status Pending';
-          description.textContent = 'Please check your orders before paying again.';
-          showNotice('The payment window may have opened. Check My Orders or My Library before trying another payment.', true);
-          button.disabled = true;
-          button.firstChild.textContent = 'Payment status pending ';
-        } else {
-          showNotice('We could not prepare secure payment. Please try again.', true);
-        }
+        const previousOrder = getRememberedOrder(user);
+        if (validOrderId(previousOrder)) beginRecovery(user, previousOrder);
+        else showNotice('We could not prepare secure payment. Please try again.', true);
       }
     }
 
@@ -403,6 +465,8 @@
         showNotice('Your order summary is ready. Proceed when you are ready.');
         button.disabled = false;
         button.addEventListener('click', startCheckout);
+        const previousOrder = getRememberedOrder(user);
+        if (validOrderId(previousOrder)) beginRecovery(user, previousOrder);
       } catch (error) {
         console.error('VAYEN checkout loading error:', error);
         fill(null, 'Checkout temporarily unavailable');
@@ -410,6 +474,13 @@
       }
     }
 
+    window.addEventListener('focus', () => {
+      const user = auth?.currentUser;
+      const orderId = user && getRememberedOrder(user);
+      if (user && validOrderId(orderId) && !recoveryRunning && !verifyingPayment) {
+        beginRecovery(user, orderId);
+      }
+    });
     initializeCheckout();
   </script>
  </body>
