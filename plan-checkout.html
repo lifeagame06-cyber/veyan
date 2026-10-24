@@ -66,7 +66,7 @@ async function loadBundleProducts(db) {
   try {
     const snap = await getDocs(query(collection(db,"products"),where("status","==","published")));
     const books = snap.docs.map(doc => ({id:doc.id,...doc.data()}))
-      .filter(p => p.slug === p.id && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p.id) && Number.isSafeInteger(p.price) && p.price > 0)
+      .filter(p => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(p.id) && Number.isSafeInteger(Number(p.price)) && Number(p.price) > 0)
       .sort((a,b) => String(a.name || a.title || a.id).localeCompare(String(b.name || b.title || b.id)));
     const list = el("bundleList");
     list.replaceChildren();
