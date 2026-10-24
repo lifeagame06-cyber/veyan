@@ -953,14 +953,15 @@ else {
                    !['bundle-pass', 'lifetime-access'].includes(access.sourceType) ||
                    typeof access.sourceOrderId !== 'string' ||
                    !/^order_[A-Za-z0-9]{6,80}$/.test(access.sourceOrderId)) return [];
-               const title = window.VayenCatalog?.BASE?.[productId]?.name ||
+               const catalogProduct = window.VayenCatalog?.get?.(productId);
+               const title = catalogProduct?.name || window.VayenCatalog?.BASE?.[productId]?.name ||
                  productId.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
                return [{
                  slug: productId,
                  name: title,
                  kind: 'plan',
                  planType: access.sourceType,
-                 orderId: 'plan-' + productId
+                 orderId: access.sourceOrderId
                }];
              });
              publishEbooks();
