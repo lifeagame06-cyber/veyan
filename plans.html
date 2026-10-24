@@ -63,7 +63,7 @@
 
 .vayen-plans .vp-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 18px;
 }
 
@@ -190,9 +190,6 @@
     padding: 8px 10px;
 }
 
-.vayen-plans .vp-shopping {
-    background: linear-gradient(145deg, #eee8f2, #faf6f8);
-}
 
 .vayen-plans .vp-preview-note {
     margin: 21px 0 0;
@@ -407,9 +404,6 @@
         padding: 7px 9px;
     }
 
-    .vayen-plans .vp-shopping {
-        background: linear-gradient(145deg, #ece3ef, #faf5f8);
-    }
 
     .vayen-plans .vp-preview-note {
         margin-top: 22px;
@@ -457,10 +451,7 @@
 .vayen-plans .vp-surprise .vp-get{background:#fff5fa;color:#382638}
 .vayen-plans .vp-surprise .vp-get:hover{background:#f4dce9}
 </style>
-<style>.vp-shopping.vy-highlight-shopping{outline:3px solid #b16c88;outline-offset:4px;box-shadow:0 15px 45px rgba(153,75,111,.22)!important}</style><style id="vy-shopping-ten-second-highlight">
-.vp-shopping.vy-highlight-shopping{outline:3px solid #b16c88!important;outline-offset:4px;box-shadow:0 15px 45px rgba(153,75,111,.22)!important;transition:outline-color .3s,box-shadow .3s}
-@media(prefers-reduced-motion:reduce){.vp-shopping.vy-highlight-shopping{scroll-behavior:auto}}
-</style></head>
+</head>
 <body>
 <header class="plans-page-header">
 <a class="plans-brand" href="index.html">VAYEN</a>
@@ -477,7 +468,7 @@
 <span class="vp-eyebrow">VAYEN / EXCLUSIVE ACCESS</span>
 <h2>More value.<br/><em>Made for you.</em></h2>
 </div>
-<p>Three thoughtful ways to get more from VAYEN. Choose the one that fits you.</p>
+<p>Two thoughtful ways to get more from VAYEN. Choose the one that fits you.</p>
 </div>
 <div class="vp-grid">
 <!-- PLAN 01 — DISCOUNT PASS -->
@@ -526,31 +517,8 @@
 </details>
 <a class="vp-get" data-vayen-plan="surprise-box" href="#">Get Surprise Box ↗</a>
 </article>
-<!-- PLAN 03 — SHOPPING PASS -->
-<article class="vp-card vp-shopping" id="shopping-pass">
-<div class="vp-card-top">
-<span>03 / EXTRA SHOPPING VALUE</span>
-<span aria-hidden="true" class="vp-symbol">↗</span>
 </div>
-<div class="vp-card-main">
-<p class="vp-kicker">THE SHOPPING PASS</p>
-<h3>Pay less.<br/>Explore more.</h3>
-<div class="vp-price">₹999 <small>/ one-time</small></div>
-<p class="vp-description">Get ₹1,500 of VAYEN shopping credit for eligible digital products.</p>
-</div>
-<div class="vp-benefits">
-<span>✓ ₹1,500 shopping credit</span>
-<span>✓ ₹501 extra shopping value</span>
-<span>✓ Track your remaining balance</span>
-</div>
-<details class="vp-details">
-<summary>View plan details <span>↗</span></summary>
-<p>Shopping credit is intended for eligible digital products on VAYEN, not cash withdrawal. Validity, partial-payment rules and unused balance policy will be finalized before checkout is enabled.</p>
-</details>
-<a class="vp-get" data-vayen-plan="shopping-pass" href="#">Get Shopping Pass ↗</a>
-</article>
-</div>
-<p class="vp-preview-note">Select a plan to review its checkout summary. Real payment and activation will be enabled after secure payment integration.</p>
+<p class="vp-preview-note">Select a plan to review its checkout summary and available benefits.</p>
 </div>
 </section>
 <footer aria-label="VAYEN mobile footer" class="vp-mobile-footer">
@@ -595,7 +563,7 @@
 </nav>
 <script id="vayen-plan-checkout-routing">
 (function () {
-    const allowed = new Set(['discount-pass', 'surprise-box', 'shopping-pass']);
+    const allowed = new Set(['discount-pass', 'surprise-box']);
 
     document.querySelectorAll('.vp-get[data-vayen-plan]').forEach(link => {
         const plan = link.dataset.vayenPlan;
@@ -605,11 +573,5 @@
         link.href = 'plan-checkout.html?plan=' + encodeURIComponent(plan);
     });
 })();
-</script><script id="vy-shopping-ten-second-highlight-js">(function(){
- if(new URLSearchParams(location.search).get('highlight')!=='shopping-pass')return;
- const card=document.querySelector('.vp-shopping');if(!card)return;
- card.classList.add('vy-highlight-shopping');
- requestAnimationFrame(()=>card.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'}));
- setTimeout(()=>card.classList.remove('vy-highlight-shopping'),10000);
-})();</script></body>
+</script></body>
 </html>
