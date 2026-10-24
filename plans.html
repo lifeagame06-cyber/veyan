@@ -752,6 +752,27 @@
  .vayen-plans .vp-art {width:36%;}
 }
 </style>
+
+<style id="vayen-independent-details-fix">
+/* Each plan expands independently; other cards keep their own height. */
+.vayen-plans .vp-grid { align-items: start; }
+.vayen-plans .vp-card { align-self: start; }
+/* Side plans have no highlighted future-product panel: don't reserve empty space. */
+.vayen-plans .vp-bundle,
+.vayen-plans .vp-surprise { min-height: 0; }
+.vayen-plans .vp-bundle .vp-benefits,
+.vayen-plans .vp-surprise .vp-benefits {
+    margin-top: 13px;
+}
+/* Details stay in the clicked card and move only its own CTA downward. */
+.vayen-plans .vp-details[open] { width: 100%; }
+.vayen-plans .vp-details[open] p { margin-bottom: 12px; }
+@media (max-width: 900px) {
+    .vayen-plans .vp-grid { align-items: stretch; }
+    .vayen-plans .vp-bundle,
+    .vayen-plans .vp-surprise { min-height: 0; }
+}
+</style>
 </head>
 <body>
 <header class="plans-page-header">
