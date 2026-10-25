@@ -1,5 +1,5 @@
 (function(){'use strict';
-const params=new URLSearchParams(location.search);const id=params.get('id')||params.get('product')||'ai-prompting';
+const params=new URLSearchParams(location.search);const id=params.get('id')||params.get('product')||'ai-prompt-box';
 const themes={
 'youtube-creator-system':['#ffc15c','#ec2738','rgba(235,48,48,.22)','🎬'],
 'vlogging-mastery':['#ffb37a','#e97434','rgba(255,135,66,.24)','📹'],
@@ -20,105 +20,44 @@ const themes={
 'seller-commerce':['#eeb779','#b77a37','rgba(226,154,76,.23)','🛍'],
 'personal-brand':['#dba3ff','#8f58c6','rgba(181,104,229,.23)','★']};
 function el(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
-function wait(){if(!document.body.classList.contains('vayen-product-ready')){setTimeout(wait,70);return}init()}
+const startedAt=Date.now();
+function wait(){
+  if(document.body.classList.contains('vayen-product-ready')){
+    try{init()}catch(error){console.error('VAYEN product layout could not initialize',error);document.body.classList.remove('vayen-approved');}
+    return;
+  }
+  if(Date.now()-startedAt>15000){
+    const skeleton=document.getElementById('vayen-product-skeleton');
+    if(skeleton){skeleton.textContent='This product is taking longer to load. Please refresh the page.';skeleton.style.visibility='visible';skeleton.style.opacity='1';}
+    document.body.style.visibility='visible';
+    return;
+  }
+  setTimeout(wait,70);
+}
 function init(){const main=document.querySelector('.product-page');if(!main||main.querySelector('.ap-hero'))return;
 const title=document.querySelector('.product-detail-title')?.textContent.trim()||'Digital Product';const category=document.querySelector('.product-category')?.textContent.trim()||'VAYEN GUIDE';const subtitle=document.querySelector('.product-confidence')?.textContent.trim()||'';
 const points=[...document.querySelectorAll('.product-detail-points p')].map(e=>e.textContent.trim());const contents=[...document.querySelectorAll('.product-content-item')].map(e=>({tag:e.querySelector('small')?.textContent.trim()||'GUIDE',title:e.querySelector('h3')?.textContent.trim()||'',desc:e.querySelector('p')?.textContent.trim()||''}));
-const steps=[...document.querySelectorAll('.product-step')].map(e=>({title:e.querySelector('h3')?.textContent.trim()||'',desc:e.querySelector('p')?.textContent.trim()||''}));const previews=[...document.querySelectorAll('.product-preview-card')].map(e=>({title:e.querySelector('h3')?.textContent.trim()||'',desc:e.querySelector('p')?.textContent.trim()||''}));const audience=document.querySelector('.product-quick-info > div:nth-child(3) strong')?.textContent.trim()||'Learners';const price=document.querySelector('.product-price strong')?.textContent.trim()||'Price coming soon';const sourceBuy=document.querySelector('.product-purchase a.product-get');const buyHref=sourceBuy?.getAttribute('href');const coming=false;const theme=themes[id]||['#ff9dc8','#ab4678','rgba(224,86,153,.24)','✦'];
-document.body.classList.add('vayen-approved');document.body.dataset.apProduct=id;const header=document.querySelector('.product-header');if(header&&!header.querySelector('.ap-header-nav')){const nav=el('nav','ap-header-nav');[['Home','index.html'],['Collection','collection.html']].forEach(([name,url])=>{const link=el('a','',name);link.href=url;nav.append(link)});const brand=header.querySelector('.product-brand');brand?.after(nav)}document.body.style.setProperty('--ap-accent',theme[0]);document.body.style.setProperty('--ap-edge',theme[1]);document.body.style.setProperty('--ap-glow',theme[2]);
-const originalCover=document.querySelector('.product-visual');const coverBackground=originalCover?.style.background||'';const coverMatch=coverBackground.match(/url\(["']?([^"')]+)["']?\)/);const portraitIds=new Set(["reels-growth", "web-creator", "youtube-algorithm", "earn-from-social-media", "creator-studio", "business-launch", "content-strategy", "design-thumbnails", "edit-videos", "ai-automation", "seller-commerce", "personal-brand", "animation-mastery", "social-media-tips", "ai-prompt-box", "build-your-own-ai"]);
-const portraitSrc=portraitIds.has(id)?'images/product-covers/'+id+'-portrait.jpg':null;
-const coverSrc=portraitSrc||coverMatch?.[1]||null;const coverTop=originalCover?.querySelector('.product-visual-top small')?.textContent.trim()||'VAYEN / '+title.toUpperCase();const coverBottom=originalCover?.querySelector('.product-visual-bottom span:first-child')?.textContent.trim()||'LEARN · CREATE · GROW';
+const steps=[...document.querySelectorAll('.product-step')].map(e=>({title:e.querySelector('h3')?.textContent.trim()||'',desc:e.querySelector('p')?.textContent.trim()||''}));const previews=[...document.querySelectorAll('.product-preview-card')].map(e=>({title:e.querySelector('h3')?.textContent.trim()||'',desc:e.querySelector('p')?.textContent.trim()||''}));const audience=document.querySelector('.product-quick-info > div:nth-child(3) strong')?.textContent.trim()||'Learners';const price=document.querySelector('.product-price strong')?.textContent.trim()||'Price coming soon';const sourceBuy=document.querySelector('.product-purchase a.product-get');const buyHref=sourceBuy?.getAttribute('href');const coming=!buyHref||sourceBuy?.getAttribute('aria-disabled')==='true';const theme=themes[id]||['#ff9dc8','#ab4678','rgba(224,86,153,.24)','✦'];
+document.body.classList.add('vayen-approved');document.body.dataset.apProduct=id;document.body.dataset.vayenProduct=id;const header=document.querySelector('.product-header');if(header&&!header.querySelector('.ap-header-nav')){const nav=el('nav','ap-header-nav');[['Home','index.html'],['Collection','collection.html']].forEach(([name,url])=>{const link=el('a','',name);link.href=url;nav.append(link)});const brand=header.querySelector('.product-brand');brand?.after(nav)}document.body.style.setProperty('--ap-accent',theme[0]);document.body.style.setProperty('--ap-edge',theme[1]);document.body.style.setProperty('--ap-glow',theme[2]);
+const originalCover=document.querySelector('.product-visual');const coverBackground=originalCover?.style.background||'';const coverMatch=coverBackground.match(/url\(["']?([^"')]+)["']?\)/);const coverSrc=coverMatch?.[1]||null;const coverTop=originalCover?.querySelector('.product-visual-top small')?.textContent.trim()||'VAYEN / '+title.toUpperCase();const coverBottom=originalCover?.querySelector('.product-visual-bottom span:first-child')?.textContent.trim()||'LEARN · CREATE · GROW';
 const mainContent=document.createDocumentFragment();const crumb=el('div','ap-breadcrumb');crumb.innerHTML='<a href="index.html">Home</a><span>›</span><a href="collection.html">Collection</a><span>›</span>';crumb.append(el('b','',title));mainContent.append(crumb);
-const hero=el('section','ap-hero');hero.id='ap-overview';const media=el('div','ap-media');const cover=el('div','ap-cover');if(portraitSrc)cover.classList.add('ap-portrait-cover');const coverLabel=el('span','ap-cover-label',coverTop);const coverCaption=el('span','ap-cover-bottom',coverBottom);const coverFallback=el('div','ap-cover-fallback',title);const coverImg=el('img');coverImg.alt=title+' cover';coverImg.loading='eager';if(portraitSrc){coverImg.style.setProperty('object-fit','contain','important');coverImg.style.setProperty('object-position','center center','important');coverImg.style.setProperty('width','100%','important');coverImg.style.setProperty('height','100%','important');}if(coverSrc){coverImg.src=coverSrc;coverImg.onerror=()=>{if(portraitSrc && coverImg.src.indexOf('-portrait.jpg')!==-1){coverImg.src=coverMatch?.[1]||'images/product-covers/'+id+'.png';return;}coverImg.remove();cover.append(coverFallback)};cover.append(coverImg)}else cover.append(coverFallback);cover.append(coverLabel,coverCaption);const coverPrev=el('button','ap-cover-arrow prev','‹'),coverNext=el('button','ap-cover-arrow next','›');coverPrev.type=coverNext.type='button';coverPrev.setAttribute('aria-label','Previous preview');coverNext.setAttribute('aria-label','Next preview');cover.append(coverPrev,coverNext);media.append(cover);const thumbs=el('div','ap-thumbs');media.append(thumbs);hero.append(media);
-const info=el('section','ap-info');const heading=el('div','ap-heading'),headLeft=el('div');headLeft.append(el('span','ap-category',category),el('h1','ap-title',title),el('p','ap-subtitle',subtitle||'Explore practical, step-by-step guidance and clear examples.'));const priceBox=el('div','ap-price',price);heading.append(headLeft,priceBox);info.append(heading);
-if(id==='ai-prompt-box'){const badge=el('div','ap-ai-count','3,000+ READY-TO-USE PROMPTS');headLeft.append(badge);const exampleNote=el('p','ap-ai-use','Ready-made prompts for content, work and everyday tasks — choose one, copy it, add your details and use it in your AI tool.');headLeft.append(exampleNote)}const productSlideTopics={
-'business-launch':[
-['Define Your Business Idea','Choose what you want to sell and the problem it solves.'],
-['Understand Your Customers','Identify who needs your product and why they would buy it.'],
-['Plan Pricing & Costs','Estimate expenses and choose a practical selling price.'],
-['Prepare Your Launch','Create a simple action plan to start reaching customers.']],
-'reels-growth':[
-['Plan Reels That Connect','Choose a clear topic and a strong opening hook.'],
-['Create Engaging Short Videos','Use simple storytelling, pacing and visuals.'],
-['Improve Reach & Retention','Understand why viewers watch, skip or share.'],
-['Review Your Performance','Use insights to improve your next reel.']],
-'web-creator':[
-['Plan Your Website','Decide its purpose, pages and content.'],
-['Build Your First Page','Arrange sections, text, images and navigation.'],
-['Make It Mobile Friendly','Create a layout that works across screen sizes.'],
-['Test & Publish','Check links and prepare your website to go live.']],
-'youtube-algorithm':[
-['Understand YouTube Discovery','Learn how viewers find videos through search and recommendations.'],
-['Improve Click-Through Rate','Make titles and thumbnails clear and appealing.'],
-['Keep Viewers Watching','Work on your hook, pacing and audience retention.'],
-['Use Analytics to Improve','Review impressions, watch time and audience response.']],
-'earn-from-social-media':[
-['Explore Earning Methods','Understand brand deals, affiliate links and digital products.'],
-['Build Audience Trust','Create content that helps a specific audience.'],
-['Choose Your Offer','Match monetization methods to your content.'],
-['Plan Your First Steps','Create a practical starting plan without income guarantees.']],
-'creator-studio':[
-['Set Up Your Content Workflow','Plan a repeatable process from idea to upload.'],
-['Record Better Content','Work with framing, lighting and clear audio.'],
-['Organize Your Editing','Keep footage, projects and exports easy to manage.'],
-['Publish Consistently','Use a realistic schedule and review results.']],
-'content-strategy':[
-['Choose Your Content Goals','Decide who you want to reach and what to share.'],
-['Build Content Pillars','Organize repeatable topics around your niche.'],
-['Create a Posting Plan','Balance useful ideas with a manageable schedule.'],
-['Measure What Works','Review results and refine your content plan.']],
-'design-thumbnails':[
-['Understand Thumbnail Basics','Use contrast, composition and a clear focal point.'],
-['Choose Text & Colors','Make key words readable even on small screens.'],
-['Build a Thumbnail Layout','Combine images, subject and text without clutter.'],
-['Review Before Publishing','Check readability and improve your design.']],
-'edit-videos':[
-['Organize Your Footage','Import clips and build a clean editing timeline.'],
-['Make Clean Cuts','Remove unnecessary pauses and improve pacing.'],
-['Add Audio & Visuals','Use music, titles and simple effects purposefully.'],
-['Export Your Video','Choose suitable settings and review the final result.']],
-'ai-automation':[
-['Spot Repetitive Tasks','Identify work that could benefit from automation.'],
-['Choose Useful AI Tools','Match tools to practical everyday workflows.'],
-['Build a Simple Workflow','Connect clear inputs, steps and outputs.'],
-['Review & Improve','Check AI results and refine your process.']],
-'seller-commerce':[
-['Choose What to Sell','Define your product and target buyer.'],
-['Set Up Product Listings','Write clear titles, descriptions and prices.'],
-['Understand Orders','Plan basic customer communication and fulfillment.'],
-['Build Customer Trust','Use transparent product details and support.']],
-'personal-brand':[
-['Define Your Identity','Decide what you want to be known for.'],
-['Understand Your Audience','Identify who you want to help or reach.'],
-['Create a Consistent Style','Align your message, visuals and content.'],
-['Grow Your Presence','Show your work and refine your positioning.']],
-'animation-mastery':[
-['Learn Animation Basics','Understand scenes, timing and movement.'],
-['Plan Your First Scene','Prepare simple characters and backgrounds.'],
-['Animate Step by Step','Use key poses and basic motion.'],
-['Review & Export','Improve timing and prepare the finished animation.']],
-'social-media-tips':[
-['Improve Your Profile','Make your bio and content focus clear.'],
-['Plan Useful Posts','Create ideas your audience will care about.'],
-['Build Engagement','Use meaningful captions and interaction.'],
-['Learn From Insights','Review reach and adjust your approach.']],
-'ai-prompt-box':[
-['Find a Ready-to-Use Prompt','Browse 3,000+ prompts and choose one for your task.'],
-['Copy & Customise','Replace the example details with your own topic or goal.'],
-['Paste Into an AI Tool','Use the completed prompt to generate a first result.'],
-['Review & Refine','Check the response and adjust the prompt as needed.']],
-'build-your-own-ai':[
-['Define Your AI Assistant','Choose the task and users it should support.'],
-['Plan Inputs & Outputs','Decide what information it receives and returns.'],
-['Build a Basic Workflow','Connect prompts, tools and simple logic.'],
-['Test & Improve','Check responses and refine the assistant.']]
-};
-const topicList=productSlideTopics[id];
-const slides=topicList?topicList.map(([title,desc],i)=>({tag:'TOPIC '+(i+1),title,desc})):(contents.length?contents:points.slice(0,4).map((p,i)=>({tag:'STEP '+(i+1),title:p,desc:p})));
-const slider=el('section','ap-slider');slider.setAttribute('aria-label','Automatic learning topics');const top=el('div','ap-slider-top'),counter=el('span'),dots=el('div','ap-dots'),timerLabel=el('span','',''),pause=el('button','ap-pause','Ⅱ');pause.type='button';pause.setAttribute('aria-label','Pause automatic slides');top.append(counter,dots,pause);slider.append(top);const slideContent=el('div','ap-slide-content'),slideIcon=el('div','ap-slide-icon',theme[3]),slideText=el('div','ap-slide-text'),slideTitle=el('h2'),slideDesc=el('p'),art=el('div','ap-slide-art'),artText=el('div'),artSymbol=el('b','',theme[3]),artCaption=el('span');artText.append(artCaption);art.append(artText);slideText.append(slideTitle,slideDesc);slideContent.append(slideIcon,slideText,art);slider.append(slideContent);info.append(slider);
+const hero=el('section','ap-hero');hero.id='ap-overview';const media=el('div','ap-media');const cover=el('div','ap-cover');const coverLabel=el('span','ap-cover-label',coverTop);const coverCaption=el('span','ap-cover-bottom',coverBottom);const coverFallback=el('div','ap-cover-fallback',title);const coverImg=el('img');coverImg.alt=title+' cover';coverImg.loading='eager';if(coverSrc){coverImg.src=coverSrc;coverImg.onerror=()=>{coverImg.remove();cover.append(coverFallback)};cover.append(coverImg)}else cover.append(coverFallback);cover.append(coverLabel,coverCaption);const coverPrev=el('button','ap-cover-arrow prev','‹'),coverNext=el('button','ap-cover-arrow next','›');coverPrev.type=coverNext.type='button';coverPrev.setAttribute('aria-label','Previous preview');coverNext.setAttribute('aria-label','Next preview');cover.append(coverPrev,coverNext);media.append(cover);const thumbs=el('div','ap-thumbs');media.append(thumbs);hero.append(media);
+const info=el('section','ap-info');const heading=el('div','ap-heading'),headLeft=el('div');headLeft.append(el('span','ap-category',category),el('h1','ap-title',title),el('p','ap-subtitle',subtitle||'Explore practical, step-by-step guidance and clear examples.'));const priceBox=el('div','ap-price',price);if(coming)priceBox.append(el('small','','Coming soon'));heading.append(headLeft,priceBox);info.append(heading);
+if(id==='ai-prompt-box'){const badge=el('div','ap-ai-count','3,000+ READY-TO-USE PROMPTS · COPY • CUSTOMISE • GENERATE');headLeft.append(badge);const exampleNote=el('p','ap-ai-use','Not sure what to type into AI? Pick a ready-made prompt, add your topic, and generate your first draft.');headLeft.append(exampleNote)}const slides=contents.length?contents:points.slice(0,4).map((p,i)=>({tag:'STEP '+(i+1),title:p,desc:p}));if(!slides.length)slides.push({tag:'VAYEN',title:'Explore this guide',desc:'Discover practical learning resources.'});const slider=el('section','ap-slider');slider.setAttribute('aria-label','Automatic learning topics');const top=el('div','ap-slider-top'),counter=el('span'),dots=el('div','ap-dots'),timerLabel=el('span','',''),pause=el('button','ap-pause','Ⅱ');pause.type='button';pause.setAttribute('aria-label','Pause automatic slides');top.append(counter,dots,pause);slider.append(top);const slideContent=el('div','ap-slide-content'),slideIcon=el('div','ap-slide-icon',theme[3]),slideText=el('div','ap-slide-text'),slideTitle=el('h2'),slideDesc=el('p'),art=el('div','ap-slide-art'),artText=el('div'),artSymbol=el('b','',theme[3]),artCaption=el('span');artText.append(artCaption);art.append(artText);slideText.append(slideTitle,slideDesc);slideContent.append(slideIcon,slideText,art);slider.append(slideContent);info.append(slider);
 const benefits=el('div','ap-benefits');[['◉','Step-by-step guidance'],['▤','Easy-to-follow examples'],['∞','Practical workflow'],['✓','Learn at your pace']].forEach(([ico,label])=>{const b=el('div','ap-benefit');b.append(el('i','',ico),el('span','',label));benefits.append(b)});info.append(benefits);
-const actions=el('div','ap-actions');const buy=sourceBuy || el('a','product-get');buy.classList.add('ap-buy');if(!sourceBuy && buyHref)buy.href=buyHref;if(sourceBuy && !/^Owned\b/i.test(sourceBuy.textContent.trim())){sourceBuy.firstChild.textContent='Get Now — '+price+' ';}const save=el('button','ap-save','♡ Save');save.type='button';save.addEventListener('click',()=>{if(window.VayenSaved){const saved=window.VayenSaved.toggle(id);save.textContent=saved?'♥ Saved':'♡ Save';save.setAttribute('aria-pressed',String(saved))}});if(window.VayenSaved){const saved=window.VayenSaved.get().includes(id);save.textContent=saved?'♥ Saved':'♡ Save';save.setAttribute('aria-pressed',String(saved))}actions.append(buy,save);info.append(actions);
+const actions=el('div','ap-actions');const buy=el('a','ap-buy');
+function syncBuy(){
+  if(!sourceBuy){buy.textContent='Currently unavailable';buy.removeAttribute('href');buy.setAttribute('aria-disabled','true');return;}
+  const href=sourceBuy.getAttribute('href');
+  const disabled=sourceBuy.getAttribute('aria-disabled')==='true';
+  const owned=disabled && /owned|purchased/i.test(sourceBuy.textContent||'');
+  if(owned){buy.textContent='Owned ✓';buy.removeAttribute('href');buy.setAttribute('aria-disabled','true');return;}
+  if(disabled||!href){buy.textContent='Coming Soon';buy.removeAttribute('href');buy.setAttribute('aria-disabled','true');return;}
+  buy.textContent='Get Now — '+price+' →';buy.href=href;buy.removeAttribute('aria-disabled');
+}
+syncBuy();
+if(sourceBuy){new MutationObserver(syncBuy).observe(sourceBuy,{attributes:true,attributeFilter:['href','aria-disabled'],childList:true,subtree:true,characterData:true});}
+const save=el('button','ap-save','♡ Save');save.type='button';save.addEventListener('click',()=>{if(window.VayenSaved){const saved=window.VayenSaved.toggle(id);save.textContent=saved?'♥ Saved':'♡ Save';save.setAttribute('aria-pressed',String(saved))}});if(window.VayenSaved){const saved=window.VayenSaved.get().includes(id);save.textContent=saved?'♥ Saved':'♡ Save';save.setAttribute('aria-pressed',String(saved))}actions.append(buy,save);info.append(actions);
 const editions=el('div','ap-editions');[['▤','English PDF','English edition'],['अ','Roman Hinglish PDF','Hindi in English letters']].forEach(([ico,label,desc])=>{const c=el('div','ap-edition'),text=el('div');text.append(el('b','',label),el('small','',desc));c.append(el('i','',ico),text);editions.append(c)});info.append(editions);hero.append(info);mainContent.append(hero);
 const tabs=el('nav','ap-tabs');tabs.setAttribute('aria-label','Product details');[['Overview','#ap-overview'],["What’s Inside",'#ap-inside'],['Examples','#ap-examples'],["Who It’s For",'#ap-audience'],['How It Works','#ap-workflow'],['FAQ','#ap-faq']].forEach(([label,href])=>{const a=el('a','',label);a.href=href;a.addEventListener('click',event=>{event.preventDefault();tabs.querySelectorAll('a').forEach(x=>x.classList.remove('active'));a.classList.add('active');const target=document.querySelector(href);if(target){document.querySelectorAll('.ap-target-highlight').forEach(x=>x.classList.remove('ap-target-highlight'));target.classList.add('ap-target-highlight');target.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'});history.replaceState(null,'',href)}});if(href==='#ap-overview')a.classList.add('active');tabs.append(a)});mainContent.append(tabs);
 const cards=el('div','ap-cards');function card(title,icon,id){const c=el('section','ap-card');c.id=id;const h=el('h3');h.append(el('i','',icon),document.createTextNode(title));c.append(h);cards.append(c);return c}function list(c,items){const ul=el('ul');items.forEach(x=>ul.append(el('li','',x)));c.append(ul)}
@@ -142,10 +81,10 @@ const learn=card(id==='ai-prompt-box'?'What You Can Do With 3,000+ Prompts':"Wha
   });
 }
 example.append(ex);const perfect=card('Perfect For','♧','ap-audience');const audienceList=[audience,'Beginners who want a clear starting point','People who learn best through practical examples','Creators who want to improve one step at a time'];perfect.append(el('p','ap-card-intro','No need to be an expert to begin. This guide is designed for people building confidence and practical skills.'));list(perfect,[...new Set(audienceList)]);cards.append();mainContent.append(cards);
-const more=el('div','ap-more'),workflow=el('section','ap-card'),faq=el('section','ap-card');workflow.id='ap-workflow';faq.id='ap-faq';workflow.append(el('h3','','How It Works'),el('p','ap-card-intro','Follow these steps in order, then come back whenever you need a quick reminder.'));const workflowList=el('ol','ap-workflow-list');steps.forEach((step,i)=>{const li=el('li');li.append(el('span','ap-step-number',String(i+1).padStart(2,'0')),el('div','ap-step-copy'));li.lastChild.append(el('strong','',step.title),el('p','',step.desc));workflowList.append(li)});if(!steps.length)workflowList.append(el('li','','Explore the learning topics and examples above.'));workflow.append(workflowList);faq.append(el('h3','','Frequently Asked Questions'));const questions=[['Is this a physical product?','No. This is a digital learning resource.'],['Which languages are shown?','English and Roman Hinglish (Hindi written using English letters).'],['Where do I access my purchase?','Open Your Library after your purchase to check the files available to you.']];questions.forEach(([q,a])=>{const detail=el('details','ap-faq-item');detail.append(el('summary','',q),el('p','',a));faq.append(detail)});more.append(workflow,faq);mainContent.append(more);
+const more=el('div','ap-more'),workflow=el('section','ap-card'),faq=el('section','ap-card');workflow.id='ap-workflow';faq.id='ap-faq';workflow.append(el('h3','','How It Works'),el('p','ap-card-intro','Follow these steps in order, then come back whenever you need a quick reminder.'));const workflowList=el('ol','ap-workflow-list');steps.forEach((step,i)=>{const li=el('li');li.append(el('span','ap-step-number',String(i+1).padStart(2,'0')),el('div','ap-step-copy'));li.lastChild.append(el('strong','',step.title),el('p','',step.desc));workflowList.append(li)});if(!steps.length)workflowList.append(el('li','','Explore the learning topics and examples above.'));workflow.append(workflowList);faq.append(el('h3','','Frequently Asked Questions'));const questions=[['Is this a physical product?','No. This is a digital learning resource.'],['Which languages are shown?','English and Roman Hinglish (Hindi written using English letters).'],['Where do I access my purchase?',coming?'This product is not available for purchase yet.':'Open Your Library after your purchase to check the files available to you.']];questions.forEach(([q,a])=>{const detail=el('details','ap-faq-item');detail.append(el('summary','',q),el('p','',a));faq.append(detail)});more.append(workflow,faq);mainContent.append(more);
 main.replaceChildren(mainContent);
 let index=0,paused=false,interval;const dotEls=slides.map(()=>{const d=el('span');dots.append(d);return d});function render(i){index=(i+slides.length)%slides.length;const s=slides[index];counter.textContent=String(index+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');slideTitle.textContent=s.title;slideDesc.textContent=s.desc;artCaption.textContent=s.title;dotEls.forEach((d,j)=>d.classList.toggle('active',j===index));[...thumbs.children].forEach((b,j)=>b.classList.toggle('active',j===index%4))}function start(){clearInterval(interval);if(!paused&&!matchMedia('(prefers-reduced-motion: reduce)').matches)interval=setInterval(()=>{if(!document.hidden)render(index+1)},4500)}
-const thumbNames=['',...slides.slice(1,4).map(s=>s.title)];for(let i=0;i<4;i++){const b=el('button','ap-thumb');b.type='button';if(i===0&&coverSrc){const img=el('img');img.src=coverSrc;img.alt='';img.onerror=()=>{img.onerror=null;img.src='images/product-covers/'+id+'.png'};b.append(img)}if(i>0)b.append(el('span','',thumbNames[i]||'Preview'));else b.classList.add('ap-cover-thumb');b.setAttribute('aria-label','View '+(thumbNames[i]||'preview'));b.addEventListener('click',()=>{render(i);start()});thumbs.append(b)}
+const thumbNames=['',...slides.slice(0,3).map(s=>s.title)];for(let i=0;i<4;i++){const b=el('button','ap-thumb');b.type='button';if(i===0&&coverSrc){const img=el('img');img.src=coverSrc;img.alt='';b.append(img)}if(i>0)b.append(el('span','',thumbNames[i]||'Preview'));else b.classList.add('ap-cover-thumb');b.setAttribute('aria-label','View '+(thumbNames[i]||'preview'));b.addEventListener('click',()=>{render(i);start()});thumbs.append(b)}
 coverPrev.addEventListener('click',()=>{render(index-1);start()});coverNext.addEventListener('click',()=>{render(index+1);start()});pause.addEventListener('click',()=>{paused=!paused;pause.textContent=paused?'▶':'Ⅱ';pause.setAttribute('aria-label',paused?'Resume automatic slides':'Pause automatic slides');start()});let touch=null;slider.addEventListener('touchstart',e=>{touch=e.touches[0]?.clientX??null},{passive:true});slider.addEventListener('touchend',e=>{if(touch===null)return;const dx=(e.changedTouches[0]?.clientX??touch)-touch;if(Math.abs(dx)>40){render(index+(dx<0?1:-1));start()}touch=null},{passive:true});render(0);start();
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wait);else wait();
