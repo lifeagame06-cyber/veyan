@@ -827,6 +827,28 @@ function celebrateBundle() {
   }
 }
 
+function celebrateLifetime() {
+  const modal = el("vyBundleSuccess");
+  const box = el("vySuccessBox");
+  if (!modal || !box) return;
+  box.querySelector(".vy-bundle-eyebrow").textContent = "VAYEN LIFETIME ACCESS";
+  box.querySelector("h2").textContent = "Congratulations!";
+  box.querySelector("p").textContent = "Your VAYEN Lifetime Access is now active. All eligible ebooks published at the time of your purchase are included with lifetime reading and download access.";
+  box.querySelector("a").textContent = "Explore My Products →";
+  box.querySelector("a").setAttribute("href", "orders.html");
+  modal.hidden = false;
+  document.body.style.overflow = "hidden";
+  for (let i = 0; i < 38; i++) {
+    const piece = document.createElement("span");
+    piece.className = "vy-confetti";
+    piece.style.left = (3 + (i * 37) % 94) + "%";
+    piece.style.background = ["#bd7b4c", "#9c4268", "#d9b366", "#e5a7b5", "#178457"][i % 5];
+    piece.style.animationDelay = ((i * 7) % 19 / 20) + "s";
+    box.append(piece);
+    piece.addEventListener("animationend", () => piece.remove(), { once: true });
+  }
+}
+
 async function checkout() {
   if(busy || !currentUser || !plan || (id === "bundle-pass" && (!document.body.classList.contains("vy-bundle-checkout-stage") || !selectionReady || selected.size !== 5))) return;
   if(typeof window.Razorpay !== "function") {
@@ -872,7 +894,11 @@ async function checkout() {
            message("Your plan payment is confirmed. Your included ebooks will appear in My Products.");
           pay.textContent = "Payment Confirmed ✓";
           pay.disabled = true;
-          if (id === "bundle-pass") celebrateBundle();
+          if (id === "bundle-pass") {
+            celebrateBundle();
+          } else if (id === "lifetime-access") {
+            celebrateLifetime();
+          }
           // Do not redirect to product success.html; plans are separate from products.
         } catch(e) {
           console.error("Plan confirmation pending",e);
