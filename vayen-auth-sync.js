@@ -299,6 +299,8 @@ if (!firebaseConfig.apiKey) {
       profileLoading = !!user;
       profileLoadFailed = false;
       syncLegacy(user);
+      // Show the verified account state immediately; Firestore names can refresh afterward.
+      syncHome(user);
       if (!user) {
         ready = true;
         syncHome(null);

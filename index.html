@@ -338,6 +338,8 @@ html:not(.vayen-home-auth-ready) #vayenHeaderAccount {
   label.textContent='Dear '+dear;
   label.removeAttribute('href');
   label.classList.add('vayen-signed-in-name');
+   // A verified Firebase session was cached in this tab: keep Dear visible while refreshing.
+   document.documentElement.classList.add('vayen-home-auth-ready');
  }catch(e){}
 })();
 </script>
