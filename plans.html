@@ -910,6 +910,20 @@
     #vy-plan-navigation-loader .vy-loader-ring { animation-duration: 1.5s; }
 }
 </style>
+<style id="vayen-surprise-description-visibility-fix">
+/* Keep the mystery gift description clear of the right-side artwork. */
+.vayen-plans .vp-surprise .vp-description {
+    position: relative;
+    z-index: 3;
+    max-width: 60%;
+    overflow-wrap: break-word;
+}
+@media (max-width: 380px) {
+    .vayen-plans .vp-surprise .vp-description {
+        max-width: 58%;
+    }
+}
+</style>
 </head>
 <body>
 <header class="plans-page-header">
