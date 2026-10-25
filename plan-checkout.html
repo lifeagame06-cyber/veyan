@@ -5,6 +5,11 @@
 
 .bundle-picker{margin-top:22px}.bundle-picker h3{font-size:17px;margin:0 0 7px}.bundle-picker .picker-status{font-size:12px;color:#826b75;margin:0 0 12px}.bundle-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;max-height:355px;overflow:auto}.bundle-option{display:flex;gap:10px;align-items:center;border:1px solid #eadde1;border-radius:12px;padding:12px;background:#fff;cursor:pointer;font-size:12px;line-height:1.4}.bundle-option:has(input:checked){background:#f7e8ed;border-color:#945a73}.bundle-option input{accent-color:#703a56;width:17px;height:17px;flex-shrink:0}.bundle-option input:disabled{cursor:not-allowed}.bundle-count{font-weight:700;color:#7e415b;margin-top:10px;font-size:12px}.button:disabled{opacity:.55;cursor:not-allowed}@media(max-width:550px){.bundle-list{grid-template-columns:1fr}}
 </style>
+<style id="vayen-benefits-wrap-alignment">
+/* Wrapped benefit text starts under the words, not under the tick. */
+#benefits .feature { position: relative; padding-left: 23px; }
+#benefits .feature::before { position: absolute; left: 0; top: 9px; margin-right: 0; }
+</style>
 <style id="vy-premium-bundle-ui">
 /* Always show checkout; never hide the entire page for auth. */
 .vy-bundle-modal[hidden],.vy-success-modal[hidden]{display:none!important}
