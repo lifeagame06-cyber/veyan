@@ -352,7 +352,14 @@
             ondismiss: () => {
               razorpayWindowOpen = false;
               if (verifyingPayment || checkoutCard.classList.contains('is-success')) return;
-              beginRecovery(user, order.orderId);
+              stopRecovery();
+              paymentPendingReview = false;
+              recoveryCheckMode = false;
+              clearRememberedOrder(user);
+              setBusy(false);
+              setView('closed');
+              showNotice('Payment window closed. You can try again now.');
+              button.disabled = false;
             }
           },
           handler: async payment => {
@@ -386,7 +393,14 @@
         checkout.on('payment.failed', () => {
           if (verifyingPayment) return;
           razorpayWindowOpen = false;
-          beginRecovery(user, order.orderId);
+          stopRecovery();
+          paymentPendingReview = false;
+          recoveryCheckMode = false;
+          clearRememberedOrder(user);
+          setBusy(false);
+          setView('failed');
+          showNotice('Payment was not completed. You can try again now.');
+          button.disabled = false;
         });
         paymentAttemptStarted = true;
         razorpayWindowOpen = true;
@@ -396,12 +410,11 @@
         razorpayWindowOpen = false;
         setBusy(false);
         setView('closed');
-        const previousOrder = getRememberedOrder(user);
-        if (validOrderId(previousOrder)) beginRecovery(user, previousOrder);
-        else {
-          showNotice('We could not prepare secure payment. Please try again.', true);
-          button.disabled = false;
-        }
+        clearRememberedOrder(user);
+        paymentPendingReview = false;
+        recoveryCheckMode = false;
+        showNotice('We could not prepare secure payment. Please try again.', true);
+        button.disabled = false;
       }
     }
 
@@ -499,22 +512,13 @@
         showNotice('Your order summary is ready. Proceed when you are ready.');
         button.disabled = false;
         button.addEventListener('click', startCheckout);
-        const previousOrder = getRememberedOrder(user);
-        if (validOrderId(previousOrder)) beginRecovery(user, previousOrder);
       } catch (error) {
         console.error('VAYEN checkout loading error:', error);
         fill(null, 'Checkout temporarily unavailable');
         showNotice('We could not prepare your checkout. Please refresh and try again.', true);
       }
     }
-
-    window.addEventListener('focus', () => {
-      const user = auth?.currentUser;
-      const orderId = user && getRememberedOrder(user);
-      if (user && validOrderId(orderId) && !razorpayWindowOpen && !recoveryRunning && !verifyingPayment && !recoveryTimer && !recoveryCheckMode) {
-        beginRecovery(user, orderId);
-      }
-    });
+    // No automatic recovery when returning focus from a closed payment window.
     initializeCheckout();
   </script>
  </body>
