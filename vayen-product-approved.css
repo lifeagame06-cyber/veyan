@@ -208,3 +208,27 @@ body.vayen-approved .ap-info > .ap-slider .ap-slider-top {
 /* AI Prompt Box only: keep the 3,000+ note compact so the slider stays in normal flow. */
 body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-ai-count{margin:7px 0 0!important;padding:6px 10px!important;font-size:11px!important}
 body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-ai-use{margin:4px 0 0!important;font-size:12px!important;line-height:1.45!important}
+
+/* Flagship-only cinematic full-bleed cover: all other products unchanged. */
+body.vayen-approved[data-ap-product="youtube-creator-system"] .ap-cover > img,
+body.vayen-approved[data-ap-product="vlogging-mastery"] .ap-cover > img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+body.vayen-approved[data-ap-product="youtube-creator-system"] .ap-cover-label,
+body.vayen-approved[data-ap-product="vlogging-mastery"] .ap-cover-label {
+  z-index: 1;
+  background: rgba(13, 16, 25, .74);
+  backdrop-filter: blur(8px);
+}
+body.vayen-approved[data-ap-product="youtube-creator-system"] .ap-cover-bottom,
+body.vayen-approved[data-ap-product="vlogging-mastery"] .ap-cover-bottom {
+  z-index: 1;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 27px 12px 15px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, .66));
+}
