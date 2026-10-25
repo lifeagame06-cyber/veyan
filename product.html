@@ -925,11 +925,29 @@ const visual = document.querySelector(".product-visual");
 
 const coverImages = {
     "youtube-creator-system": "images/youtube.png",
-    "vlogging-mastery": "images/vlogging.png"
+    "vlogging-mastery": "images/vlogging.png",
+    "animation-mastery": "images/animation-mastery.png",
+    "social-media-tips": "images/social-media-tips.png",
+    "ai-prompt-box": "images/ai-prompt-box.png",
+    "build-your-own-ai": "images/build-your-own-ai.png",
+    "reels-growth": "images/reels-growth.png",
+    "web-creator": "images/web-creator.png",
+    "youtube-algorithm": "images/youtube-algorithm.png",
+    "earn-from-social-media": "images/earn-from-social-media.png",
+    "creator-studio": "images/creator-studio.png",
+    "business-launch": "images/business-launch.png",
+    "content-strategy": "images/content-strategy.png",
+    "design-thumbnails": "images/design-thumbnails.png",
+    "edit-videos": "images/edit-videos.png",
+    "ai-automation": "images/ai-automation.png",
+    "seller-commerce": "images/seller-commerce.png",
+    "personal-brand": "images/personal-brand.png"
 };
 
 if (coverImages[productId]) {
-visual.classList.add("flagship-photo-cover");
+if (productId === "youtube-creator-system" || productId === "vlogging-mastery") {
+    visual.classList.add("flagship-photo-cover");
+}
 const coverTop = visual.querySelector(".product-visual-top small");
 const coverBottom = visual.querySelector(
     ".product-visual-bottom span:first-child"
