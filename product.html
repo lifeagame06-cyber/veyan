@@ -1058,7 +1058,7 @@ window.VayenSaved={get,toggle,heart,sync,user};window.addEventListener('vayen-sa
 <script type="module" id="vayen-owned-status">
 import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
-import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
+import { getFirestore, collection, query, where, getDocs, doc, getDoc } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
 
 const selectedId = new URLSearchParams(location.search).get('id') ||
     new URLSearchParams(location.search).get('product') || 'ai-prompting';
@@ -1123,10 +1123,11 @@ checkPromise = (async () => {
         signedIn = !!user;
         if (!user) { ready = true; return; }
 
-        const [rootOrders, historyOrders, gifts] = await Promise.all([
+        const [rootOrders, historyOrders, gifts, entitlement] = await Promise.all([
             getDocs(query(collection(db, 'orders'), where('userId', '==', user.uid))),
             getDocs(collection(db, 'users', user.uid, 'orders')),
-            getDocs(collection(db, 'users', user.uid, 'gifts'))
+            getDocs(collection(db, 'users', user.uid, 'gifts')),
+            getDoc(doc(db, 'users', user.uid, 'productEntitlements', selectedId))
         ]);
         if (auth.currentUser?.uid !== user.uid) return;
         const paid = [...rootOrders.docs, ...historyOrders.docs].some(snap => {
@@ -1141,7 +1142,11 @@ checkPromise = (async () => {
             return gift.productId === selectedId && gift.userId === user.uid &&
                 gift.giftId === snap.id && gift.status === 'claimed';
         });
-        if (paid || gifted) setOwned(true);
+        const entitlementData = entitlement.exists() ? entitlement.data() : null;
+        const planOwned = entitlementData?.userId === user.uid &&
+            entitlementData?.productId === selectedId &&
+            entitlementData?.status === 'active';
+        if (paid || gifted || planOwned) setOwned(true);
         ready = true;
     } catch (error) {
         // Never treat a failed ownership check as proof that a user does not own it.

@@ -122,7 +122,7 @@
   <script type="module">
     import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
     import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
-    import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
+    import { getFirestore, collection, query, where, getDocs, doc, getDoc } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
 
     // Server-generated orders determine the final payment amount.
     const FUNCTION_BASE = 'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1';
@@ -454,10 +454,11 @@
          // Check existing verified access before creating any new payment order.
          // The checkout's existing account-check notice remains unchanged.
          const db = getFirestore(app);
-         const [rootOrders, historyOrders, gifts] = await Promise.all([
+         const [rootOrders, historyOrders, gifts, entitlement] = await Promise.all([
            getDocs(query(collection(db, 'orders'), where('userId', '==', user.uid))),
            getDocs(collection(db, 'users', user.uid, 'orders')),
-           getDocs(collection(db, 'users', user.uid, 'gifts'))
+           getDocs(collection(db, 'users', user.uid, 'gifts')),
+           getDoc(doc(db, 'users', user.uid, 'productEntitlements', productId))
          ]);
          if (auth.currentUser?.uid !== user.uid) return;
          const alreadyPurchased = [...rootOrders.docs, ...historyOrders.docs].some(snap => {
@@ -471,7 +472,11 @@
            return g.productId === productId && g.userId === user.uid &&
              g.giftId === snap.id && g.status === 'claimed';
          });
-         if (alreadyPurchased || alreadyGifted) {
+         const entitlementData = entitlement.exists() ? entitlement.data() : null;
+         const alreadyPlanOwned = entitlementData?.userId === user.uid &&
+           entitlementData?.productId === productId &&
+           entitlementData?.status === 'active';
+         if (alreadyPurchased || alreadyGifted || alreadyPlanOwned) {
           fill(product);
            setBusy(false);
            setView('success');
