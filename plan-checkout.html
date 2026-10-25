@@ -559,8 +559,8 @@ const CONFIG = window.VAYEN_FIREBASE_CONFIG || {
 const BASE = "https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1";
 const PLANS = {
   "surprise-box": {name:"Surprise Box",price:499,description:"A mystery digital gift, specially selected for you.",benefits:["Admin-selected surprise product","Delivered after fulfillment","Your gift appears in My Products once claimed"]},
-  "bundle-pass": {name:"VAYEN Bundle Pass",price:5,description:"Choose any five eligible VAYEN ebooks and enjoy lifetime access to your selection.",benefits:["Choose exactly 5 published ebooks","Lifetime access to your chosen ebooks","Read and download from My Products"]},
-  "lifetime-access": {name:"VAYEN Lifetime Access",price:5,description:"Lifetime access to all currently eligible published VAYEN ebooks.",benefits:["All eligible ebooks published at purchase","Lifetime access to included ebooks","10 Future Products Included","One-Time Payment — No Renewals or Subscription Fees"]}
+  "bundle-pass": {name:"VAYEN Bundle Pass",price:2999,description:"Choose any five eligible VAYEN ebooks and enjoy lifetime access to your selection.",benefits:["Choose exactly 5 published ebooks","Lifetime access to your chosen ebooks","Read and download from My Products"]},
+  "lifetime-access": {name:"VAYEN Lifetime Access",price:5999,description:"Lifetime access to all currently eligible published VAYEN ebooks.",benefits:["All eligible ebooks published at purchase","Lifetime access to included ebooks","10 Future Products Included","One-Time Payment — No Renewals or Subscription Fees"]}
 };
 const id = new URLSearchParams(location.search).get("plan");
 if (id === "bundle-pass") document.body.classList.add("vayen-bundle-route");
@@ -575,6 +575,9 @@ let selectionReady = false;
 const selected = new Set();
 let catalogLoading = false;
 let completed = false;
+let ownershipChecked = false;
+let lifetimeOwned = false;
+let ownershipCheckInProgress = false;
 pay.disabled = true;
 function message(text, error=false) {
   status.textContent = text;
@@ -582,9 +585,9 @@ function message(text, error=false) {
 }
 function setBusy(value) {
   busy = value;
-  pay.disabled = completed || value || !currentUser || !plan;
+  pay.disabled = completed || value || !currentUser || !plan || !ownershipChecked || lifetimeOwned;
   bundleContinue.disabled = value || completed;
-  pay.textContent = value ? "Please wait…" : (id === "bundle-pass" ? "Pay ₹5 →" : "Continue to Payment →");
+  pay.textContent = lifetimeOwned ? "Already Owned ✓" : (value ? "Please wait…" : (id === "bundle-pass" ? "Pay ₹2,999 →" : "Continue to Payment →"));
 }
 async function call(name, payload, user) {
   const token = await user.getIdToken();
@@ -849,13 +852,58 @@ function celebrateLifetime() {
   }
 }
 
+async function checkLifetimeOwnership(user, db) {
+  if (id !== "lifetime-access") {
+    ownershipChecked = true;
+    return false;
+  }
+  ownershipChecked = false;
+  ownershipCheckInProgress = true;
+  pay.disabled = true;
+  message("Checking your VAYEN Lifetime Access…");
+  try {
+    const snap = await getDocs(collection(db, "users", user.uid, "productEntitlements"));
+    if (currentUser?.uid !== user.uid || completed) return true;
+    lifetimeOwned = snap.docs.some(doc => {
+      const record = doc.data();
+      return record.userId === user.uid &&
+        record.productId === doc.id &&
+        record.status === "active" &&
+        record.sourceType === "lifetime-access" &&
+        /^order_[A-Za-z0-9]{6,80}$/.test(record.sourceOrderId || "");
+    });
+    ownershipChecked = true;
+    if (lifetimeOwned) {
+      message("Your VAYEN Lifetime Access is already active. Explore your ebooks in My Products.");
+      pay.textContent = "Already Owned ✓";
+      pay.disabled = true;
+    } else {
+      message("Review your plan and continue to secure payment.");
+      setBusy(false);
+    }
+    return lifetimeOwned;
+  } catch (error) {
+    console.warn("VAYEN plan ownership could not be checked", error);
+    message("We couldn't confirm your plan status. Please refresh or contact VAYEN Support before paying again.", true);
+    pay.disabled = true;
+    return true;
+  } finally {
+    ownershipCheckInProgress = false;
+  }
+}
+
 async function checkout() {
-  if(busy || !currentUser || !plan || (id === "bundle-pass" && (!document.body.classList.contains("vy-bundle-checkout-stage") || !selectionReady || selected.size !== 5))) return;
+  if(busy || !ownershipChecked || lifetimeOwned || ownershipCheckInProgress || !currentUser || !plan || (id === "bundle-pass" && (!document.body.classList.contains("vy-bundle-checkout-stage") || !selectionReady || selected.size !== 5))) return;
   if(typeof window.Razorpay !== "function") {
     message("Secure payment options are temporarily unavailable. Please try again.",true);
     return;
   }
   const user = currentUser;
+  setBusy(true);
+  if (id === "lifetime-access" && await checkLifetimeOwnership(user, getFirestore())) {
+    setBusy(false);
+    return;
+  }
   setBusy(true);
   message("Preparing secure payment options…");
   try {
@@ -891,6 +939,7 @@ async function checkout() {
             throw new Error("Plan verification pending");
           }
           completed = true;
+          if (id === "lifetime-access") lifetimeOwned = true;
            message("Your plan payment is confirmed. Your included ebooks will appear in My Products.");
           pay.textContent = "Payment Confirmed ✓";
           pay.disabled = true;
@@ -940,7 +989,7 @@ if (!plan) {
   try {
     const app = getApps().length ? getApp() : initializeApp(CONFIG);
     const auth = getAuth(app);
-    onAuthStateChanged(auth,user=>{
+    onAuthStateChanged(auth,async user=>{
       if(!user) {
         sessionStorage.setItem("vayenPendingPlanCheckout",id);
         location.replace("login.html?from=plan&plan=" + encodeURIComponent(id));
@@ -950,8 +999,10 @@ if (!plan) {
       document.body.classList.remove("vayen-auth-pending");
       sessionStorage.removeItem("vayenPendingPlanCheckout");
       el("email").textContent = user.email || "Signed in";
+      ownershipChecked = id !== "lifetime-access";
       setBusy(false);
-      message(id === "bundle-pass" ? "Choose five ebooks to continue securely." : "Review your plan and continue to secure payment.");
+      if (id === "lifetime-access") await checkLifetimeOwnership(user, getFirestore(app));
+      else message(id === "bundle-pass" ? "Choose five ebooks to continue securely." : "Review your plan and continue to secure payment.");
        if (id === "bundle-pass") {
          if(sessionStorage.getItem(bundleStateKey)!=="payment") openBundle();
          loadBundleProducts(getFirestore(app));
