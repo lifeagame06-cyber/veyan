@@ -32,27 +32,14 @@
 }
 </style></head><body>
 <div id="adminAccessGate" style="position:fixed;inset:0;z-index:99999;background:#f4f2ed;display:grid;place-items:center;padding:24px"><div style="max-width:450px;text-align:center;font:14px Arial;color:#21191c"><h2 style="letter-spacing:3px">VAYEN ADMIN</h2><p id="adminAccessMessage">Verifying secure admin access...</p><a href="login.html" id="adminAccessLogin" style="display:none;color:#a66d76;font-weight:bold">Sign in to VAYEN →</a></div></div><div class="app"><aside class="side" id="side"><div class="logo">VAYEN<small>ADMIN STUDIO</small></div><button class="mobile-menu" id="mobileMenu" aria-label="Toggle menu">☰ Menu</button><nav class="nav" id="nav">
-<button class="active" data-tab="dashboard">◫ &nbsp; Dashboard</button><button data-tab="products">▦ &nbsp; Products</button><button data-tab="orders">▤ &nbsp; Orders</button><button data-tab="payments">◈ &nbsp; Payments</button><button data-tab="planPurchases">♙ &nbsp; Plan Purchases</button><button data-tab="customers">♙ &nbsp; Customers</button><button data-tab="surprise">✦ &nbsp; Surprise Boxes</button><button data-tab="delivery">↗ &nbsp; Gift Delivery</button><button data-tab="sendgift">🎁 &nbsp; Send Gift</button><button data-tab="support">✉ &nbsp; Support Requests <span id="supportNavCount" style="float:right;color:#e6aeb9"></span></button><button data-tab="settings">⚙ &nbsp; Settings</button>
+<button class="active" data-tab="dashboard">◫ &nbsp; Dashboard</button><button data-tab="products">▦ &nbsp; Products</button><button data-tab="orders">▤ &nbsp; Orders</button><button data-tab="planpurchases">◈ &nbsp; Plan Purchases</button><button data-tab="payments">◈ &nbsp; Payments</button><button data-tab="customers">♙ &nbsp; Customers</button><button data-tab="surprise">✦ &nbsp; Surprise Boxes</button><button data-tab="delivery">↗ &nbsp; Gift Delivery</button><button data-tab="sendgift">🎁 &nbsp; Send Gift</button><button data-tab="support">✉ &nbsp; Support Requests <span id="supportNavCount" style="float:right;color:#e6aeb9"></span></button><button data-tab="settings">⚙ &nbsp; Settings</button>
 </nav><div class="sidefoot">OWNER WORKSPACE · Secure access<br><a href="index.html">← Back to VAYEN</a></div></aside>
 <main class="main"><header class="top"><div><span class="eyebrow">VAYEN / MANAGEMENT</span><h1 id="pageTitle">Overview<span style="color:#ae7c85">.</span></h1></div><div class="topright"><span class="pill">● ADMIN ACCESS</span></div></header>
 <section class="section active" id="dashboard"><div class="stats"><div class="stat"><label>Verified orders</label><strong id="sOrders">0</strong><small>Confirmed paid transactions</small></div><div class="stat"><label>Verified order value</label><strong id="sRevenue">₹0</strong><small>Verified paid orders only</small></div><div class="stat"><label>Customers</label><strong id="sCustomers">—</strong><small>Registered Firebase profiles</small></div><div class="stat"><label>Gifts to deliver</label><strong id="sGifts">0</strong><small>Awaiting fulfillment</small></div></div><div class="cards2"><div class="panel"><div class="panelhead"><h2>Recent orders</h2><button class="tiny" data-go="orders">View all →</button></div><div id="recentOrders" class="activity"></div></div><div class="panel"><div class="panelhead"><h2>Gift fulfillment</h2><button class="tiny" data-go="delivery">Manage →</button></div><div id="recentGifts" class="activity"></div></div></div><div class="panel"><div class="panelhead"><h2>Quick actions</h2></div><div class="actions"><button class="button" id="quickProduct">+ Add product</button><button class="button secondary" type="button" data-go="orders">View verified orders →</button><button class="button secondary" type="button" data-go="surprise">Review paid Surprise Boxes →</button></div></div></section>
 <section class="section" id="products"><p class="note">FIREBASE PRODUCTS · Add, edit and hide products across devices. Customer orders are displayed from verified account records.</p><div class="panel"><div class="panelhead"><h2>Product catalog</h2><div class="actions"><button class="button secondary" id="importProducts" type="button">Import original catalog</button><button class="button" id="addProduct">+ Add product</button></div></div><div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:15px"><div class="stat"><label>Premium products</label><strong id="premiumCount">0</strong></div><div class="stat"><label>Worlds</label><strong id="worldCount">0</strong></div><div class="stat"><label>Expensive / Flagship</label><strong id="otherCount">0</strong></div></div><div class="toolbar"><input class="field" id="productSearch" placeholder="Search products..."></div><div class="tablewrap"><table><thead><tr><th>Product</th><th>Collection</th><th>Category</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead><tbody id="productRows"></tbody></table></div></div></section>
 <section class="section" id="orders"><div class="panel"><div class="panelhead"><h2>Payment orders</h2><button class="button secondary" type="button" id="refreshCloudOrders">↻ Refresh</button></div><p class="sub" id="cloudOrdersStatus" role="status" aria-live="polite">Waiting for secure admin access...</p><div class="toolbar"><input class="field" id="cloudOrderSearch" placeholder="Search order, customer, product..."></div><div class="tablewrap"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Product</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody id="cloudOrderRows"><tr><td colspan="6" class="empty">No orders loaded.</td></tr></tbody></table></div></div></section>
+<section class="section" id="planpurchases"><div class="panel"><div class="panelhead"><h2>Plan Purchases</h2><button class="button secondary" type="button" id="refreshPlanPurchases">↻ Refresh</button></div><p class="sub" id="planPurchasesStatus" role="status" aria-live="polite">Waiting for secure admin access...</p><div class="toolbar"><input class="field" id="planPurchaseSearch" placeholder="Search order, customer, plan, product ID..."></div><div class="tablewrap"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Plan</th><th>Amount</th><th>Included products</th><th>Status</th><th>Date</th></tr></thead><tbody id="planPurchaseRows"><tr><td colspan="7" class="empty">No plan purchases loaded.</td></tr></tbody></table></div></div></section>
 <section class="section" id="payments"><div class="panel"><div class="panelhead"><h2>Verified customer payments</h2><button class="button secondary" type="button" id="refreshPayments">↻ Refresh</button></div><p class="sub">Verified payments from secure order records. Unpaid orders are excluded from revenue.</p><div class="tablewrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead><tbody id="verifiedPaymentRows"><tr><td colspan="4" class="empty">Refresh to load payments.</td></tr></tbody></table></div></div></section>
-<section class="section" id="planPurchases">
-  <div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr))">
-    <div class="stat"><label>Verified plan purchases</label><strong id="planVerifiedCount">0</strong><small>Lifetime Access + Bundle Pass</small></div>
-    <div class="stat"><label>Lifetime Access</label><strong id="lifetimePurchaseCount">0</strong><small>Verified purchases · ₹5,999 each</small></div>
-    <div class="stat"><label>Bundle Pass</label><strong id="bundlePurchaseCount">0</strong><small>Verified purchases · ₹2,999 each</small></div>
-  </div>
-  <div class="panel">
-    <div class="panelhead"><h2>Lifetime Access &amp; Bundle Pass</h2><button type="button" class="button secondary" id="refreshPlanPurchases">↻ Refresh</button></div>
-    <p class="sub" id="planPurchasesStatus" role="status" aria-live="polite">Waiting for secure admin access...</p>
-    <div class="toolbar"><input class="field" id="planPurchaseSearch" placeholder="Search customer, order ID, plan..."></div>
-    <div class="tablewrap"><table><thead><tr><th>Order / Date</th><th>Customer</th><th>Plan</th><th>Amount</th><th>Status</th><th>Included products</th></tr></thead><tbody id="planPurchaseRows"><tr><td colspan="6" class="empty">Refresh to load plan purchases.</td></tr></tbody></table></div>
-  </div>
-  <p class="footnote">Only plan orders with verified payment status are counted as confirmed purchases. Bundle Pass shows its five selected products; Lifetime Access shows the saved product snapshot for that purchase.</p>
-</section>
 <section class="section" id="customers">
 <div class="panel">
   <div class="panelhead"><h2>Registered Firebase Customers</h2><button type="button" class="button secondary" id="refreshLoginCustomers">↻ Refresh</button></div>
@@ -149,7 +136,7 @@
 (function(){'use strict';
 const KEY='vayenAdminDemoV1';const blank=()=>({products:[],orders:[],surprises:[],giftcards:[],activity:[],notifications:[]});let db;try{db=JSON.parse(localStorage.getItem(KEY))||blank()}catch{db=blank()}for(const k of Object.keys(blank()))if(!Array.isArray(db[k]))db[k]=[];db.products=[];localStorage.setItem(KEY,JSON.stringify(db));
 const $=id=>document.getElementById(id);const fmt=n=>'₹'+Number(n||0).toLocaleString('en-IN');const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const uid=p=>p+'-'+Date.now().toString(36).toUpperCase()+Math.random().toString(36).slice(2,5).toUpperCase();const save=()=>{const copy={...db,products:[]};localStorage.setItem(KEY,JSON.stringify(copy));};const log=msg=>{db.activity.unshift({msg,date:new Date().toLocaleString('en-IN')});db.activity=db.activity.slice(0,100)};const notify=msg=>{const t=$('toast');t.textContent=msg;t.style.display='block';clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.style.display='none',2600)};const badge=s=>'<span class="tag '+esc(s)+'">'+esc(s)+'</span>';const empty=(cols,msg='No records yet')=>'<tr><td colspan="'+cols+'" class="empty">'+esc(msg)+'</td></tr>';
-const titles={dashboard:'Overview',products:'Products',orders:'Orders',payments:'Payments',planPurchases:'Plan Purchases',customers:'Customers',surprise:'Surprise Boxes',giftcards:'Gift Cards',delivery:'Gift Delivery',sendgift:'Send Gift',activity:'Activity Log',notifications:'Notifications',support:'Support Requests',settings:'Settings'};
+const titles={dashboard:'Overview',products:'Products',orders:'Orders',planpurchases:'Plan Purchases',payments:'Payments',customers:'Customers',surprise:'Surprise Boxes',giftcards:'Gift Cards',delivery:'Gift Delivery',sendgift:'Send Gift',activity:'Activity Log',notifications:'Notifications',support:'Support Requests',settings:'Settings'};
 function tab(name){document.querySelectorAll('.section').forEach(e=>e.classList.toggle('active',e.id===name));document.querySelectorAll('.nav button').forEach(e=>e.classList.toggle('active',e.dataset.tab===name));$('pageTitle').innerHTML=esc(titles[name]||'Overview')+'<span style="color:#ae7c85">.</span>';$('side').classList.remove('open');render();window.scrollTo({top:0,behavior:'instant'})}
 document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>tab(b.dataset.tab)));document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>tab(b.dataset.go)));$('mobileMenu').onclick=()=>$('side').classList.toggle('open');
 let editing=null;const input=(name,label,type='text',value='',opts=null,wide=false)=>'<label class="'+(wide?'wide':'')+'">'+esc(label)+(opts?'<select class="field" name="'+name+'">'+opts.map(o=>'<option value="'+esc(o)+'" '+(o===value?'selected':'')+'>'+esc(o)+'</option>').join('')+'</select>':'<input class="field" name="'+name+'" type="'+type+'" value="'+esc(value)+'" '+(type==='number'?'min="0" step="0.01"':'')+(['name','category','price','email','product','amount','buyer','recipient','value'].includes(name)?' required':'')+'>')+'</label>';
@@ -533,8 +520,9 @@ async function refreshCustomers(){
     $('customerRefreshStatus').textContent='Unable to load customers. Check admin permission and Firebase configuration.';
   }
 }
-// Read-only verified payment reporting. Source: root /orders documents.
+// Read-only verified payment reporting. Includes both root /orders and /planOrders.
 let cloudOrders = [];
+let planOrdersLoadError = false;
 const orderTimestamp = v => v?.toDate?.()?.getTime?.() || (v?.seconds ? v.seconds * 1000 : new Date(v || 0).getTime()) || 0;
 const money = n => '₹' + (Number(n || 0) / 100).toLocaleString('en-IN', {maximumFractionDigits:2});
 function renderCloudOrders() {
@@ -542,9 +530,24 @@ function renderCloudOrders() {
   const rows = cloudOrders.filter(o => [o.id,o.customer,o.name,o.status].join(' ').toLowerCase().includes(q));
   $('cloudOrderRows').innerHTML = rows.map(o => `<tr>
     <td>${escapeHtml(o.id)}</td><td>${escapeHtml(o.customer)}</td>
-    <td>${escapeHtml(o.name)}</td><td>${money(o.amountPaise)}</td>
+    <td>${escapeHtml(o.name)}${o.isPlan ? ' <span class="tag active">Plan</span>' : ''}</td><td>${money(o.amountPaise)}</td>
     <td><span class="tag ${o.verified ? 'success' : ''}">${escapeHtml(o.status)}</span></td><td>${escapeHtml(dateLabel(o.createdAt))}</td>
   </tr>`).join('') || '<tr><td colspan="6" class="empty">No matching orders.</td></tr>';
+}
+function renderPlanPurchases() {
+  const q = $('planPurchaseSearch').value.trim().toLowerCase();
+  const plans = cloudOrders.filter(o => o.isPlan);
+  const rows = plans.filter(o => [o.id,o.customer,o.name,o.status,(o.productIds || []).join(' ')].join(' ').toLowerCase().includes(q));
+  $('planPurchaseRows').innerHTML = rows.map(o => {
+    const products = o.productIds || [];
+    const productLabel = products.length
+      ? (o.planId === 'lifetime-access' ? `Published catalog snapshot · ${products.length} product(s)` : `${products.length} selected: ${products.join(', ')}`)
+      : '—';
+    return `<tr><td>${escapeHtml(o.id)}</td><td>${escapeHtml(o.customer)}</td><td>${escapeHtml(o.name)}</td><td>${money(o.amountPaise)}</td><td>${escapeHtml(productLabel)}</td><td><span class="tag ${o.verified ? 'success' : ''}">${escapeHtml(o.status)}</span></td><td>${escapeHtml(dateLabel(o.createdAt))}</td></tr>`;
+  }).join('') || `<tr><td colspan="7" class="empty">${planOrdersLoadError ? 'Plan purchase records could not be loaded. Check the Firestore admin read rules for planOrders.' : 'No matching plan purchases.'}</td></tr>`;
+  $('planPurchasesStatus').textContent = planOrdersLoadError
+    ? `${plans.length} plan purchase record(s) loaded · Some plan records could not be read. Check Firestore admin permissions.`
+    : `${plans.length} plan order(s) loaded · Only orders with verified captured payments count as paid.`;
 }
 async function refreshCloudOrders() {
   if (!authorized || !firestore) return;
@@ -557,41 +560,64 @@ async function refreshCloudOrders() {
       getDocs(collection(firestore, 'users'))
     ]);
     const users = new Map(userSnap.docs.map(d => [d.id, d.data()]));
-    cloudOrders = snap.docs.map(d => {
-      const x = d.data();
-      const u = users.get(x.userId) || {};
+    const normalizeStatus = x => {
       const paid = String(x.paymentStatus || '').toLowerCase();
       const verifiedStatus = String(x.verificationStatus || '').toLowerCase();
-      // Never treat an abandoned/failed/unverified order as successful.
-      const verified = ['paid','captured','success'].includes(paid) &&
-        ['verified','success'].includes(verifiedStatus);
-      const status = verified ? 'Verified paid' :
-        paid === 'abandoned' ? 'Abandoned' :
-        paid === 'failed' ? 'Failed' :
-        paid === 'refunded' ? 'Refunded' :
-        paid === 'pending' || paid === 'created' ? 'Pending' :
-        'Unverified / ' + (paid || 'unknown');
+      const verified = ['paid','captured','success'].includes(paid) && ['verified','success'].includes(verifiedStatus);
+      const status = verified ? 'Verified paid' : paid === 'abandoned' ? 'Abandoned' : paid === 'failed' ? 'Failed' : paid === 'refunded' ? 'Refunded' : paid === 'pending' || paid === 'created' ? 'Pending' : 'Unverified / ' + (paid || 'unknown');
+      return { verified, status };
+    };
+    const normalOrders = snap.docs.map(d => {
+      const x = d.data();
+      const u = users.get(x.userId) || {};
+      const state = normalizeStatus(x);
       return {
         id: d.id,
         customer: String(u.email || x.customerEmail || x.email || x.userId || 'Unknown customer'),
         name: String(x.productName || x.planName || x.productId || x.planType || 'Digital product'),
         amountPaise: Number(x.amount ?? x.amountPaise ?? 0),
-        status, verified,
+        status: state.status, verified: state.verified, isPlan: false,
         createdAt: x.createdAt || x.paidAt || x.verifiedAt || null
       };
     });
-    cloudOrders.sort((a,b) => orderTimestamp(b.createdAt) - orderTimestamp(a.createdAt));
+    let planDocs = [];
+    planOrdersLoadError = false;
+    try {
+      const planSnap = await getDocs(collection(firestore, 'planOrders'));
+      planDocs = planSnap.docs;
+    } catch (planError) {
+      planOrdersLoadError = true;
+      console.error('Admin plan purchase reporting failed:', planError);
+    }
+    const normalizedPlans = planDocs.map(d => {
+      const x = d.data();
+      const u = users.get(x.userId) || {};
+      const state = normalizeStatus(x);
+      const ids = x.planId === 'bundle-pass' ? x.selectedProductIds : x.planId === 'lifetime-access' ? x.snapshotProductIds : [];
+      return {
+        id: d.id,
+        customer: String(u.email || x.customerEmail || x.email || x.userId || 'Unknown customer'),
+        name: String(x.planName || x.planId || 'VAYEN plan'),
+        planId: String(x.planId || ''),
+        productIds: Array.isArray(ids) ? ids.filter(id => typeof id === 'string') : [],
+        amountPaise: Number(x.amount ?? x.amountPaise ?? 0),
+        status: state.status, verified: state.verified, isPlan: true,
+        createdAt: x.createdAt || x.paidAt || x.verifiedAt || null
+      };
+    });
+    cloudOrders = [...normalOrders, ...normalizedPlans].sort((a,b) => orderTimestamp(b.createdAt) - orderTimestamp(a.createdAt));
     renderCloudOrders();
+    renderPlanPurchases();
     const verified = cloudOrders.filter(o => o.verified);
     $('sOrders').textContent = verified.length;
     $('sRevenue').textContent = money(verified.reduce((sum,o) => sum + o.amountPaise,0));
     $('recentOrders').innerHTML = cloudOrders.slice(0,5).map(o =>
-      `<div><span>${escapeHtml(o.name)}<br><small>${escapeHtml(o.customer)}</small></span><span>${money(o.amountPaise)} · ${escapeHtml(o.status)}</span></div>`
+      `<div><span>${escapeHtml(o.name)}${o.isPlan ? ' · Plan' : ''}<br><small>${escapeHtml(o.customer)}</small></span><span>${money(o.amountPaise)} · ${escapeHtml(o.status)}</span></div>`
     ).join('') || '<p class="sub">No orders yet.</p>';
     $('verifiedPaymentRows').innerHTML = verified.map(o =>
       `<tr><td>${escapeHtml(o.id)}</td><td>${escapeHtml(o.customer)}</td><td>${money(o.amountPaise)}</td><td><span class="tag success">Verified paid</span></td></tr>`
     ).join('') || '<tr><td colspan="4" class="empty">No verified payments yet.</td></tr>';
-    $('cloudOrdersStatus').textContent = `${cloudOrders.length} order(s) loaded from payment records · ${verified.length} verified paid.`;
+    $('cloudOrdersStatus').textContent = `${cloudOrders.length} order(s) loaded · ${verified.length} verified paid${planOrdersLoadError ? ' · Plan records unavailable; check Firestore admin rules.' : ` · ${normalizedPlans.length} plan order(s)`}.`;
   } catch (error) {
     console.error('Admin payment reporting failed:',error);
     $('cloudOrdersStatus').textContent = error?.code === 'permission-denied'
@@ -599,102 +625,12 @@ async function refreshCloudOrders() {
       : 'Unable to load payment records. Please try Refresh.';
   } finally { btn.disabled = false; }
 }
-
-// Read-only reporting for the two VAYEN plans. Source: server-verified root /planOrders.
-let planPurchaseRecords = [];
-function renderPlanPurchases() {
-  const q = $('planPurchaseSearch').value.trim().toLowerCase();
-  const visible = planPurchaseRecords.filter(p =>
-    [p.id, p.customer, p.planName, p.planId, p.status, p.productSummary].join(' ').toLowerCase().includes(q)
-  );
-  $('planPurchaseRows').innerHTML = visible.map(p => `<tr>
-    <td><strong>${escapeHtml(p.id)}</strong><br><small>${escapeHtml(dateLabel(p.createdAt))}</small></td>
-    <td>${escapeHtml(p.customer)}<br><small>${escapeHtml(p.userId)}</small></td>
-    <td><strong>${escapeHtml(p.planName)}</strong></td>
-    <td>${money(p.amountPaise)}</td>
-    <td><span class="tag ${p.verified ? 'success' : p.statusClass}">${escapeHtml(p.status)}</span></td>
-    <td>${escapeHtml(p.productSummary)}</td>
-  </tr>`).join('') || '<tr><td colspan="6" class="empty">No matching Lifetime Access or Bundle Pass orders.</td></tr>';
-}
-async function refreshPlanPurchases() {
-  if (!authorized || !firestore) return;
-  const button = $('refreshPlanPurchases');
-  button.disabled = true;
-  $('planPurchasesStatus').textContent = 'Loading plan purchase records...';
-  try {
-    const [planSnap, userSnap, productSnap] = await Promise.all([
-      getDocs(collection(firestore, 'planOrders')),
-      getDocs(collection(firestore, 'users')),
-      getDocs(collection(firestore, 'products'))
-    ]);
-    const users = new Map(userSnap.docs.map(d => [d.id, d.data()]));
-    const products = new Map(productSnap.docs.map(d => [d.id, String(d.data().name || d.id)]));
-    planPurchaseRecords = planSnap.docs.map(d => {
-      const x = d.data();
-      const userId = String(x.userId || '');
-      const user = users.get(userId) || {};
-      const paid = String(x.paymentStatus || '').toLowerCase();
-      const verification = String(x.verificationStatus || '').toLowerCase();
-      const paymentVerified = ['paid', 'captured', 'success'].includes(paid) &&
-        ['verified', 'success'].includes(verification);
-      const planId = String(x.planId || '');
-      if (!['lifetime-access', 'bundle-pass'].includes(planId)) return null;
-      const amountPaise = Number(x.amount ?? x.amountPaise ?? 0);
-      const amountMatchesPlan = amountPaise === (planId === 'lifetime-access' ? 599900 : 299900);
-      const verified = paymentVerified && amountMatchesPlan;
-      const ids = planId === 'bundle-pass'
-        ? (Array.isArray(x.selectedProductIds) ? x.selectedProductIds : [])
-        : (Array.isArray(x.snapshotProductIds) ? x.snapshotProductIds : []);
-      const names = ids.map(id => products.get(String(id)) || String(id));
-      const productSummary = names.length
-        ? `${names.slice(0, 10).join(', ')}${names.length > 10 ? ` + ${names.length - 10} more` : ''} (${names.length} product${names.length === 1 ? '' : 's'})`
-        : (verified ? 'Selection/snapshot missing — review required' : 'Not available yet');
-      const status = verified ? 'Verified paid'
-        : paymentVerified && !amountMatchesPlan ? 'Verified · amount review'
-        : paid === 'failed' ? 'Failed'
-        : paid === 'abandoned' ? 'Abandoned'
-        : paid === 'refunded' ? 'Refunded'
-        : paid === 'created' || paid === 'pending' ? 'Pending'
-        : `Unverified / ${paid || 'unknown'}`;
-      return {
-        id: d.id,
-        userId,
-        customer: String(user.email || x.email || x.customerEmail || 'Email not synced'),
-        planId,
-        planName: String(x.planName || (planId === 'lifetime-access' ? 'VAYEN Lifetime Access' : 'VAYEN Bundle Pass')),
-        amountPaise,
-        status,
-        statusClass: verified ? 'success' : (paid === 'failed' || paid === 'refunded' ? 'failed' : 'pending'),
-        verified,
-        createdAt: x.createdAt || x.verifiedAt || x.paidAt || null,
-        productSummary
-      };
-    }).filter(Boolean);
-    planPurchaseRecords.sort((a, b) => orderTimestamp(b.createdAt) - orderTimestamp(a.createdAt));
-    const verified = planPurchaseRecords.filter(p => p.verified);
-    $('planVerifiedCount').textContent = verified.length;
-    $('lifetimePurchaseCount').textContent = verified.filter(p => p.planId === 'lifetime-access').length;
-    $('bundlePurchaseCount').textContent = verified.filter(p => p.planId === 'bundle-pass').length;
-    renderPlanPurchases();
-    $('planPurchasesStatus').textContent =
-      `${planPurchaseRecords.length} Lifetime Access / Bundle Pass order(s) loaded · ${verified.length} verified paid.`;
-  } catch (error) {
-    console.error('Plan purchase reporting failed:', error);
-    $('planPurchasesStatus').textContent = error?.code === 'permission-denied'
-      ? 'Admin read access to plan orders is not enabled in Firestore rules yet.'
-      : 'Unable to load plan purchases. Please try Refresh.';
-    $('planPurchaseRows').innerHTML = '<tr><td colspan="6" class="empty">Plan records could not be loaded. Existing records have not been changed.</td></tr>';
-  } finally {
-    button.disabled = false;
-  }
-}
-
 $('refreshCloudOrders').addEventListener('click', refreshCloudOrders);
 $('refreshPayments').addEventListener('click', refreshCloudOrders);
-$('refreshPlanPurchases').addEventListener('click', refreshPlanPurchases);
+$('refreshPlanPurchases').addEventListener('click', refreshCloudOrders);
 $('planPurchaseSearch').addEventListener('input', renderPlanPurchases);
-document.querySelector('[data-tab="planPurchases"]').addEventListener('click', () => { if (authorized) refreshPlanPurchases(); });
 document.querySelector('[data-tab="payments"]').addEventListener('click', refreshCloudOrders);
+document.querySelector('[data-tab="planpurchases"]').addEventListener('click', () => { if (authorized) refreshCloudOrders(); });
 $('cloudOrderSearch').addEventListener('input', renderCloudOrders);
 document.querySelector('[data-tab="orders"]').addEventListener('click', () => { if (authorized) refreshCloudOrders(); });
 $('refreshLoginCustomers').addEventListener('click',refreshCustomers);
@@ -726,7 +662,7 @@ else{
         giftStatus.textContent = 'Ready to send a gift.';
         window.VayenAdminProducts.save = saveProduct;
         gate.style.display = 'none';
-        await Promise.all([refreshCustomers(), refreshProducts(), refreshSupportTickets(),refreshCloudOrders(),refreshPlanPurchases(),refreshSurpriseQueue()]);
+        await Promise.all([refreshCustomers(), refreshProducts(), refreshSupportTickets(),refreshCloudOrders(),refreshSurpriseQueue()]);
       } catch (error) {
         if (checkVersion !== adminAuthVersion || auth.currentUser?.uid !== user.uid) return;
         console.error('Admin verification failed:', error);
