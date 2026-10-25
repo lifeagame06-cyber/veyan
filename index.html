@@ -260,6 +260,70 @@ html:not(.vayen-home-auth-ready) #vayenHeaderAccount {
     pointer-events: none !important;
 }
 </style>
+<style id="vayen-header-auth-loader-style">
+/* Only the authentication slot shows this while account status is resolving. */
+.vayen-header-auth-loader {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 38px;
+    padding: 7px 11px;
+    border: 1px solid rgba(158, 87, 121, .20);
+    border-radius: 100px;
+    background: linear-gradient(135deg, #fffdfb, #f8eef2);
+    color: #81516a;
+    white-space: nowrap;
+    font: 600 10px/1.2 Arial, sans-serif;
+    letter-spacing: .12px;
+}
+html:not(.vayen-home-auth-ready) .vayen-header-auth-loader {
+    display: inline-flex;
+}
+.vayen-header-auth-loader-mark {
+    display: grid;
+    place-items: center;
+    width: 21px;
+    height: 21px;
+    flex: 0 0 21px;
+    border-radius: 7px;
+    background: linear-gradient(135deg, #efc7cf, #ab6888);
+    color: #fff;
+    font: 800 14px/1 Arial, sans-serif;
+    box-shadow: 0 0 0 3px rgba(184, 114, 146, .09);
+    animation: vayenAuthMarkPulse 1.6s ease-in-out infinite;
+}
+.vayen-header-auth-loader-dots {
+    display: inline-flex;
+    gap: 3px;
+    align-items: center;
+}
+.vayen-header-auth-loader-dots i {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #ae7891;
+    animation: vayenAuthDot 1.2s ease-in-out infinite;
+}
+.vayen-header-auth-loader-dots i:nth-child(2) { animation-delay: .15s; }
+.vayen-header-auth-loader-dots i:nth-child(3) { animation-delay: .3s; }
+@keyframes vayenAuthMarkPulse {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(184, 114, 146, .09); }
+    50% { box-shadow: 0 0 0 5px rgba(184, 114, 146, .16); }
+}
+@keyframes vayenAuthDot {
+    0%, 60%, 100% { opacity: .3; transform: translateY(0); }
+    30% { opacity: 1; transform: translateY(-2px); }
+}
+@media (max-width: 768px) {
+    .vayen-header-auth-loader { min-height: 34px; padding: 5px 8px; gap: 6px; font-size: 9px; }
+    .vayen-header-auth-loader-mark { width: 19px; height: 19px; flex-basis: 19px; font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .vayen-header-auth-loader-mark,
+    .vayen-header-auth-loader-dots i { animation: none; }
+}
+</style>
 </head>
 <body>
 <!-- PREMIUM ENTRY GREETING -->
@@ -324,6 +388,12 @@ html:not(.vayen-home-auth-ready) #vayenHeaderAccount {
 </script>
     Account
 </a>
+<div class="vayen-header-auth-loader" role="status" aria-live="polite" aria-label="Checking your VAYEN account">
+    <span class="vayen-header-auth-loader-mark" aria-hidden="true">V</span>
+    <span>Just a moment</span>
+    <span class="vayen-header-auth-loader-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+</div>
+
 </div>
 <script>
 /* Display the current tab's cached Firebase account name immediately on refresh.
