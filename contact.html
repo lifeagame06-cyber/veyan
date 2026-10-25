@@ -59,6 +59,8 @@ a { color: inherit; }
 .contact-tile strong { display: block; font-size: 15px; margin: 10px 0 7px; }
 .contact-tile span { display: block; font-size: 12px; color: #826c77; line-height: 1.7; }
 .contact-icon { font-size: 24px; color: #9e5d79; }
+.support-email-link { display: inline-block; max-width: 100%; overflow-wrap: anywhere; color: #91546f; font-size: 14px; font-weight: 800; text-underline-offset: 4px; margin: 2px 0 8px; }
+.support-email-link:hover { color: #6f3652; }
 .footer { padding: 26px 18px 32px; border-top: 1px solid #e6d7dd; color: #8a737d; text-align: center; font-size: 12px; }
 .footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; margin-bottom: 14px; }
 .footer a { color: #705965; text-decoration: none; }
@@ -240,8 +242,8 @@ body.support-open { overflow: hidden; }
                     <div class="contact-tile">
                         <div class="contact-icon" aria-hidden="true">✉</div>
                         <strong>Email support</strong>
-                        <span>Use the support form to reach our team securely.</span>
-                        <span>Sign in to submit or track a request.</span>
+                        <span><a class="support-email-link" href="mailto:support.vayen@gmail.com">support.vayen@gmail.com</a>
+                        <span>For general enquiries, email our team directly.</span>
                     </div>
                     <button class="contact-tile assistance-trigger" type="button" id="openSupportForm" aria-haspopup="dialog">
                         <div class="contact-icon" aria-hidden="true">◎</div>
