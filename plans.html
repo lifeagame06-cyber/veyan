@@ -864,6 +864,52 @@
 }
 @media (max-width:900px) { .vayen-plans .vp-lifetime {transform:none !important;min-height:unset !important;} }
 </style>
+<style id="vayen-plan-navigation-loader-style">
+/* Only the transition from a Get Plan button; no checkout or product changes. */
+#vy-plan-navigation-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 19px;
+    background: #f7f2ef;
+    color: #352431;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 120ms ease, visibility 120ms ease;
+}
+#vy-plan-navigation-loader.vy-active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+#vy-plan-navigation-loader .vy-loader-brand {
+    font: 800 26px/1 Arial, Helvetica, sans-serif;
+    letter-spacing: 6px;
+}
+#vy-plan-navigation-loader .vy-loader-ring {
+    width: 35px;
+    height: 35px;
+    border: 3px solid #e8d9e0;
+    border-top-color: #874765;
+    border-radius: 50%;
+    animation: vy-plan-loader-spin .75s linear infinite;
+}
+#vy-plan-navigation-loader .vy-loader-caption {
+    font: 12px/1.4 Arial, Helvetica, sans-serif;
+    color: #836b78;
+    letter-spacing: .2px;
+}
+@keyframes vy-plan-loader-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+    #vy-plan-navigation-loader { transition: none; }
+    #vy-plan-navigation-loader .vy-loader-ring { animation-duration: 1.5s; }
+}
+</style>
 </head>
 <body>
 <header class="plans-page-header">
@@ -1021,41 +1067,39 @@
         link.href = 'plan-checkout.html?plan=' + encodeURIComponent(plan);
     });
 })();
-</script><style>.vayen-plans .vp-get.vp-already-owned,.vayen-plans .vp-get.vp-already-owned:hover{cursor:default;transform:none;background:#e8d7e3;color:#4c3044;opacity:.92}</style>
-<script type="module" id="vayen-verified-owned-status">
-import {initializeApp,getApps,getApp} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
-import {getAuth,onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
-import {getFirestore,collection,getDocs} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
-const firebaseConfig = {
- apiKey: "AIzaSyCJStLo-FmvkPQo-u-cP-J4rQ8z4ecYMW4",
- authDomain: "veyan-53930.firebaseapp.com",
- projectId: "veyan-53930",
- storageBucket: "veyan-53930.firebasestorage.app",
- messagingSenderId: "836801786398",
- appId: "1:836801786398:web:a73fbda60267efcdbd740f"
-};
-const app=getApps().length?getApp():initializeApp(firebaseConfig);
-const auth=getAuth(app), db=getFirestore(app);
-let generation=0;
-const button=document.querySelector('[data-vayen-plan="lifetime-access"]');
-const original=button?.innerHTML;
-function setOwned(owned){
- if(!button)return;
- button.innerHTML=owned?'Already Owned <span>✓</span>':original;
- if(owned){button.removeAttribute('href');button.setAttribute('aria-disabled','true');button.classList.add('vp-already-owned');button.tabIndex=-1;}
- else{button.href='plan-checkout.html?plan=lifetime-access';button.removeAttribute('aria-disabled');button.classList.remove('vp-already-owned');button.removeAttribute('tabindex');}
-}
-button?.addEventListener('click',e=>{if(button.getAttribute('aria-disabled')==='true')e.preventDefault();});
-onAuthStateChanged(auth,async user=>{
- const current=++generation;setOwned(false);
- if(!user)return;
- try{
-  const snap=await getDocs(collection(db,'users',user.uid,'productEntitlements'));
-  if(current!==generation)return;
-  const owned=snap.docs.some(d=>{const x=d.data();return x.userId===user.uid&&x.productId===d.id&&x.status==='active'&&x.sourceType==='lifetime-access'&&/^order_[A-Za-z0-9]{6,80}$/.test(x.sourceOrderId||'');});
-  setOwned(owned);
- }catch(err){console.warn('VAYEN ownership status unavailable',err);}
-});
+</script><div id="vy-plan-navigation-loader" aria-live="polite" aria-label="Opening your plan" role="status" aria-hidden="true">
+    <div class="vy-loader-brand">VAYEN</div>
+    <div class="vy-loader-ring" aria-hidden="true"></div>
+    <div class="vy-loader-caption">Opening your plan...</div>
+</div>
+<script id="vayen-plan-navigation-loader-script">
+(function () {
+    const loader = document.getElementById('vy-plan-navigation-loader');
+    let navigating = false;
+
+    function resetLoader() {
+        navigating = false;
+        loader.classList.remove('vy-active');
+        loader.setAttribute('aria-hidden', 'true');
+    }
+
+    document.querySelectorAll('a.vp-get[data-vayen-plan]').forEach(function (link) {
+        link.addEventListener('click', function (event) {
+            if (event.defaultPrevented || event.button !== 0 || event.metaKey ||
+                event.ctrlKey || event.shiftKey || event.altKey ||
+                link.target === '_blank' || navigating) return;
+            const target = link.getAttribute('href');
+            if (!target || target === '#') return;
+            navigating = true;
+            loader.setAttribute('aria-hidden', 'false');
+            loader.classList.add('vy-active');
+            // Preserve the existing native link navigation: no artificial delay.
+        });
+    });
+
+    window.addEventListener('pageshow', resetLoader);
+    window.addEventListener('pagehide', resetLoader);
+})();
 </script>
 </body>
 </html>
