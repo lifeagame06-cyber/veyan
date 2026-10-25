@@ -545,7 +545,7 @@ body.vayen-bundle-route.vy-bundle-checkout-stage .vy-checkout-trust strong{
 </style></head><body class="vayen-auth-pending"><script>if(new URLSearchParams(location.search).get("plan")==="bundle-pass"){
   document.body.classList.add("vayen-bundle-route");
   if(sessionStorage.getItem("vayenBundleCheckoutStageV9")==="payment"){document.body.classList.add("vy-bundle-checkout-stage");document.documentElement.classList.add("vy-restoring-payment");}
-}</script><header class="top"><a class="brand" href="index.html">VAYEN</a><a class="back" href="plans.html">← Back to Plans</a></header><main class="wrap"><span class="eyebrow">VAYEN / EXCLUSIVE ACCESS</span><h1 class="heading">Plan checkout<span style="color:#b27a8d">.</span></h1><p class="sub">Review your selected plan and payment details before proceeding.</p><div class="grid"><section class="card"><span class="label">SELECTED PLAN</span><h2 class="name" id="name">—</h2><p class="muted" id="description"></p><div class="rule"></div><div id="benefits"></div><div id="vyBundleReview" class="vy-review hidden"></div><section id="bundlePicker" class="bundle-picker hidden"><h3>Choose your 5 ebooks</h3><p class="picker-status" id="pickerStatus">Loading available ebooks…</p><div class="bundle-list" id="bundleList"></div><div class="bundle-count" id="bundleCount">0 of 5 selected</div></section><div class="rule"></div><p class="muted">Signed-in account: <strong id="email"></strong></p><a class="back" href="plans.html">← Change plan</a></section><aside class="card"><span class="label">ORDER SUMMARY</span><div class="row"><span>Plan price</span><strong id="price">—</strong></div><div class="row"><span>Additional charges</span><strong>₹0</strong></div><div class="rule"></div><div class="row"><strong>Total payable</strong><strong class="price" id="total">—</strong></div><button class="button" id="pay" type="button">Continue to Payment →</button><div class="note" id="status">Sign in to review your plan and continue securely.</div><div class="vy-checkout-trust" aria-label="Purchase benefits"><div><span>♢</span><strong>VAYEN Secure</strong><small>Protected checkout</small></div><div><span>▣</span><strong>One-Time Payment</strong><small>No renewals</small></div><div><span>↓</span><strong>Digital Access</strong><small>After confirmation</small></div><div><span>∞</span><strong>Lifetime Access</strong><small>Your chosen ebooks</small></div></div></aside></div></main><footer class="foot">© 2026 VAYEN · Digital products, thoughtfully made.</footer><div class="vy-bundle-modal" id="vyBundleModal" hidden><section class="vy-bundle-shell" role="dialog" aria-modal="true" aria-labelledby="vyBundleHeading"><div class="vy-bundle-header"><div class="vy-bundle-eyebrow">VAYEN BUNDLE PASS · ₹5 TEST</div><h2 id="vyBundleHeading">Choose Your 5 Favorites</h2><p>Select exactly five published ebooks. After successful payment, enjoy lifetime access to your selected collection.</p><button type="button" class="vy-bundle-x" id="vyBundleClose" aria-label="Close">×</button></div><div class="vy-bundle-body"><div class="vy-bundle-left"><input id="vyBundleSearch" class="vy-bundle-search" placeholder="Search ebooks…" aria-label="Search ebooks"><div class="vy-bundle-products" id="vyBundleCards"></div></div><aside class="vy-bundle-side"><div class="vy-side-heading"><span>Your selected ebooks</span><span class="vy-count" id="vyBundleSelectedCount">0 / 5</span></div><div class="vy-selected-list" id="vyBundleSelectedList"></div><div class="vy-total-line"><span>Individual total</span><strong id="vyBundleOriginal">₹0</strong></div><div class="vy-total-line"><strong>Bundle Pass price</strong><strong class="vy-plan-total">₹5</strong></div><div class="vy-save" id="vyBundleSaving"></div><div class="vy-warning" id="vyBundleWarning" role="status"></div><button class="vy-continue" type="button" id="vyBundleContinue">Continue to Payment →</button><div class="vy-secure">Secure checkout · One-time payment</div></aside></div></section></div><div class="vy-success-modal" id="vyBundleSuccess" hidden><section class="vy-success-box" role="dialog" aria-modal="true" aria-labelledby="vySuccessHeading" id="vySuccessBox"><div class="vy-success-icon">✓</div><div class="vy-bundle-eyebrow">VAYEN BUNDLE PASS</div><h2 id="vySuccessHeading">Congratulations!</h2><p>You've unlocked your 5 selected ebooks with lifetime access. Your collection is ready.</p><a href="orders.html">Go to My Orders →</a></section></div><script>setTimeout(()=>{document.documentElement.classList.remove("vy-restoring-payment");if(document.body.classList.contains("vayen-auth-pending")){document.body.classList.remove("vayen-auth-pending");const s=document.getElementById("status");if(s)s.textContent="Checkout is taking longer than expected. Please refresh to try again.";}},12000);</script><script src="https://checkout.razorpay.com/v1/checkout.js"></script><script type="module" id="vayen-plan-firebase-checkout">
+}</script><header class="top"><a class="brand" href="index.html">VAYEN</a><a class="back" href="plans.html">← Back to Plans</a></header><main class="wrap"><span class="eyebrow">VAYEN / EXCLUSIVE ACCESS</span><h1 class="heading">Plan checkout<span style="color:#b27a8d">.</span></h1><p class="sub">Review your selected plan and payment details before proceeding.</p><div class="grid"><section class="card"><span class="label">SELECTED PLAN</span><h2 class="name" id="name">—</h2><p class="muted" id="description"></p><div class="rule"></div><div id="benefits"></div><div id="vyBundleReview" class="vy-review hidden"></div><section id="bundlePicker" class="bundle-picker hidden"><h3>Choose your 5 ebooks</h3><p class="picker-status" id="pickerStatus">Loading available ebooks…</p><div class="bundle-list" id="bundleList"></div><div class="bundle-count" id="bundleCount">0 of 5 selected</div></section><div class="rule"></div><p class="muted">Signed-in account: <strong id="email"></strong></p><a class="back" href="plans.html">← Change plan</a></section><aside class="card"><span class="label">ORDER SUMMARY</span><div class="row"><span>Plan price</span><strong id="price">—</strong></div><div class="row"><span>Additional charges</span><strong>₹0</strong></div><div class="rule"></div><div class="row"><strong>Total payable</strong><strong class="price" id="total">—</strong></div><button class="button" id="pay" type="button">Continue to Payment →</button><div class="note" id="status">Sign in to review your plan and continue securely.</div><div class="vy-checkout-trust" aria-label="Purchase benefits"><div><span>♢</span><strong>VAYEN Secure</strong><small>Protected checkout</small></div><div><span>▣</span><strong>One-Time Payment</strong><small>No renewals</small></div><div><span>↓</span><strong>Digital Access</strong><small>After confirmation</small></div><div><span>∞</span><strong>Lifetime Access</strong><small>Your chosen ebooks</small></div></div></aside></div></main><footer class="foot">© 2026 VAYEN · Digital products, thoughtfully made.</footer><div class="vy-bundle-modal" id="vyBundleModal" hidden><section class="vy-bundle-shell" role="dialog" aria-modal="true" aria-labelledby="vyBundleHeading"><div class="vy-bundle-header"><div class="vy-bundle-eyebrow">VAYEN BUNDLE PASS · ₹2,999</div><h2 id="vyBundleHeading">Choose Your 5 Favorites</h2><p>Select exactly five published ebooks. After successful payment, enjoy lifetime access to your selected collection.</p><button type="button" class="vy-bundle-x" id="vyBundleClose" aria-label="Close">×</button></div><div class="vy-bundle-body"><div class="vy-bundle-left"><input id="vyBundleSearch" class="vy-bundle-search" placeholder="Search ebooks…" aria-label="Search ebooks"><div class="vy-bundle-products" id="vyBundleCards"></div></div><aside class="vy-bundle-side"><div class="vy-side-heading"><span>Your selected ebooks</span><span class="vy-count" id="vyBundleSelectedCount">0 / 5</span></div><div class="vy-selected-list" id="vyBundleSelectedList"></div><div class="vy-total-line"><span>Individual total</span><strong id="vyBundleOriginal">₹0</strong></div><div class="vy-total-line"><strong>Bundle Pass price</strong><strong class="vy-plan-total">₹2,999</strong></div><div class="vy-save" id="vyBundleSaving"></div><div class="vy-warning" id="vyBundleWarning" role="status"></div><button class="vy-continue" type="button" id="vyBundleContinue">Continue to Payment →</button><div class="vy-secure">Secure checkout · One-time payment</div></aside></div></section></div><div class="vy-success-modal" id="vyBundleSuccess" hidden><section class="vy-success-box" role="dialog" aria-modal="true" aria-labelledby="vySuccessHeading" id="vySuccessBox"><div class="vy-success-icon">✓</div><div class="vy-bundle-eyebrow">VAYEN BUNDLE PASS</div><h2 id="vySuccessHeading">Congratulations!</h2><p>You've unlocked your 5 selected ebooks with lifetime access. Your collection is ready.</p><a href="orders.html">Go to My Orders →</a></section></div><script>setTimeout(()=>{document.documentElement.classList.remove("vy-restoring-payment");if(document.body.classList.contains("vayen-auth-pending")){document.body.classList.remove("vayen-auth-pending");const s=document.getElementById("status");if(s)s.textContent="Checkout is taking longer than expected. Please refresh to try again.";}},12000);</script><script src="https://checkout.razorpay.com/v1/checkout.js"></script><script type="module" id="vayen-plan-firebase-checkout">
 import { initializeApp, getApp, getApps } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
@@ -892,8 +892,57 @@ async function checkLifetimeOwnership(user, db) {
   }
 }
 
+const pendingPlanKey = "vayenPendingPlanPaymentV1";
+let recoveringPlan = false;
+function getPendingPlan(user) {
+  try {
+    const data = JSON.parse(localStorage.getItem(pendingPlanKey) || "null");
+    return data && data.uid === user.uid && data.planId === id &&
+      /^order_[A-Za-z0-9]{6,80}$/.test(data.orderId) ? data : null;
+  } catch { return null; }
+}
+function rememberPendingPlan(user, orderId) {
+  localStorage.setItem(pendingPlanKey, JSON.stringify({uid:user.uid,planId:id,orderId}));
+}
+function clearPendingPlan() { localStorage.removeItem(pendingPlanKey); }
+function showPlanConfirmed() {
+  completed = true;
+  if (id === "lifetime-access") lifetimeOwned = true;
+  clearPendingPlan();
+  message("Your plan payment is confirmed. Your included ebooks will appear in My Products.");
+  pay.textContent = "Payment Confirmed ✓";
+  pay.disabled = true;
+  if (id === "bundle-pass") celebrateBundle();
+  else if (id === "lifetime-access") celebrateLifetime();
+}
+async function recoverPlanPayment(user) {
+  const pending = getPendingPlan(user);
+  if (!pending || recoveringPlan || completed) return false;
+  recoveringPlan = true;
+  pay.disabled = true;
+  message("Checking your previous plan payment securely…");
+  try {
+    const result = await call("vayen-verify-plan-payment", {
+      razorpay_order_id: pending.orderId, recover: true
+    }, user);
+    if (result.success === true && result.orderId === pending.orderId && result.planId === id) {
+      showPlanConfirmed();
+      return true;
+    }
+  } catch (error) {
+    console.warn("Plan payment recovery pending", error);
+  } finally {
+    recoveringPlan = false;
+  }
+  completed = true; // Prevent accidental second payment until the prior one is resolved.
+  pay.textContent = "Confirmation Pending";
+  pay.disabled = true;
+  message("Your previous payment is being checked. Please don't pay again. Contact VAYEN Support if your plan doesn't appear.", true);
+  return true;
+}
+
 async function checkout() {
-  if(busy || !ownershipChecked || lifetimeOwned || ownershipCheckInProgress || !currentUser || !plan || (id === "bundle-pass" && (!document.body.classList.contains("vy-bundle-checkout-stage") || !selectionReady || selected.size !== 5))) return;
+  if(busy || recoveringPlan || completed || !ownershipChecked || lifetimeOwned || ownershipCheckInProgress || !currentUser || !plan || (id === "bundle-pass" && (!document.body.classList.contains("vy-bundle-checkout-stage") || !selectionReady || selected.size !== 5))) return;
   if(typeof window.Razorpay !== "function") {
     message("Secure payment options are temporarily unavailable. Please try again.",true);
     return;
@@ -916,14 +965,14 @@ async function checkout() {
         order.currency !== "INR") {
       throw new Error("Invalid checkout details");
     }
+    rememberPendingPlan(user, order.orderId);
     const checkout = new window.Razorpay({
       key:order.keyId, amount:order.amount, currency:"INR",
       name:"VAYEN", description:plan.name, order_id:order.orderId,
       prefill:{email:user.email || ""},theme:{color:"#30232a"},
       modal:{ondismiss:()=>{
         if(verifying || completed) return;
-        setBusy(false);
-        message("Payment cancelled. You can try again now; your selection is saved.");
+        recoverPlanPayment(user);
       }},
       handler:async payment=>{
         verifying = true;
@@ -938,36 +987,26 @@ async function checkout() {
           if(result.success !== true || result.orderId !== order.orderId || result.planId !== id) {
             throw new Error("Plan verification pending");
           }
-          completed = true;
-          if (id === "lifetime-access") lifetimeOwned = true;
-           message("Your plan payment is confirmed. Your included ebooks will appear in My Products.");
-          pay.textContent = "Payment Confirmed ✓";
-          pay.disabled = true;
-          if (id === "bundle-pass") {
-            celebrateBundle();
-          } else if (id === "lifetime-access") {
-            celebrateLifetime();
-          }
+          showPlanConfirmed();
           // Do not redirect to product success.html; plans are separate from products.
         } catch(e) {
           console.error("Plan confirmation pending",e);
-          message("Your payment is being confirmed. If charged, please don't pay again. Contact support with your payment details if your plan doesn't appear.",true);
-          completed = true;
-          pay.textContent = "Confirmation Pending";
-          pay.disabled = true;
+          await recoverPlanPayment(user);
         }
       }
     });
     checkout.on("payment.failed",()=>{
       if(verifying || completed) return;
-      setBusy(false);
-      message("Payment failed. You can try again immediately.",true);
+      recoverPlanPayment(user);
     });
     checkout.open();
   } catch(e) {
     console.error("VAYEN plan checkout setup error",e);
-    setBusy(false);
-    message("We could not open secure payment. Please try again shortly.",true);
+    if (getPendingPlan(user)) await recoverPlanPayment(user);
+    else {
+      setBusy(false);
+      message("We could not open secure payment. Please try again shortly.",true);
+    }
   }
 }
 if (!plan) {
@@ -1001,6 +1040,7 @@ if (!plan) {
       el("email").textContent = user.email || "Signed in";
       ownershipChecked = id !== "lifetime-access";
       setBusy(false);
+      if (await recoverPlanPayment(user)) return;
       if (id === "lifetime-access") await checkLifetimeOwnership(user, getFirestore(app));
       else message(id === "bundle-pass" ? "Choose five ebooks to continue securely." : "Review your plan and continue to secure payment.");
        if (id === "bundle-pass") {
