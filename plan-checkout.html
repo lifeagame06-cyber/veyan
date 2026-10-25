@@ -932,6 +932,61 @@ async function checkLifetimeOwnership(user, db) {
   }
 }
 
+// A mobile UPI app can return without Razorpay firing modal.ondismiss.
+// Restore usable checkout immediately, then quietly reconcile any captured payment.
+let activeMobileCheckout = null;
+let externalAppWasOpened = false;
+let lastMobileReturn = 0;
+let mobileRecoveryRunning = false;
+async function recoverMobilePlanPayment(attempt) {
+  if (mobileRecoveryRunning || !attempt || !currentUser || completed || verifying) return;
+  mobileRecoveryRunning = true;
+  try {
+    const result = await call("vayen-verify-plan-payment", {
+      razorpay_order_id: attempt.orderId,
+      recover: true
+    }, attempt.user);
+    if (result.success === true && result.orderId === attempt.orderId && result.planId === id) {
+      completed = true;
+      clearPaymentConfirmation();
+      if (id === "lifetime-access") lifetimeOwned = true;
+      message("Payment confirmed. Your VAYEN access is ready.");
+      pay.disabled = true;
+      pay.textContent = "Payment Confirmed ✓";
+      if (id === "bundle-pass") celebrateBundle();
+      else if (id === "lifetime-access") celebrateLifetime();
+    }
+  } catch (_) {
+    // Unpaid or not-yet-settled UPI attempts must not freeze the checkout UI.
+    // The server will still independently verify any later captured payment.
+  } finally {
+    mobileRecoveryRunning = false;
+  }
+}
+function handleMobileAppReturn() {
+  if (!externalAppWasOpened || !activeMobileCheckout || verifying || completed) return;
+  if (document.visibilityState === "hidden") return;
+  const now = Date.now();
+  if (now - lastMobileReturn < 1000) return;
+  lastMobileReturn = now;
+  externalAppWasOpened = false;
+  const attempt = activeMobileCheckout;
+  // Closing the old overlay makes selection changes possible immediately.
+  try { attempt.checkout.close(); } catch (_) {}
+  setBusy(false);
+  message("Back from UPI? You can change your selection or continue to payment.");
+  void recoverMobilePlanPayment(attempt);
+}
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden" && activeMobileCheckout && !verifying) {
+    externalAppWasOpened = true;
+  } else if (document.visibilityState === "visible") {
+    setTimeout(handleMobileAppReturn, 350);
+  }
+});
+window.addEventListener("pageshow", () => setTimeout(handleMobileAppReturn, 350));
+window.addEventListener("focus", () => setTimeout(handleMobileAppReturn, 350));
+
 async function checkout() {
   if(busy || paymentConfirmationPending || !ownershipChecked || lifetimeOwned || ownershipCheckInProgress || !currentUser || !plan || (id === "bundle-pass" && (!document.body.classList.contains("vy-bundle-checkout-stage") || !selectionReady || selected.size !== 5))) return;
   if(typeof window.Razorpay !== "function") {
@@ -961,6 +1016,8 @@ async function checkout() {
       name:"VAYEN", description:plan.name, order_id:order.orderId,
       prefill:{email:user.email || ""},theme:{color:"#30232a"},
       modal:{ondismiss:()=>{
+        if (activeMobileCheckout?.orderId === order.orderId) activeMobileCheckout = null;
+        externalAppWasOpened = false;
         if(verifying || completed || paymentConfirmationPending) return;
         setBusy(false);
         message("Payment cancelled. You can try again now; your selection is saved.");
@@ -1005,6 +1062,8 @@ async function checkout() {
       setBusy(false);
       message("Payment failed. You can try again immediately.",true);
     });
+    activeMobileCheckout = {checkout, orderId:order.orderId, user};
+    externalAppWasOpened = false;
     checkout.open();
   } catch(e) {
     console.error("VAYEN plan checkout setup error",e);
