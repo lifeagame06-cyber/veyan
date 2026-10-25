@@ -957,7 +957,7 @@ const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
 const product = params.get('product');
 const isProductLogin = params.get('from') === 'get' && !!product && /^[a-zA-Z0-9_-]{1,120}$/.test(product);
-const allowedPlans = ['discount-pass', 'surprise-box', 'shopping-pass'];
+const allowedPlans = ['bundle-pass', 'lifetime-access', 'surprise-box'];
 // Preserve the chosen plan across sign-in and Google redirect flows.
 const urlPlan = params.get('from') === 'plan' ? params.get('plan') : null;
 if (allowedPlans.includes(urlPlan)) {
