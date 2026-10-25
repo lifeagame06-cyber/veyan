@@ -947,6 +947,8 @@ async function recoverMobilePlanPayment(attempt) {
       recover: true
     }, attempt.user);
     if (result.success === true && result.orderId === attempt.orderId && result.planId === id) {
+      // Do not interrupt a newer customer-initiated checkout with a stale callback.
+      if (busy || activeMobileCheckout || verifying) return;
       completed = true;
       clearPaymentConfirmation();
       if (id === "lifetime-access") lifetimeOwned = true;
@@ -971,10 +973,11 @@ function handleMobileAppReturn() {
   lastMobileReturn = now;
   externalAppWasOpened = false;
   const attempt = activeMobileCheckout;
-  // Closing the old overlay makes selection changes possible immediately.
+  // Detach BEFORE close(): Razorpay may synchronously fire ondismiss.
+  activeMobileCheckout = null;
   try { attempt.checkout.close(); } catch (_) {}
   setBusy(false);
-  message("Back from UPI? You can change your selection or continue to payment.");
+  message("Welcome back. You can change your ebooks or continue to payment.");
   void recoverMobilePlanPayment(attempt);
 }
 document.addEventListener("visibilitychange", () => {
@@ -1016,7 +1019,9 @@ async function checkout() {
       name:"VAYEN", description:plan.name, order_id:order.orderId,
       prefill:{email:user.email || ""},theme:{color:"#30232a"},
       modal:{ondismiss:()=>{
-        if (activeMobileCheckout?.orderId === order.orderId) activeMobileCheckout = null;
+        // Ignore callbacks from a checkout already detached on UPI return.
+        if (activeMobileCheckout?.orderId !== order.orderId) return;
+        activeMobileCheckout = null;
         externalAppWasOpened = false;
         if(verifying || completed || paymentConfirmationPending) return;
         setBusy(false);
@@ -1058,6 +1063,7 @@ async function checkout() {
       }
     });
     checkout.on("payment.failed",()=>{
+      if (activeMobileCheckout?.orderId !== order.orderId) return;
       if(verifying || completed) return;
       setBusy(false);
       message("Payment failed. You can try again immediately.",true);
