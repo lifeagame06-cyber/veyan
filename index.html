@@ -252,7 +252,15 @@ html {
   background: #9e5779;
   box-shadow: 0 0 0 3px rgba(158,87,121,.11);
 }
-</style></head>
+</style><style id="vayen-auth-header-no-flash">
+/* Hide only authentication-dependent header actions until Firebase resolves. */
+html:not(.vayen-home-auth-ready) #headerSignIn,
+html:not(.vayen-home-auth-ready) #vayenHeaderAccount {
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+</style>
+</head>
 <body>
 <!-- PREMIUM ENTRY GREETING -->
 <div class="welcome-screen" id="welcomeScreen" style="display:none;">

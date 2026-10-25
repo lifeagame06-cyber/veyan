@@ -138,6 +138,8 @@ function syncHome(user) {
     }
   }
   if (account) account.hidden = !user;
+  // Reveal the correct account state only after the authoritative auth callback.
+  document.documentElement.classList.add('vayen-home-auth-ready');
 }
 
 function syncProfile(user) {
