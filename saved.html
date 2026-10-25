@@ -105,28 +105,17 @@
 </section>
 </main>
 <!-- MOBILE BOTTOM NAV -->
-<nav aria-label="Mobile main navigation" class="vayen-mobile-nav"><a class="mobile-nav-item" href="index.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-7H9v7H3z"></path></svg></span><span>Home</span></a><a class="mobile-nav-item" href="collection.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM9 4v16M5 10h14"></path></svg></span><span>Collection</span></a><a class="mobile-nav-item" href="library.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg></span><span>Library</span></a><a class="mobile-nav-item" href="orders.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 3h14v18l-3-2-4 2-4-2-3 2zM8 8h8M8 12h8"></path></svg></span><span>Orders</span></a><a aria-current="page" class="mobile-nav-item active" href="profile.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 21c.8-4.5 3.1-6.5 7-6.5s6.2 2 7 6.5"></path></svg></span><span>Account</span></a></nav><script id="vayen-saved-heart-engine">
-(function(){
-'use strict';
-const PREFIX='vayenSavedProductsDemoV1_';
-function user(){try{const s=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null');return s&& (s.id||s.email)?String(s.id||s.email).toLowerCase():'guest'}catch(e){return 'guest'}}
-const key=()=>PREFIX+user();
-function get(){try{const x=JSON.parse(localStorage.getItem(key())||'[]');return Array.isArray(x)?x.filter(x=>typeof x==='string'):[]}catch(e){return []}}
-function set(a){try{localStorage.setItem(key(),JSON.stringify(a))}catch(e){}}
-function toggle(id){let a=get();a=a.includes(id)?a.filter(x=>x!==id):[id,...a];set(a);window.dispatchEvent(new Event('vayen-saved-changed'));return a.includes(id)}
-function svg(){return '<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg>'}
-function heart(id){const b=document.createElement('button');b.type='button';b.className='vayen-save-heart';b.dataset.saveId=id;b.innerHTML=svg();b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();toggle(id)});return b}
-function sync(){document.querySelectorAll('.vayen-save-heart').forEach(b=>{const active=get().includes(b.dataset.saveId);b.classList.toggle('is-saved',active);b.setAttribute('aria-pressed',String(active));b.setAttribute('aria-label',active?'Remove from Saved':'Save product');b.title=active?'Remove from Saved':'Save product'})}
-window.VayenSaved={get,toggle,heart,sync,user};window.addEventListener('vayen-saved-changed',sync);
-})();
-</script><script src="vayen-catalog.js"></script>
+<nav aria-label="Mobile main navigation" class="vayen-mobile-nav"><a class="mobile-nav-item" href="index.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-7H9v7H3z"></path></svg></span><span>Home</span></a><a class="mobile-nav-item" href="collection.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM9 4v16M5 10h14"></path></svg></span><span>Collection</span></a><a class="mobile-nav-item" href="library.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"></path></svg></span><span>Library</span></a><a class="mobile-nav-item" href="orders.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M5 3h14v18l-3-2-4 2-4-2-3 2zM8 8h8M8 12h8"></path></svg></span><span>Orders</span></a><a aria-current="page" class="mobile-nav-item active" href="profile.html"><span class="mobile-nav-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 21c.8-4.5 3.1-6.5 7-6.5s6.2 2 7 6.5"></path></svg></span><span>Account</span></a></nav><script src="vayen-saved-auth.js"></script><script src="vayen-firebase-config.js"></script>
+<script src="vayen-catalog.js"></script>
 <script id="vayen-saved-page-init">
 (function(){
 const list=document.getElementById('savedProducts'),empty=document.getElementById('savedEmpty'),count=document.getElementById('savedCount');
 function render(){const ids=VayenSaved.get();list.replaceChildren();const C=window.VayenCatalog;let shown=0;
 ids.forEach(id=>{const p=C&&typeof C.get==='function'?C.get(id):null;if(!p)return;shown++;const card=document.createElement('article');card.className='vayen-saved-item';const label=document.createElement('div');label.className='vayen-saved-type';label.textContent=p.category||'DIGITAL PRODUCT';const title=document.createElement('h3');title.textContent=p.name||'Digital product';const desc=document.createElement('p');desc.textContent=p.shortDescription||p.description||'Your saved VAYEN product';const price=document.createElement('strong');price.textContent=Number.isFinite(Number(p.price))&&p.price!=null?'₹'+Number(p.price).toLocaleString('en-IN'):'Explore product';const link=document.createElement('a');link.className='vayen-saved-view';link.href='product.html?id='+encodeURIComponent(id);link.textContent='View Product →';card.append(label,title,desc,price,document.createElement('div'),link,VayenSaved.heart(id));list.appendChild(card)});
 count.textContent=shown;empty.style.display=shown?'none':'';list.classList.toggle('vayen-has-saved',shown>0);VayenSaved.sync()}
-window.addEventListener('vayen-saved-changed',render);render();
+window.addEventListener('vayen-saved-changed',render);
+if (window.VayenCatalog?.ready?.then) window.VayenCatalog.ready.then(render).catch(render);
+render();
 })();
 </script></body>
 </html>

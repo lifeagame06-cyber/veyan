@@ -1035,22 +1035,7 @@ document.querySelectorAll("a.product-back, a.vc-back").forEach(function(link) {
     });
 });
 </script>
-<script id="vayen-saved-heart-engine">
-(function(){
-'use strict';
-const PREFIX='vayenSavedProductsDemoV1_';
-function user(){try{const s=JSON.parse(sessionStorage.getItem('vayenDemoLoginSessionV1')||'null');return s&&s.id?String(s.id):'guest'}catch(e){return 'guest'}}
-const libraryKey=()=> 'vayenLibraryV1:'+user();
-function readLibrary(){try{const d=JSON.parse(localStorage.getItem(libraryKey())||'null');return d&&Array.isArray(d.saved)&&Array.isArray(d.folders)?d:{saved:[],folders:[]}}catch(e){return {saved:[],folders:[]}}}
-function get(){return readLibrary().saved.filter(x=>typeof x==='string')}
-function set(a){try{const d=readLibrary();d.saved=a;localStorage.setItem(libraryKey(),JSON.stringify(d))}catch(e){console.warn('Unable to save Library item',e)}}
-function toggle(id){let a=get();a=a.includes(id)?a.filter(x=>x!==id):[id,...a];set(a);window.dispatchEvent(new Event('vayen-saved-changed'));return a.includes(id)}
-function svg(){return '<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/></svg>'}
-function heart(id){const b=document.createElement('button');b.type='button';b.className='vayen-save-heart';b.dataset.saveId=id;b.innerHTML=svg();b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();toggle(id)});return b}
-function sync(){document.querySelectorAll('.vayen-save-heart').forEach(b=>{const active=get().includes(b.dataset.saveId);b.classList.toggle('is-saved',active);b.setAttribute('aria-pressed',String(active));b.setAttribute('aria-label',active?'Remove from Saved':'Save product');b.title=active?'Remove from Saved':'Save product'})}
-window.VayenSaved={get,toggle,heart,sync,user};window.addEventListener('vayen-saved-changed',sync);
-})();
-</script>
+<script src="vayen-saved-auth.js"></script>
 
 
 
