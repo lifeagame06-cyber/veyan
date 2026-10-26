@@ -551,6 +551,70 @@ body:has(.vayen-collection-final) {
     .vayen-collection-final .vc-world-name { font-size: 10px; }
 }
 </style>
+<style id="vayen-world-card-premium-refinement">
+/* Only the 12 Worlds product tiles: larger original art, no tiny arrows,
+   cleaner captions. Product images, selection and navigation remain unchanged. */
+.vayen-collection-final #collectionWorlds {
+    gap: 13px;
+}
+.vayen-collection-final #collectionWorlds button:has(.vc-world-cover) {
+    padding: 10px 10px 15px;
+    gap: 10px;
+    min-height: 0;
+    border-radius: 17px;
+    border: 1px solid #e7deda;
+    background: #fffaf8;
+    box-shadow: 0 5px 18px rgba(65,38,51,.065);
+    overflow: hidden;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.vayen-collection-final #collectionWorlds button:has(.vc-world-cover):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(65,38,51,.12);
+}
+.vayen-collection-final #collectionWorlds button:has(.vc-world-cover)::after {
+    content: none !important;
+    display: none !important;
+}
+.vayen-collection-final #collectionWorlds .vc-world-cover {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 11px;
+    background: #16121b;
+}
+.vayen-collection-final #collectionWorlds .vc-world-name {
+    display: block;
+    padding: 0 2px;
+    color: #2b2228;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -.12px;
+    overflow-wrap: break-word;
+}
+.vayen-collection-final #collectionWorlds button.selected-world .vc-world-name {
+    color: #fff;
+}
+@media (max-width: 768px) {
+    .vayen-collection-final #collectionWorlds { gap: 11px; }
+    .vayen-collection-final #collectionWorlds button:has(.vc-world-cover) {
+        padding: 8px 8px 13px;
+        gap: 9px;
+        border-radius: 16px;
+    }
+    .vayen-collection-final #collectionWorlds .vc-world-cover {
+        border-radius: 10px;
+    }
+    .vayen-collection-final #collectionWorlds .vc-world-name {
+        font-size: 12px;
+        line-height: 1.35;
+    }
+}
+</style>
 </head>
 <body>
 <main class="vayen-collection-final">
@@ -1143,53 +1207,6 @@ if (!firebaseConfig.apiKey) {
         console.error('VAYEN Firebase setup failed:', error);
     }
 }
-</script>
-<style>.vayen-owned-label{font-weight:800;letter-spacing:.6px}.vayen-world-owned{display:inline-block;margin-top:5px;font-size:9px;font-weight:800;letter-spacing:.5px;color:#a14372}.selected-world .vayen-world-owned{color:#fff}</style>
-<script type="module" id="vayen-verified-owned-status">
-import {initializeApp,getApps,getApp} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
-import {getAuth,onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
-import {getFirestore,collection,getDocs} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
-const firebaseConfig = {
- apiKey: "AIzaSyCJStLo-FmvkPQo-u-cP-J4rQ8z4ecYMW4",
- authDomain: "veyan-53930.firebaseapp.com",
- projectId: "veyan-53930",
- storageBucket: "veyan-53930.firebasestorage.app",
- messagingSenderId: "836801786398",
- appId: "1:836801786398:web:a73fbda60267efcdbd740f"
-};
-const app=getApps().length?getApp():initializeApp(firebaseConfig);
-const auth=getAuth(app), db=getFirestore(app);
-let generation=0;
-const worldIds=['reels-growth','web-creator','youtube-algorithm','earn-from-social-media','creator-studio','business-launch','content-strategy','design-thumbnails','edit-videos','ai-automation','seller-commerce','personal-brand'];
-function updateOwned(owned){
- document.querySelectorAll('a.vc-card[href*="product.html?id="]').forEach(card=>{
-  const id=new URL(card.href,location.href).searchParams.get('id');
-  let label=card.querySelector('.vayen-owned-label');
-  if(owned.has(id)){
-   if(!label){label=document.createElement('span');label.className='vayen-owned-label';const bottom=card.querySelector('.vc-bottom');if(bottom){const old=bottom.querySelector('span');if(old)old.style.display='none';bottom.appendChild(label);}else card.appendChild(label);}
-   label.textContent='OWNED ✓';
-  }else if(label){label.remove();const old=card.querySelector('.vc-bottom > span');if(old)old.style.display='';}
- });
- document.querySelectorAll('#collectionWorlds button[data-world]').forEach(tile=>{
-  const id=worldIds[Number(tile.dataset.world)-1];
-  let badge=tile.querySelector('.vayen-world-owned');
-  if(owned.has(id)){if(!badge){badge=document.createElement('span');badge.className='vayen-world-owned';tile.appendChild(badge);}badge.textContent='OWNED ✓';}
-  else badge?.remove();
- });
-}
-let owned=new Set();
-const observer=new MutationObserver(()=>{observer.disconnect();updateOwned(owned);observer.observe(document.querySelector('.vayen-collection-final'),{childList:true,subtree:true});});
-observer.observe(document.querySelector('.vayen-collection-final'),{childList:true,subtree:true});
-onAuthStateChanged(auth,async user=>{
- const current=++generation;owned=new Set();updateOwned(owned);
- if(!user)return;
- try{
-  const snap=await getDocs(collection(db,'users',user.uid,'productEntitlements'));
-  if(current!==generation)return;
-  owned=new Set(snap.docs.filter(d=>{const x=d.data();return x.userId===user.uid&&x.productId===d.id&&x.status==='active'&&['bundle-pass','lifetime-access','individual-purchase','product-purchase'].includes(x.sourceType);}).map(d=>d.id));
-  updateOwned(owned);
- }catch(err){console.warn('VAYEN ownership status unavailable',err);}
-});
 </script>
 </body>
 </html>
