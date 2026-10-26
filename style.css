@@ -12325,3 +12325,13 @@ body.vayen-search-open{overflow:hidden}
     background-repeat: no-repeat !important;
   }
 }
+/* VAYEN — Mobile swipe cards: image titles only */
+@media (max-width: 768px) {
+
+    .world-card .world-number,
+    .world-card .world-title,
+    .world-card .world-description {
+        display: none !important;
+    }
+
+}
