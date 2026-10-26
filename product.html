@@ -123,6 +123,20 @@ body.vayen-approved .ap-cover .ap-cover-arrow,
 .ap-cover-arrow.prev,
 .ap-cover-arrow.next { display: none !important; }
 </style>
+<style id="vayen-world-detail-covers-20261026">
+/* Only the twelve VAYEN Worlds detail hero covers. */
+.product-visual.vayen-world-detail-cover {
+    background-color: #080b18 !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+}
+.product-visual.vayen-world-detail-cover .product-visual-top,
+.product-visual.vayen-world-detail-cover .product-cover-content,
+.product-visual.vayen-world-detail-cover .product-visual-bottom {
+    display: none !important;
+}
+</style>
 </head>
 
 
@@ -929,6 +943,21 @@ document.querySelectorAll("a.product-get").forEach(link => {
 
 const visual = document.querySelector(".product-visual");
 
+const vayenWorldDetailCovers = {
+    "reels-growth": true,
+    "web-creator": true,
+    "youtube-algorithm": true,
+    "earn-from-social-media": true,
+    "creator-studio": true,
+    "business-launch": true,
+    "content-strategy": true,
+    "design-thumbnails": true,
+    "edit-videos": true,
+    "ai-automation": true,
+    "seller-commerce": true,
+    "personal-brand": true,
+};
+
 const coverImages = {
     "youtube-creator-system": "images/youtube.png",
     "vlogging-mastery": "images/vlogging.png",
@@ -936,21 +965,24 @@ const coverImages = {
     "social-media-tips": "images/product-covers/social-media-tips.png",
     "ai-prompt-box": "images/product-covers/ai-prompt-box.png",
     "build-your-own-ai": "images/product-covers/build-your-own-ai.png",
-    "reels-growth": "images/product-covers/reels-growth.png",
-    "web-creator": "images/product-covers/web-creator.png",
-    "youtube-algorithm": "images/product-covers/youtube-algorithm.png",
-    "earn-from-social-media": "images/product-covers/earn-from-social-media.png",
-    "creator-studio": "images/product-covers/creator-studio.png",
-    "business-launch": "images/product-covers/business-launch.png",
-    "content-strategy": "images/product-covers/content-strategy.png",
-    "design-thumbnails": "images/product-covers/design-thumbnails.png",
-    "edit-videos": "images/product-covers/edit-videos.png",
-    "ai-automation": "images/product-covers/ai-automation.png",
-    "seller-commerce": "images/product-covers/seller-commerce.png",
-    "personal-brand": "images/product-covers/personal-brand.png"
+    "reels-growth": "images/product-covers/reels-growth-detail.webp",
+    "web-creator": "images/product-covers/web-creator-detail.webp",
+    "youtube-algorithm": "images/product-covers/youtube-algorithm-detail.webp",
+    "earn-from-social-media": "images/product-covers/earn-from-social-media-detail.webp",
+    "creator-studio": "images/product-covers/creator-studio-detail.webp",
+    "business-launch": "images/product-covers/business-launch-detail.webp",
+    "content-strategy": "images/product-covers/content-strategy-detail.webp",
+    "design-thumbnails": "images/product-covers/design-thumbnails-detail.webp",
+    "edit-videos": "images/product-covers/edit-videos-detail.webp",
+    "ai-automation": "images/product-covers/ai-automation-detail.webp",
+    "seller-commerce": "images/product-covers/seller-commerce-detail.webp",
+    "personal-brand": "images/product-covers/personal-brand-detail.webp"
 };
 
 if (coverImages[productId]) {
+if (Object.prototype.hasOwnProperty.call(vayenWorldDetailCovers, productId)) {
+    visual.classList.add("vayen-world-detail-cover");
+}
 if (productId === "youtube-creator-system" || productId === "vlogging-mastery") {
     visual.classList.add("flagship-photo-cover");
 }
@@ -968,9 +1000,13 @@ if (productId === "youtube-creator-system") {
     coverTop.textContent = "VAYEN / YOUTUBE";
     coverBottom.textContent = "CREATE · GROW · BUILD YOUR CHANNEL";
 }
-    visual.style.background =
-        `linear-gradient(to top, rgba(0,0,0,.45), rgba(0,0,0,.05)),
-         url("${coverImages[productId]}") center/cover no-repeat`;
+    if (Object.prototype.hasOwnProperty.call(vayenWorldDetailCovers, productId)) {
+        visual.style.background = `url("${coverImages[productId]}") center / contain no-repeat #080b18`;
+    } else {
+        visual.style.background =
+            `linear-gradient(to top, rgba(0,0,0,.45), rgba(0,0,0,.05)),
+             url("${coverImages[productId]}") center/cover no-repeat`;
+    }
 } else if (VayenCatalog.records().find(p=>(p.slug||p.id)===productId)?.image) {
     const img=VayenCatalog.records().find(p=>(p.slug||p.id)===productId).image;
     if (/^(https?:\/\/|images\/)[^"'<>]*$/i.test(img)) visual.style.background='linear-gradient(to top,rgba(0,0,0,.3),rgba(0,0,0,.02)), url("'+img+'") center/cover no-repeat';
