@@ -591,6 +591,28 @@ body:has(.vayen-collection-final) {
     .vayen-collection-final .vc-world-list .vc-world-name { font-size: 11px; }
 }
 </style>
+<style id="vayen-world-cover-visibility-fix">
+/* Only 12 Collection world thumbnails; no other page or functionality changes. */
+.vayen-collection-final #collectionWorlds .vc-world-cover {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center;
+    max-width: none;
+    border-radius: 9px;
+    background: #100b18;
+}
+.vayen-collection-final #collectionWorlds button:has(.vc-world-cover) {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 0;
+}
+</style>
 </head>
 <body>
 <main class="vayen-collection-final">
@@ -839,51 +861,51 @@ body:has(.vayen-collection-final) {
 </div>
 <div class="vc-world-list" id="collectionWorlds">
 <button data-world="01" type="button">
-<img class="vc-world-cover" src="images/product-covers/reels-growth.webp" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/reels-growth.webp?v=20261026" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Reels Growth</span>
 </button>
 <button data-world="02" type="button">
-<img class="vc-world-cover" src="images/product-covers/web-creator.webp" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/web-creator.webp?v=20261026" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Web Creator</span>
 </button>
 <button data-world="03" type="button">
-<img class="vc-world-cover" src="images/product-covers/youtube-algorithm.webp" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/youtube-algorithm.webp?v=20261026" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">YouTube Algorithm</span>
 </button>
 <button data-world="04" type="button">
-<img class="vc-world-cover" src="images/product-covers/earn-from-social-media.webp" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/earn-from-social-media.webp?v=20261026" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">How to Earn from Social Media</span>
 </button>
 <button data-world="05" type="button">
-<img class="vc-world-cover" src="images/product-covers/creator-studio.webp" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/creator-studio.webp?v=20261026" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Creator Studio</span>
 </button>
 <button data-world="06" type="button">
-<img class="vc-world-cover" src="images/product-covers/business-launch.webp" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/business-launch.webp?v=20261026" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Business Launch</span>
 </button>
 <button data-world="07" type="button">
-<img class="vc-world-cover" src="images/product-covers/content-strategy.webp" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/content-strategy.webp?v=20261026" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Content Strategy</span>
 </button>
 <button data-world="08" type="button">
-<img class="vc-world-cover" src="images/product-covers/design-thumbnails.webp" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/design-thumbnails.webp?v=20261026" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">How to Design Thumbnails</span>
 </button>
 <button data-world="09" type="button">
-<img class="vc-world-cover" src="images/product-covers/edit-videos.webp" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/edit-videos.webp?v=20261026" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">How to Edit Videos</span>
 </button>
 <button data-world="10" type="button">
-<img class="vc-world-cover" src="images/product-covers/ai-automation.webp" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/ai-automation.webp?v=20261026" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">AI Automation</span>
 </button>
 <button data-world="11" type="button">
-<img class="vc-world-cover" src="images/product-covers/seller-commerce.webp" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/seller-commerce.webp?v=20261026" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Seller &amp; Commerce</span>
 </button>
 <button data-world="12" type="button">
-<img class="vc-world-cover" src="images/product-covers/personal-brand.webp" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/personal-brand.webp?v=20261026" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Build Your Personal Brand</span>
 </button>
 </div>
