@@ -12249,3 +12249,79 @@ body.vayen-search-open{overflow:hidden}
     .vayen-collection-final .vc-world-list button:has(.vc-world-cover) { padding: 8px 8px 12px; gap: 8px; }
     .vayen-collection-final .vc-world-name { font-size: 10px; }
 }
+
+/* VAYEN 12 worlds: mobile-only card artwork. Keep original swipe and dimensions. */
+@media (max-width: 768px) {
+  #worldsSection .worlds-list > .world-item:nth-child(1) {
+    background-image: linear-gradient(to bottom, rgba(250,245,242,0) 0%, rgba(250,245,242,0) 35%, rgba(250,242,238,.16) 55%, rgba(250,242,238,.38) 100%), url("images/worlds/world-01.webp") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+  }
+  #worldsSection .worlds-list > .world-item:nth-child(2) {
+    background-image: linear-gradient(to bottom, rgba(250,245,242,0) 0%, rgba(250,245,242,0) 35%, rgba(250,242,238,.16) 55%, rgba(250,242,238,.38) 100%), url("images/worlds/world-02.webp") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+  }
+  #worldsSection .worlds-list > .world-item:nth-child(3) {
+    background-image: linear-gradient(to bottom, rgba(250,245,242,0) 0%, rgba(250,245,242,0) 35%, rgba(250,242,238,.16) 55%, rgba(250,242,238,.38) 100%), url("images/worlds/world-03.webp") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+  }
+  #worldsSection .worlds-list > .world-item:nth-child(4) {
+    background-image: linear-gradient(to bottom, rgba(250,245,242,0) 0%, rgba(250,245,242,0) 35%, rgba(250,242,238,.16) 55%, rgba(250,242,238,.38) 100%), url("images/worlds/world-04.webp") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+  }
+  #worldsSection .worlds-list > .world-item:nth-child(5) {
+    background-image: linear-gradient(to bottom, rgba(250,245,242,0) 0%, rgba(250,245,242,0) 35%, rgba(250,242,238,.16) 55%, rgba(250,242,238,.38) 100%), url("images/worlds/world-05.webp") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+  }
+  #worldsSection .worlds-list > .world-item:nth-child(6) {
+    background-image: linear-gradient(to bottom, rgba(250,245,242,0) 0%, rgba(250,245,242,0) 35%, rgba(250,242,238,.16) 55%, rgba(250,242,238,.38) 100%), url("images/worlds/world-06.webp") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+  }
+  #worldsSection .worlds-list > .world-item:nth-child(7) {
+    background-image: linear-gradient(to bottom, rgba(250,245,242,0) 0%, rgba(250,245,242,0) 35%, rgba(250,242,238,.16) 55%, rgba(250,242,238,.38) 100%), url("images/worlds/world-07.webp") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+  }
+  #worldsSection .worlds-list > .world-item:nth-child(8) {
+    background-image: linear-gradient(to bottom, rgba(250,245,242,0) 0%, rgba(250,245,242,0) 35%, rgba(250,242,238,.16) 55%, rgba(250,242,238,.38) 100%), url("images/worlds/world-08.webp") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+  }
+  #worldsSection .worlds-list > .world-item:nth-child(9) {
+    background-image: linear-gradient(to bottom, rgba(250,245,242,0) 0%, rgba(250,245,242,0) 35%, rgba(250,242,238,.16) 55%, rgba(250,242,238,.38) 100%), url("images/worlds/world-09.webp") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+  }
+  #worldsSection .worlds-list > .world-item:nth-child(10) {
+    background-image: linear-gradient(to bottom, rgba(250,245,242,0) 0%, rgba(250,245,242,0) 35%, rgba(250,242,238,.16) 55%, rgba(250,242,238,.38) 100%), url("images/worlds/world-10.webp") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+  }
+  #worldsSection .worlds-list > .world-item:nth-child(11) {
+    background-image: linear-gradient(to bottom, rgba(250,245,242,0) 0%, rgba(250,245,242,0) 35%, rgba(250,242,238,.16) 55%, rgba(250,242,238,.38) 100%), url("images/worlds/world-11.webp") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+  }
+  #worldsSection .worlds-list > .world-item:nth-child(12) {
+    background-image: linear-gradient(to bottom, rgba(250,245,242,0) 0%, rgba(250,245,242,0) 35%, rgba(250,242,238,.16) 55%, rgba(250,242,238,.38) 100%), url("images/worlds/world-12.webp") !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+  }
+}
