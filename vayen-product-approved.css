@@ -244,3 +244,12 @@ body.vayen-approved[data-ap-product="youtube-creator-system"] .ap-cover > img {
   object-fit: cover !important;
   object-position: center center !important;
 }
+
+/* Vlogging Mastery only: restore original full-cover image fit.
+   Keep YouTube Creator System and all 12 Worlds unchanged. */
+body.vayen-approved[data-ap-product="vlogging-mastery"] .ap-cover > img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+}
