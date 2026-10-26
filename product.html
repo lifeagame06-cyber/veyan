@@ -129,10 +129,11 @@ body.vayen-approved .ap-cover .ap-cover-arrow,
     background-color: #080b18 !important;
     background-position: center center !important;
     background-repeat: no-repeat !important;
-    background-size: cover !important;
+    background-size: 100% 100% !important;
     aspect-ratio: 414 / 310 !important;
     height: auto !important;
     min-height: 0 !important;
+    max-height: none !important;
     padding: 0 !important;
     overflow: hidden !important;
 }
@@ -1006,7 +1007,7 @@ if (productId === "youtube-creator-system") {
     coverBottom.textContent = "CREATE · GROW · BUILD YOUR CHANNEL";
 }
     if (Object.prototype.hasOwnProperty.call(vayenWorldDetailCovers, productId)) {
-        visual.style.background = `url("${coverImages[productId]}") center / contain no-repeat #080b18`;
+        visual.style.background = `url("${coverImages[productId]}") center / 100% 100% no-repeat #080b18`;
     } else {
         visual.style.background =
             `linear-gradient(to top, rgba(0,0,0,.45), rgba(0,0,0,.05)),
