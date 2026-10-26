@@ -551,68 +551,44 @@ body:has(.vayen-collection-final) {
     .vayen-collection-final .vc-world-name { font-size: 10px; }
 }
 </style>
-<style id="vayen-world-card-premium-refinement">
-/* Only the 12 Worlds product tiles: larger original art, no tiny arrows,
-   cleaner captions. Product images, selection and navigation remain unchanged. */
-.vayen-collection-final #collectionWorlds {
-    gap: 13px;
-}
-.vayen-collection-final #collectionWorlds button:has(.vc-world-cover) {
-    padding: 10px 10px 15px;
-    gap: 10px;
-    min-height: 0;
-    border-radius: 17px;
-    border: 1px solid #e7deda;
-    background: #fffaf8;
-    box-shadow: 0 5px 18px rgba(65,38,51,.065);
+
+<style id="vayen-collection-cover-fit-20261026">
+/* Only the twelve Collection world cover cards; retain full image and titles. */
+.vayen-collection-final .vc-world-list .vc-world-save-wrap > button[data-world]:has(.vc-world-cover),
+.vayen-collection-final .vc-world-list > button[data-world]:has(.vc-world-cover) {
+    padding: 8px 8px 12px;
+    gap: 8px;
     overflow: hidden;
-    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
 }
-.vayen-collection-final #collectionWorlds button:has(.vc-world-cover):hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(65,38,51,.12);
-}
-.vayen-collection-final #collectionWorlds button:has(.vc-world-cover)::after {
-    content: none !important;
-    display: none !important;
-}
-.vayen-collection-final #collectionWorlds .vc-world-cover {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    height: auto;
-    object-fit: cover;
-    object-position: center;
-    border-radius: 11px;
-    background: #16121b;
-}
-.vayen-collection-final #collectionWorlds .vc-world-name {
+.vayen-collection-final .vc-world-list .vc-world-cover {
     display: block;
-    padding: 0 2px;
-    color: #2b2228;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 13px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto;
+    object-fit: contain;
+    border-radius: 9px;
+    background: #100b18;
+}
+.vayen-collection-final .vc-world-list .vc-world-name {
+    font-size: 12px;
     font-weight: 700;
-    line-height: 1.4;
-    letter-spacing: -.12px;
-    overflow-wrap: break-word;
+    line-height: 1.35;
+    letter-spacing: -.1px;
+    overflow-wrap: anywhere;
+    padding-right: 0;
 }
-.vayen-collection-final #collectionWorlds button.selected-world .vc-world-name {
-    color: #fff;
+.vayen-collection-final .vc-world-list button[data-world]::after {
+    content: none !important;
 }
-@media (max-width: 768px) {
-    .vayen-collection-final #collectionWorlds { gap: 11px; }
-    .vayen-collection-final #collectionWorlds button:has(.vc-world-cover) {
-        padding: 8px 8px 13px;
-        gap: 9px;
-        border-radius: 16px;
-    }
-    .vayen-collection-final #collectionWorlds .vc-world-cover {
-        border-radius: 10px;
-    }
-    .vayen-collection-final #collectionWorlds .vc-world-name {
-        font-size: 12px;
-        line-height: 1.35;
-    }
+.vayen-collection-final .vc-world-list button.selected-world::after {
+    content: "✓" !important;
+    right: 9px;
+    top: auto;
+    bottom: 8px;
+    transform: none;
+}
+@media (max-width:768px) {
+    .vayen-collection-final .vc-world-list .vc-world-name { font-size: 11px; }
 }
 </style>
 </head>
@@ -863,51 +839,51 @@ body:has(.vayen-collection-final) {
 </div>
 <div class="vc-world-list" id="collectionWorlds">
 <button data-world="01" type="button">
-<img class="vc-world-cover" src="images/product-covers/reels-growth.png" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/reels-growth.webp" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Reels Growth</span>
 </button>
 <button data-world="02" type="button">
-<img class="vc-world-cover" src="images/product-covers/web-creator.png" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/web-creator.webp" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Web Creator</span>
 </button>
 <button data-world="03" type="button">
-<img class="vc-world-cover" src="images/product-covers/youtube-algorithm.png" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/youtube-algorithm.webp" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">YouTube Algorithm</span>
 </button>
 <button data-world="04" type="button">
-<img class="vc-world-cover" src="images/product-covers/earn-from-social-media.png" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/earn-from-social-media.webp" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">How to Earn from Social Media</span>
 </button>
 <button data-world="05" type="button">
-<img class="vc-world-cover" src="images/product-covers/creator-studio.png" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/creator-studio.webp" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Creator Studio</span>
 </button>
 <button data-world="06" type="button">
-<img class="vc-world-cover" src="images/product-covers/business-launch.png" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/business-launch.webp" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Business Launch</span>
 </button>
 <button data-world="07" type="button">
-<img class="vc-world-cover" src="images/product-covers/content-strategy.png" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/content-strategy.webp" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Content Strategy</span>
 </button>
 <button data-world="08" type="button">
-<img class="vc-world-cover" src="images/product-covers/design-thumbnails.png" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/design-thumbnails.webp" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">How to Design Thumbnails</span>
 </button>
 <button data-world="09" type="button">
-<img class="vc-world-cover" src="images/product-covers/edit-videos.png" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/edit-videos.webp" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">How to Edit Videos</span>
 </button>
 <button data-world="10" type="button">
-<img class="vc-world-cover" src="images/product-covers/ai-automation.png" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/ai-automation.webp" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">AI Automation</span>
 </button>
 <button data-world="11" type="button">
-<img class="vc-world-cover" src="images/product-covers/seller-commerce.png" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/seller-commerce.webp" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Seller &amp; Commerce</span>
 </button>
 <button data-world="12" type="button">
-<img class="vc-world-cover" src="images/product-covers/personal-brand.png" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/personal-brand.webp" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Build Your Personal Brand</span>
 </button>
 </div>
