@@ -12325,13 +12325,14 @@ body.vayen-search-open{overflow:hidden}
     background-repeat: no-repeat !important;
   }
 }
-/* VAYEN — Mobile swipe cards: image titles only */
-@media (max-width: 768px) {
 
-    .world-card .world-number,
-    .world-card .world-title,
-    .world-card .world-description {
+
+/* VAYEN FIX: Mobile swipe covers already contain their own product titles.
+   Hide only the duplicate HTML title, number and micro-label. */
+@media (max-width: 768px) {
+    #worldsSection .worlds-list > .world-item > span,
+    #worldsSection .worlds-list > .world-item > h3,
+    #worldsSection .worlds-list > .world-item > small {
         display: none !important;
     }
-
 }
