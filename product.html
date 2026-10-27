@@ -143,6 +143,24 @@ body.vayen-approved .ap-cover .ap-cover-arrow,
     display: none !important;
 }
 </style>
+<style id="vayen-six-premium-detail-fit">
+/* Exact full-cover display for six Premium detail pages only. */
+.product-visual.vayen-premium-detail-cover {
+    aspect-ratio: 16 / 9 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    background-color: #080b18 !important;
+    background-position: center !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+}
+.product-visual.vayen-premium-detail-cover .product-visual-top,
+.product-visual.vayen-premium-detail-cover .product-cover-content,
+.product-visual.vayen-premium-detail-cover .product-visual-bottom { display: none !important; }
+</style>
 </head>
 
 
@@ -964,6 +982,7 @@ const vayenWorldDetailCovers = {
     "personal-brand": true,
 };
 
+const vayenPremiumDetailIds = new Set(["animation-mastery", "social-media-tips", "ai-prompt-box", "build-your-own-ai", "claude-ai-youtube-autopilot", "trading-strategy-masterclass"]);
 const coverImages = {
     "youtube-creator-system": "images/youtube.png",
     "vlogging-mastery": "images/vlogging.png",
@@ -971,6 +990,8 @@ const coverImages = {
     "social-media-tips": "images/product-covers/social-media-tips.png",
     "ai-prompt-box": "images/product-covers/ai-prompt-box.png",
     "build-your-own-ai": "images/product-covers/build-your-own-ai.png",
+    "claude-ai-youtube-autopilot": "images/product-covers/claude-ai-youtube-autopilot.png",
+    "trading-strategy-masterclass": "images/product-covers/trading-strategy-masterclass.png",
     "reels-growth": "images/product-covers/reels-growth-detail.webp",
     "web-creator": "images/product-covers/web-creator-detail.webp",
     "youtube-algorithm": "images/product-covers/youtube-algorithm-detail.webp",
@@ -986,6 +1007,9 @@ const coverImages = {
 };
 
 if (coverImages[productId]) {
+if (vayenPremiumDetailIds.has(productId)) {
+    visual.classList.add("vayen-premium-detail-cover");
+}
 if (Object.prototype.hasOwnProperty.call(vayenWorldDetailCovers, productId)) {
     visual.classList.add("vayen-world-detail-cover");
 }
@@ -1006,7 +1030,9 @@ if (productId === "youtube-creator-system") {
     coverTop.textContent = "VAYEN / YOUTUBE";
     coverBottom.textContent = "CREATE · GROW · BUILD YOUR CHANNEL";
 }
-    if (Object.prototype.hasOwnProperty.call(vayenWorldDetailCovers, productId)) {
+    if (vayenPremiumDetailIds.has(productId)) {
+        visual.style.background = `url("${coverImages[productId]}") center / contain no-repeat #080b18`;
+    } else if (Object.prototype.hasOwnProperty.call(vayenWorldDetailCovers, productId)) {
         visual.style.background = `url("${coverImages[productId]}") center / 100% 100% no-repeat #080b18`;
     } else {
         visual.style.background =

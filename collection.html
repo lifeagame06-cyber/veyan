@@ -615,10 +615,9 @@ body:has(.vayen-collection-final) {
     }
 }
 </style>
-<style id="vayen-new-premium-only">
-.vayen-collection-final .vc-claude { background: radial-gradient(circle at 100% 0%, #d4dff5, transparent 58%), #e7edf8; }
-.vayen-collection-final .vc-trading { background: radial-gradient(circle at 100% 0%, #d8e9e0, transparent 58%), #eaf2ed; }
-.vayen-collection-final .vc-cover-placeholder { background: linear-gradient(135deg, #27263d, #56526f); }
+<style id="vayen-six-premium-art-fit">
+/* Image-only refinement for six Premium cards; all other collections unchanged. */
+.vayen-collection-final .vc-mid .vc-cover { object-fit: contain; object-position: center; }
 </style>
 </head>
 <body>
@@ -850,16 +849,16 @@ body:has(.vayen-collection-final) {
         </span>
 </div>
 </a>
-<a class="vc-card vc-mid vc-claude" href="product.html?id=claude-ai-youtube-autopilot">
+<a class="vc-card vc-mid vc-creator" href="product.html?id=claude-ai-youtube-autopilot">
 <div class="vc-top"><span>VAYEN / 07</span><span>PREMIUM</span></div>
-<div class="vc-cover-wrap vc-cover-placeholder" aria-hidden="true"></div>
-<div class="vc-copy"><small>AI-POWERED YOUTUBE WORKFLOW</small><h3>Claude AI – YouTube Autopilot Blueprint</h3><p>Plan, script and produce YouTube videos with an AI-assisted workflow.</p></div>
+<div class="vc-cover-wrap"><img class="vc-cover" src="images/product-covers/claude-ai-youtube-autopilot.png" alt="Claude AI – YouTube Autopilot Blueprint cover" loading="lazy" decoding="async"></div>
+<div class="vc-copy"><small>AI-POWERED YOUTUBE WORKFLOW</small><h3>Claude AI – YouTube Autopilot Blueprint</h3><p>Plan, script and produce YouTube videos with a practical AI-assisted workflow.</p></div>
 <div class="vc-bottom"><strong>₹999</strong><span>Explore product ↗</span></div>
 </a>
-<a class="vc-card vc-mid vc-trading" href="product.html?id=trading-strategy-masterclass">
+<a class="vc-card vc-mid vc-business" href="product.html?id=trading-strategy-masterclass">
 <div class="vc-top"><span>VAYEN / 08</span><span>PREMIUM</span></div>
-<div class="vc-cover-wrap vc-cover-placeholder" aria-hidden="true"></div>
-<div class="vc-copy"><small>LEARN TRADING STRATEGIES</small><h3>Trading Strategy Masterclass</h3><p>Build practical trading knowledge with structured strategies.</p></div>
+<div class="vc-cover-wrap"><img class="vc-cover" src="images/product-covers/trading-strategy-masterclass.png" alt="Trading Strategy Masterclass cover" loading="lazy" decoding="async"></div>
+<div class="vc-copy"><small>LEARN TRADING STRATEGIES</small><h3>Trading Strategy Masterclass</h3><p>Understand trading strategies, chart analysis and risk management with practical examples.</p></div>
 <div class="vc-bottom"><strong>₹899</strong><span>Explore product ↗</span></div>
 </a>
 </div>
@@ -1011,8 +1010,8 @@ if(worldList){for(const row of C.list('Worlds')){
   b.dataset.world=String(row.worldNumber||C.nextWorldNumber()).padStart(2,'0');
   b.addEventListener('click',()=>location.href='product.html?id='+encodeURIComponent(id));worldList.appendChild(b);
 }}
-const extraRows=C.list().filter(p=>!C.FLAG.includes(p.slug)&&!C.PREMIUM.includes(p.slug)&&!C.WORLDS.includes(p.slug)&&p.group!=='Worlds');
-for(const p of extraRows){if(document.querySelector('a[href="product.html?id='+encodeURIComponent(p.slug||p.id)+'"]'))continue;const target=p.group==='Expensive / Flagship'?document.querySelector('.vc-flagship')?.parentElement:document.querySelector('.vc-mid')?.parentElement;if(!target)continue;
+const extraRows=C.list().filter(p=>!C.FLAG.includes(p.slug)&&!C.PREMIUM.includes(p.slug)&&!C.WORLDS.includes(p.slug)&&p.group!=='Worlds'&&!document.querySelector('a[href="product.html?id='+CSS.escape(p.slug||p.id)+'"]'));
+for(const p of extraRows){const target=p.group==='Expensive / Flagship'?document.querySelector('.vc-flagship')?.parentElement:document.querySelector('.vc-mid')?.parentElement;if(!target)continue;
   const a=document.createElement('a');a.href='product.html?id='+encodeURIComponent(p.slug||p.id);a.className=p.group==='Expensive / Flagship'?'vc-card vc-flagship':'vc-card vc-mid';
   const title=document.createElement('h3');title.textContent=p.name;const desc=document.createElement('p');desc.textContent=p.shortDescription||p.description||'Explore this digital product';
   const price=document.createElement('strong');price.textContent='₹'+Number(p.price).toLocaleString('en-IN');
