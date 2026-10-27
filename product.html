@@ -1054,7 +1054,34 @@ if (productId === "youtube-creator-system") {
     coverBottom.textContent = "CREATE · GROW · BUILD YOUR CHANNEL";
 }
     if (vayenPremiumDetailIds.has(productId)) {
-        visual.style.background = `url("${coverImages[productId]}") center / cover no-repeat #080b18`;
+        // Only the six Premium detail covers: one full-bleed image, no duplicate labels.
+        visual.classList.add("vayen-premium-full-image");
+        visual.style.setProperty("display", "block", "important");
+        visual.style.setProperty("aspect-ratio", "16 / 9", "important");
+        visual.style.setProperty("height", "auto", "important");
+        visual.style.setProperty("min-height", "0", "important");
+        visual.style.setProperty("max-height", "none", "important");
+        visual.style.setProperty("padding", "0", "important");
+        visual.style.setProperty("overflow", "hidden", "important");
+        visual.style.setProperty("background", "#080b18", "important");
+        for (const child of visual.children) {
+            child.style.setProperty("display", "none", "important");
+        }
+        let image = visual.querySelector(".vayen-premium-cover-image");
+        if (!image) {
+            image = document.createElement("img");
+            image.className = "vayen-premium-cover-image";
+            image.alt = product.name + " cover";
+            visual.appendChild(image);
+        }
+        image.src = coverImages[productId];
+        image.style.setProperty("display", "block", "important");
+        image.style.setProperty("width", "100%", "important");
+        image.style.setProperty("height", "100%", "important");
+        image.style.setProperty("aspect-ratio", "16 / 9", "important");
+        image.style.setProperty("object-fit", "fill", "important");
+        image.style.setProperty("margin", "0", "important");
+        image.style.setProperty("padding", "0", "important");
     } else if (Object.prototype.hasOwnProperty.call(vayenWorldDetailCovers, productId)) {
         visual.style.background = `url("${coverImages[productId]}") center / 100% 100% no-repeat #080b18`;
     } else {
