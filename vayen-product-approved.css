@@ -264,18 +264,59 @@ body.vayen-approved:is([data-ap-product="animation-mastery"],[data-ap-product="s
 body.vayen-approved:is([data-ap-product="animation-mastery"],[data-ap-product="social-media-tips"],[data-ap-product="ai-prompt-box"],[data-ap-product="build-your-own-ai"],[data-ap-product="claude-ai-youtube-autopilot"],[data-ap-product="trading-strategy-masterclass"]) .ap-cover.ap-image-missing .ap-cover-fallback {display:block!important;position:absolute;inset:0;display:grid!important;place-items:center}
 
 
-/* Six Premium only: fill unused left-column height without changing 12 Worlds. */
-@media (min-width: 751px) {
-  body.vayen-approved:is([data-ap-product="animation-mastery"],[data-ap-product="social-media-tips"],[data-ap-product="ai-prompt-box"],[data-ap-product="build-your-own-ai"],[data-ap-product="claude-ai-youtube-autopilot"],[data-ap-product="trading-strategy-masterclass"]) .ap-media {
-    height: 100%;
-  }
-  body.vayen-approved:is([data-ap-product="animation-mastery"],[data-ap-product="social-media-tips"],[data-ap-product="ai-prompt-box"],[data-ap-product="build-your-own-ai"],[data-ap-product="claude-ai-youtube-autopilot"],[data-ap-product="trading-strategy-masterclass"]) .ap-cover {
-    flex: 1 1 auto !important;
-    height: auto !important;
-    aspect-ratio: auto !important;
-    min-height: 0 !important;
-  }
-  body.vayen-approved:is([data-ap-product="animation-mastery"],[data-ap-product="social-media-tips"],[data-ap-product="ai-prompt-box"],[data-ap-product="build-your-own-ai"],[data-ap-product="claude-ai-youtube-autopilot"],[data-ap-product="trading-strategy-masterclass"]) .ap-cover > img {
-    object-fit: fill !important;
-  }
+/* Desktop-only: fill the left-side whitespace with real Premium guide topics.
+   No changes to cover image geometry, thumbnails, 12 Worlds or mobile. */
+@media (min-width: 1101px) {
+    body.vayen-approved .ap-media .ap-premium-inside {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 125px;
+        padding: 15px 19px;
+        border: 1px solid var(--ap-edge, #373344);
+        border-radius: 14px;
+        background: linear-gradient(115deg, var(--ap-glow, rgba(80,70,90,.15)), #0d131c 76%);
+        box-sizing: border-box;
+    }
+    body.vayen-approved .ap-premium-inside-kicker {
+        color: var(--ap-accent, #c3a2ff);
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: .11em;
+    }
+    body.vayen-approved .ap-premium-inside-heading h2 {
+        color: #fff;
+        font-size: 17px;
+        line-height: 1.3;
+        margin: 5px 0 12px;
+    }
+    body.vayen-approved .ap-premium-inside-topics {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 9px 16px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    body.vayen-approved .ap-premium-inside-topics li {
+        color: #dbe2ed;
+        font-size: 12px;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+        padding-left: 17px;
+        position: relative;
+    }
+    body.vayen-approved .ap-premium-inside-topics li::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: var(--ap-accent, #c3a2ff);
+        font-weight: 800;
+    }
+}
+@media (max-width: 1100px) {
+    body.vayen-approved .ap-media .ap-premium-inside {
+        display: none !important;
+    }
 }
