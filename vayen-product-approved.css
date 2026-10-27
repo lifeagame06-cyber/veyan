@@ -262,3 +262,20 @@ body.vayen-approved:is([data-ap-product="animation-mastery"],[data-ap-product="s
 body.vayen-approved:is([data-ap-product="animation-mastery"],[data-ap-product="social-media-tips"],[data-ap-product="ai-prompt-box"],[data-ap-product="build-your-own-ai"],[data-ap-product="claude-ai-youtube-autopilot"],[data-ap-product="trading-strategy-masterclass"]) .ap-cover-bottom {display:none!important}
 body.vayen-approved:is([data-ap-product="animation-mastery"],[data-ap-product="social-media-tips"],[data-ap-product="ai-prompt-box"],[data-ap-product="build-your-own-ai"],[data-ap-product="claude-ai-youtube-autopilot"],[data-ap-product="trading-strategy-masterclass"]) .ap-cover-fallback {display:none!important}
 body.vayen-approved:is([data-ap-product="animation-mastery"],[data-ap-product="social-media-tips"],[data-ap-product="ai-prompt-box"],[data-ap-product="build-your-own-ai"],[data-ap-product="claude-ai-youtube-autopilot"],[data-ap-product="trading-strategy-masterclass"]) .ap-cover.ap-image-missing .ap-cover-fallback {display:block!important;position:absolute;inset:0;display:grid!important;place-items:center}
+
+
+/* Six Premium only: fill unused left-column height without changing 12 Worlds. */
+@media (min-width: 751px) {
+  body.vayen-approved:is([data-ap-product="animation-mastery"],[data-ap-product="social-media-tips"],[data-ap-product="ai-prompt-box"],[data-ap-product="build-your-own-ai"],[data-ap-product="claude-ai-youtube-autopilot"],[data-ap-product="trading-strategy-masterclass"]) .ap-media {
+    height: 100%;
+  }
+  body.vayen-approved:is([data-ap-product="animation-mastery"],[data-ap-product="social-media-tips"],[data-ap-product="ai-prompt-box"],[data-ap-product="build-your-own-ai"],[data-ap-product="claude-ai-youtube-autopilot"],[data-ap-product="trading-strategy-masterclass"]) .ap-cover {
+    flex: 1 1 auto !important;
+    height: auto !important;
+    aspect-ratio: auto !important;
+    min-height: 0 !important;
+  }
+  body.vayen-approved:is([data-ap-product="animation-mastery"],[data-ap-product="social-media-tips"],[data-ap-product="ai-prompt-box"],[data-ap-product="build-your-own-ai"],[data-ap-product="claude-ai-youtube-autopilot"],[data-ap-product="trading-strategy-masterclass"]) .ap-cover > img {
+    object-fit: fill !important;
+  }
+}
