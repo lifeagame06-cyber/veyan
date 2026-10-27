@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VAYEN — Admin Studio</title>
+<style>
+:root{--bg:#f4f2ed;--paper:#fffefa;--ink:#1b1818;--muted:#817b78;--line:#e9e3df;--rose:#a66d76;--dark:#21191c}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}.app{display:flex;min-height:100vh}.side{width:260px;position:sticky;top:0;height:100vh;background:#201a1c;color:#fff;padding:30px 18px;display:flex;flex-direction:column;gap:25px}.logo{font-size:21px;letter-spacing:5px;font-weight:900;padding:5px 15px}.logo small{display:block;font-size:9px;letter-spacing:2px;color:#bd9da3;margin-top:8px}.nav{display:grid;gap:5px}.nav button{border:0;background:none;color:#c6b9bd;text-align:left;border-radius:12px;padding:13px 15px;font-size:13px;font-weight:600}.nav button:hover,.nav button.active{background:#3a2b30;color:#fff}.nav button.active{box-shadow:inset 3px 0 #e6aeb9}.sidefoot{margin-top:auto;padding:15px;font-size:11px;line-height:1.8;color:#aa9ba0}.sidefoot a{color:#fff}.main{flex:1;min-width:0;padding:34px clamp(18px,4vw,64px) 70px}.top{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:38px}.eyebrow{color:var(--rose);font-size:10px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase}.top h1{font-size:clamp(30px,4vw,48px);font-weight:500;letter-spacing:-2px;margin:10px 0 0}.topright{display:flex;align-items:center;gap:10px}.pill{border:1px solid #e4d3d7;background:#f8eef0;border-radius:50px;padding:11px 15px;color:#8a5360;font-size:11px;font-weight:800}.mobile-menu{display:none}.section{display:none;animation:appear .22s ease}.section.active{display:block}@keyframes appear{from{opacity:.65;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.stat,.panel{background:var(--paper);border:1px solid var(--line);border-radius:20px}.stat{padding:24px;min-height:150px}.stat label{display:block;font-size:11px;color:var(--muted);font-weight:700}.stat strong{display:block;font-size:34px;letter-spacing:-1.8px;margin-top:24px}.stat small{font-size:11px;color:var(--muted)}.panel{padding:25px;margin-top:20px}.panelhead{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:18px}.panelhead h2{margin:0;font-size:19px;letter-spacing:-.5px}.sub{color:var(--muted);font-size:12px;line-height:1.6}.button{background:#21191c;color:#fff;border:1px solid #21191c;padding:12px 17px;border-radius:10px;font-size:12px;font-weight:700}.button:hover{background:#49353c}.button.secondary{background:#fff;color:#241e20;border-color:#e5dddb}.button.danger{background:#fff;color:#a53746;border-color:#efd3d8}.button:disabled{opacity:.4;cursor:not-allowed}.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}.field{background:#fff;border:1px solid #e6dedb;padding:12px 13px;border-radius:10px;min-width:0;color:#282124}.toolbar .field{flex:1;min-width:180px}.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;text-align:left;min-width:620px}th{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#918784;font-weight:800;background:#faf7f4}td,th{padding:15px 12px;border-bottom:1px solid #eee9e6}td{font-size:12px}td strong{font-size:12px}.tag{display:inline-block;padding:7px 9px;border-radius:30px;background:#f0edeb;color:#655b58;font-size:10px;font-weight:800;text-transform:capitalize}.tag.success,.tag.delivered,.tag.redeemed{background:#e5f4e9;color:#286640}.tag.failed,.tag.cancelled{background:#fae9e9;color:#a13b42}.tag.pending,.tag.processing{background:#fff1d9;color:#93621a}.tag.active{background:#f8e8ee;color:#995668}.empty{text-align:center;padding:35px;color:#928986;font-size:13px}.note{background:#f9eff0;border:1px solid #eedcdf;border-radius:12px;padding:14px 16px;font-size:12px;color:#7e4c57;line-height:1.6;margin:0 0 18px}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.formgrid label{display:grid;gap:7px;font-size:11px;font-weight:700;color:#635a59}.formgrid .wide{grid-column:1/-1}.formgrid input,.formgrid select,.formgrid textarea{width:100%}.actions{display:flex;gap:8px;flex-wrap:wrap}.tiny{border:1px solid #e5dcda;background:#fff;border-radius:8px;padding:8px 10px;font-size:11px;font-weight:700}.tiny:hover{background:#f8eff1}.cards2{display:grid;grid-template-columns:1fr 1fr;gap:20px}.activity{display:grid;gap:0}.activity div{padding:13px 0;border-bottom:1px solid var(--line);font-size:12px;display:flex;justify-content:space-between;gap:12px}.activity small{color:var(--muted)}dialog{border:1px solid #e9dede;border-radius:20px;padding:0;width:min(540px,calc(100% - 30px));box-shadow:0 30px 90px #23171933}dialog::backdrop{background:#160e12a8}.modal{padding:26px}.modal h2{margin:0 0 20px;font-size:23px}.modalfooter{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}.toast{position:fixed;bottom:24px;right:24px;background:#21191c;color:white;padding:14px 20px;border-radius:12px;font-size:12px;box-shadow:0 15px 40px #0003;display:none;z-index:100}.kpi{color:#8c5b67;font-weight:700}.footnote{margin-top:22px;color:#948b87;font-size:11px;line-height:1.7}@media(max-width:1050px){.stats{grid-template-columns:repeat(2,1fr)}.cards2{grid-template-columns:1fr}.side{width:225px}}@media(max-width:740px){.app{display:block}.side{height:auto;width:100%;position:relative;padding:15px 18px;gap:8px}.logo{font-size:17px;padding:5px}.logo small{display:none}.nav{display:none;grid-template-columns:repeat(2,1fr);gap:5px;padding-top:12px}.side.open .nav{display:grid}.sidefoot{display:none}.mobile-menu{display:inline-block;position:absolute;right:18px;top:15px;background:#3a2b30;color:#fff;border:0;border-radius:8px;padding:9px 12px}.main{padding:26px 16px 60px}.top{margin-bottom:25px}.top h1{font-size:32px}.pill{font-size:9px;padding:8px}.stat{padding:17px;min-height:125px}.stat strong{font-size:28px;margin-top:19px}.panel{padding:18px}.formgrid{grid-template-columns:1fr}.formgrid .wide{grid-column:auto}}@media(max-width:380px){.stats{gap:9px}.stat{padding:12px}.stat strong{font-size:24px}}
+@media(max-width:740px){#products .stats{grid-template-columns:repeat(3,minmax(0,1fr))!important}#products .stat{min-height:95px}#products .stat strong{font-size:24px}}
+
+#support .stat { min-height:125px; }
+#support .stat strong { margin-top:16px; }
+.support-details { font-size:13px; line-height:1.8; color:#655b5e; overflow-wrap:anywhere; }
+.support-details p { white-space:pre-wrap; background:#faf7f5; padding:12px; border-radius:10px; }
+.support-reply-label { display:block; font-size:12px; font-weight:700; margin:16px 0 9px; }
+@media(max-width:740px){#support .stats{gap:8px}#support .stat{padding:12px}#support .stat strong{font-size:24px}}
+
+/* Keep the owner footer inside the dark admin sidebar. */
+@media (min-width:741px) {
+  .side {
+    overflow: hidden;
+  }
+  .side .nav {
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #69545c transparent;
+  }
+  .side .sidefoot {
+    flex-shrink: 0;
+    margin-top: 0;
+    background: #201a1c;
+    border-top: 1px solid rgba(255,255,255,.12);
+  }
+}
+</style></head><body>
+<div id="adminAccessGate" style="position:fixed;inset:0;z-index:99999;background:#f4f2ed;display:grid;place-items:center;padding:24px"><div style="max-width:450px;text-align:center;font:14px Arial;color:#21191c"><h2 style="letter-spacing:3px">VAYEN ADMIN</h2><p id="adminAccessMessage">Verifying secure admin access...</p><a href="login.html" id="adminAccessLogin" style="display:none;color:#a66d76;font-weight:bold">Sign in to VAYEN →</a></div></div><div class="app"><aside class="side" id="side"><div class="logo">VAYEN<small>ADMIN STUDIO</small></div><button class="mobile-menu" id="mobileMenu" aria-label="Toggle menu">☰ Menu</button><nav class="nav" id="nav">
+<button class="active" data-tab="dashboard">◫ &nbsp; Dashboard</button><button data-tab="products">▦ &nbsp; Products</button><button data-tab="orders">▤ &nbsp; Orders</button><button data-tab="planpurchases">◈ &nbsp; Plan Purchases</button><button data-tab="payments">◈ &nbsp; Payments</button><button data-tab="customers">♙ &nbsp; Customers</button><button data-tab="surprise">✦ &nbsp; Surprise Boxes</button><button data-tab="delivery">↗ &nbsp; Gift Delivery</button><button data-tab="sendgift">🎁 &nbsp; Send Gift</button><button data-tab="support">✉ &nbsp; Support Requests <span id="supportNavCount" style="float:right;color:#e6aeb9"></span></button><button data-tab="settings">⚙ &nbsp; Settings</button>
+</nav><div class="sidefoot">OWNER WORKSPACE · Secure access<br><a href="index.html">← Back to VAYEN</a></div></aside>
+<main class="main"><header class="top"><div><span class="eyebrow">VAYEN / MANAGEMENT</span><h1 id="pageTitle">Overview<span style="color:#ae7c85">.</span></h1></div><div class="topright"><span class="pill">● ADMIN ACCESS</span></div></header>
+<section class="section active" id="dashboard"><div class="stats"><div class="stat"><label>Verified orders</label><strong id="sOrders">0</strong><small>Confirmed paid transactions</small></div><div class="stat"><label>Verified order value</label><strong id="sRevenue">₹0</strong><small>Verified paid orders only</small></div><div class="stat"><label>Customers</label><strong id="sCustomers">—</strong><small>Registered Firebase profiles</small></div><div class="stat"><label>Gifts to deliver</label><strong id="sGifts">0</strong><small>Awaiting fulfillment</small></div></div><div class="cards2"><div class="panel"><div class="panelhead"><h2>Recent orders</h2><button class="tiny" data-go="orders">View all →</button></div><div id="recentOrders" class="activity"></div></div><div class="panel"><div class="panelhead"><h2>Gift fulfillment</h2><button class="tiny" data-go="delivery">Manage →</button></div><div id="recentGifts" class="activity"></div></div></div><div class="panel"><div class="panelhead"><h2>Quick actions</h2></div><div class="actions"><button class="button" id="quickProduct">+ Add product</button><button class="button secondary" type="button" data-go="orders">View verified orders →</button><button class="button secondary" type="button" data-go="surprise">Review paid Surprise Boxes →</button></div></div></section>
+<section class="section" id="products"><p class="note">FIREBASE PRODUCTS · Add, edit and hide products across devices. Customer orders are displayed from verified account records.</p><div class="panel"><div class="panelhead"><h2>Product catalog</h2><div class="actions"><button class="button secondary" id="importProducts" type="button">Import original catalog</button><button class="button secondary" id="importTwoPremium" type="button">Prepare 2 Premium products</button><button class="button" id="addProduct">+ Add product</button></div></div><div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:15px"><div class="stat"><label>Premium products</label><strong id="premiumCount">0</strong></div><div class="stat"><label>Worlds</label><strong id="worldCount">0</strong></div><div class="stat"><label>Expensive / Flagship</label><strong id="otherCount">0</strong></div></div><div class="toolbar"><input class="field" id="productSearch" placeholder="Search products..."></div><div class="tablewrap"><table><thead><tr><th>Product</th><th>Collection</th><th>Category</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead><tbody id="productRows"></tbody></table></div></div></section>
+<section class="section" id="orders"><div class="panel"><div class="panelhead"><h2>Payment orders</h2><button class="button secondary" type="button" id="refreshCloudOrders">↻ Refresh</button></div><p class="sub" id="cloudOrdersStatus" role="status" aria-live="polite">Waiting for secure admin access...</p><div class="toolbar"><input class="field" id="cloudOrderSearch" placeholder="Search order, customer, product..."></div><div class="tablewrap"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Product</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody id="cloudOrderRows"><tr><td colspan="6" class="empty">No orders loaded.</td></tr></tbody></table></div></div></section>
+<section class="section" id="planpurchases"><div class="panel"><div class="panelhead"><h2>Plan Purchases</h2><button class="button secondary" type="button" id="refreshPlanPurchases">↻ Refresh</button></div><p class="sub" id="planPurchasesStatus" role="status" aria-live="polite">Waiting for secure admin access...</p><div class="toolbar"><input class="field" id="planPurchaseSearch" placeholder="Search order, customer, plan, product ID..."></div><div class="tablewrap"><table><thead><tr><th>Order ID</th><th>Customer</th><th>Plan</th><th>Amount</th><th>Included products</th><th>Status</th><th>Date</th></tr></thead><tbody id="planPurchaseRows"><tr><td colspan="7" class="empty">No plan purchases loaded.</td></tr></tbody></table></div></div></section>
+<section class="section" id="payments"><div class="panel"><div class="panelhead"><h2>Verified customer payments</h2><button class="button secondary" type="button" id="refreshPayments">↻ Refresh</button></div><p class="sub">Verified payments from secure order records. Unpaid orders are excluded from revenue.</p><div class="tablewrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Amount</th><th>Status</th></tr></thead><tbody id="verifiedPaymentRows"><tr><td colspan="4" class="empty">Refresh to load payments.</td></tr></tbody></table></div></div></section>
+<section class="section" id="customers">
+<div class="panel">
+  <div class="panelhead"><h2>Registered Firebase Customers</h2><button type="button" class="button secondary" id="refreshLoginCustomers">↻ Refresh</button></div>
+  <p class="sub" id="customerRefreshStatus" role="status" aria-live="polite">Connecting to Firebase...</p>
+  <p class="sub">Live Firebase customer profiles. Email and sign-in method appear after each customer next opens VAYEN with the updated authentication script. Passwords are never stored here.</p>
+  <div class="toolbar"><input class="field" id="loginCustomerSearch" placeholder="Search customer ID or name..."></div>
+  <div class="tablewrap"><table><thead><tr><th>Customer ID</th><th>Name</th><th>Email</th><th>Login method</th><th>Joined</th><th>Dear name</th><th>Details</th></tr></thead><tbody id="loginCustomerRows"></tbody></table></div>
+</div></section>
+<section class="section" id="surprise"><div class="panel"><div class="panelhead"><h2>Paid Surprise Box requests</h2><button class="button secondary" id="refreshRealSurprises">Refresh</button></div><p class="sub" id="realSurpriseStatus">Waiting for admin access...</p><div class="tablewrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Gift</th><th>Action</th></tr></thead><tbody id="realSurpriseRows"></tbody></table></div></div></section><div style="display:none"><table><tbody id="surpriseRows"></tbody></table></div>
+<section class="section" id="giftcards" style="display:none!important"><div class="stats" style="grid-template-columns:repeat(2,minmax(0,1fr))"><div class="stat"><label>Gift cards purchased</label><strong id="giftCount">0</strong><small>Number of test cards</small></div><div class="stat"><label>Total face value</label><strong id="giftValue">₹0</strong><small>Test gift card value</small></div></div><div class="panel"><div class="panelhead"><h2>Gift cards</h2><button class="button" id="addGiftCard">+ Test gift card</button></div><div class="tablewrap"><table><thead><tr><th>Card code</th><th>Buyer</th><th>Recipient</th><th>Value</th><th>Status</th><th>Action</th></tr></thead><tbody id="giftcardRows"></tbody></table></div></div></section>
+<section class="section" id="delivery"><div class="panel"><h2>Gift Delivery</h2><p>Paid Surprise Boxes are delivered from the Surprise Boxes tab.</p><button class="button" data-go="surprise">Open Surprise Boxes</button></div></section><div style="display:none"><table><tbody id="deliveryRows"></tbody></table></div>
+<section class="section" id="sendgift">
+  <p class="note">REAL GIFT DELIVERY · Send a complimentary ebook to an existing VAYEN customer. The recipient can claim it securely from their Homepage. This does not create a paid order.</p>
+  <div class="panel" style="max-width:780px">
+    <div class="panelhead"><h2>Send a personal gift</h2><span class="tag active">Secure delivery</span></div>
+    <p class="sub">Choose an ebook and add your own message. The customer must already have a registered VAYEN account.</p>
+    <form id="realGiftForm" class="formgrid" autocomplete="off">
+      <label class="wide">Recipient email
+        <input class="field" id="realGiftEmail" type="email" maxlength="254" placeholder="customer@example.com" required autocomplete="off">
+      </label>
+      <label class="wide">Gift ebook
+        <select class="field" id="realGiftProduct" required>
+          <option value="">Choose an ebook</option>
+          <option value="youtube-creator-system">YouTube Creator System</option>
+          <option value="vlogging-mastery">Vlogging Mastery</option>
+          <option value="animation-mastery">Animation Mastery</option>
+          <option value="social-media-tips">Social Media Tips</option>
+          <option value="ai-prompt-box">AI Prompt Box</option>
+          <option value="build-your-own-ai">Build Your Own AI</option>
+          <option value="reels-growth">Reels Growth</option>
+          <option value="web-creator">Web Creator</option>
+          <option value="youtube-algorithm">YouTube Algorithm</option>
+          <option value="earn-from-social-media">Earn From Social Media</option>
+          <option value="creator-studio">Creator Studio</option>
+          <option value="business-launch">Business Launch</option>
+          <option value="content-strategy">Content Strategy</option>
+          <option value="design-thumbnails">Design Thumbnails</option>
+          <option value="edit-videos">Edit Videos</option>
+          <option value="ai-automation">AI Automation</option>
+          <option value="seller-commerce">Seller Commerce</option>
+          <option value="personal-brand">Personal Brand</option>
+        </select>
+      </label>
+      <label class="wide">Personal reason / message
+        <textarea class="field" id="realGiftMessage" rows="4" maxlength="1000" required placeholder="A special surprise from VAYEN. Enjoy your gift!"></textarea>
+      </label>
+      <div class="wide actions" style="align-items:center">
+        <button class="button" id="realGiftSend" type="submit" disabled>Send Gift →</button>
+        <span class="sub" id="realGiftStatus" role="status" aria-live="polite">Verifying admin access...</span>
+      </div>
+    </form>
+  </div>
+</section>
+<section class="section" id="notifications" style="display:none!important"><p class="note">LOCAL TESTING · Notifications are saved only in this browser and are not delivered to customers.</p><div class="panel"><div class="panelhead"><h2>Compose notification</h2></div><form id="notificationForm" class="formgrid"><label class="wide">Recipients<select id="notificationAudience" class="field" required><option value="all">All known customers</option><option value="one">One customer</option></select></label><label class="wide" id="notificationRecipientWrap" style="display:none">Choose customer<select id="notificationRecipient" class="field"></select></label><label class="wide">Title<input id="notificationTitle" class="field" maxlength="100" required placeholder="New from VAYEN"></label><label class="wide">Message<textarea id="notificationMessage" class="field" rows="4" maxlength="1000" required placeholder="Write your message..."></textarea></label><div class="wide"><button class="button" type="submit">Save test notification</button></div></form></div><div class="panel"><div class="panelhead"><h2>Notification history</h2></div><div class="tablewrap"><table><thead><tr><th>Title / Message</th><th>Audience</th><th>Recipients</th><th>Created</th></tr></thead><tbody id="notificationRows"></tbody></table></div></div></section>
+<section class="section" id="activity" style="display:none!important"><div class="panel"><div class="panelhead"><h2>Recent admin actions</h2></div><div id="activityRows" class="activity"></div></div></section>
+
+<!-- VAYEN Support Requests: isolated demo ticket workspace -->
+<section class="section" id="support">
+  <p class="note">Support requests sync securely across devices. Replies appear in customer ticket tracking; no email is sent.</p>
+  <div class="stats" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+    <div class="stat"><label>Total requests</label><strong id="supportTotal">0</strong></div>
+    <div class="stat"><label>New requests</label><strong id="supportNew">0</strong></div>
+    <div class="stat"><label>Resolved</label><strong id="supportResolved">0</strong></div>
+  </div>
+  <div class="panel">
+    <div class="panelhead"><h2>Customer support tickets</h2><button type="button" class="button secondary" id="supportRefresh">↻ Refresh</button></div>
+    <div class="toolbar">
+      <input class="field" id="supportSearch" placeholder="Search ticket, name, email, order ID..." aria-label="Search support tickets">
+      <select class="field" id="supportFilter" aria-label="Filter support status"><option value="">All statuses</option><option>New</option><option>In Progress</option><option>Resolved</option></select>
+    </div>
+    <div class="tablewrap"><table><thead><tr><th>Ticket / Date</th><th>Customer</th><th>Issue / Order</th><th>Status</th><th>Action</th></tr></thead><tbody id="supportRows"></tbody></table></div>
+  </div>
+</section>
+<dialog id="supportTicketDialog"><div class="modal">
+  <h2>Support request</h2>
+  <div id="supportTicketDetails" class="support-details"></div>
+  <label class="support-reply-label" for="supportReply">Reply to customer (visible in ticket tracking)</label>
+  <textarea id="supportReply" class="field" rows="5" maxlength="3000" style="width:100%;resize:vertical" placeholder="Write your response to the customer..."></textarea>
+  <div class="modalfooter" style="flex-wrap:wrap">
+    <button type="button" class="button secondary" id="supportClose">Close</button>
+    <button type="button" class="button secondary" id="supportProgress">In Progress</button>
+    <button type="button" class="button" id="supportSave">Save reply</button>
+    <button type="button" class="button" id="supportResolve">Mark Resolved</button>
+  </div>
+</div></dialog>
+<section class="section" id="settings"><div class="panel"><h2>Workspace settings</h2><p class="sub">Customer profiles are read securely from Firestore. Product catalog is stored in Firestore. Verified orders and Surprise Box delivery are connected; support tickets are stored securely.</p><p class="sub">Admin role verification and Firestore customer profiles are connected. Verified payment overview and Surprise Box fulfillment are connected. Other services must be integrated separately before launch.</p><button class="button danger" id="resetDemo">Reset local test data</button></div></section>
+<p class="footnote">© 2026 VAYEN · Administration · Customer profiles connected · Verified orders and Surprise Box fulfillment.</p></main></div>
+<dialog id="editor"><form class="modal" id="editorForm"><h2 id="editorTitle">Add</h2><div id="editorFields" class="formgrid"></div><div class="modalfooter"><button type="button" class="button secondary" id="closeEditor">Cancel</button><button class="button" type="submit">Save changes</button></div></form></dialog><div class="toast" id="toast" role="status"></div>
+<!-- Hidden compatibility targets for retired demo Orders UI; real orders use cloud records. -->
+<div hidden aria-hidden="true"><input id="orderSearch" value=""><input id="orderFilter" value=""><div id="orderRows"></div><div id="paymentRows"></div></div>
+<script src="vayen-firebase-config.js"></script>
+<script src="vayen-catalog.js"></script>
+<script>
+(function(){'use strict';
+const KEY='vayenAdminDemoV1';const blank=()=>({products:[],orders:[],surprises:[],giftcards:[],activity:[],notifications:[]});let db;try{db=JSON.parse(localStorage.getItem(KEY))||blank()}catch{db=blank()}for(const k of Object.keys(blank()))if(!Array.isArray(db[k]))db[k]=[];db.products=[];localStorage.setItem(KEY,JSON.stringify(db));
+const $=id=>document.getElementById(id);const fmt=n=>'₹'+Number(n||0).toLocaleString('en-IN');const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const uid=p=>p+'-'+Date.now().toString(36).toUpperCase()+Math.random().toString(36).slice(2,5).toUpperCase();const save=()=>{const copy={...db,products:[]};localStorage.setItem(KEY,JSON.stringify(copy));};const log=msg=>{db.activity.unshift({msg,date:new Date().toLocaleString('en-IN')});db.activity=db.activity.slice(0,100)};const notify=msg=>{const t=$('toast');t.textContent=msg;t.style.display='block';clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.style.display='none',2600)};const badge=s=>'<span class="tag '+esc(s)+'">'+esc(s)+'</span>';const empty=(cols,msg='No records yet')=>'<tr><td colspan="'+cols+'" class="empty">'+esc(msg)+'</td></tr>';
+const titles={dashboard:'Overview',products:'Products',orders:'Orders',planpurchases:'Plan Purchases',payments:'Payments',customers:'Customers',surprise:'Surprise Boxes',giftcards:'Gift Cards',delivery:'Gift Delivery',sendgift:'Send Gift',activity:'Activity Log',notifications:'Notifications',support:'Support Requests',settings:'Settings'};
+function tab(name){document.querySelectorAll('.section').forEach(e=>e.classList.toggle('active',e.id===name));document.querySelectorAll('.nav button').forEach(e=>e.classList.toggle('active',e.dataset.tab===name));$('pageTitle').innerHTML=esc(titles[name]||'Overview')+'<span style="color:#ae7c85">.</span>';$('side').classList.remove('open');render();window.scrollTo({top:0,behavior:'instant'})}
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>tab(b.dataset.tab)));document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>tab(b.dataset.go)));$('mobileMenu').onclick=()=>$('side').classList.toggle('open');
+let editing=null;const input=(name,label,type='text',value='',opts=null,wide=false)=>'<label class="'+(wide?'wide':'')+'">'+esc(label)+(opts?'<select class="field" name="'+name+'">'+opts.map(o=>'<option value="'+esc(o)+'" '+(o===value?'selected':'')+'>'+esc(o)+'</option>').join('')+'</select>':'<input class="field" name="'+name+'" type="'+type+'" value="'+esc(value)+'" '+(type==='number'?'min="0" step="0.01"':'')+(['name','category','price','email','product','amount','buyer','recipient','value'].includes(name)?' required':'')+'>')+'</label>';
+function editor(type,id=null){editing={type,id};const source=type==='assign'?db.surprises:db[type];const data=id?source.find(x=>x.id===id):null;if(id&&!data)return;const p=data||{};let html='';let title='';
+if(type==='products'){title=id?'Edit product':'Add product';html=input('name','Product name','text',p.name)+input('category','Category','text',p.category||'Digital product')+input('price','Price (₹)','number',p.price??0)+input('status','Visibility','text',p.status||'draft',['draft','published','unlisted','hidden'])+input('group','Collection / section','text',p.group||'Premium products',['Expensive / Flagship','Premium products','Worlds'])+input('slug','Product URL ID (slug)','text',p.slug||'')+input('image','Cover image path or URL','text',p.image||'')+input('shortDescription','Short description','text',p.shortDescription||'')+input('description','Full description','text',p.description||'')+input('features','What is included (separate with commas)','text',p.features||'')+input('badge','Badge / label','text',p.badge||'');}
+if(type==='orders'){title='Create demo order';html=input('email','Customer email','email')+input('product','Product name')+input('amount','Amount (₹)','number',0)+input('status','Demo payment status','text','pending',['pending','success','failed','refunded'])+input('reference','Payment reference (demo)','text','DEMO-NOT-VERIFIED');}
+if(type==='surprises'){title='Create Surprise Box request';html=input('email','Customer email','email')+input('box','Box type','text','Surprise Box ₹499')+input('amount','Paid amount (₹)','number',499);}
+if(type==='giftcards'){title='Create demo gift card';html=input('buyer','Buyer email','email')+input('recipient','Recipient email','email')+input('value','Card value (₹)','number',500)+input('status','Status','text','active',['active','redeemed','cancelled']);}
+if(type==='assign'){title='Assign gift product';const opts=db.products.filter(p=>p.status==='published');if(!opts.length){notify('Add and publish a product first');tab('products');return}html='<label class="wide">Select gift product<select class="field" name="productId">'+opts.map(x=>'<option value="'+esc(x.id)+'">'+esc(x.name)+'</option>').join('')+'</select></label>';}
+$('editorTitle').textContent=title;$('editorFields').innerHTML=html;$('editor').showModal()}
+$('closeEditor').onclick=()=>$('editor').close();$('editorForm').onsubmit=async e=>{e.preventDefault();const v=Object.fromEntries(new FormData(e.target));const {type,id}=editing;const now=new Date().toISOString();if(type==='assign'){const s=db.surprises.find(x=>x.id===id);if(!s||s.status==='delivered')return;s.productId=v.productId;s.status='assigned';log('Assigned gift for '+s.id)}else if(type==='products'){
+const slug=VayenCatalog.slug(v.slug||v.name);if(!slug){notify('Enter a valid product URL ID');return;}
+if(db.products.some(p=>(p.slug||p.id)===slug&&p.id!==id)){notify('Product URL ID already exists');return;}
+if(id){const old=db.products.find(x=>x.id===id);if(old && old.slug!==slug){notify('Product URL ID cannot change after creation');return;}}
+if(!v.name.trim() || !Number.isFinite(Number(v.price)) || Number(v.price)<0){notify('Enter a valid product name and price');return;}
+ const rec={id:id||uid('PRD'),slug,name:v.name.trim(),category:v.category.trim(),price:Number(v.price),status:v.status,group:v.group,image:v.image.trim(),shortDescription:v.shortDescription.trim(),description:v.description.trim(),features:v.features.trim(),badge:v.badge.trim(),worldNumber:id?db.products.find(x=>x.id===id)?.worldNumber||null:v.group==='Worlds'?VayenCatalog.nextWorldNumber(db.products):null};
+try{await window.VayenAdminProducts.save(rec);const i=db.products.findIndex(x=>x.id===rec.id);if(i<0)db.products.unshift(rec);else db.products[i]=rec;log((id?'Edited':'Added')+' product '+rec.name);save();$('editor').close();render();notify('Product saved to Firebase');}catch(error){console.error(error);notify('Firebase save failed: '+error.message)}return;
+}else if(type==='orders'){db.orders.unshift({id:uid('ORD'),email:v.email.trim().toLowerCase(),product:v.product,amount:Number(v.amount),status:v.status,reference:v.reference,date:now});log('Created demo order')}else if(type==='surprises'){db.surprises.unshift({id:uid('BOX'),email:v.email.trim().toLowerCase(),box:v.box,amount:Number(v.amount),productId:null,status:'pending',date:now});log('Created demo Surprise Box request')}else if(type==='giftcards'){db.giftcards.unshift({id:uid('GC'),code:'VAYEN-'+Math.random().toString(36).slice(2,10).toUpperCase(),buyer:v.buyer.trim().toLowerCase(),recipient:v.recipient.trim().toLowerCase(),value:Number(v.value),status:v.status,date:now});log('Created demo gift card')}save();$('editor').close();render();notify('Saved in local demo')};
+$('addProduct').onclick=$('quickProduct').onclick=()=>editor('products');if ($('addOrder')) $('addOrder').onclick=()=>editor('orders');if ($('quickOrder')) $('quickOrder').onclick=()=>editor('orders');if ($('addSurprise')) $('addSurprise').onclick=()=>editor('surprises');
+if ($('quickGift')) $('quickGift').onclick=()=>editor('surprises');$('addGiftCard').onclick=()=>editor('giftcards');
+var firebaseNotificationCustomers = [];
+function render(){const paid=db.orders.filter(x=>x.status==='success');/* Real dashboard counts are populated by refreshCloudOrders. */
+/* Real recent orders populated after Firebase fetch. */
+/* Real Surprise Box queue populated after server fetch. */
+$('premiumCount').textContent=db.products.filter(p=>p.group==='Premium products').length;$('worldCount').textContent=db.products.filter(p=>p.group==='Worlds').length;$('otherCount').textContent=db.products.filter(p=>p.group==='Expensive / Flagship').length;const ps=$('productSearch').value.toLowerCase();$('productRows').innerHTML=db.products.filter(x=>(x.name+' '+x.category).toLowerCase().includes(ps)).map(x=>'<tr><td><strong>'+esc(x.name)+'</strong><br><small>'+esc(x.id)+'</small></td><td>'+esc(x.group)+'</td><td>'+esc(x.category)+'</td><td>'+fmt(x.price)+'</td><td>'+badge(x.status)+'</td><td><div class="actions"><button class="tiny" data-act="edit" data-id="'+esc(x.id)+'">Edit</button><button class="tiny" data-act="remove-product" data-id="'+esc(x.id)+'">Hide</button></div></td></tr>').join('')||empty(6);
+const os=$('orderSearch').value.toLowerCase(),of=$('orderFilter').value;const orders=db.orders.filter(x=>(x.id+' '+x.email+' '+x.product).toLowerCase().includes(os)&&(!of||x.status===of));$('orderRows').innerHTML=orders.map(x=>'<tr><td>'+esc(x.id)+'</td><td>'+esc(x.email)+'</td><td>'+esc(x.product)+'</td><td>'+fmt(x.amount)+'</td><td>'+badge(x.status)+'</td><td><select class="field" data-act="order-status" data-id="'+esc(x.id)+'"><option value="">Change status</option>'+['pending','success','failed','refunded'].map(s=>'<option value="'+s+'">'+s+'</option>').join('')+'</select></td></tr>').join('')||empty(6);
+$('paymentRows').innerHTML=db.orders.map(x=>'<tr><td>'+esc(x.id)+'</td><td>'+esc(x.email)+'</td><td>'+fmt(x.amount)+'</td><td>'+esc(x.reference||'—')+'</td><td>'+badge(x.status)+'</td></tr>').join('')||empty(5);
+const prod=id=>db.products.find(x=>x.id===id);$('surpriseRows').innerHTML=db.surprises.map(x=>'<tr><td>'+esc(x.id)+'</td><td>'+esc(x.email)+'</td><td>'+esc(x.box)+'<br><small>'+fmt(x.amount)+'</small></td><td>'+esc(prod(x.productId)?.name||'Not assigned')+'</td><td>'+badge(x.status)+'</td><td>'+giftActions(x)+'</td></tr>').join('')||empty(6);
+$('deliveryRows').innerHTML=db.surprises.map(x=>'<tr><td>'+esc(x.id)+'</td><td>'+esc(x.email)+'</td><td>'+esc(prod(x.productId)?.name||'Not assigned')+'</td><td>'+badge(x.status)+'</td><td>'+giftActions(x)+'</td></tr>').join('')||empty(5);
+$('giftCount').textContent=db.giftcards.length;$('giftValue').textContent=fmt(db.giftcards.reduce((s,x)=>s+x.value,0));$('giftcardRows').innerHTML=db.giftcards.map(x=>'<tr><td><strong>'+esc(x.code)+'</strong></td><td>'+esc(x.buyer)+'</td><td>'+esc(x.recipient)+'</td><td>'+fmt(x.value)+'</td><td>'+badge(x.status)+'</td><td><select class="field" data-act="card-status" data-id="'+esc(x.id)+'"><option value="">Change status</option>'+['active','redeemed','cancelled'].map(s=>'<option value="'+s+'">'+s+'</option>').join('')+'</select></td></tr>').join('')||empty(6);
+renderNotifications();$('activityRows').innerHTML=db.activity.map(x=>'<div><span>'+esc(x.msg)+'</span><small>'+esc(x.date)+'</small></div>').join('')||'<p class="sub">No activity yet.</p>'}
+
+// Real registered customer emails are used for local notification targeting only.
+window.addEventListener('vayen-admin-customers-loaded', event => {
+  firebaseNotificationCustomers = Array.isArray(event.detail) ? event.detail : [];
+  renderNotifications();
+});
+window.addEventListener('vayen-admin-customers-cleared', () => {
+  firebaseNotificationCustomers = [];
+  renderNotifications();
+});
+function knownCustomers(){
+  return [...new Set([
+    ...firebaseNotificationCustomers,
+    ...db.orders.map(x=>x.email),
+    ...db.surprises.map(x=>x.email),
+    ...db.giftcards.map(x=>x.buyer),
+    ...db.giftcards.map(x=>x.recipient)
+  ].map(x=>String(x||'').trim().toLowerCase()).filter(x=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x)))].sort();
+}
+function renderNotifications(){const customers=knownCustomers(),selector=$('notificationRecipient'),old=selector.value;selector.innerHTML=customers.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join('');if(customers.includes(old))selector.value=old;$('notificationRows').innerHTML=db.notifications.map(n=>'<tr><td><strong>'+esc(n.title)+'</strong><br><span class="sub">'+esc(n.message)+'</span></td><td>'+esc(n.audience==='all'?'All known customers':n.recipient)+'</td><td>'+n.recipients.length+'</td><td>'+esc(new Date(n.date).toLocaleString('en-IN'))+'</td></tr>').join('')||empty(4)}
+$('notificationAudience').onchange=()=>{$('notificationRecipientWrap').style.display=$('notificationAudience').value==='one'?'grid':'none'};
+$('notificationForm').onsubmit=e=>{e.preventDefault();const customers=knownCustomers(),audience=$('notificationAudience').value,recipient=$('notificationRecipient').value,recipients=audience==='all'?customers:[recipient];if(!recipients.length||!recipients[0]){notify('No customer email available yet. Refresh Customers first.');return}const title=$('notificationTitle').value.trim(),message=$('notificationMessage').value.trim();if(!title||!message)return;db.notifications.unshift({id:uid('NTF'),title,message,audience,recipient:audience==='one'?recipient:null,recipients,date:new Date().toISOString()});log('Created demo notification for '+recipients.length+' customer(s)');save();e.target.reset();$('notificationRecipientWrap').style.display='none';render();notify('Saved demo notification for '+recipients.length+' customer(s)')};
+function giftActions(x){return x.status==='delivered'?'<span class="sub">Completed</span>':'<div class="actions"><button class="tiny" data-act="assign" data-id="'+esc(x.id)+'">'+(x.productId?'Change gift':'Select gift')+'</button>'+(x.productId?'<button class="tiny" data-act="deliver" data-id="'+esc(x.id)+'">Mark delivered</button>':'')+'</div>'}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.tagName==='SELECT')return;const {act,id}=b.dataset;if(act==='edit')editor('products',id);if(act==='assign')editor('assign',id);if(act==='remove-product'){const p=db.products.find(x=>x.id===id);if(!p)return;if(!confirm('Hide '+p.name+' from new customers? The product record will be kept.'))return;window.VayenAdminProducts.save({...p,status:'hidden'}).then(()=>{p.status='hidden';log('Hidden product '+p.name);save();render();notify('Product hidden in Firebase')}).catch(err=>{console.error(err);notify('Unable to hide product')})}if(act==='deliver'){const x=db.surprises.find(x=>x.id===id);if(!x||!x.productId||x.status==='delivered')return;if(!confirm('Mark gift as delivered in demo? No real delivery will occur.'))return;x.status='delivered';x.deliveredAt=new Date().toISOString();log('Marked gift '+id+' delivered (demo)');save();render();notify('Demo delivery recorded')}});
+document.addEventListener('change',e=>{const el=e.target;if(!el.matches('select[data-act]')||!el.value)return;const {act,id}=el.dataset;if(act==='order-status'){const x=db.orders.find(x=>x.id===id);if(x){x.status=el.value;log('Set demo order '+id+' to '+el.value)}}if(act==='card-status'){const x=db.giftcards.find(x=>x.id===id);if(x){x.status=el.value;log('Set demo gift card '+id+' to '+el.value)}}save();render();notify('Demo status updated')});['productSearch','orderSearch'].forEach(id=>$(id).addEventListener('input',render));$('orderFilter').addEventListener('change',render);$('resetDemo').onclick=()=>{if(!confirm('Delete local demo orders, gifts, notifications and activity? Firebase products will NOT be deleted.'))return;const products=db.products;db=blank();db.products=products;save();render();notify('Local records cleared')};window.addEventListener('vayen-admin-products-loaded',e=>{db.products=e.detail;render()});render();
+})();
+</script>
+<script>
+// Admin support UI: data is supplied only after verified Firebase admin access.
+(function () {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({
+    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+  }[ch]));
+  let tickets = [];
+  let activeId = null;
+  let busy = false;
+  const dateLabel = value => {
+    const date = value?.toDate ? value.toDate() : new Date(value);
+    return date && !Number.isNaN(date.getTime()) ? date.toLocaleString('en-IN') : '—';
+  };
+  function render() {
+    const query = $('supportSearch').value.trim().toLowerCase();
+    const filter = $('supportFilter').value;
+    $('supportTotal').textContent = tickets.length;
+    $('supportNew').textContent = tickets.filter(t => t.status === 'New').length;
+    $('supportResolved').textContent = tickets.filter(t => t.status === 'Resolved').length;
+    $('supportNavCount').textContent = tickets.filter(t => t.status === 'New').length || '';
+    const visible = tickets.filter(t =>
+      [t.id,t.name,t.email,t.orderReference,t.issue,t.message].join(' ').toLowerCase().includes(query)
+      && (!filter || t.status === filter)
+    );
+    $('supportRows').innerHTML = visible.map(t => `<tr>
+      <td><strong>${escapeHtml(t.id)}</strong><br><small>${escapeHtml(dateLabel(t.createdAt))}</small></td>
+      <td><strong>${escapeHtml(t.name)}</strong><br><small>${escapeHtml(t.email)}</small></td>
+      <td>${escapeHtml(t.issue)}<br><small>${escapeHtml(t.orderReference || 'No order reference')}</small></td>
+      <td><span class="tag ${t.status === 'Resolved' ? 'success' : t.status === 'New' ? 'pending' : 'active'}">${escapeHtml(t.status || 'New')}</span></td>
+      <td><button type="button" class="tiny" data-support-id="${escapeHtml(t.id)}">View / Reply</button></td>
+    </tr>`).join('') || '<tr><td colspan="5" class="empty">No matching support requests.</td></tr>';
+  }
+  function openTicket(id) {
+    const ticket = tickets.find(t => t.id === id);
+    if (!ticket) return;
+    activeId = id;
+    const fields = [
+      ['Ticket ID', ticket.id], ['Customer', ticket.name], ['Email', ticket.email],
+      ['Order / Reference', ticket.orderReference || 'Not provided'],
+      ['Issue', ticket.issue], ['Status', ticket.status || 'New']
+    ];
+    $('supportTicketDetails').innerHTML = fields.map(([label,value]) =>
+      `<div><strong>${escapeHtml(label)}:</strong> ${escapeHtml(value)}</div>`
+    ).join('') + `<strong>Customer message:</strong><p>${escapeHtml(ticket.message)}</p>`;
+    $('supportReply').value = ticket.adminReply || '';
+    $('supportTicketDialog').showModal();
+  }
+  async function updateTicket(status) {
+    if (busy || !activeId || !window.VayenSupportAdmin) return;
+    const ticket = tickets.find(t => t.id === activeId);
+    if (!ticket) return;
+    const reply = $('supportReply').value.trim();
+    if (status === 'Resolved' && !reply && !confirm('Resolve without a written reply?')) return;
+    const nextStatus = status || (ticket.status === 'New' && reply ? 'In Progress' : ticket.status || 'New');
+    busy = true;
+    ['supportSave','supportResolve','supportProgress'].forEach(id => $(id).disabled = true);
+    try {
+      await window.VayenSupportAdmin.update(activeId, nextStatus, reply);
+      $('supportTicketDialog').close();
+      await window.VayenSupportAdmin.refresh();
+    } catch (error) {
+      console.error('Support update failed:', error);
+      alert('Unable to save your response. Please try again.');
+    } finally {
+      busy = false;
+      ['supportSave','supportResolve','supportProgress'].forEach(id => $(id).disabled = false);
+    }
+  }
+  window.VayenSupportView = {
+    setTickets(next) { tickets = next; render(); },
+    showError() { $('supportRows').innerHTML = '<tr><td colspan="5" class="empty">Unable to load support requests. Try Refresh.</td></tr>'; }
+  };
+  $('supportRows').addEventListener('click', event => {
+    const button = event.target.closest('[data-support-id]');
+    if (button) openTicket(button.dataset.supportId);
+  });
+  $('supportSearch').addEventListener('input', render);
+  $('supportFilter').addEventListener('change', render);
+  $('supportRefresh').addEventListener('click', () => window.VayenSupportAdmin?.refresh());
+  $('supportClose').addEventListener('click', () => $('supportTicketDialog').close());
+  $('supportProgress').addEventListener('click', () => updateTicket('In Progress'));
+  $('supportSave').addEventListener('click', () => updateTicket(null));
+  $('supportResolve').addEventListener('click', () => updateTicket('Resolved'));
+  document.querySelector('[data-tab="support"]').addEventListener('click', () => window.VayenSupportAdmin?.refresh());
+  render();
+})();
+</script>
+
+<script type="module">
+// Firebase customer sync. The API key is public Firebase web configuration, not a service-account secret.
+import {initializeApp,getApps,getApp} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
+import {getAuth,onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
+import {getFirestore,doc,getDoc,collection,getDocs,setDoc,writeBatch,updateDoc,serverTimestamp} from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
+const firebaseConfig = window.VAYEN_FIREBASE_CONFIG || {
+  apiKey: "AIzaSyCJStLo-FmvkPQo-u-cP-J4rQ8z4ecYMW4", 
+  authDomain: "veyan-53930.firebaseapp.com",
+  projectId: "veyan-53930",
+  storageBucket: "veyan-53930.firebasestorage.app",
+  messagingSenderId: "836801786398",
+  appId: "1:836801786398:web:a73fbda60267efcdbd740f"
+};
+const $ = id => document.getElementById(id);
+const gate = $('adminAccessGate');
+window.VayenAdminProducts={save:async()=>{throw Error('Admin verification pending')}};
+const message = $('adminAccessMessage');
+const signIn = $('adminAccessLogin');
+const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let authorized=false, firestore=null, records=[];
+let adminAuthVersion=0;
+let activeAdminUid=null;
+ // Real gift delivery: privileged endpoint verifies the Firebase ID token and admin role.
+ const giftForm = $('realGiftForm');
+ const giftButton = $('realGiftSend');
+ const giftStatus = $('realGiftStatus');
+ let giftSending = false;
+ function setGiftAccess(ready) {
+   giftButton.disabled = !ready || giftSending;
+   if (!ready) giftStatus.textContent = 'Sign in with your authorized admin account.';
+   else if (!giftSending && giftStatus.textContent.includes('Sign in')) giftStatus.textContent = 'Ready to send a gift.';
+ }
+ giftForm.addEventListener('submit', async event => {
+   event.preventDefault();
+   if (giftSending || !authorized || !activeAdminUid) return;
+   const email = $('realGiftEmail').value.trim().toLowerCase();
+   const productId = $('realGiftProduct').value;
+   const message = $('realGiftMessage').value.trim();
+   if (!email || !productId || !message) {
+     giftStatus.textContent = 'Please complete all fields.';
+     return;
+   }
+   const user = getAuth().currentUser;
+   if (!user || user.uid !== activeAdminUid) {
+     giftStatus.textContent = 'Please sign in again to continue.';
+     return;
+   }
+   if (!confirm(`Send ${$('realGiftProduct').selectedOptions[0].text} to ${email}?`)) return;
+   giftSending = true;
+   giftButton.disabled = true;
+   giftButton.textContent = 'Sending...';
+   giftStatus.textContent = 'Delivering your gift securely...';
+   try {
+     const token = await user.getIdToken();
+     if (!authorized || getAuth().currentUser?.uid !== user.uid) throw new Error('Admin session changed');
+     const response = await fetch(
+       'https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/vayen-gift-manager',
+       {
+         method: 'POST',
+         headers: {
+           Authorization: 'Bearer ' + token,
+           'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({ action: 'send', email, productId, message })
+       }
+     );
+     const result = await response.json().catch(() => ({}));
+     if (!response.ok || result.success !== true) {
+       throw new Error(result.error || 'Gift could not be delivered');
+     }
+     giftStatus.textContent = '✓ Gift sent! The customer can unwrap it on their Homepage.';
+     giftForm.reset();
+   } catch (error) {
+     console.error('VAYEN gift delivery failed:', error);
+     giftStatus.textContent = 'Gift was not sent. ' + (error?.message || 'Please try again.');
+   } finally {
+     giftSending = false;
+     giftButton.textContent = 'Send Gift →';
+     giftButton.disabled = !authorized;
+   }
+ });
+// Secure paid Surprise Box queue and admin-selected delivery.
+let surpriseBusy=false;
+async function surpriseCall(body){
+ const user=getAuth().currentUser;
+ if(!authorized||!user||user.uid!==activeAdminUid)throw Error('Admin sign-in required');
+ const token=await user.getIdToken();
+ const response=await fetch('https://ajctjuyvdguzwcvesvio.supabase.co/functions/v1/vayen-admin-surprise-box',{
+  method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify(body)
+ });
+ const data=await response.json().catch(()=>({}));
+ if(!response.ok||data.success!==true)throw Error(data.error||'Request failed');
+ return data;
+}
+async function refreshSurpriseQueue(){
+ if(!authorized||surpriseBusy)return;
+ const status=$('realSurpriseStatus'),rows=$('realSurpriseRows');status.textContent='Loading paid requests...';
+ try{
+  const [response,products]=await Promise.all([surpriseCall({action:'list'}),getDocs(collection(firestore,'products'))]);
+  const choices=products.docs.filter(d=>{const p=d.data();return p.status==='published'&&p.slug===d.id&&Number.isSafeInteger(p.price)&&p.price>=499&&p.price<=999}).map(d=>({id:d.id,name:d.data().name||d.id}));
+  rows.replaceChildren();
+  for(const item of response.items){
+   const tr=document.createElement('tr');
+   const order=document.createElement('td');order.textContent=item.orderId;
+   const customer=document.createElement('td');customer.textContent=item.email||item.userId;
+   const gift=document.createElement('td'),select=document.createElement('select');select.className='field';
+   select.add(new Option('Select ebook',''));
+   for(const p of choices)select.add(new Option(p.name,p.id));gift.append(select);
+   const action=document.createElement('td'),button=document.createElement('button');button.className='tiny';button.textContent='Deliver';action.append(button);
+   button.addEventListener('click',async()=>{
+    if(surpriseBusy||!select.value){status.textContent='Select an ebook first.';return;}
+    const name=choices.find(p=>p.id===select.value)?.name||select.value;
+    if(!confirm(`Deliver ${name} to ${item.email||item.userId}?`))return;
+    surpriseBusy=true;button.disabled=true;status.textContent='Delivering gift...';
+    try{await surpriseCall({action:'deliver',orderId:item.orderId,userId:item.userId,productId:select.value});status.textContent='Gift delivered.';}
+    catch(e){console.error(e);status.textContent=e.message||'Delivery failed.';}
+    finally{surpriseBusy=false;button.disabled=false;}
+    await refreshSurpriseQueue();
+   });
+   tr.append(order,customer,gift,action);rows.append(tr);
+  }
+  status.textContent=`${response.items.length} pending paid request(s)`;
+  $('sGifts').textContent=response.items.length;
+  $('recentGifts').innerHTML=response.items.slice(0,5).map(x=>`<div><span>Surprise Box ₹499<br><small>${escapeHtml(x.email||x.userId)}</small></span><span class="tag pending">Awaiting delivery</span></div>`).join('')||'<p class="sub">No gifts awaiting delivery.</p>';
+ }catch(e){console.error(e);status.textContent='Could not load requests. Try Refresh.';}
+}
+$('refreshRealSurprises').addEventListener('click',refreshSurpriseQueue);
+document.querySelector('[data-tab="surprise"]').addEventListener('click',refreshSurpriseQueue);
+// Firebase product management. Catalog document IDs are product slugs.
+async function refreshProducts(){
+  if(!authorized||!firestore)return;
+  try{
+    const snap=await getDocs(collection(firestore,'products'));
+    const products=snap.docs.map(d=>({...d.data(),slug:d.id,id:d.data().id||'BASE-'+d.id}));
+    window.dispatchEvent(new CustomEvent('vayen-admin-products-loaded',{detail:products}));
+  }catch(error){console.error('Product load failed:',error);alert('Unable to load products: '+error.message);}
+}
+async function saveProduct(rec){
+  if(!authorized||!firestore||!activeAdminUid)throw Error('Admin access required');
+  const ownerUid=activeAdminUid;
+  const slug=String(rec.slug||'').trim();
+  if(!slug || slug.includes('/') || slug==='.' || slug==='..' || /[\\#?\[\]]/.test(slug))throw Error('Invalid product slug');
+  const ref=doc(firestore,'products',slug);
+  const old=await getDoc(ref);
+  if(!authorized||activeAdminUid!==ownerUid)throw Error('Admin session changed');
+  if(old.exists() && old.data().id && old.data().id!==rec.id)throw Error('Product slug already belongs to another product');
+  // Keep the original first-publication date across edits, hiding and republishing.
+  // Legacy published products without a date are NOT falsely marked as new.
+  const previous=old.exists()?old.data():null;
+  const saved={...(previous||{}),...rec};
+  if(previous?.publishedAt){
+    saved.publishedAt=previous.publishedAt;
+  }else if(rec.status==='published' && (!previous || previous.status!=='published')){
+    saved.publishedAt=new Date().toISOString();
+  }else{
+    delete saved.publishedAt;
+  }
+  await setDoc(ref,saved);
+}
+window.VayenAdminProducts.save=saveProduct;
+// Shared, admin-only support operations. Firestore Rules enforce the role.
+async function refreshSupportTickets() {
+  if (!authorized || !firestore) return;
+  try {
+    const snapshot = await getDocs(collection(firestore, 'supportTickets'));
+    const tickets = snapshot.docs.map(d => ({id:d.id, ...d.data()}));
+    tickets.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+    window.VayenSupportView.setTickets(tickets);
+  } catch (error) {
+    console.error('Support load failed:', error);
+    window.VayenSupportView.showError();
+  }
+}
+window.VayenSupportAdmin = {
+  refresh: refreshSupportTickets,
+  async update(id, status, reply) {
+    if (!authorized || !firestore) throw Error('Admin access required');
+    await updateDoc(doc(firestore, 'supportTickets', id), {
+      status,
+      adminReply: reply,
+      updatedAt: serverTimestamp()
+    });
+  }
+};
+
+document.getElementById('importTwoPremium').addEventListener('click',async()=>{
+  if(!authorized || !firestore || !activeAdminUid){
+    alert('Sign in as an authorized admin first.');
+    return;
+  }
+  const button=document.getElementById('importTwoPremium');
+  const ids=['claude-ai-youtube-autopilot','trading-strategy-masterclass'];
+  if(!confirm('Prepare the two Premium products as drafts? Existing products will not be changed.'))return;
+  button.disabled=true;
+  try{
+    const existing=await Promise.all(ids.map(id=>getDoc(doc(firestore,'products',id))));
+    if(!authorized || !activeAdminUid)throw Error('Admin session changed');
+    const batch=writeBatch(firestore);
+    let count=0;
+    ids.forEach((id,index)=>{
+      if(existing[index].exists())return;
+      const product=VayenCatalog.seed().find(item=>item.slug===id);
+      if(!product)throw Error('Product details not found: '+id);
+      batch.set(doc(firestore,'products',id),{...product,status:'draft'});
+      count++;
+    });
+    if(count)await batch.commit();
+    await refreshProducts();
+    alert(count+' new Premium product draft(s) prepared. Upload both language PDFs and confirm delivery setup before publishing.');
+  }catch(error){console.error('Premium product preparation failed:',error);alert('Unable to prepare products: '+error.message);}
+  finally{button.disabled=false;}
+});
+
+document.getElementById('importProducts').addEventListener('click',async()=>{
+  if(!authorized||!firestore){alert('Wait for admin verification.');return;}
+  const button=document.getElementById('importProducts');
+  if(button.disabled)return;
+  if(!confirm('Import missing original VAYEN products to Firebase? Existing products will not be overwritten.'))return;
+  button.disabled=true;button.textContent='Importing...';
+  try{
+    const existing=await getDocs(collection(firestore,'products'));
+    const known=new Set(existing.docs.map(d=>d.id));
+    const missing=VayenCatalog.seed().filter(p=>!known.has(p.slug));
+    if(missing.length){
+      const batch=writeBatch(firestore);
+      for(const rec of missing)batch.set(doc(firestore,'products',rec.slug),rec);
+      await batch.commit();
+    }
+    await refreshProducts();
+    alert(missing.length+' original product(s) imported. '+(existing.size)+' existing product(s) preserved.');
+  }catch(error){console.error('Catalog import failed:',error);alert('Import failed: '+error.message);}
+  finally{button.disabled=false;button.textContent='Import original catalog';}
+});
+
+function blocked(text,showLogin=false){setGiftAccess(false);authorized=false;activeAdminUid=null;records=[];cloudOrders=[];window.dispatchEvent(new Event('vayen-admin-customers-cleared'));window.VayenAdminProducts.save=async()=>{throw Error('Admin access required')};gate.style.display='grid';message.textContent=text;signIn.style.display=showLogin?'inline-block':'none';}
+function dateLabel(value){
+  if(!value)return '—';
+  const d=typeof value.toDate==='function'?value.toDate():new Date(value);
+  return Number.isNaN(d.getTime())?'—':d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
+}
+function renderCustomers(){
+  const q=$('loginCustomerSearch').value.trim().toLowerCase();
+  const visible=records.filter(x=>[x.id,x.fullName,x.dearName,x.email,x.loginMethod].join(' ').toLowerCase().includes(q));
+  $('loginCustomerRows').innerHTML=visible.map(x=>`<tr><td>${escapeHtml(x.id)}</td><td>${escapeHtml(x.fullName)}</td><td>${escapeHtml(x.email || "Not synced yet")}</td><td>${escapeHtml(x.loginMethod === "google.com" ? "Google" : x.loginMethod === "password" ? "Email / Password" : x.loginMethod || "Not synced yet")}</td><td>${escapeHtml(dateLabel(x.createdAt))}</td><td>${escapeHtml(x.dearName)}</td><td>Firebase profile</td></tr>`).join('') || '<tr><td colspan="7" class="empty">No matching Firebase customer profiles.</td></tr>';
+}
+async function refreshCustomers(){
+  if(!authorized||!firestore)return;
+  $('customerRefreshStatus').textContent='Loading customer profiles from Firestore...';
+  try{
+    const snapshot=await getDocs(collection(firestore,'users'));
+    records=snapshot.docs.map(d=>({id:d.id,...d.data()}));
+    window.dispatchEvent(new CustomEvent('vayen-admin-customers-loaded', {
+      detail: records.map(customer => customer.email).filter(Boolean)
+    }));
+    records.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+    $('sCustomers').textContent=records.length;
+    renderCustomers();
+    $('customerRefreshStatus').textContent=`✓ ${records.length} real Firebase profile(s) loaded · ${new Date().toLocaleTimeString('en-IN')}`;
+  }catch(error){
+    console.error('Admin customer load failed:',error);
+    $('customerRefreshStatus').textContent='Unable to load customers. Check admin permission and Firebase configuration.';
+  }
+}
+// Read-only verified payment reporting. Includes both root /orders and /planOrders.
+let cloudOrders = [];
+let planOrdersLoadError = false;
+const orderTimestamp = v => v?.toDate?.()?.getTime?.() || (v?.seconds ? v.seconds * 1000 : new Date(v || 0).getTime()) || 0;
+const money = n => '₹' + (Number(n || 0) / 100).toLocaleString('en-IN', {maximumFractionDigits:2});
+function renderCloudOrders() {
+  const q = $('cloudOrderSearch').value.trim().toLowerCase();
+  const rows = cloudOrders.filter(o => [o.id,o.customer,o.name,o.status].join(' ').toLowerCase().includes(q));
+  $('cloudOrderRows').innerHTML = rows.map(o => `<tr>
+    <td>${escapeHtml(o.id)}</td><td>${escapeHtml(o.customer)}</td>
+    <td>${escapeHtml(o.name)}${o.isPlan ? ' <span class="tag active">Plan</span>' : ''}</td><td>${money(o.amountPaise)}</td>
+    <td><span class="tag ${o.verified ? 'success' : ''}">${escapeHtml(o.status)}</span></td><td>${escapeHtml(dateLabel(o.createdAt))}</td>
+  </tr>`).join('') || '<tr><td colspan="6" class="empty">No matching orders.</td></tr>';
+}
+function renderPlanPurchases() {
+  const q = $('planPurchaseSearch').value.trim().toLowerCase();
+  const plans = cloudOrders.filter(o => o.isPlan);
+  const rows = plans.filter(o => [o.id,o.customer,o.name,o.status,(o.productIds || []).join(' ')].join(' ').toLowerCase().includes(q));
+  $('planPurchaseRows').innerHTML = rows.map(o => {
+    const products = o.productIds || [];
+    const productLabel = products.length
+      ? (o.planId === 'lifetime-access' ? `Published catalog snapshot · ${products.length} product(s)` : `${products.length} selected: ${products.join(', ')}`)
+      : '—';
+    return `<tr><td>${escapeHtml(o.id)}</td><td>${escapeHtml(o.customer)}</td><td>${escapeHtml(o.name)}</td><td>${money(o.amountPaise)}</td><td>${escapeHtml(productLabel)}</td><td><span class="tag ${o.verified ? 'success' : ''}">${escapeHtml(o.status)}</span></td><td>${escapeHtml(dateLabel(o.createdAt))}</td></tr>`;
+  }).join('') || `<tr><td colspan="7" class="empty">${planOrdersLoadError ? 'Plan purchase records could not be loaded. Check the Firestore admin read rules for planOrders.' : 'No matching plan purchases.'}</td></tr>`;
+  $('planPurchasesStatus').textContent = planOrdersLoadError
+    ? `${plans.length} plan purchase record(s) loaded · Some plan records could not be read. Check Firestore admin permissions.`
+    : `${plans.length} plan order(s) loaded · Only orders with verified captured payments count as paid.`;
+}
+async function refreshCloudOrders() {
+  if (!authorized || !firestore) return;
+  const btn = $('refreshCloudOrders');
+  btn.disabled = true;
+  $('cloudOrdersStatus').textContent = 'Loading payment records...';
+  try {
+    const [snap, userSnap] = await Promise.all([
+      getDocs(collection(firestore, 'orders')),
+      getDocs(collection(firestore, 'users'))
+    ]);
+    const users = new Map(userSnap.docs.map(d => [d.id, d.data()]));
+    const normalizeStatus = x => {
+      const paid = String(x.paymentStatus || '').toLowerCase();
+      const verifiedStatus = String(x.verificationStatus || '').toLowerCase();
+      const verified = ['paid','captured','success'].includes(paid) && ['verified','success'].includes(verifiedStatus);
+      const status = verified ? 'Verified paid' : paid === 'abandoned' ? 'Abandoned' : paid === 'failed' ? 'Failed' : paid === 'refunded' ? 'Refunded' : paid === 'pending' || paid === 'created' ? 'Pending' : 'Unverified / ' + (paid || 'unknown');
+      return { verified, status };
+    };
+    const normalOrders = snap.docs.map(d => {
+      const x = d.data();
+      const u = users.get(x.userId) || {};
+      const state = normalizeStatus(x);
+      return {
+        id: d.id,
+        customer: String(u.email || x.customerEmail || x.email || x.userId || 'Unknown customer'),
+        name: String(x.productName || x.planName || x.productId || x.planType || 'Digital product'),
+        amountPaise: Number(x.amount ?? x.amountPaise ?? 0),
+        status: state.status, verified: state.verified, isPlan: false,
+        createdAt: x.createdAt || x.paidAt || x.verifiedAt || null
+      };
+    });
+    let planDocs = [];
+    planOrdersLoadError = false;
+    try {
+      const planSnap = await getDocs(collection(firestore, 'planOrders'));
+      planDocs = planSnap.docs;
+    } catch (planError) {
+      planOrdersLoadError = true;
+      console.error('Admin plan purchase reporting failed:', planError);
+    }
+    const normalizedPlans = planDocs.map(d => {
+      const x = d.data();
+      const u = users.get(x.userId) || {};
+      const state = normalizeStatus(x);
+      const ids = x.planId === 'bundle-pass' ? x.selectedProductIds : x.planId === 'lifetime-access' ? x.snapshotProductIds : [];
+      return {
+        id: d.id,
+        customer: String(u.email || x.customerEmail || x.email || x.userId || 'Unknown customer'),
+        name: String(x.planName || x.planId || 'VAYEN plan'),
+        planId: String(x.planId || ''),
+        productIds: Array.isArray(ids) ? ids.filter(id => typeof id === 'string') : [],
+        amountPaise: Number(x.amount ?? x.amountPaise ?? 0),
+        status: state.status, verified: state.verified, isPlan: true,
+        createdAt: x.createdAt || x.paidAt || x.verifiedAt || null
+      };
+    });
+    cloudOrders = [...normalOrders, ...normalizedPlans].sort((a,b) => orderTimestamp(b.createdAt) - orderTimestamp(a.createdAt));
+    renderCloudOrders();
+    renderPlanPurchases();
+    const verified = cloudOrders.filter(o => o.verified);
+    $('sOrders').textContent = verified.length;
+    $('sRevenue').textContent = money(verified.reduce((sum,o) => sum + o.amountPaise,0));
+    $('recentOrders').innerHTML = cloudOrders.slice(0,5).map(o =>
+      `<div><span>${escapeHtml(o.name)}${o.isPlan ? ' · Plan' : ''}<br><small>${escapeHtml(o.customer)}</small></span><span>${money(o.amountPaise)} · ${escapeHtml(o.status)}</span></div>`
+    ).join('') || '<p class="sub">No orders yet.</p>';
+    $('verifiedPaymentRows').innerHTML = verified.map(o =>
+      `<tr><td>${escapeHtml(o.id)}</td><td>${escapeHtml(o.customer)}</td><td>${money(o.amountPaise)}</td><td><span class="tag success">Verified paid</span></td></tr>`
+    ).join('') || '<tr><td colspan="4" class="empty">No verified payments yet.</td></tr>';
+    $('cloudOrdersStatus').textContent = `${cloudOrders.length} order(s) loaded · ${verified.length} verified paid${planOrdersLoadError ? ' · Plan records unavailable; check Firestore admin rules.' : ` · ${normalizedPlans.length} plan order(s)`}.`;
+  } catch (error) {
+    console.error('Admin payment reporting failed:',error);
+    $('cloudOrdersStatus').textContent = error?.code === 'permission-denied'
+      ? 'Admin payment records access needs to be enabled in Firestore rules.'
+      : 'Unable to load payment records. Please try Refresh.';
+  } finally { btn.disabled = false; }
+}
+$('refreshCloudOrders').addEventListener('click', refreshCloudOrders);
+$('refreshPayments').addEventListener('click', refreshCloudOrders);
+$('refreshPlanPurchases').addEventListener('click', refreshCloudOrders);
+$('planPurchaseSearch').addEventListener('input', renderPlanPurchases);
+document.querySelector('[data-tab="payments"]').addEventListener('click', refreshCloudOrders);
+document.querySelector('[data-tab="planpurchases"]').addEventListener('click', () => { if (authorized) refreshCloudOrders(); });
+$('cloudOrderSearch').addEventListener('input', renderCloudOrders);
+document.querySelector('[data-tab="orders"]').addEventListener('click', () => { if (authorized) refreshCloudOrders(); });
+$('refreshLoginCustomers').addEventListener('click',refreshCustomers);
+$('loginCustomerSearch').addEventListener('input',renderCustomers);
+document.querySelector('[data-tab="customers"]').addEventListener('click',()=>{if(authorized)refreshCustomers()});
+if(!firebaseConfig.apiKey){blocked('Set your Firebase Web API key in Admin.html before publishing.');}
+else{
+  try{
+    const app=getApps().length?getApp():initializeApp(firebaseConfig);
+    const auth=getAuth(app);
+    firestore=getFirestore(app);
+    onAuthStateChanged(auth, async user => {
+      const checkVersion = ++adminAuthVersion;
+      blocked(user ? 'Verifying admin access...' : 'Please sign in with your authorized admin account.', !user);
+      if (!user) return;
+
+      try {
+        const admin = await getDoc(doc(firestore, 'admins', user.uid));
+        // Never reopen the workspace for a previous account or a stale verification.
+        if (checkVersion !== adminAuthVersion || auth.currentUser?.uid !== user.uid) return;
+        if (!admin.exists() || admin.data().role !== 'admin') {
+          blocked('This account does not have VAYEN admin access.');
+          return;
+        }
+
+        activeAdminUid = user.uid;
+        authorized = true;
+        setGiftAccess(true);
+        giftStatus.textContent = 'Ready to send a gift.';
+        window.VayenAdminProducts.save = saveProduct;
+        gate.style.display = 'none';
+        await Promise.all([refreshCustomers(), refreshProducts(), refreshSupportTickets(),refreshCloudOrders(),refreshSurpriseQueue()]);
+      } catch (error) {
+        if (checkVersion !== adminAuthVersion || auth.currentUser?.uid !== user.uid) return;
+        console.error('Admin verification failed:', error);
+        blocked('Unable to verify admin access. Please refresh and try again.');
+      }
+    }, error => {
+      ++adminAuthVersion;
+      console.error(error);
+      blocked('Unable to verify your sign-in. Please try again.', true);
+    });
+  }catch(error){console.error(error);blocked('Firebase initialization failed. Check the web API key.');}
+}
+</script>
+</body></html>
