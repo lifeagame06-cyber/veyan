@@ -64,6 +64,7 @@
 <style id="vayen-order-deeplink-highlight">
 .vy-demo-order.vy-order-highlight{border:2px solid #a34f76!important;background:#fff2f6!important;box-shadow:0 0 0 5px rgba(163,79,118,.13),0 12px 34px rgba(88,43,65,.14)!important}
 .vy-demo-order{scroll-margin-top:95px}
+</style>
 <style id="vayen-order-reference-wrap-fix">
 /* Keep long order references inside their card on narrow screens. */
 .vy-demo-order .vy-order-info {
@@ -74,8 +75,27 @@
     overflow-wrap: anywhere;
     word-break: break-word;
 }
+</style><style id="vayen-copy-order-reference-style">
+.vy-order-reference { overflow-wrap: anywhere; }
+.vy-copy-order-ref {
+    display: inline-flex;
+    vertical-align: middle;
+    align-items: center;
+    justify-content: center;
+    width: 27px;
+    height: 27px;
+    margin-left: 5px;
+    padding: 4px;
+    border: 1px solid #ead9df;
+    border-radius: 7px;
+    background: #fff8fa;
+    color: #8b5068;
+    cursor: pointer;
+}
+.vy-copy-order-ref:hover { background: #f5e7ec; }
+.vy-copy-order-ref:focus-visible { outline: 2px solid #963d61; outline-offset: 2px; }
 </style>
-</style></head>
+</head>
 <body class="orders-body">
 <!-- HEADER -->
 <header class="orders-header">
@@ -370,7 +390,7 @@ function render(recent) {
                         <span class="vy-order-ready">${statusLabel}</span>
                     </div>
                     <h2>${safe(o.name)}</h2>
-                    <p>${safe(o.category)} · #${safe(o.id)}</p>
+                    <p class="vy-order-reference">${safe(o.category)} · Order Ref: ${safe(String(o.id).slice(-10).toUpperCase())} <button type="button" class="vy-copy-order-ref" data-copy-order="${safe(o.id)}" aria-label="Copy full order reference" title="Copy full order reference"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button></p>
                     ${gifted ? '<p style="margin-top:5px;color:#963d61;font-weight:700">Complimentary gift · No payment required</p>' : (planUnlocked ? '<p style="margin-top:5px;color:#963d61;font-weight:700">Included in your verified plan · Lifetime access</p>' : '')}
                     <small>${o.createdAt ? safe(new Date(o.createdAt).toLocaleString('en-IN', {dateStyle:'medium',timeStyle:'short'})) : 'Purchase date unavailable'}</small>
                 </div>
@@ -406,6 +426,27 @@ function render(recent) {
     }
 }
 
+list.addEventListener('click', async event => {
+    const button = event.target.closest('button[data-copy-order]');
+    if (!button) return;
+    const fullId = button.dataset.copyOrder;
+    try {
+        await navigator.clipboard.writeText(fullId);
+        button.title = 'Copied!';
+        button.setAttribute('aria-label', 'Full order reference copied');
+    } catch (error) {
+        // Clipboard access may be blocked in some browser contexts.
+        const input = document.createElement('textarea');
+        input.value = fullId;
+        input.style.position = 'fixed';
+        input.style.opacity = '0';
+        document.body.appendChild(input);
+        input.select();
+        const copied = document.execCommand('copy');
+        input.remove();
+        button.title = copied ? 'Copied!' : 'Unable to copy';
+    }
+});
 list.addEventListener('click',e=>{const btn=e.target.closest('button[data-action]');if(!btn)return;const o=records.find(x=>x.id===btn.dataset.id);if(o)open(btn.dataset.action,o)});
 const filters=document.querySelectorAll('.orders-filter');filters.forEach((btn,i)=>btn.addEventListener('click',()=>{filters.forEach(x=>x.classList.remove('active'));btn.classList.add('active');recentActive=i===1;render(recentActive)}));render(false);
 })();
