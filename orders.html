@@ -64,6 +64,17 @@
 <style id="vayen-order-deeplink-highlight">
 .vy-demo-order.vy-order-highlight{border:2px solid #a34f76!important;background:#fff2f6!important;box-shadow:0 0 0 5px rgba(163,79,118,.13),0 12px 34px rgba(88,43,65,.14)!important}
 .vy-demo-order{scroll-margin-top:95px}
+<style id="vayen-order-reference-wrap-fix">
+/* Keep long order references inside their card on narrow screens. */
+.vy-demo-order .vy-order-info {
+    min-width: 0;
+    max-width: 100%;
+}
+.vy-demo-order .vy-order-info p {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+</style>
 </style></head>
 <body class="orders-body">
 <!-- HEADER -->
