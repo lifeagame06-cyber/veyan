@@ -615,17 +615,10 @@ body:has(.vayen-collection-final) {
     }
 }
 </style>
-<style id="vayen-new-premium-card-match">
-/* Only the two newly added premium cards; the original four stay unchanged. */
-.vayen-collection-final .vc-extra-premium {
-    background: radial-gradient(circle at 100% 0%, #e1d8ed, transparent 58%), #eee8f3;
-    color: #332830;
-    border-color: #e4d5dc;
-    box-shadow: 0 8px 25px rgba(121,82,104,.07);
-}
-.vayen-collection-final .vc-extra-premium .vc-cover-pending {
-    background: linear-gradient(135deg, #2d243a, #665076);
-}
+<style id="vayen-new-premium-only">
+.vayen-collection-final .vc-claude { background: radial-gradient(circle at 100% 0%, #d4dff5, transparent 58%), #e7edf8; }
+.vayen-collection-final .vc-trading { background: radial-gradient(circle at 100% 0%, #d8e9e0, transparent 58%), #eaf2ed; }
+.vayen-collection-final .vc-cover-placeholder { background: linear-gradient(135deg, #27263d, #56526f); }
 </style>
 </head>
 <body>
@@ -733,7 +726,7 @@ body:has(.vayen-collection-final) {
        </h2>
 </div>
 <span class="vc-note">
-       FOUR PRACTICAL LEARNING SYSTEMS
+       SIX PRACTICAL LEARNING SYSTEMS
       </span>
 </div>
 <div class="vc-grid">
@@ -856,6 +849,18 @@ body:has(.vayen-collection-final) {
          Explore product ↗
         </span>
 </div>
+</a>
+<a class="vc-card vc-mid vc-claude" href="product.html?id=claude-ai-youtube-autopilot">
+<div class="vc-top"><span>VAYEN / 07</span><span>PREMIUM</span></div>
+<div class="vc-cover-wrap vc-cover-placeholder" aria-hidden="true"></div>
+<div class="vc-copy"><small>AI-POWERED YOUTUBE WORKFLOW</small><h3>Claude AI – YouTube Autopilot Blueprint</h3><p>Plan, script and produce YouTube videos with an AI-assisted workflow.</p></div>
+<div class="vc-bottom"><strong>₹999</strong><span>Explore product ↗</span></div>
+</a>
+<a class="vc-card vc-mid vc-trading" href="product.html?id=trading-strategy-masterclass">
+<div class="vc-top"><span>VAYEN / 08</span><span>PREMIUM</span></div>
+<div class="vc-cover-wrap vc-cover-placeholder" aria-hidden="true"></div>
+<div class="vc-copy"><small>LEARN TRADING STRATEGIES</small><h3>Trading Strategy Masterclass</h3><p>Build practical trading knowledge with structured strategies.</p></div>
+<div class="vc-bottom"><strong>₹899</strong><span>Explore product ↗</span></div>
 </a>
 </div>
 </div>
@@ -1006,65 +1011,12 @@ if(worldList){for(const row of C.list('Worlds')){
   b.dataset.world=String(row.worldNumber||C.nextWorldNumber()).padStart(2,'0');
   b.addEventListener('click',()=>location.href='product.html?id='+encodeURIComponent(id));worldList.appendChild(b);
 }}
-const extraRows = C.list().filter(p =>
-    !C.FLAG.includes(p.slug) &&
-    !C.PREMIUM.includes(p.slug) &&
-    !C.WORLDS.includes(p.slug) &&
-    p.group !== 'Worlds'
-);
-
-for (const p of extraRows) {
-    const id = p.slug || p.id;
-    const isFlagship = p.group === 'Expensive / Flagship';
-    const target = document.querySelector(isFlagship ? '.vc-flagship' : '.vc-mid')?.parentElement;
-    if (!target || !id) continue;
-    if (target.querySelector(`a[href="product.html?id=${id}"]`)) continue;
-
-    const card = document.createElement('a');
-    card.href = 'product.html?id=' + encodeURIComponent(id);
-    card.className = isFlagship
-        ? 'vc-card vc-flagship'
-        : 'vc-card vc-mid vc-extra-premium';
-    card.dataset.vayenProduct = id;
-
-    const top = document.createElement('div');
-    top.className = 'vc-top';
-    const number = document.createElement('span');
-    number.textContent = 'VAYEN / ' + String(target.querySelectorAll('.vc-card').length + (isFlagship ? 1 : 3)).padStart(2, '0');
-    const category = document.createElement('span');
-    category.textContent = isFlagship ? '✦ SIGNATURE' : 'PREMIUM';
-    top.append(number, category);
-
-    const cover = document.createElement('div');
-    cover.className = 'vc-cover-wrap vc-cover-pending';
-    cover.setAttribute('aria-hidden', 'true');
-
-    const copy = document.createElement('div');
-    copy.className = 'vc-copy';
-    const eyebrow = document.createElement('small');
-    eyebrow.textContent = id === 'claude-ai-youtube-autopilot'
-        ? 'AI-POWERED YOUTUBE WORKFLOW'
-        : id === 'trading-strategy-masterclass'
-            ? 'LEARN TRADING STRATEGIES'
-            : 'PRACTICAL LEARNING';
-    const heading = document.createElement('h3');
-    heading.textContent = p.name;
-    const description = document.createElement('p');
-    description.textContent = p.shortDescription || p.description || 'Explore this digital product.';
-    copy.append(eyebrow, heading, description);
-
-    const bottom = document.createElement('div');
-    bottom.className = 'vc-bottom';
-    const price = document.createElement('strong');
-    price.textContent = '₹' + Number(p.price).toLocaleString('en-IN');
-    const explore = document.createElement('span');
-    explore.textContent = 'Explore product ↗';
-    bottom.append(price, explore);
-
-    card.appendChild(top);
-    if (!isFlagship) card.appendChild(cover);
-    card.append(copy, bottom);
-    target.appendChild(card);
+const extraRows=C.list().filter(p=>!C.FLAG.includes(p.slug)&&!C.PREMIUM.includes(p.slug)&&!C.WORLDS.includes(p.slug)&&p.group!=='Worlds');
+for(const p of extraRows){if(document.querySelector('a[href="product.html?id='+encodeURIComponent(p.slug||p.id)+'"]'))continue;const target=p.group==='Expensive / Flagship'?document.querySelector('.vc-flagship')?.parentElement:document.querySelector('.vc-mid')?.parentElement;if(!target)continue;
+  const a=document.createElement('a');a.href='product.html?id='+encodeURIComponent(p.slug||p.id);a.className=p.group==='Expensive / Flagship'?'vc-card vc-flagship':'vc-card vc-mid';
+  const title=document.createElement('h3');title.textContent=p.name;const desc=document.createElement('p');desc.textContent=p.shortDescription||p.description||'Explore this digital product';
+  const price=document.createElement('strong');price.textContent='₹'+Number(p.price).toLocaleString('en-IN');
+  a.style.cssText='display:flex;flex-direction:column;justify-content:center;gap:14px;padding:28px;min-height:270px;text-decoration:none;color:inherit;background:linear-gradient(135deg,#fff9f8,#eadfe3);border-radius:22px';a.append(title,desc,price);target.appendChild(a);
 }
 })();
 </script>
