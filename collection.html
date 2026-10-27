@@ -551,67 +551,86 @@ body:has(.vayen-collection-final) {
     .vayen-collection-final .vc-world-name { font-size: 10px; }
 }
 </style>
-
-<style id="vayen-collection-cover-fit-20261026">
-/* Only the twelve Collection world cover cards; retain full image and titles. */
-.vayen-collection-final .vc-world-list .vc-world-save-wrap > button[data-world]:has(.vc-world-cover),
-.vayen-collection-final .vc-world-list > button[data-world]:has(.vc-world-cover) {
-    padding: 8px 8px 12px;
-    gap: 8px;
-    overflow: hidden;
-}
-.vayen-collection-final .vc-world-list .vc-world-cover {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: auto;
-    object-fit: contain;
-    border-radius: 9px;
-    background: #100b18;
-}
-.vayen-collection-final .vc-world-list .vc-world-name {
-    font-size: 12px;
-    font-weight: 700;
-    line-height: 1.35;
-    letter-spacing: -.1px;
-    overflow-wrap: anywhere;
-    padding-right: 0;
-}
-.vayen-collection-final .vc-world-list button[data-world]::after {
-    content: none !important;
-}
-.vayen-collection-final .vc-world-list button.selected-world::after {
-    content: "✓" !important;
-    right: 9px;
-    top: auto;
-    bottom: 8px;
-    transform: none;
-}
-@media (max-width:768px) {
-    .vayen-collection-final .vc-world-list .vc-world-name { font-size: 11px; }
-}
-</style>
-<style id="vayen-world-cover-visibility-fix">
-/* Only 12 Collection world thumbnails; no other page or functionality changes. */
-.vayen-collection-final #collectionWorlds .vc-world-cover {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    width: 100% !important;
-    height: auto !important;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    object-position: center;
-    max-width: none;
-    border-radius: 9px;
-    background: #100b18;
+<style id="vayen-world-card-premium-refinement">
+/* Only the 12 Worlds product tiles: larger original art, no tiny arrows,
+   cleaner captions. Product images, selection and navigation remain unchanged. */
+.vayen-collection-final #collectionWorlds {
+    gap: 13px;
 }
 .vayen-collection-final #collectionWorlds button:has(.vc-world-cover) {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    padding: 10px 10px 15px;
+    gap: 10px;
     min-height: 0;
+    border-radius: 17px;
+    border: 1px solid #e7deda;
+    background: #fffaf8;
+    box-shadow: 0 5px 18px rgba(65,38,51,.065);
+    overflow: hidden;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
 }
+.vayen-collection-final #collectionWorlds button:has(.vc-world-cover):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(65,38,51,.12);
+}
+.vayen-collection-final #collectionWorlds button:has(.vc-world-cover)::after {
+    content: none !important;
+    display: none !important;
+}
+.vayen-collection-final #collectionWorlds .vc-world-cover {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 11px;
+    background: #16121b;
+}
+.vayen-collection-final #collectionWorlds .vc-world-name {
+    display: block;
+    padding: 0 2px;
+    color: #2b2228;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -.12px;
+    overflow-wrap: break-word;
+}
+.vayen-collection-final #collectionWorlds button.selected-world .vc-world-name {
+    color: #fff;
+}
+@media (max-width: 768px) {
+    .vayen-collection-final #collectionWorlds { gap: 11px; }
+    .vayen-collection-final #collectionWorlds button:has(.vc-world-cover) {
+        padding: 8px 8px 13px;
+        gap: 9px;
+        border-radius: 16px;
+    }
+    .vayen-collection-final #collectionWorlds .vc-world-cover {
+        border-radius: 10px;
+    }
+    .vayen-collection-final #collectionWorlds .vc-world-name {
+        font-size: 12px;
+        line-height: 1.35;
+    }
+}
+</style>
+<style id="vayen-two-new-premium-cards">
+/* New premium cards only. Existing cards and heart behavior are unchanged. */
+.vayen-collection-final .vc-claude { background:radial-gradient(circle at 100% 0%,#f3d1bf,transparent 62%),#f6e8df; }
+.vayen-collection-final .vc-trading { background:radial-gradient(circle at 100% 0%,#c8e8dc,transparent 62%),#e8f3ee; }
+.vayen-collection-final .vc-new-art { width:100%;aspect-ratio:16/9;border-radius:15px;overflow:hidden;position:relative;display:flex;align-items:center;padding:6%;isolation:isolate;box-shadow:0 8px 22px rgba(20,15,29,.12); }
+.vayen-collection-final .vc-new-art::before {content:"";position:absolute;inset:10px;border:1px solid var(--accent);border-radius:10px;opacity:.9;pointer-events:none;}
+.vayen-collection-final .vc-new-art .vc-art-copy {position:relative;z-index:2;width:57%;}
+.vayen-collection-final .vc-new-art .vc-art-brand {font-size:clamp(8px,.9vw,12px);letter-spacing:3px;font-weight:800;color:#fff;}
+.vayen-collection-final .vc-new-art .vc-art-title {font-size:clamp(19px,2.7vw,39px);line-height:1.05;letter-spacing:-1px;font-weight:800;color:#fff;margin:17px 0 9px;}
+.vayen-collection-final .vc-new-art .vc-art-title em {font-style:normal;color:var(--accent);}
+.vayen-collection-final .vc-new-art .vc-art-sub {font-size:clamp(8px,1vw,12px);line-height:1.4;color:#d9e1e6;max-width:220px;}
+.vayen-collection-final .vc-new-art .vc-art-visual {position:absolute;right:3%;top:13%;height:74%;width:38%;display:grid;place-items:center;}
+.vayen-collection-final .vc-new-art .vc-art-visual svg {height:100%;width:100%;filter:drop-shadow(0 9px 18px rgba(0,0,0,.3));}
+.vayen-collection-final .vc-claude-art {--accent:#e99b73;background:radial-gradient(circle at 80% 50%,#563b35 0%,#251d25 48%,#12141c 100%);}
+.vayen-collection-final .vc-trading-art {--accent:#51e0ad;background:radial-gradient(circle at 85% 55%,#174a45 0%,#10252e 50%,#10141d 100%);}
+@media(max-width:768px){.vayen-collection-final .vc-new-art .vc-art-title{font-size:clamp(21px,6vw,34px)}.vayen-collection-final .vc-new-art .vc-art-sub{font-size:9px}.vayen-collection-final .vc-new-art .vc-art-brand{font-size:9px}}
 </style>
 </head>
 <body>
@@ -719,7 +738,7 @@ body:has(.vayen-collection-final) {
        </h2>
 </div>
 <span class="vc-note">
-       FOUR PRACTICAL LEARNING SYSTEMS
+       SIX PRACTICAL LEARNING SYSTEMS
       </span>
 </div>
 <div class="vc-grid">
@@ -843,6 +862,24 @@ body:has(.vayen-collection-final) {
         </span>
 </div>
 </a>
+<a class="vc-card vc-mid vc-claude" href="product.html?id=claude-ai-youtube-autopilot">
+<div class="vc-top"><span>VAYEN / 07</span><span>PREMIUM</span></div>
+<div class="vc-new-art vc-claude-art" role="img" aria-label="Claude AI YouTube Autopilot Blueprint cover">
+<div class="vc-art-copy"><div class="vc-art-brand">◆ VAYEN</div><div class="vc-art-title">Claude AI<br><em>YouTube</em><br>Autopilot</div><div class="vc-art-sub">Plan smarter. Create with a repeatable AI workflow.</div></div>
+<div class="vc-art-visual"><svg viewBox="0 0 180 180" aria-hidden="true"><rect x="21" y="22" width="138" height="136" rx="22" fill="#2b232a" stroke="#d99875" stroke-width="3"/><rect x="37" y="43" width="106" height="67" rx="10" fill="#edb190"/><path d="M82 58 L82 95 L113 76 Z" fill="#38292b"/><rect x="39" y="121" width="73" height="7" rx="3.5" fill="#e4b59b"/><rect x="39" y="135" width="94" height="5" rx="2.5" fill="#846e71"/><circle cx="151" cy="31" r="17" fill="#e99b73"/><path d="M145 31h12m-6-6v12" stroke="#251d25" stroke-width="3" stroke-linecap="round"/></svg></div>
+</div>
+<div class="vc-copy"><small>AI-POWERED YOUTUBE WORKFLOW</small><h3>Claude AI – YouTube Autopilot Blueprint</h3><p>Learn channel planning, research, scripting and practical AI-assisted production workflows.</p></div>
+<div class="vc-bottom"><strong>₹999</strong><span>Explore product ↗</span></div>
+</a>
+<a class="vc-card vc-mid vc-trading" href="product.html?id=trading-strategy-masterclass">
+<div class="vc-top"><span>VAYEN / 08</span><span>PREMIUM</span></div>
+<div class="vc-new-art vc-trading-art" role="img" aria-label="Trading Strategy Masterclass cover">
+<div class="vc-art-copy"><div class="vc-art-brand">◆ VAYEN</div><div class="vc-art-title">Trading<br><em>Strategy</em><br>Masterclass</div><div class="vc-art-sub">Candlesticks, risk control and a practical trading plan.</div></div>
+<div class="vc-art-visual"><svg viewBox="0 0 180 180" aria-hidden="true"><rect x="10" y="17" width="160" height="146" rx="16" fill="#0b1d24" stroke="#2d7468" stroke-width="2"/><path d="M20 130h140M20 94h140M20 58h140" stroke="#24434a" stroke-width="1"/><g stroke-width="3" stroke-linecap="round"><path d="M36 94v44" stroke="#ec6d75"/><path d="M65 72v49" stroke="#51e0ad"/><path d="M94 48v58" stroke="#51e0ad"/><path d="M123 67v48" stroke="#ec6d75"/><path d="M149 31v66" stroke="#51e0ad"/></g><rect x="30" y="106" width="12" height="23" rx="2" fill="#ec6d75"/><rect x="59" y="84" width="12" height="25" rx="2" fill="#51e0ad"/><rect x="88" y="59" width="12" height="33" rx="2" fill="#51e0ad"/><rect x="117" y="81" width="12" height="21" rx="2" fill="#ec6d75"/><rect x="143" y="45" width="12" height="34" rx="2" fill="#51e0ad"/></svg></div>
+</div>
+<div class="vc-copy"><small>LEARN TRADING FROM ZERO</small><h3>Trading Strategy Masterclass</h3><p>Understand candle patterns, trading setups, risk management and investing fundamentals.</p></div>
+<div class="vc-bottom"><strong>₹899</strong><span>Explore product ↗</span></div>
+</a>
 </div>
 </div>
 </section>
@@ -856,56 +893,56 @@ body:has(.vayen-collection-final) {
        12 worlds. One collection.
       </h2>
 <p>
-       Choose a world to explore its product. All six featured products remain above.
+       Choose a world to explore its product. All eight featured products remain above.
       </p>
 </div>
 <div class="vc-world-list" id="collectionWorlds">
 <button data-world="01" type="button">
-<img class="vc-world-cover" src="images/product-covers/reels-growth.webp?v=20261026" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/reels-growth.png" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Reels Growth</span>
 </button>
 <button data-world="02" type="button">
-<img class="vc-world-cover" src="images/product-covers/web-creator.webp?v=20261026" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/web-creator.png" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Web Creator</span>
 </button>
 <button data-world="03" type="button">
-<img class="vc-world-cover" src="images/product-covers/youtube-algorithm.webp?v=20261026" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/youtube-algorithm.png" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">YouTube Algorithm</span>
 </button>
 <button data-world="04" type="button">
-<img class="vc-world-cover" src="images/product-covers/earn-from-social-media.webp?v=20261026" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/earn-from-social-media.png" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">How to Earn from Social Media</span>
 </button>
 <button data-world="05" type="button">
-<img class="vc-world-cover" src="images/product-covers/creator-studio.webp?v=20261026" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/creator-studio.png" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Creator Studio</span>
 </button>
 <button data-world="06" type="button">
-<img class="vc-world-cover" src="images/product-covers/business-launch.webp?v=20261026" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/business-launch.png" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Business Launch</span>
 </button>
 <button data-world="07" type="button">
-<img class="vc-world-cover" src="images/product-covers/content-strategy.webp?v=20261026" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/content-strategy.png" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Content Strategy</span>
 </button>
 <button data-world="08" type="button">
-<img class="vc-world-cover" src="images/product-covers/design-thumbnails.webp?v=20261026" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/design-thumbnails.png" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">How to Design Thumbnails</span>
 </button>
 <button data-world="09" type="button">
-<img class="vc-world-cover" src="images/product-covers/edit-videos.webp?v=20261026" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/edit-videos.png" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">How to Edit Videos</span>
 </button>
 <button data-world="10" type="button">
-<img class="vc-world-cover" src="images/product-covers/ai-automation.webp?v=20261026" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/ai-automation.png" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">AI Automation</span>
 </button>
 <button data-world="11" type="button">
-<img class="vc-world-cover" src="images/product-covers/seller-commerce.webp?v=20261026" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/seller-commerce.png" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Seller &amp; Commerce</span>
 </button>
 <button data-world="12" type="button">
-<img class="vc-world-cover" src="images/product-covers/personal-brand.webp?v=20261026" alt="" loading="lazy" decoding="async">
+<img class="vc-world-cover" src="images/product-covers/personal-brand.png" alt="" loading="lazy" decoding="async">
 <span class="vc-world-name">Build Your Personal Brand</span>
 </button>
 </div>
