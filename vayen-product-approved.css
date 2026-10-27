@@ -210,46 +210,83 @@ body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-ai-count{margin:7px 0 0
 body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-ai-use{margin:4px 0 0!important;font-size:12px!important;line-height:1.45!important}
 
 
-/* VAYEN 12 Worlds — approved JS renders a NEW .ap-cover.
-   Previous .product-visual rules cannot affect this generated element.
-   Restrict to the twelve product IDs; preserve other products. */
-body.vayen-approved:is([data-ap-product="reels-growth"],[data-ap-product="web-creator"],[data-ap-product="youtube-algorithm"],[data-ap-product="earn-from-social-media"],[data-ap-product="creator-studio"],[data-ap-product="business-launch"],[data-ap-product="content-strategy"],[data-ap-product="design-thumbnails"],[data-ap-product="edit-videos"],[data-ap-product="ai-automation"],[data-ap-product="seller-commerce"],[data-ap-product="personal-brand"]) .ap-cover {
-  display: block !important;
-  height: auto !important;
-  min-height: 0 !important;
-  max-height: none !important;
-  aspect-ratio: auto !important;
-  padding: 0 !important;
-  overflow: hidden !important;
+/* VAYEN — ONLY SIX PREMIUM DETAIL COVERS (2026-10-27) */
+body.vayen-approved[data-ap-product="animation-mastery"] .ap-cover,
+body.vayen-approved[data-ap-product="social-media-tips"] .ap-cover,
+body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-cover,
+body.vayen-approved[data-ap-product="build-your-own-ai"] .ap-cover,
+body.vayen-approved[data-ap-product="claude-ai-youtube-autopilot"] .ap-cover,
+body.vayen-approved[data-ap-product="trading-strategy-masterclass"] .ap-cover,
+body.vayen-approved[data-vayen-product="animation-mastery"] .ap-cover,
+body.vayen-approved[data-vayen-product="social-media-tips"] .ap-cover,
+body.vayen-approved[data-vayen-product="ai-prompt-box"] .ap-cover,
+body.vayen-approved[data-vayen-product="build-your-own-ai"] .ap-cover,
+body.vayen-approved[data-vayen-product="claude-ai-youtube-autopilot"] .ap-cover,
+body.vayen-approved[data-vayen-product="trading-strategy-masterclass"] .ap-cover {
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 16 / 9 !important;
+    padding: 0 !important;
+    display: block !important;
+    overflow: hidden !important;
 }
-body.vayen-approved:is([data-ap-product="reels-growth"],[data-ap-product="web-creator"],[data-ap-product="youtube-algorithm"],[data-ap-product="earn-from-social-media"],[data-ap-product="creator-studio"],[data-ap-product="business-launch"],[data-ap-product="content-strategy"],[data-ap-product="design-thumbnails"],[data-ap-product="edit-videos"],[data-ap-product="ai-automation"],[data-ap-product="seller-commerce"],[data-ap-product="personal-brand"]) .ap-cover > img {
-  display: block !important;
-  width: 100% !important;
-  height: auto !important;
-  max-width: 100% !important;
-  max-height: none !important;
-  object-fit: contain !important;
-  object-position: center !important;
+body.vayen-approved[data-ap-product="animation-mastery"] .ap-cover > img,
+body.vayen-approved[data-ap-product="social-media-tips"] .ap-cover > img,
+body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-cover > img,
+body.vayen-approved[data-ap-product="build-your-own-ai"] .ap-cover > img,
+body.vayen-approved[data-ap-product="claude-ai-youtube-autopilot"] .ap-cover > img,
+body.vayen-approved[data-ap-product="trading-strategy-masterclass"] .ap-cover > img,
+body.vayen-approved[data-vayen-product="animation-mastery"] .ap-cover > img,
+body.vayen-approved[data-vayen-product="social-media-tips"] .ap-cover > img,
+body.vayen-approved[data-vayen-product="ai-prompt-box"] .ap-cover > img,
+body.vayen-approved[data-vayen-product="build-your-own-ai"] .ap-cover > img,
+body.vayen-approved[data-vayen-product="claude-ai-youtube-autopilot"] .ap-cover > img,
+body.vayen-approved[data-vayen-product="trading-strategy-masterclass"] .ap-cover > img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute !important;
+    inset: 0 !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    max-width: none !important;
+    max-height: none !important;
 }
-body.vayen-approved:is([data-ap-product="reels-growth"],[data-ap-product="web-creator"],[data-ap-product="youtube-algorithm"],[data-ap-product="earn-from-social-media"],[data-ap-product="creator-studio"],[data-ap-product="business-launch"],[data-ap-product="content-strategy"],[data-ap-product="design-thumbnails"],[data-ap-product="edit-videos"],[data-ap-product="ai-automation"],[data-ap-product="seller-commerce"],[data-ap-product="personal-brand"]) .ap-cover > .ap-cover-label,
-body.vayen-approved:is([data-ap-product="reels-growth"],[data-ap-product="web-creator"],[data-ap-product="youtube-algorithm"],[data-ap-product="earn-from-social-media"],[data-ap-product="creator-studio"],[data-ap-product="business-launch"],[data-ap-product="content-strategy"],[data-ap-product="design-thumbnails"],[data-ap-product="edit-videos"],[data-ap-product="ai-automation"],[data-ap-product="seller-commerce"],[data-ap-product="personal-brand"]) .ap-cover > .ap-cover-bottom {
-  display: none !important;
-}
-
-/* Restore original full-cover display for YouTube Creator System only.
-   The 12 Worlds rules above remain unchanged. */
-body.vayen-approved[data-ap-product="youtube-creator-system"] .ap-cover > img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  object-position: center center !important;
-}
-
-/* Vlogging Mastery only: restore original full-cover image fit.
-   Keep YouTube Creator System and all 12 Worlds unchanged. */
-body.vayen-approved[data-ap-product="vlogging-mastery"] .ap-cover > img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  object-position: center center !important;
+body.vayen-approved[data-ap-product="animation-mastery"] .ap-cover-label,
+body.vayen-approved[data-ap-product="social-media-tips"] .ap-cover-label,
+body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-cover-label,
+body.vayen-approved[data-ap-product="build-your-own-ai"] .ap-cover-label,
+body.vayen-approved[data-ap-product="claude-ai-youtube-autopilot"] .ap-cover-label,
+body.vayen-approved[data-ap-product="trading-strategy-masterclass"] .ap-cover-label,
+body.vayen-approved[data-vayen-product="animation-mastery"] .ap-cover-label,
+body.vayen-approved[data-vayen-product="social-media-tips"] .ap-cover-label,
+body.vayen-approved[data-vayen-product="ai-prompt-box"] .ap-cover-label,
+body.vayen-approved[data-vayen-product="build-your-own-ai"] .ap-cover-label,
+body.vayen-approved[data-vayen-product="claude-ai-youtube-autopilot"] .ap-cover-label,
+body.vayen-approved[data-vayen-product="trading-strategy-masterclass"] .ap-cover-label,
+body.vayen-approved[data-ap-product="animation-mastery"] .ap-cover-bottom,
+body.vayen-approved[data-ap-product="social-media-tips"] .ap-cover-bottom,
+body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-cover-bottom,
+body.vayen-approved[data-ap-product="build-your-own-ai"] .ap-cover-bottom,
+body.vayen-approved[data-ap-product="claude-ai-youtube-autopilot"] .ap-cover-bottom,
+body.vayen-approved[data-ap-product="trading-strategy-masterclass"] .ap-cover-bottom,
+body.vayen-approved[data-vayen-product="animation-mastery"] .ap-cover-bottom,
+body.vayen-approved[data-vayen-product="social-media-tips"] .ap-cover-bottom,
+body.vayen-approved[data-vayen-product="ai-prompt-box"] .ap-cover-bottom,
+body.vayen-approved[data-vayen-product="build-your-own-ai"] .ap-cover-bottom,
+body.vayen-approved[data-vayen-product="claude-ai-youtube-autopilot"] .ap-cover-bottom,
+body.vayen-approved[data-vayen-product="trading-strategy-masterclass"] .ap-cover-bottom,
+body.vayen-approved[data-ap-product="animation-mastery"] .ap-cover-fallback,
+body.vayen-approved[data-ap-product="social-media-tips"] .ap-cover-fallback,
+body.vayen-approved[data-ap-product="ai-prompt-box"] .ap-cover-fallback,
+body.vayen-approved[data-ap-product="build-your-own-ai"] .ap-cover-fallback,
+body.vayen-approved[data-ap-product="claude-ai-youtube-autopilot"] .ap-cover-fallback,
+body.vayen-approved[data-ap-product="trading-strategy-masterclass"] .ap-cover-fallback,
+body.vayen-approved[data-vayen-product="animation-mastery"] .ap-cover-fallback,
+body.vayen-approved[data-vayen-product="social-media-tips"] .ap-cover-fallback,
+body.vayen-approved[data-vayen-product="ai-prompt-box"] .ap-cover-fallback,
+body.vayen-approved[data-vayen-product="build-your-own-ai"] .ap-cover-fallback,
+body.vayen-approved[data-vayen-product="claude-ai-youtube-autopilot"] .ap-cover-fallback,
+body.vayen-approved[data-vayen-product="trading-strategy-masterclass"] .ap-cover-fallback {
+    display: none !important;
 }
