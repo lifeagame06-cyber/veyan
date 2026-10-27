@@ -1029,7 +1029,7 @@ if(worldList){for(const row of C.list('Worlds')){
   b.dataset.world=String(row.worldNumber||C.nextWorldNumber()).padStart(2,'0');
   b.addEventListener('click',()=>location.href='product.html?id='+encodeURIComponent(id));worldList.appendChild(b);
 }}
-const extraRows=C.list().filter(p=>!C.FLAG.includes(p.slug)&&!C.PREMIUM.includes(p.slug)&&!C.WORLDS.includes(p.slug)&&p.group!=='Worlds');
+const extraRows=C.list().filter(p=>!C.FLAG.includes(p.slug)&&!C.PREMIUM.includes(p.slug)&&!C.WORLDS.includes(p.slug)&&p.group!=='Worlds'&&!document.querySelector('a.vc-card[href="product.html?id='+CSS.escape(p.slug||p.id)+'"]'));
 for(const p of extraRows){const target=p.group==='Expensive / Flagship'?document.querySelector('.vc-flagship')?.parentElement:document.querySelector('.vc-mid')?.parentElement;if(!target)continue;
   const a=document.createElement('a');a.href='product.html?id='+encodeURIComponent(p.slug||p.id);a.className=p.group==='Expensive / Flagship'?'vc-card vc-flagship':'vc-card vc-mid';
   const title=document.createElement('h3');title.textContent=p.name;const desc=document.createElement('p');desc.textContent=p.shortDescription||p.description||'Explore this digital product';
