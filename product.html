@@ -143,23 +143,46 @@ body.vayen-approved .ap-cover .ap-cover-arrow,
     display: none !important;
 }
 </style>
-<style id="vayen-six-premium-detail-fit">
-/* Exact full-cover display for six Premium detail pages only. */
-.product-visual.vayen-premium-detail-cover {
+<!-- VAYEN: six Premium covers only; applied before external approved layout -->
+<script id="vayen-premium-page-identity">
+(function () {
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get("id") || params.get("product") || "";
+    const premiumIds = [
+        "animation-mastery",
+        "social-media-tips",
+        "ai-prompt-box",
+        "build-your-own-ai",
+        "claude-ai-youtube-autopilot",
+        "trading-strategy-masterclass"
+    ];
+    if (premiumIds.includes(productId)) {
+        document.documentElement.classList.add("vayen-premium-page");
+    }
+})();
+</script>
+<style id="vayen-premium-page-cover-override">
+/* Target by page identity so no later class assignment is required. */
+html.vayen-premium-page body.product-body .product-visual {
+    box-sizing: border-box !important;
+    display: block !important;
+    width: 100% !important;
     aspect-ratio: 16 / 9 !important;
     height: auto !important;
     min-height: 0 !important;
     max-height: none !important;
     padding: 0 !important;
+    margin: 0 !important;
     overflow: hidden !important;
-    background-color: #080b18 !important;
-    background-position: center !important;
-    background-size: cover !important;
+    background-position: center center !important;
+    background-size: 100% 100% !important;
     background-repeat: no-repeat !important;
 }
-.product-visual.vayen-premium-detail-cover .product-visual-top,
-.product-visual.vayen-premium-detail-cover .product-cover-content,
-.product-visual.vayen-premium-detail-cover .product-visual-bottom { display: none !important; }
+html.vayen-premium-page body.product-body .product-visual .product-visual-top,
+html.vayen-premium-page body.product-body .product-visual .product-cover-content,
+html.vayen-premium-page body.product-body .product-visual .product-visual-bottom {
+    display: none !important;
+}
 </style>
 </head>
 
