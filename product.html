@@ -154,7 +154,7 @@ body.vayen-approved .ap-cover .ap-cover-arrow,
     overflow: hidden !important;
     background-color: #080b18 !important;
     background-position: center !important;
-    background-size: contain !important;
+    background-size: cover !important;
     background-repeat: no-repeat !important;
 }
 .product-visual.vayen-premium-detail-cover .product-visual-top,
@@ -1031,7 +1031,7 @@ if (productId === "youtube-creator-system") {
     coverBottom.textContent = "CREATE · GROW · BUILD YOUR CHANNEL";
 }
     if (vayenPremiumDetailIds.has(productId)) {
-        visual.style.background = `url("${coverImages[productId]}") center / contain no-repeat #080b18`;
+        visual.style.background = `url("${coverImages[productId]}") center / cover no-repeat #080b18`;
     } else if (Object.prototype.hasOwnProperty.call(vayenWorldDetailCovers, productId)) {
         visual.style.background = `url("${coverImages[productId]}") center / 100% 100% no-repeat #080b18`;
     } else {
