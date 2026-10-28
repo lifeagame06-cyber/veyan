@@ -1283,6 +1283,139 @@ checkPromise = (async () => {
 </script>
 
 <script src="vayen-product-approved.js?v=full-fit-20261020"></script>
+<script type="module" id="vayen-detail-saved-library-sync">
+import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js';
+import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js';
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js';
+
+(function () {
+    'use strict';
+
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get('id') || params.get('product') || 'ai-prompting';
+    const config = window.VAYEN_FIREBASE_CONFIG || {
+        apiKey: 'AIzaSyCJStLo-FmvkPQo-u-cP-J4rQ8z4ecYMW4',
+        authDomain: 'veyan-53930.firebaseapp.com',
+        projectId: 'veyan-53930',
+        storageBucket: 'veyan-53930.firebasestorage.app',
+        messagingSenderId: '836801786398',
+        appId: '1:836801786398:web:a73fbda60267efcdbd740f',
+        measurementId: 'G-2T5XNQGKTP'
+    };
+
+    let currentUser = null;
+    let saving = false;
+
+    function getSaveButtons() {
+        return [...document.querySelectorAll('.ap-save, .vayen-save-heart')];
+    }
+
+    function updateButton(button, saved) {
+        button.setAttribute('aria-pressed', String(saved));
+        if (button.classList.contains('vayen-save-heart')) {
+            button.classList.toggle('is-saved', saved);
+            button.setAttribute('aria-label', saved ? 'Remove from Saved Products' : 'Save this product');
+            button.title = saved ? 'Remove from Saved Products' : 'Save this product';
+        } else {
+            button.textContent = saved ? '♥ Saved' : '♡ Save';
+        }
+    }
+
+    function updateLocalSavedState(saved) {
+        try {
+            if (!window.VayenSaved || typeof window.VayenSaved.get !== 'function' ||
+                typeof window.VayenSaved.toggle !== 'function') return;
+            const localSaved = window.VayenSaved.get().includes(productId);
+            if (localSaved !== saved) window.VayenSaved.toggle(productId);
+        } catch (error) {
+            console.warn('Saved button local state could not be refreshed.');
+        }
+    }
+
+    async function refreshButtonFromLibrary(user) {
+        if (!user) return;
+        const ref = doc(db, 'libraries', user.uid);
+        const snap = await getDoc(ref);
+        if (auth.currentUser?.uid !== user.uid) return;
+        const data = snap.exists() ? snap.data() : {};
+        const saved = Array.isArray(data.saved) && data.saved.includes(productId);
+        getSaveButtons().forEach(button => updateButton(button, saved));
+        updateLocalSavedState(saved);
+    }
+
+    let app;
+    try {
+        app = getApps().length ? getApp() : initializeApp(config);
+    } catch (error) {
+        console.error('VAYEN saved-products setup unavailable:', error);
+        return;
+    }
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    onAuthStateChanged(auth, user => {
+        currentUser = user;
+        if (user) {
+            refreshButtonFromLibrary(user).catch(error => {
+                console.error('VAYEN saved-products status could not load:', error);
+            });
+        }
+    });
+
+    document.addEventListener('click', async event => {
+        const button = event.target.closest?.('.ap-save, .vayen-save-heart');
+        if (!button || !currentUser || saving) return;
+
+        // Replace the page's local-only toggle with an account-synced toggle.
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        saving = true;
+        button.disabled = true;
+
+        try {
+            const user = currentUser;
+            const ref = doc(db, 'libraries', user.uid);
+            const snap = await getDoc(ref);
+            if (auth.currentUser?.uid !== user.uid) return;
+
+            const data = snap.exists() ? snap.data() : {};
+            const savedItems = Array.isArray(data.saved)
+                ? data.saved.filter(id => typeof id === 'string')
+                : [];
+            const wasSaved = savedItems.includes(productId);
+            const nextSaved = wasSaved
+                ? savedItems.filter(id => id !== productId)
+                : [...savedItems, productId].slice(0, 500);
+            const folders = Array.isArray(data.folders) ? data.folders : [];
+
+            await setDoc(ref, {
+                saved: nextSaved,
+                folders,
+                updatedAt: serverTimestamp()
+            }, { merge: true });
+
+            if (auth.currentUser?.uid !== user.uid) return;
+            try {
+                localStorage.setItem('vayenLibraryV1:' + user.uid, JSON.stringify({
+                    saved: nextSaved,
+                    folders
+                }));
+            } catch (error) { /* Firestore remains the source of truth. */ }
+
+            const nowSaved = nextSaved.includes(productId);
+            getSaveButtons().forEach(item => updateButton(item, nowSaved));
+            updateLocalSavedState(nowSaved);
+        } catch (error) {
+            console.error('VAYEN saved product could not be synced:', error);
+            button.title = 'Could not save right now. Please try again.';
+        } finally {
+            saving = false;
+            button.disabled = false;
+        }
+    }, true);
+})();
+</script>
 <script id="vayen-product-scroll-memory">
 window.addEventListener('pagehide',function(){
   try{const key='vayen-product-scroll:'+location.pathname+location.search;
